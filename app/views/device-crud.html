@@ -1,1 +1,39 @@
-<p>This is the device-crud view.</p>
+<div class="container">
+
+  <!-- DeviceList -->
+  <div class="area-static">
+    <div class="area-header">
+      device administration
+      <button type="submit" class="btn btn-default btn-xs"
+              ng-click="createDevice()" title="add device">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+      </button>
+    </div>
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th>device name</th>
+        <th>device type</th>
+        <th>creation date</th>
+        <th>edit</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="device in devices">
+        <th scope="row">{{device.deviceName}}</th>
+        <td>
+          <span class="{{getDeviceTypeIcon(device.deviceType)}}" aria-hidden="true"></span>
+        </td>
+        <td>{{device.created | date:'dd.MM.yy HH:mm:ss'}}</td>
+        <td>
+          <button type="submit" class="btn btn-default btn-xs"
+                  ng-click="openDeviceDetails(device.deviceId, true)" title="edit device">
+            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
