@@ -4,43 +4,33 @@
   <div class="area-static">
     <div class="area-header">
       device administration
-      <button type="submit" class="btn btn-default btn-xs"
-              ng-click="createDevice()" title="add device">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-      </button>
     </div>
-    <table class="table table-hover">
-      <thead>
-      <tr>
-        <th>device name</th>
-        <th>device type</th>
-        <th>creation date</th>
-        <th>edit</th>
-        <th></th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr ng-repeat="(deviceNo, device) in devices">
-        <th scope="row">{{device.deviceName}}</th>
-        <td>
-          <span class="{{getDeviceTypeIcon(device.deviceType)}}" aria-hidden="true"></span>
-        </td>
-        <td>{{device.created | date:'dd.MM.yy HH:mm:ss'}}</td>
-        <td>
-          <button type="submit" class="btn btn-default btn-xs"
-                  ng-click="editDevice(device.deviceId, true)" title="edit device">
-            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-          </button>
-        </td>
-        <td>
-          <button type="submit" class="btn btn-default btn-xs"
-                  ng-click="removeDevice(deviceNo)" title="remove device">
-            <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
-          </button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
+    <div>
+      <form name="deviceForm">
+        <div class="form-group">
+          <span class="label label-default">deviceId<sup ng-hide="device.created">*</sup></span>
+          <input type="text" class="form-control" ng-model="device.deviceId" ng-readonly="{{device.created !== undefined}}" required>
+        </div>
+        <div class="form-group">
+          <span class="label label-default">deviceName<sup ng-hide="device.created">*</sup></span>
+          <input type="text" class="form-control" ng-model="device.deviceName" required>
+        </div>
+        <div class="form-group">
+          <span class="label label-default">deviceType</span>
+          <input type="text" class="form-control" ng-model="device.deviceName" required>
+        </div>
+      </form>
+    </div>
+
+    <!-- Footer Buttons Group -->
+    <div>
+      <button type="submit" class="btn btn-default" ng-show="device.created" ng-click="save()">save
+        changes
+      </button>
+      <button type="submit" class="btn btn-default" ng-hide="device.created" ng-click="create()"
+              ng-disabled="!deviceForm.$valid">create
+      </button>
+      <button type="submit" class="btn btn-default" ng-click="backToList()">back to list</button>
+    </div>
 </div>
 

@@ -8,177 +8,57 @@
  * Controller of the ubirchAdminCrudApp
  */
 angular.module('ubirchAdminCrudApp')
-  .controller('DeviceCrudCtrl', [ '$scope', '$window', function ($scope, $window) {
-    $scope.devices = [
-      {
-        "created": "2016-04-29T13:48:46.403Z",
-        "deviceConfig": {
-          "i": 3600,
-          "ir": 191,
-          "s": 0
-        },
-        "deviceId": "0c5a19bf-194c-40ea-bf46-0416a176aedb",
-        "deviceName": "lightsSensor_LU_8caa2520-d8f0-4c85-9705-4707054f4e11",
-        "deviceProperties": {
-          "countryCode": "LU"
-        },
-        "deviceType": "lightsSensor",
-        "hwDeviceId": "860719022152999",
-        "subscriptions": [],
-        "tags": [      "ubirch#0",       "sensor"    ],
-        "updated": "2016-04-29T13:48:46.405Z",
-        "deviceLastUpdated": "2016-04-29T13:48:46.405Z",
-        "avatarLastUpdated": "2016-04-29T13:48:46.405Z",
-        "syncState" : "insync",
-        "avatarState": {
-          "desired": {
-            "i": 1800,
-            "bf": 1,
-            "r": 13944,
-            "g": 21696,
-            "b": 17840
-          },
-          "reported": {
-            "la": "52.502769",
-            "lo": "13.477947",
-            "ba": 13,
-            "lp": 55,
-            "e": 0,
-            "i": 1800,
-            "bf": 1,
-            "r": 13944,
-            "g": 21696,
-            "b": 17840
-          }
-        }
+  .controller('DeviceCrudCtrl', [ '$scope', '$window', '$location', '$routeParams', function ($scope, $window, $location, $routeParams) {
+    var listUrl = "devices-list-crud";
+    var deviceMock = {
+      "created": "2016-04-29T13:48:46.403Z",
+      "deviceConfig": {
+        "i": 3600,
+        "ir": 191,
+        "s": 0
       },
-      {
-        "created": "2016-04-29T13:48:46.403Z",
-        "deviceConfig": {
-          "i": 3600,
-          "ir": 191,
-          "s": 0
-        },
-        "deviceId": "0c5a19bf-194c-40ea-bf46-0416a176aedb",
-        "deviceName": "temperaturesSensor_TU_8caa2520-d8f0-4c85-9705-4707054f4e11",
-        "deviceProperties": {
-          "countryCode": "LU"
-        },
-        "deviceType": "temperaturesSensor",
-        "hwDeviceId": "860719022152999",
-        "subscriptions": [],
-        "tags": [      "ubirch#2",       "sensor"    ],
-        "updated": "2016-04-29T13:48:46.405Z",
-        "deviceLastUpdated": "2016-04-29T13:48:46.405Z",
-        "avatarLastUpdated": "2016-04-29T13:48:46.405Z",
-        "syncState" : "outofsync",
-        "avatarState": {
-          "desired": {
-            "i": 1800,
-            "bf": 1,
-            "r": 13944,
-            "g": 21696,
-            "b": 17840
-          },
-          "reported": {
-            "la": "52.502769",
-            "lo": "13.477947",
-            "ba": 13,
-            "lp": 55,
-            "e": 0,
-            "i": 1800,
-            "bf": 1,
-            "r": 13944,
-            "g": 21696,
-            "b": 17840
-          }
-        }
+      "deviceId": "0c5a19bf-194c-40ea-bf46-0416a176aedb",
+      "deviceName": "lightsSensor_LU_8caa2520-d8f0-4c85-9705-4707054f4e11",
+      "deviceProperties": {
+        "countryCode": "LU"
       },
-      {
-        "created": "2016-04-29T13:48:46.403Z",
-        "deviceConfig": {
-          "i": 3600,
-          "ir": 191,
-          "s": 0
+      "deviceType": "lightsSensor",
+      "hwDeviceId": "860719022152999",
+      "subscriptions": [],
+      "tags": [      "ubirch#0",       "sensor"    ],
+      "updated": "2016-04-29T13:48:46.405Z",
+      "deviceLastUpdated": "2016-04-29T13:48:46.405Z",
+      "avatarLastUpdated": "2016-04-29T13:48:46.405Z",
+      "syncState" : "insync",
+      "avatarState": {
+        "desired": {
+          "i": 1800,
+          "bf": 1,
+          "r": 13944,
+          "g": 21696,
+          "b": 17840
         },
-        "deviceId": "0c5a19bf-194c-40ea-bf46-0416a176aedb",
-        "deviceName": "machineSensor_WM_8caa2520-d8f0-4c85-9705-4707054f4e11",
-        "deviceProperties": {
-          "countryCode": "LU"
-        },
-        "deviceType": "machineSensor",
-        "hwDeviceId": "860719022152999",
-        "subscriptions": [],
-        "tags": [      "ubirch#0",       "sensor"    ],
-        "updated": "2016-04-29T13:48:46.405Z",
-        "deviceLastUpdated": "2016-04-29T13:48:46.405Z",
-        "avatarLastUpdated": "2016-04-29T13:48:46.405Z",
-        "syncState" : "insync",
-        "avatarState": {
-          "desired": {
-            "i": 1800,
-            "bf": 1,
-            "r": 13944,
-            "g": 21696,
-            "b": 17840
-          },
-          "reported": {
-            "la": "52.502769",
-            "lo": "13.477947",
-            "ba": 13,
-            "lp": 55,
-            "e": 0,
-            "i": 1800,
-            "bf": 1,
-            "r": 13944,
-            "g": 21696,
-            "b": 17840
-          }
-        }
-      },
-      {
-        "created": "2016-04-29T13:48:46.403Z",
-        "deviceConfig": {
-          "i": 3600,
-          "ir": 191,
-          "s": 0
-        },
-        "deviceId": "0c5a19bf-194c-40ea-bf46-0416a176aedb",
-        "deviceName": "trackleSensor_LU_8caa2520-d8f0-4c85-9705-4707054f4e11",
-        "deviceProperties": {
-          "countryCode": "LU"
-        },
-        "deviceType": "trackleSensor",
-        "hwDeviceId": "860719022152999",
-        "subscriptions": [],
-        "tags": [      "ubirch#0",       "sensor"    ],
-        "updated": "2016-04-29T13:48:46.405Z",
-        "deviceLastUpdated": "2016-04-29T13:48:46.405Z",
-        "avatarLastUpdated": "2016-04-29T13:48:46.405Z",
-        "syncState" : "insync",
-        "avatarState": {
-          "desired": {
-            "i": 1800,
-            "bf": 1,
-            "r": 13944,
-            "g": 21696,
-            "b": 17840
-          },
-          "reported": {
-            "la": "52.502769",
-            "lo": "13.477947",
-            "ba": 13,
-            "lp": 55,
-            "e": 0,
-            "i": 1800,
-            "bf": 1,
-            "r": 13944,
-            "g": 21696,
-            "b": 17840
-          }
+        "reported": {
+          "la": "52.502769",
+          "lo": "13.477947",
+          "ba": 13,
+          "lp": 55,
+          "e": 0,
+          "i": 1800,
+          "bf": 1,
+          "r": 13944,
+          "g": 21696,
+          "b": 17840
         }
       }
-    ];
+    };
+
+    $scope.device = {};
+
+    if ($routeParams.deviceid) {
+      $scope.device = deviceMock;
+    }
+
 
     $scope.removeDevice = function (deviceNo) {
 
@@ -189,6 +69,19 @@ angular.module('ubirchAdminCrudApp')
         }
       });
     };
+
+    $scope.save = function (){
+      $location.url(listUrl);
+    };
+
+    $scope.create = function (){
+      $location.url(listUrl);
+    };
+
+    $scope.backToList = function () {
+      $location.url(listUrl);
+    };
+
 
 
     $scope.getDeviceTypeIcon = function(deviceType){

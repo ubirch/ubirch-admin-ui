@@ -29,7 +29,7 @@ angular
         controller: 'AboutCtrl',
         controllerAs: 'about'
       })
-      .when('/device-details', {
+      .when('/device-details/:deviceid', {
         templateUrl: 'views/device-details.html',
         controller: 'DeviceDetailsCtrl',
         controllerAs: 'deviceDetails'
@@ -39,10 +39,15 @@ angular
         controller: 'DevicesListCtrl',
         controllerAs: 'devicesList'
       })
-      .when('/device-crud', {
+      .when('/device-crud/:deviceid?', {
         templateUrl: 'views/device-crud.html',
         controller: 'DeviceCrudCtrl',
         controllerAs: 'deviceCrud'
+      })
+      .when('/devices-list-crud', {
+        templateUrl: 'views/devices-list-crud.html',
+        controller: 'DevicesListCrudCtrl',
+        controllerAs: 'devicesCrud'
       })
       .otherwise({
         redirectTo: '/'

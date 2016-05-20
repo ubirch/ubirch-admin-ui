@@ -30,7 +30,7 @@ angular.module('ubirchAdminCrudApp')
         };
 
         $scope.loadDeviceCRUD = function () {
-          $location.url('/device-crud');
+          $location.url('/devices-list-crud');
         };
 
         $scope.loadDeviceslist = function () {
