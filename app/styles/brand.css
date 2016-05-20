@@ -1,0 +1,8 @@
+.navbar-brand {
+  margin-top: 0;
+  background: transparent url("../images/logo.png") no-repeat;
+  width: 165px;
+  background-size: contain;
+  z-index: 100;
+  position: relative;
+}
