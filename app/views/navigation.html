@@ -1,0 +1,25 @@
+<div class="navbar navbar-default navbar-inverse" role="navigation">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" title="ubirch" href="//ubirch.com/"></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li ng-class="navClass('home')"><a href="" ng-click="loadHome()" data-toggle="tab" role="tab">start page</a></li>
+        <li ng-class="navClass('deviceCRUD')"><a href="" ng-click="loadDeviceCRUD()" data-toggle="tab" role="tab">administration of devices</a></li>
+        <li ng-class="navClass('deviceslist')"><a href="" ng-click="loadDeviceslist()" data-toggle="tab" role="tab">list of devices</a></li>
+        <li ng-class="navClass('about')"><a href="" ng-click="loadAbout()" role="tab" data-toggle="tab">about ubirch</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
