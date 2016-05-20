@@ -8,7 +8,7 @@
  * Controller of the ubirchAdminCrudApp
  */
 angular.module('ubirchAdminCrudApp')
-  .controller('DeviceCrudCtrl', [ '$scope', function ($scope) {
+  .controller('DeviceCrudCtrl', [ '$scope', '$window', function ($scope, $window) {
     $scope.devices = [
       {
         "created": "2016-04-29T13:48:46.403Z",
@@ -179,6 +179,17 @@ angular.module('ubirchAdminCrudApp')
         }
       }
     ];
+
+    $scope.removeDevice = function (deviceNo) {
+
+      var deviceStr = "Are you sure to delete device " + $scope.devices[deviceNo].deviceName + "?";
+
+      $window.bootbox.confirm(deviceStr, function (doit) {
+        if (doit) {
+        }
+      });
+    };
+
 
     $scope.getDeviceTypeIcon = function(deviceType){
       var iconStr;

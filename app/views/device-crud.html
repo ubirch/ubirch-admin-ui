@@ -16,10 +16,11 @@
         <th>device type</th>
         <th>creation date</th>
         <th>edit</th>
+        <th></th>
       </tr>
       </thead>
       <tbody>
-      <tr ng-repeat="device in devices">
+      <tr ng-repeat="(deviceNo, device) in devices">
         <th scope="row">{{device.deviceName}}</th>
         <td>
           <span class="{{getDeviceTypeIcon(device.deviceType)}}" aria-hidden="true"></span>
@@ -27,8 +28,14 @@
         <td>{{device.created | date:'dd.MM.yy HH:mm:ss'}}</td>
         <td>
           <button type="submit" class="btn btn-default btn-xs"
-                  ng-click="openDeviceDetails(device.deviceId, true)" title="edit device">
+                  ng-click="editDevice(device.deviceId, true)" title="edit device">
             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+          </button>
+        </td>
+        <td>
+          <button type="submit" class="btn btn-default btn-xs"
+                  ng-click="removeDevice(deviceNo)" title="remove device">
+            <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
           </button>
         </td>
       </tr>
