@@ -15,7 +15,7 @@ angular.module('ubirchAdminCrudApp')
       "temperaturesSensor",
       "Sensor",
       "Actor"
-    ]
+    ];
     var deviceMock = {
       "created": "2016-04-29T13:48:46.403Z",
       "deviceConfig": {

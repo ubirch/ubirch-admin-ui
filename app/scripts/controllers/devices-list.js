@@ -8,7 +8,7 @@
  * Controller of the ubirchAdminCrudApp
  */
 angular.module('ubirchAdminCrudApp')
-  .controller('DevicesListCtrl', [ '$scope', function ($scope) {
+  .controller('DevicesListCtrl', [ '$scope', '$location', function ($scope, $location) {
 
     $scope.devices = [
       {
@@ -180,6 +180,11 @@ angular.module('ubirchAdminCrudApp')
         }
       }
     ];
+
+    $scope.openDeviceDetails = function (deviceId) {
+      $location.url( "device-details/" + deviceId);
+    };
+
 
     $scope.getDeviceTypeIcon = function(deviceType){
       var iconStr;
