@@ -10,6 +10,12 @@
 angular.module('ubirchAdminCrudApp')
   .controller('DeviceCrudCtrl', [ '$scope', '$window', '$location', '$routeParams', function ($scope, $window, $location, $routeParams) {
     var listUrl = "devices-list-crud";
+    $scope.deviceTypes = [
+      "lightsSensor",
+      "temperaturesSensor",
+      "Sensor",
+      "Actor"
+    ]
     var deviceMock = {
       "created": "2016-04-29T13:48:46.403Z",
       "deviceConfig": {
@@ -82,6 +88,10 @@ angular.module('ubirchAdminCrudApp')
       $location.url(listUrl);
     };
 
+    $scope.selectType = function(type){
+
+      $scope.device.deviceType = type;
+    };
 
 
     $scope.getDeviceTypeIcon = function(deviceType){
