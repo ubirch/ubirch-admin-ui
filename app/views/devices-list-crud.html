@@ -9,37 +9,71 @@
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
       </button>
     </div>
-    <table class="table table-hover">
-      <thead>
-      <tr>
-        <th>device name</th>
-        <th>device type</th>
-        <th>creation date</th>
-        <th>edit</th>
-        <th></th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr ng-repeat="(deviceNo, device) in devices">
-        <th scope="row">{{device.deviceName}}</th>
-        <td>
-          <span class="{{getDeviceTypeIcon(device.deviceType)}}" aria-hidden="true"></span>
-        </td>
-        <td>{{device.created | date:'dd.MM.yy HH:mm:ss'}}</td>
-        <td>
+    <div class="row">
+      <form>
+        <div class="col-md-4">
+          <label for="nameInput" class="control-label">device name:</label><br>
+          <input id="nameInput" ng-model="search.deviceName">
           <button type="submit" class="btn btn-default btn-xs"
-                  ng-click="editDevice(device.deviceId)" title="edit device">
-            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-          </button>
-        </td>
-        <td>
-          <button type="submit" class="btn btn-default btn-xs"
-                  ng-click="removeDevice(deviceNo)" title="remove device">
+                  ng-click="search.deviceName = undefined" ng-hide="search.deviceName == undefined || search.deviceName.length == 0" title="remove name filter">
             <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
           </button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+        </div>
+        <div class="col-md-4">
+          <label for="typeComboBox" class="control-label">device types:</label><br>
+          <select id="typeComboBox" ng-model="search.deviceType">
+            <option ng-repeat="deviceType in ['lightsSensor', 'temperaturesSensor', 'machineSensor', 'trackleSensor']">{{deviceType}}</option>
+          </select>
+          <button type="submit" class="btn btn-default btn-xs"
+                  ng-click="search.deviceType = undefined" ng-hide="search.deviceType == undefined" title="remove type filter">
+            <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+          </button>
+        </div>
+        <div class="col-md-4">
+          <label for="syncComboBox" class="control-label">sync state:</label><br>
+          <select id="syncComboBox" ng-model="search.syncState">
+            <option ng-repeat="syncState in ['insync', 'outofsync']">{{syncState}}</option>
+          </select>
+          <button type="submit" class="btn btn-default btn-xs"
+                  ng-click="search.syncState = undefined" ng-hide="search.syncState == undefined" title="remove sync filter">
+            <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="row">
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th>device name</th>
+          <th>device type</th>
+          <th>creation date</th>
+          <th>edit</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="(deviceNo, device) in devices | filter:search">
+          <th scope="row">{{device.deviceName}}</th>
+          <td>
+            <span class="{{getDeviceTypeIcon(device.deviceType)}}" aria-hidden="true"></span>
+          </td>
+          <td>{{device.created | date:'dd.MM.yy HH:mm:ss'}}</td>
+          <td>
+            <button type="submit" class="btn btn-default btn-xs"
+                    ng-click="editDevice(device.deviceId)" title="edit device">
+              <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+            </button>
+          </td>
+          <td>
+            <button type="submit" class="btn btn-default btn-xs"
+                    ng-click="removeDevice(deviceNo)" title="remove device">
+              <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
