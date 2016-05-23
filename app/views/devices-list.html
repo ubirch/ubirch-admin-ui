@@ -5,6 +5,7 @@
     <div class="area-header">
       devices overview
     </div>
+    <label>Search: <input ng-model="searchText"></label>
     <table class="table table-hover">
       <thead>
       <tr>
@@ -17,7 +18,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr ng-repeat="device in devices">
+      <tr ng-repeat="device in devices | filter:searchText">
         <th scope="row">{{device.deviceName}}</th>
         <td>
           <span class="{{getDeviceTypeIcon(device.deviceType)}}" aria-hidden="true"></span>
