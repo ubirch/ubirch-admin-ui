@@ -15,20 +15,21 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'pascalprecht.translate'
   ])
-  .config(function ($routeProvider) {
+  .config(function ($routeProvider, $translateProvider) {
+
+    $translateProvider.useStaticFilesLoader({
+      files: [{
+        prefix: 'i18n/',
+        suffix: '.json'
+      }]
+    });
+
+    $translateProvider.preferredLanguage('en');
+
     $routeProvider
-      .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl',
-        controllerAs: 'main'
-      })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl',
-        controllerAs: 'about'
-      })
       .when('/device-details/:deviceid', {
         templateUrl: 'views/device-details.html',
         controller: 'DeviceDetailsCtrl',
@@ -48,6 +49,16 @@ angular
         templateUrl: 'views/devices-list-crud.html',
         controller: 'DevicesListCrudCtrl',
         controllerAs: 'devicesCrud'
+      })
+      .when('/', {
+        templateUrl: 'views/main.html',
+        controller: 'MainCtrl',
+        controllerAs: 'main'
+      })
+      .when('/about', {
+        templateUrl: 'views/about.html',
+        controller: 'AboutCtrl',
+        controllerAs: 'about'
       })
       .otherwise({
         redirectTo: '/'
