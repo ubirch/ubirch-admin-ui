@@ -49,11 +49,10 @@
         <th>sync state</th>
         <th>last update of device</th>
         <th>last update of avatar</th>
-        <th>open details</th>
       </tr>
       </thead>
       <tbody>
-      <tr ng-repeat="device in devices | filter:search">
+      <tr ng-repeat="device in devices | filter:search" ng-click="openDeviceDetails(device.deviceId)" title="show device details">
         <th scope="row">{{device.deviceName}}</th>
         <td>
           <span class="{{getDeviceTypeIcon(device.deviceType)}}" aria-hidden="true"></span>
@@ -64,12 +63,6 @@
         </td>
         <td>{{device.deviceLastUpdated | date:'dd.MM.yy HH:mm:ss'}}</td>
         <td>{{device.avatarLastUpdated | date:'dd.MM.yy HH:mm:ss'}}</td>
-        <td>
-          <button type="submit" class="btn btn-default btn-xs"
-                  ng-click="openDeviceDetails(device.deviceId)" title="show device details">
-            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-          </button>
-        </td>
       </tr>
       </tbody>
     </table>
