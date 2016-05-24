@@ -1,3 +1,8 @@
 {
-    "DEVICES_LIST_HEADLINE" : "device overview"
+  "DEVICES_LIST_HEADLINE" : "device overview",
+  "DEVICE_OVERVIEW_HEADLINE" : "device details",
+  "CANCEL": "cancel",
+  "SAVE": "save",
+  "SAVE_CHANGES": "save changes",
+  "CREATE": "create"
 }

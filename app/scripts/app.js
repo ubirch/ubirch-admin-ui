@@ -16,6 +16,7 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
+    'xeditable',
     'pascalprecht.translate'
   ])
   .config(function ($routeProvider, $translateProvider) {

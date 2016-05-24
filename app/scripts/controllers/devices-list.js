@@ -7,8 +7,13 @@
  * # DevicesListCtrl
  * Controller of the ubirchAdminCrudApp
  */
-angular.module('ubirchAdminCrudApp')
-  .controller('DevicesListCtrl', [ '$scope', '$location', function ($scope, $location) {
+var app = angular.module('ubirchAdminCrudApp');
+
+app.run(function(editableOptions) {
+  editableOptions.theme = 'bs3';
+});
+
+app.controller('DevicesListCtrl', [ '$scope', '$location', function ($scope, $location) {
 
     $scope.devices = [
       {
