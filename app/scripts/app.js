@@ -45,11 +45,6 @@ angular
         controller: 'DeviceCrudCtrl',
         controllerAs: 'deviceCrud'
       })
-      .when('/devices-list-crud', {
-        templateUrl: 'views/devices-list-crud.html',
-        controller: 'DevicesListCrudCtrl',
-        controllerAs: 'devicesCrud'
-      })
       .when('/', {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl',

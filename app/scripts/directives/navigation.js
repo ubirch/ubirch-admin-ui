@@ -29,10 +29,6 @@ angular.module('ubirchAdminCrudApp')
           $location.url('/home');
         };
 
-        $scope.loadDeviceCRUD = function () {
-          $location.url('/devices-list-crud');
-        };
-
         $scope.loadDeviceslist = function () {
           $location.url('/devices-list');
         };

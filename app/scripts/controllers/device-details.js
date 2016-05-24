@@ -87,6 +87,9 @@ angular.module('ubirchAdminCrudApp')
       $scope.device.deviceType = type;
     };
 
+    $scope.openDeviceCRUD = function (deviceId) {
+      $location.url( "device-crud/" + deviceId);
+    };
 
     $scope.getDeviceTypeIcon = function(deviceType){
       var iconStr;

@@ -2,7 +2,11 @@
 
   <!-- DeviceList -->
     <div class="area-header">
-      devices overview
+      {{ 'DEVICES_LIST_HEADLINE' | translate }}
+      <button type="submit" class="btn btn-default btn-xs"
+              ng-click="createDevice()" title="add device">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+      </button>
     </div>
     <div class="row">
       <form>

@@ -9,7 +9,7 @@
  */
 angular.module('ubirchAdminCrudApp')
   .controller('DeviceCrudCtrl', [ '$scope', '$window', '$location', '$routeParams', function ($scope, $window, $location, $routeParams) {
-    var listUrl = "devices-list-crud";
+    var listUrl = "devices-list";
     $scope.deviceTypes = [
       "lightsSensor",
       "temperaturesSensor",
@@ -66,12 +66,13 @@ angular.module('ubirchAdminCrudApp')
     }
 
 
-    $scope.removeDevice = function (deviceNo) {
+    $scope.removeDevice = function (device) {
 
-      var deviceStr = "Are you sure to delete device " + $scope.devices[deviceNo].deviceName + "?";
+      var deviceStr = "Are you sure to delete device " + device.deviceName + "?";
 
       $window.bootbox.confirm(deviceStr, function (doit) {
         if (doit) {
+          // TODO: delete
         }
       });
     };
