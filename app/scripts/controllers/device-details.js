@@ -53,16 +53,40 @@ angular.module('ubirchAdminCrudApp')
       }
     };
 
+    //[
+    //  {"type": "i",
+    //    "desired": 1800,
+    //    "reported": 1800
+    //  }
+    //]
+    //
+    $scope.activeTab = "state";
     $scope.device = {};
+    $scope.deviceState =  [];
 
     if ($routeParams.deviceid) {
       $scope.device = deviceMock;
+
+      var collector = {};
+
+      angular.forEach(deviceMock.avatarState, function(katObj, kat){
+        var kategory = kat;
+        angular.forEach(katObj, function(value, key){
+          if (!collector[key])
+            collector[key] = {};
+          collector[key][kategory] = value;
+          collector[key].type = key;
+        })
+      });
+
+      angular.forEach(collector, function (value) {
+        $scope.deviceState.push(value);
+      });
     }
 
+    $scope.removeDevice = function (device) {
 
-    $scope.removeDevice = function (deviceNo) {
-
-      var deviceStr = "Are you sure to delete device " + $scope.devices[deviceNo].deviceName + "?";
+      var deviceStr = "Are you sure to delete device " + device.deviceName + "?";
 
       $window.bootbox.confirm(deviceStr, function (doit) {
         if (doit) {
@@ -85,10 +109,6 @@ angular.module('ubirchAdminCrudApp')
     $scope.selectType = function(type){
 
       $scope.device.deviceType = type;
-    };
-
-    $scope.openDeviceCRUD = function (deviceId) {
-      $location.url( "device-crud/" + deviceId);
     };
 
     $scope.getDeviceTypeIcon = function(deviceType){

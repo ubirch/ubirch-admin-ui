@@ -4,98 +4,39 @@
   <div class="area-static">
     <div class="area-header">
       {{ 'DEVICE_OVERVIEW_HEADLINE' | translate }}
-      <button type="submit" class="btn btn-default btn-xs"
-              ng-click="openDeviceCRUD(device.deviceId)" title="device settings">
-        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-      </button>
     </div>
-    <div>
-      <div class="form-group">
-        <span class="label label-default">deviceId<sup ng-hide="device.created">*</sup></span>
-        <input type="text" class="form-control" ng-model="device.deviceId" ng-readonly="{{device.created !== undefined}}">
-      </div>
-      <div class="form-group">
-        <span class="label label-default">device name<sup ng-hide="device.created">*</sup></span>
-        <input type="text" class="form-control" ng-model="device.deviceName">
-      </div>
-      <div class="form-group">
-        <span class="label label-default">device type</span>
-        <div>
-          <span class="{{getDeviceTypeIcon(device.deviceType)}}" aria-hidden="true"></span>
-          {{device.deviceType ? device.deviceType : "Sensor"}}
+    <div class="h4">
+      <span class="{{getDeviceTypeIcon(device.deviceType)}}" aria-hidden="true"></span>
+      {{device.deviceType ? device.deviceType : "Sensor"}}: {{device.deviceName}}
+    </div>
+    <div class="">
+      <ul class="nav nav-tabs">
+        <li ng-class="{active: activeTab == 'state'}">
+          <a ng-click="activeTab = 'state'">state</a>
+        </li>
+        <li ng-class="{active: activeTab == 'history'}">
+          <a ng-click="activeTab = 'history'">history</a>
+        </li>
+        <li ng-class="{active: activeTab == 'settings'}">
+          <a ng-click="activeTab = 'settings'">additional settings</a>
+        </li>
+      </ul>
+
+      <div class="tab-content">
+        <!-- state -->
+        <div ng-switch="activeTab">
+          <div
+            ng-switch-when="state">
+            <ng-include src="'views/device-details-state.html'"></ng-include>
+          </div>
+          <div ng-switch-when="history">
+            <ng-include src="'views/device-details-history.html'"></ng-include>
+          </div>
+          <div ng-switch-when="settings">
+            <ng-include src="'views/device-details-settings.html'"></ng-include>
+          </div>
         </div>
       </div>
-
-      <div class="form-group">
-        <span class="label label-default">device sync state</span>
-        <table class="table table-hover">
-          <thead>
-          <tr>
-            <th>Parameter</th>
-            <th>desired</th>
-            <th>reported</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <th scope="row">la</th>
-            <td><a href="#" editable-text="device.avatarState.desired.la">{{device.avatarState.desired.la || '-' }}</a></td>
-            <td><a href="#" editable-text="device.avatarState.reported.la">{{device.avatarState.reported.la || '-' }}</a></td>
-          </tr>
-          <tr>
-            <th scope="row">lo</th>
-            <td>{{device.avatarState.desired.lo}}</td>
-            <td>{{device.avatarState.reported.lo}}</td>
-          </tr>
-          <tr>
-            <th scope="row">ba</th>
-            <td>{{device.avatarState.desired.ba}}</td>
-            <td>{{device.avatarState.reported.ba}}</td>
-          </tr>
-          <tr>
-            <th scope="row">lp</th>
-            <td>{{device.avatarState.desired.lp}}</td>
-            <td>{{device.avatarState.reported.lp}}</td>
-          </tr>
-          <tr>
-            <th scope="row">e</th>
-            <td>{{device.avatarState.desired.e}}</td>
-            <td>{{device.avatarState.reported.e}}</td>
-          </tr>
-          <tr>
-            <th scope="row">i</th>
-            <td>{{device.avatarState.desired.i}}</td>
-            <td>{{device.avatarState.reported.i}}</td>
-          </tr>
-          <tr>
-            <th scope="row">bf</th>
-            <td>{{device.avatarState.desired.bf}}</td>
-            <td>{{device.avatarState.reported.bf}}</td>
-          </tr>
-          <tr>
-            <th scope="row">r</th>
-            <td>{{device.avatarState.desired.r}}</td>
-            <td>{{device.avatarState.reported.r}}</td>
-          </tr>
-          <tr>
-            <th scope="row">g</th>
-            <td>{{device.avatarState.desired.g}}</td>
-            <td>{{device.avatarState.reported.g}}</td>
-          </tr>
-          <tr>
-            <th scope="row">b</th>
-            <td>{{device.avatarState.desired.b}}</td>
-            <td>{{device.avatarState.reported.b}}</td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-
-    </div>
-
-    <!-- Footer Buttons Group -->
-    <div>
-      <button type="submit" class="btn btn-default" ng-click="backToList()">back to list</button>
     </div>
   </div>
 
