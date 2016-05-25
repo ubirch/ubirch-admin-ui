@@ -63,6 +63,10 @@ angular.module('ubirchAdminCrudApp')
     $scope.activeTab = "state";
     $scope.device = {};
     $scope.deviceState =  [];
+    var deviceStateSaved =  [];
+    $scope.stateDataChanged = false;
+    $scope.stateKats = [];
+
 
     if ($routeParams.deviceid) {
       $scope.device = deviceMock;
@@ -70,19 +74,38 @@ angular.module('ubirchAdminCrudApp')
       var collector = {};
 
       angular.forEach(deviceMock.avatarState, function(katObj, kat){
+
         var kategory = kat;
+        // save the parameter name for row identification
+        $scope.stateKats.push(kategory);
+
         angular.forEach(katObj, function(value, key){
-          if (!collector[key])
-            collector[key] = {};
+          if (!collector[key]){
+            collector[key] = {"stateKey": key};
+          }
           collector[key][kategory] = value;
-          collector[key].type = key;
-        })
+        });
       });
 
-      angular.forEach(collector, function (value) {
-        $scope.deviceState.push(value);
-      });
+      $scope.deviceState = collector;
+
+      deviceStateSaved = angular.copy($scope.deviceState);
     }
+
+    $scope.checkChanges = function() {
+      $scope.stateDataChanged = true;
+    };
+
+    $scope.discardChanges = function(){
+      $scope.deviceState = angular.copy(deviceStateSaved);
+      $scope.stateDataChanged = false;
+    };
+
+    $scope.saveChanges = function(){
+      deviceStateSaved = angular.copy($scope.deviceState);
+      $scope.stateDataChanged = false;
+      // TODO: send data to server
+    };
 
     $scope.removeDevice = function (device) {
 
@@ -90,6 +113,7 @@ angular.module('ubirchAdminCrudApp')
 
       $window.bootbox.confirm(deviceStr, function (doit) {
         if (doit) {
+          // TODO: send data to server
         }
       });
     };

@@ -1,6 +1,13 @@
 <div class="tab-content">
   <div class="form-group">
     <span class="label label-default">device sync state</span>
+    <div>
+      <button type="submit" class="btn btn-default" ng-show="stateDataChanged" ng-click="saveChanges()">{{ 'SAVE_CHANGES' | translate }}
+      </button>
+      <button type="submit" class="btn btn-default" ng-show="stateDataChanged" ng-click="discardChanges()">{{ 'CANCEL' | translate }}
+      </button>
+    </div>
+
     <table class="table table-hover">
       <thead>
       <tr>
@@ -10,9 +17,10 @@
       </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="state in deviceState">
-          <th scope="row"><a href="#" editable-text="state.type">{{state.type}}</a></th>
-          <td ng-repeat="stateKat in state"><a href="#" editable-text="stateKat">{{stateKat || '-' }}</a></td>
+        <tr ng-repeat="(id,state) in deviceState">
+          <th scope="row"><a href="#" editable-text="state.stateKey" onbeforesave="checkChanges($data)">{{state.stateKey}}</a></th>
+          <td ng-repeat="stateKat in stateKats">
+            <a href="#" editable-text="state.{{stateKat}}" onbeforesave="checkChanges($data)">{{state[stateKat] || '-' }}</a></td>
         </tr>
       </tbody>
     </table>
