@@ -8,7 +8,7 @@
  * Controller of the ubirchAdminCrudApp
  */
 angular.module('ubirchAdminCrudApp')
-  .controller('DeviceDetailsCtrl',[ '$scope', '$window', '$location', '$routeParams', function ($scope, $window, $location, $routeParams) {
+  .controller('DeviceDetailsCtrl',[ '$scope', '$window', '$location', '$stateParams', function ($scope, $window, $location, $stateParams) {
     var listUrl = "devices-list";
     var deviceMock = {
       "created": "2016-04-29T13:48:46.403Z",
@@ -68,7 +68,7 @@ angular.module('ubirchAdminCrudApp')
     $scope.stateKats = [];
 
 
-    if ($routeParams.deviceid) {
+    if ($stateParams.deviceid) {
       $scope.device = deviceMock;
 
       var collector = {};

@@ -8,7 +8,7 @@
  * Controller of the ubirchAdminCrudApp
  */
 angular.module('ubirchAdminCrudApp')
-  .controller('DeviceCrudCtrl', [ '$scope', '$window', '$location', '$routeParams', function ($scope, $window, $location, $routeParams) {
+  .controller('DeviceCrudCtrl', [ '$scope', '$window', '$location', '$stateParams', function ($scope, $window, $location, $stateParams) {
     var listUrl = "devices-list";
     $scope.deviceTypes = [
       "lightsSensor",
@@ -61,7 +61,7 @@ angular.module('ubirchAdminCrudApp')
 
     $scope.device = {};
 
-    if ($routeParams.deviceid) {
+    if ($stateParams.deviceid) {
       $scope.device = deviceMock;
     }
 
