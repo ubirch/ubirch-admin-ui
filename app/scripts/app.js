@@ -13,13 +13,13 @@ angular
     'ngAnimate',
     'ngCookies',
     'ngResource',
-    'ngRoute',
     'ngSanitize',
     'ngTouch',
     'xeditable',
-    'pascalprecht.translate'
+    'pascalprecht.translate',
+    'ui.router'
   ])
-  .config(function ($routeProvider, $translateProvider) {
+  .config(function ($stateProvider, $urlRouterProvider, $translateProvider) {
 
     $translateProvider.useStaticFilesLoader({
       files: [{
@@ -30,33 +30,37 @@ angular
 
     $translateProvider.preferredLanguage('en');
 
-    $routeProvider
-      .when('/device-details/:deviceid', {
-        templateUrl: 'views/device-details.html',
+    $stateProvider
+      .state('device-details', {
+        url: '/device-details/:deviceid',
+        templateUrl: '../views/device-details.html',
         controller: 'DeviceDetailsCtrl',
         controllerAs: 'deviceDetails'
       })
-      .when('/devices-list', {
-        templateUrl: 'views/devices-list.html',
+      .state('devices-list', {
+        url: '/devices-list',
+        templateUrl: '../views/devices-list.html',
         controller: 'DevicesListCtrl',
         controllerAs: 'devicesList'
       })
-      .when('/device-crud/:deviceid?', {
-        templateUrl: 'views/device-crud.html',
+      .state('device-crud', {
+        url: '/device-crud/:deviceid?',
+        templateUrl: '../views/device-crud.html',
         controller: 'DeviceCrudCtrl',
         controllerAs: 'deviceCrud'
       })
-      .when('/', {
-        templateUrl: 'views/main.html',
+      .state('home', {
+        url: '/',
+        templateUrl: '../views/main.html',
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
-      .when('/about', {
-        templateUrl: 'views/about.html',
+      .state('about', {
+        url: '/about',
+        templateUrl: '../views/about.html',
         controller: 'AboutCtrl',
         controllerAs: 'about'
-      })
-      .otherwise({
-        redirectTo: '/'
       });
+
+    $urlRouterProvider.otherwise('/');
   });
