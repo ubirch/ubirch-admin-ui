@@ -49,12 +49,6 @@ angular
         controller: 'DeviceCrudCtrl',
         controllerAs: 'deviceCrud'
       })
-      .state('device-details-history', {
-        url: '/device-details-history/:deviceid?/:numOfMessages?',
-        templateUrl: '../views/device-details-history.html',
-        controller: 'DeviceDetailsHistoryCtrl',
-        controllerAs: 'deviceDetailsHistory'
-      })
       .state('home', {
         url: '/',
         templateUrl: '../views/main.html',

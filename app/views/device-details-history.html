@@ -1,1 +1,26 @@
-<p>This is the device-details-history view.</p>
+<div class="tab-content">
+  <div class="form-group">
+    <span class="label label-default">historical device data</span>
+
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th>Timestamp</th>
+        <th>v</th>
+        <th>a</th>
+        <th>s</th>
+        <th>p</th>
+      </tr>
+      </thead>
+      <tbody class="message-list">
+      <tr ng-if="messages.hits && messages.hits.total > 0" ng-repeat="message in messages.hits.hits">
+        <th scope="row">{{message._source.timestamp}}</th>
+        <td>{{message._source.deviceMessage.v}}</td>
+        <td>{{message._source.deviceMessage.a}}</td>
+        <td>{{message._source.deviceMessage.s}}</td>
+        <td>{{message._source.deviceMessage.p}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
