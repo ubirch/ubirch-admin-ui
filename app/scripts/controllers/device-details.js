@@ -159,5 +159,19 @@ angular.module('ubirchAdminCrudApp')
       var deviceId = "d65f1582-5cd2-4f8c-8607-922ecc2b4b45";
       var numOfMessages = 10;
 
-      $scope.messages = DeviceMessage.getHistory(deviceId, numOfMessages);
+      $scope.messages = DeviceMessage.getHistory(deviceId, numOfMessages, function(){
+        $scope.propertiesData = [
+          {hour: 1,sales: 54},
+          {hour: 2,sales: 66},
+          {hour: 3,sales: 77},
+          {hour: 4,sales: 70},
+          {hour: 5,sales: 60},
+          {hour: 6,sales: 63},
+          {hour: 7,sales: 55},
+          {hour: 8,sales: 47},
+          {hour: 9,sales: 55},
+          {hour: 10,sales: 30}
+        ];
+
+      });
   }]);

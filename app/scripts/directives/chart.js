@@ -7,24 +7,40 @@
  * # chart
  */
 angular.module('ubirchAdminCrudApp')
-  .directive('chart', function () {
+  .directive('chart',[ '$window', function ($window) {
     return {
       templateUrl: 'views/chart.html',
       restrict: 'EA',
-      controllerAs: 'chartCtrl',
-      controller: ['$scope', function ($scope) {
-        $scope.salesData = [
-          {hour: 1,sales: 54},
-          {hour: 2,sales: 66},
-          {hour: 3,sales: 77},
-          {hour: 4,sales: 70},
-          {hour: 5,sales: 60},
-          {hour: 6,sales: 63},
-          {hour: 7,sales: 55},
-          {hour: 8,sales: 47},
-          {hour: 9,sales: 55},
-          {hour: 10,sales: 30}
-        ];
-      }]
+      link: function(scope, elem){
+
+/*        var salesDataToPlot=scope[attrs.chartData];
+        var padding = 20;
+        var pathClass = "path";
+        var xScale, yScale, xAxisGen, yAxisGen, lineFun;
+*/
+        var d3 = $window.d3;
+        var rawSvg = elem.find("svg")[0];
+        var svg = d3.select(rawSvg);
+
+        d3.select("body").selectAll("div")
+          .data(dataset)
+          .enter()
+          .append("div")
+          .attr("class", function(d){
+            if (d.SLA == "1")
+              return "bar green";
+            else if (d.SLA == "3")
+              return "bar red";
+            else if (d.SLA == "unbekannt")
+              return "bar grey";
+          })
+          .style("height", function(d) {
+            if (d.SLA == "unbekannt")
+              return "50px";
+            else
+              return d.SLA * 100 + "px";
+          });
+
+      }
     };
-  });
+  }]);
