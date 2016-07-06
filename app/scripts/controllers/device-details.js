@@ -174,4 +174,6 @@ angular.module('ubirchAdminCrudApp')
         ];
 
       });
+
+    $scope.data = {hour: 1,sales: 54};
   }]);

@@ -11,18 +11,27 @@ angular.module('ubirchAdminCrudApp')
     return {
       restrict: 'E',
       replace: true,
-      template: '<div id="chart"></div>',
+      scope: {chartData: '@'
+      },
+      template: '<div id="chart"></div>',//<svg width='850' height='200'></svg>
       link: function (scope, element, attrs) {
         var d3 = $window.d3;
-        var data = attrs.data.split(','),
-          chart = d3.select('#chart')
+        if( attrs.chartData !== undefined) {
+          var data = attrs.chartData;
+          data = angular.fromJson(data);
+          d3.select('#chart')
             .append("div").attr("class", "chart")
             .selectAll('div')
-            .data(data).enter()
+            .data(data.hits.hits).enter()
             .append("div")
             .transition().ease("elastic")
-            .style("width", function(d) { return d + "%"; })
-            .text(function(d) { return d + "%"; });
+            .style("width", function(d) {
+              return d._source.deviceMessage.p.ba + "%";
+            })
+            .text(function(d) {
+              return d._source.deviceMessage.p.ba + "%";
+            });
+        }
       }
     };
   }]);
