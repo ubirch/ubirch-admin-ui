@@ -9,38 +9,20 @@
 angular.module('ubirchAdminCrudApp')
   .directive('chart',[ '$window', function ($window) {
     return {
-      templateUrl: 'views/chart.html',
-      restrict: 'EA',
-      link: function(scope, elem){
-
-/*        var salesDataToPlot=scope[attrs.chartData];
-        var padding = 20;
-        var pathClass = "path";
-        var xScale, yScale, xAxisGen, yAxisGen, lineFun;
-*/
+      restrict: 'E',
+      replace: true,
+      template: '<div id="chart"></div>',
+      link: function (scope, element, attrs) {
         var d3 = $window.d3;
-        var rawSvg = elem.find("svg")[0];
-        var svg = d3.select(rawSvg);
-
-        d3.select("body").selectAll("div")
-          .data(dataset)
-          .enter()
-          .append("div")
-          .attr("class", function(d){
-            if (d.SLA == "1")
-              return "bar green";
-            else if (d.SLA == "3")
-              return "bar red";
-            else if (d.SLA == "unbekannt")
-              return "bar grey";
-          })
-          .style("height", function(d) {
-            if (d.SLA == "unbekannt")
-              return "50px";
-            else
-              return d.SLA * 100 + "px";
-          });
-
+        var data = attrs.data.split(','),
+          chart = d3.select('#chart')
+            .append("div").attr("class", "chart")
+            .selectAll('div')
+            .data(data).enter()
+            .append("div")
+            .transition().ease("elastic")
+            .style("width", function(d) { return d + "%"; })
+            .text(function(d) { return d + "%"; });
       }
     };
   }]);
