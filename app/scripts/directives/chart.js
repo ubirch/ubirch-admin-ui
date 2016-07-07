@@ -52,14 +52,14 @@ angular.module('ubirchAdminCrudApp')
               right: 20
             },
             xRange = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([d3.min(lineDataSets[0], function(d) {
-              return d.date;
+             return d.date;
             }), d3.max(lineDataSets[0], function(d) {
               return d.date;
             })]),
-            yRange = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([d3.min(lineDataSets[0], function(d) {
-              return d.value;
-            }), d3.max(lineDataSets[0], function(d) {
-              return d.value;
+            yRange = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([d3.min(lineDataSets, function(lineData) {
+              return d3.min(lineData, function(d) { return d.value;});
+            }), d3.max(lineDataSets, function(lineData) {
+              return d3.max(lineData, function(d) { return d.value;});
             })]),
             xAxis = d3.svg.axis()
               .scale(xRange)
