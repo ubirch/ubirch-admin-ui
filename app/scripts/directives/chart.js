@@ -28,6 +28,7 @@ angular.module('ubirchAdminCrudApp')
 
           //format of timestamp
           var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%SZ").parse,
+            formatDate = d3.time.format("%d.%B %y"),
             formatChange = function(x) { return x/1000 + "K"; };
 
           //prepare data for chart
@@ -71,6 +72,7 @@ angular.module('ubirchAdminCrudApp')
 
           var xAxis = d3.svg.axis()
               .scale(xRange)
+              .tickFormat(formatDate)
               .orient("bottom");
 
           var yAxis = d3.svg.axis()
@@ -95,36 +97,25 @@ angular.module('ubirchAdminCrudApp')
 
           gY.append("text")
             .attr("class", "axis-title")
-            .attr("transform", "rotate(-90)")
+            .attr("transform", "rotate(-90) translate(-80,0)")
             .attr("y", 6)
             .attr("dy", ".71em")
-            .text("Change in Price");
+            .text("Color value");
 
+          gX.call(xAxis);
 
+          gY.call(yAxis);
 
-          vis.append('svg:g')
-            .attr('class', 'x axis')
-            .attr('transform', 'translate(0,' + (HEIGHT - MARGINS.bottom) + ')')
-            .call(xAxis);
-
-          vis.append('svg:g')
-            .attr('class', 'y axis')
-            .attr('transform', 'translate(' + (MARGINS.left) + ',0)')
-            .call(yAxis);
-
-          var lineFunc = d3.svg.line()
-            .x(function(d) {
-              return xRange(d.date);
-            })
-            .y(function(d) {
-              return yRange(d.value);
-            })
+          var line = d3.svg.line()
+            .x(function(d) { return xRange(d.date); })
+            .y(function(d) { return yRange(d.value); })
             .interpolate('linear');
 
           for (var index=0; index<paramNames.length; index++){
-            vis.append('svg:path')
-              .attr('d', lineFunc(lineDataSets[index]))
+            svg.append("path")
+              .datum(lineDataSets[index])
               .attr("class", "line")
+              .attr("d", line)
               .attr('stroke', colors[index]);
           }
 

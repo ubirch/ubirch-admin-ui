@@ -6,7 +6,6 @@
 }
 
 .axis--x path {
-  display: none;
 }
 
 .axis--y .tick:not(.tick--one) line {
