@@ -107,8 +107,7 @@ angular.module('ubirchAdminCrudApp')
 
           var line = d3.svg.line()
             .x(function(d) { return xRange(d.date); })
-            .y(function(d) { return yRange(d.value); })
-            .interpolate('linear');
+            .y(function(d) { return yRange(d.value); });
 
           for (var index=0; index<paramNames.length; index++){
             svg.append("path")
@@ -116,6 +115,15 @@ angular.module('ubirchAdminCrudApp')
               .attr("class", "line")
               .attr("d", line)
               .attr('stroke', colors[index]);
+            // Points
+            lineDataSets[index].forEach(function(d){
+              svg.append("circle")
+                .attr("cx", xRange(d.date))
+                .attr("cy", yRange(d.value))
+                .attr("r", "3" )
+                .attr("stroke",colors[index])
+                .attr("fill", "white");
+            });
           }
 
 
