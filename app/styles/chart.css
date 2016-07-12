@@ -1,21 +1,21 @@
-.chart {
-  background: #eee;
-  padding: 3px;
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
 }
 
-.chart div {
-  width: 0;
-  transition: all 1s ease-out;
-  -moz-transition: all 1s ease-out;
-  -webkit-transition: all 1s ease-out;
+.axis--x path {
+  display: none;
 }
 
-.chart div {
-  font: 10px sans-serif;
-  background-color: steelblue;
-  text-align: right;
-  padding: 3px;
-  margin: 5px;
-  color: white;
-  box-shadow: 2px 2px 2px #666;
+.axis--y .tick:not(.tick--one) line {
+  stroke-opacity: .15;
+}
+
+.line {
+  fill: none;
+  stroke-width: 1.5px;
+  stroke-linejoin: round;
+  stroke-linecap: round;
 }

@@ -8,7 +8,7 @@
  * Controller of the ubirchAdminCrudApp
  */
 angular.module('ubirchAdminCrudApp')
-  .controller('DeviceDetailsCtrl',[ '$scope', '$window', '$location', '$stateParams', 'DeviceMessage', function ($scope, $window, $location, $stateParams, DeviceMessage) {
+  .controller('DeviceDetailsCtrl',[ '$scope', '$window', '$location', '$stateParams', 'DeviceMessage', '$log', function ($scope, $window, $location, $stateParams, DeviceMessage, $log) {
     var listUrl = "devices-list";
     var deviceMock = {
       "created": "2016-04-29T13:48:46.403Z",
@@ -155,25 +155,18 @@ angular.module('ubirchAdminCrudApp')
        * For history of device data
      */
 
-    // TODO: get Testdata from $scope
-      var deviceId = "d65f1582-5cd2-4f8c-8607-922ecc2b4b45";
-      var numOfMessages = 10;
-
-      $scope.messages = DeviceMessage.getHistory(deviceId, numOfMessages, function(){
-        $scope.propertiesData = [
-          {hour: 1,sales: 54},
-          {hour: 2,sales: 66},
-          {hour: 3,sales: 77},
-          {hour: 4,sales: 70},
-          {hour: 5,sales: 60},
-          {hour: 6,sales: 63},
-          {hour: 7,sales: 55},
-          {hour: 8,sales: 47},
-          {hour: 9,sales: 55},
-          {hour: 10,sales: 30}
-        ];
-
+    DeviceMessage.history.query(
+      function(data){
+        $log.debug("Got history data from DeviceMessage: " + data);
+      },
+      function(error){
+        $log.debug("Requested history from DeviceMessage - ERROR OCCURED: " + error);
       });
 
-    $scope.data = {hour: 1,sales: 54};
+    // TODO: get Testdata from $scope
+    //  var deviceId = "d65f1582-5cd2-4f8c-8607-922ecc2b4b45";
+    //  var numOfMessages = 10;
+    //
+    //  $scope.messages = DeviceMessage.getHistory(deviceId, numOfMessages, function(){ });
+
   }]);

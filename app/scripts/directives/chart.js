@@ -18,58 +18,89 @@ angular.module('ubirchAdminCrudApp')
         var d3 = $window.d3;
         if( attrs.chartData !== undefined) {
 
-          var colors = ['red', 'green', 'blue'];
-          var varNames = ['r', 'g', 'b'];
-
           var data = attrs.chartData;
           data = angular.fromJson(data).hits.hits;
 
+          // TODO: get colors from directive
+          var colors = ['red', 'green', 'blue'];
+          // TODO: get variable names from directive
+          var paramNames = ['r', 'g', 'b'];
+
+          //format of timestamp
+          var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%SZ").parse,
+            formatChange = function(x) { return x/1000 + "K"; };
+
+          //prepare data for chart
           var lineDataSets = [];
-
-          for (var color=0; color<varNames.length; color++){
+          for (var paramIndex=0; paramIndex<paramNames.length; paramIndex++){
             var lineData = [];
-
-            for (var i = 0; i < data.length; i++) {
+            for (var dataIndex = 0; dataIndex < data.length; dataIndex++) {
               var dot = {
-                //date: data[i]._source.timestamp,
-                date: i,
-                value: data[i]._source.deviceMessage.p[varNames[color]]
+                date: parseDate(data[dataIndex]._source.timestamp),
+                //date: i,
+                value: data[dataIndex]._source.deviceMessage.p[paramNames[paramIndex]]
               };
-              lineData[i] = dot;
-
+              lineData[dataIndex] = dot;
             }
-
-            lineDataSets[color] = lineData;
+            lineDataSets[paramIndex] = lineData;
           }
 
-          var vis = d3.select('#visualisation'),
-            WIDTH = 850,
-            HEIGHT = 500,
-            MARGINS = {
-              top: 20,
-              bottom: 20,
+          var vis = d3.select('#visualisation');
+          var MARGINS = {
+              top: 30,
+              bottom: 40,
               left: 50,
-              right: 20
+              right: 30
             },
-            xRange = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([d3.min(lineDataSets[0], function(d) {
-             return d.date;
-            }), d3.max(lineDataSets[0], function(d) {
-              return d.date;
-            })]),
-            yRange = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([d3.min(lineDataSets, function(lineData) {
-              return d3.min(lineData, function(d) { return d.value;});
-            }), d3.max(lineDataSets, function(lineData) {
-              return d3.max(lineData, function(d) { return d.value;});
-            })]),
-            xAxis = d3.svg.axis()
+            WIDTH = 900 - MARGINS.left - MARGINS.right,
+            HEIGHT = 500 - MARGINS.top - MARGINS.bottom;
+
+          var xRange = d3.time.scale()
+            .range([0, WIDTH])
+            .domain([
+              d3.min(lineDataSets[0], function(d) {return d.date;}),
+              d3.max(lineDataSets[0], function(d) {return d.date;})
+            ]);
+
+          var yRange = d3.scale.linear()
+            .range([HEIGHT, 0])
+            .domain([
+              d3.min(lineDataSets, function(lineData) {return d3.min(lineData, function(d) { return d.value;});}),
+              d3.max(lineDataSets, function(lineData) {return d3.max(lineData, function(d) { return d.value;});})
+            ]);
+
+          var xAxis = d3.svg.axis()
               .scale(xRange)
-              .tickSize(5)
-              .tickSubdivide(true),
-            yAxis = d3.svg.axis()
+              .orient("bottom");
+
+          var yAxis = d3.svg.axis()
               .scale(yRange)
-              .tickSize(5)
-              .orient('left')
-              .tickSubdivide(true);
+              .tickFormat(formatChange)
+//              .tickSize(20)
+              .orient('left');
+
+
+          var svg = d3.select("#visualisation")
+            .attr("width", WIDTH + MARGINS.left + MARGINS.right)
+            .attr("height", HEIGHT + MARGINS.top + MARGINS.bottom)
+            .append("g")
+            .attr("transform", "translate(" + MARGINS.left + "," + MARGINS.top + ")");
+
+          var gX = svg.append("g")
+            .attr("class", "axis axis--x")
+            .attr("transform", "translate(0," + HEIGHT + ")");
+
+          var gY = svg.append("g")
+            .attr("class", "axis axis--y");
+
+          gY.append("text")
+            .attr("class", "axis-title")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", ".71em")
+            .text("Change in Price");
+
+
 
           vis.append('svg:g')
             .attr('class', 'x axis')
@@ -90,12 +121,11 @@ angular.module('ubirchAdminCrudApp')
             })
             .interpolate('linear');
 
-          for (var index=0; index<varNames.length; index++){
+          for (var index=0; index<paramNames.length; index++){
             vis.append('svg:path')
               .attr('d', lineFunc(lineDataSets[index]))
-              .attr('stroke', colors[index])
-              .attr('stroke-width', 2)
-              .attr('fill', 'none');
+              .attr("class", "line")
+              .attr('stroke', colors[index]);
           }
 
 
