@@ -46,7 +46,6 @@ angular.module('ubirchAdminCrudApp')
             lineDataSets[paramIndex] = lineData;
           }
 
-          var vis = d3.select('#visualisation');
           var MARGINS = {
               top: 30,
               bottom: 40,
