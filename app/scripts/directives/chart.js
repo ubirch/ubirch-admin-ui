@@ -13,7 +13,7 @@ angular.module('ubirchAdminCrudApp')
       replace: true,
       scope: {chartData: '@'
       },
-      template: '<svg id="visualisation" width="900" height="500"></svg>',//<div id="chart"></div>'
+      template: '<svg id="visualisation" width="900" height="500"></svg>',
       link: function (scope, element, attrs) {
         var d3 = $window.d3;
         if( attrs.chartData !== undefined) {
@@ -106,25 +106,68 @@ angular.module('ubirchAdminCrudApp')
           gY.call(yAxis);
 
           var line = d3.svg.line()
-            .x(function(d) { return xRange(d.date); })
-            .y(function(d) { return yRange(d.value); });
+            .x(function(d) {
+              return xRange(d.date); })
+            .y(function(d) {
+              return yRange(d.value); });
 
-          for (var index=0; index<paramNames.length; index++){
-            svg.append("path")
-              .datum(lineDataSets[index])
+          //tooltip
+          var div = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
+
+          var g = [];
+
+          lineDataSets.forEach (function(lineDataSet, i){
+            g[i] = svg.append("g")
+              .attr("class", "path-group");
+
+            g[i].append("path")
               .attr("class", "line")
-              .attr("d", line)
-              .attr('stroke', colors[index]);
+              .attr("d", line(lineDataSet))
+              .attr('stroke', function(){return colors[i];});
+
+            var circles =  g[i].selectAll("circle")
+              .data(lineDataSet)
+              .enter()
+              .append("circle");
+            circles.attr("cx", function(d) {
+                return xRange(d.date);})
+              .attr("cy", function(d) {
+                return yRange(d.value);})
+              .attr("r", "3" )
+              .attr("stroke",function(){
+                return colors[i];})
+              .attr("fill", "white");
+
+          });
+
+
             // Points
-            lineDataSets[index].forEach(function(d){
-              svg.append("circle")
-                .attr("cx", xRange(d.date))
-                .attr("cy", yRange(d.value))
-                .attr("r", "3" )
-                .attr("stroke",colors[index])
-                .attr("fill", "white");
-            });
-          }
+            //lineDataSets[index].forEach(function(d){
+            //  svg.append("circle")
+            //    .attr("cx", xRange(d.date))
+            //    .attr("cy", yRange(d.value))
+            //    .attr("r", "3" )
+            //    .attr("stroke",colors[index])
+            //    .attr("fill", "white")
+            //    //tooltip
+            //    .on("mouseover", function(d) {
+            //      div.transition()
+            //        .duration(200)
+            //        .style("opacity", 0.9);
+            //      div .html(formatDate(new Date()) + "<br/>"  + "12345")
+            //        .style("left", (d3.event.pageX) + "px")
+            //        .style("top", (d3.event.pageY - 28) + "px");
+            //    })
+            //    .on("mouseout", function() {
+            //      div.transition()
+            //        .duration(500)
+            //        .style("opacity", 0);
+            //    });
+            //
+            //});
+          //}
 
 
         }
