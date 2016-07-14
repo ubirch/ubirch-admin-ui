@@ -29,6 +29,7 @@ angular.module('ubirchAdminCrudApp')
           //format of timestamp
           var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%SZ").parse,
             formatDate = d3.time.format("%d.%B %y"),
+            formatTime = d3.time.format("%H:%M:%S"),
             formatChange = function(x) { return x/1000 + "K"; };
 
           //prepare data for chart
@@ -138,7 +139,22 @@ angular.module('ubirchAdminCrudApp')
               .attr("r", "3" )
               .attr("stroke",function(){
                 return colors[i];})
-              .attr("fill", "white");
+              .attr("fill", "white")
+              //tooltip
+              .on("mouseover", function(d) {
+                div.transition()
+                  .duration(200)
+                  .style("opacity", 0.9);
+                div.html(formatDate(d.date) + "<br/>" + formatTime(d.date) + "<br/>" + d.value)
+                  .style("left", (d3.event.pageX - (
+                    parseFloat(d3.select(this).attr("cx")) / WIDTH * 40) ) + "px")
+                  .style("top", (d3.event.pageY - 45) + "px");
+              })
+              .on("mouseout", function() {
+                div.transition()
+                  .duration(500)
+                  .style("opacity", 0);
+              });
 
           });
 
@@ -151,20 +167,6 @@ angular.module('ubirchAdminCrudApp')
             //    .attr("r", "3" )
             //    .attr("stroke",colors[index])
             //    .attr("fill", "white")
-            //    //tooltip
-            //    .on("mouseover", function(d) {
-            //      div.transition()
-            //        .duration(200)
-            //        .style("opacity", 0.9);
-            //      div .html(formatDate(new Date()) + "<br/>"  + "12345")
-            //        .style("left", (d3.event.pageX) + "px")
-            //        .style("top", (d3.event.pageY - 28) + "px");
-            //    })
-            //    .on("mouseout", function() {
-            //      div.transition()
-            //        .duration(500)
-            //        .style("opacity", 0);
-            //    });
             //
             //});
           //}
