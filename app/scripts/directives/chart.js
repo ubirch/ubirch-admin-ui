@@ -75,36 +75,33 @@ angular.module('ubirchAdminCrudApp')
               .tickFormat(formatDate)
               .orient("bottom");
 
-          var yAxis = d3.svg.axis()
-              .scale(yRange)
-              .tickFormat(formatChange)
-//              .tickSize(20)
-              .orient('left');
-
-
           var svg = d3.select("#visualisation")
             .attr("width", WIDTH + MARGINS.left + MARGINS.right)
             .attr("height", HEIGHT + MARGINS.top + MARGINS.bottom)
             .append("g")
             .attr("transform", "translate(" + MARGINS.left + "," + MARGINS.top + ")");
 
-          var gX = svg.append("g")
+          svg.append("g")
             .attr("class", "axis axis--x")
-            .attr("transform", "translate(0," + HEIGHT + ")");
+            .attr("transform", "translate(0," + HEIGHT + ")")
+            .call(xAxis);
 
-          var gY = svg.append("g")
-            .attr("class", "axis axis--y");
 
-          gY.append("text")
-            .attr("class", "axis-title")
-            .attr("transform", "rotate(-90) translate(-80,0)")
-            .attr("y", 6)
-            .attr("dy", ".71em")
-            .text("Color value");
+          svg.append("g")
+            .attr("class", "axis axis--y")
+            .call(d3.svg.axis()
+              .scale(yRange)
+              .tickFormat(formatChange)
+              .tickSize(-WIDTH)
+              .tickPadding(20)
+              .orient('left'));
 
-          gX.call(xAxis);
-
-          gY.call(yAxis);
+          //gY.append("text")
+          //  .attr("class", "axis-title")
+          //  .attr("transform", "rotate(-90) translate(-80,0)")
+          //  .attr("y", 6)
+          //  .attr("dy", ".71em")
+          //  .text("Color value");
 
           var line = d3.svg.line()
             .x(function(d) {
@@ -157,20 +154,6 @@ angular.module('ubirchAdminCrudApp')
               });
 
           });
-
-
-            // Points
-            //lineDataSets[index].forEach(function(d){
-            //  svg.append("circle")
-            //    .attr("cx", xRange(d.date))
-            //    .attr("cy", yRange(d.value))
-            //    .attr("r", "3" )
-            //    .attr("stroke",colors[index])
-            //    .attr("fill", "white")
-            //
-            //});
-          //}
-
 
         }
       }
