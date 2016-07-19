@@ -5,7 +5,7 @@
   shape-rendering: crispEdges;
 }
 
-.axis .tick:not(.tick--one) line,
+.axis .tick line,
 .axis--x .domain {
   stroke-opacity: .15;
 }

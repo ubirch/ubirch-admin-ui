@@ -29,7 +29,7 @@ angular.module('ubirchAdminCrudApp')
 
 
           // TODO: get colors from directive
-          //var colors = ['red', 'green', 'blue'];
+          var colors = ['red', 'green', 'blue'];
           // TODO: get variable names from directive
           var paramNames = ['r', 'g', 'b'];
 
@@ -85,73 +85,57 @@ angular.module('ubirchAdminCrudApp')
             .call(d3.axisBottom(x)
               .tickFormat(formatDate));
 
-          //svg.append("g")
-          //  .attr("class", "axis axis--x")
-          //  .attr("transform", "translate(0," + HEIGHT + ")")
-          //  .call(xAxis);
-          //
-          //
-          //svg.append("g")
-          //  .attr("class", "axis axis--y")
-          //  .call(d3.svg.axis()
-          //    .scale(yRange)
-          //    .tickFormat(formatChange)
-          //    .tickSize(-WIDTH)
-          //    .tickPadding(20)
-          //    .orient('left'));
-          //
-          //var line = d3.svg.line()
-          //  .x(function(d) {
-          //    return xRange(d.date); })
-          //  .y(function(d) {
-          //    return yRange(d.value); });
-          //
-          ////tooltip
-          //var div = d3.select("body").append("div")
-          //  .attr("class", "tooltip")
-          //  .style("opacity", 0);
-          //
-          //var g = [];
-          //
-          //lineDataSets.forEach (function(lineDataSet, i){
-          //  g[i] = svg.append("g")
-          //    .attr("class", "path-group");
-          //
-          //  g[i].append("path")
-          //    .attr("class", "line")
-          //    .attr("d", line(lineDataSet))
-          //    .attr('stroke', function(){return colors[i];});
-          //
-          //  var circles =  g[i].selectAll("circle")
-          //    .data(lineDataSet)
-          //    .enter()
-          //    .append("circle");
-          //  circles.attr("cx", function(d) {
-          //      return xRange(d.date);})
-          //    .attr("cy", function(d) {
-          //      return yRange(d.value);})
-          //    .attr("r", "3" )
-          //    .attr("stroke",function(){
-          //      return colors[i];})
-          //    .attr("fill", "white")
-          //    //tooltip
-          //    .on("mouseover", function(d) {
-          //      div.transition()
-          //        .duration(200)
-          //        .style("opacity", 0.9);
-          //      div.html(formatDate(d.date) + "<br/>" + formatTime(d.date) + "<br/>" + d.value)
-          //        .style("left", (d3.event.pageX - (
-          //          parseFloat(d3.select(this).attr("cx")) / WIDTH * 40) ) + "px")
-          //        .style("top", (d3.event.pageY - 45) + "px");
-          //    })
-          //    .on("mouseout", function() {
-          //      div.transition()
-          //        .duration(500)
-          //        .style("opacity", 0);
-          //    });
-          //
-          //});
+          var line = d3.line()
+            .x(function(d) {
+              return x(d.date); })
+            .y(function(d) {
+              return y(d.value); });
 
+          ////tooltip
+          var div = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
+
+          var colorGroup = [];
+
+          lineDataSets.forEach (function(lineDataSet, i){
+            colorGroup[i] = g.append("g")
+              .attr("class", "path-group");
+
+            colorGroup[i].append("path")
+              .attr("class", "line")
+              .attr("d", line(lineDataSet))
+              .attr('stroke', function(){return colors[i];});
+
+            var circles =  colorGroup[i].selectAll("circle")
+              .data(lineDataSet)
+              .enter()
+              .append("circle");
+            circles.attr("cx", function(d) {
+                return x(d.date);})
+              .attr("cy", function(d) {
+                return y(d.value);})
+              .attr("r", "3" )
+              .attr("stroke",function(){
+                return colors[i];})
+              .attr("fill", "white");
+              //tooltip
+            circles.on("mouseover", function(d) {
+                div.transition()
+                  .duration(200)
+                  .style("opacity", 0.9);
+                div.html(formatDate(d.date) + "<br/>" + formatTime(d.date) + "<br/>" + d.value)
+                  .style("left", (d3.event.pageX - (
+                    parseFloat(d3.select(this).attr("cx")) / width * 40) ) + "px")
+                  .style("top", (d3.event.pageY - 45) + "px");
+              })
+              .on("mouseout", function() {
+                div.transition()
+                  .duration(500)
+                  .style("opacity", 0);
+              });
+
+          });
         }
       }
     };
