@@ -25,11 +25,13 @@ angular.module('ubirchAdminCrudApp')
           var parseDate = d3.utcParse("%Y-%m-%dT%H:%M:%SZ"),
             formatDate = d3.timeFormat("%d.%B %y"),
             formatTime = d3.timeFormat("%H:%M:%S"),
-            formatChange = function(x) { return x/1000 + "K"; };
+            formatChangeX = d3.timeFormat("%d.%B %y %H:%M"),
+            formatChangeY = function(x) { return x/1000 + "K";},
+            getColor = function(color, alpha) {return "rgba(" + color + "," + alpha + ")";};
 
 
           // TODO: get colors from directive
-          var colors = ['red', 'green', 'blue'];
+          var colors = ['255,0,0', '0,255,0', '0,0,255'];
           // TODO: get variable names from directive
           var paramNames = ['r', 'g', 'b'];
 
@@ -74,7 +76,7 @@ angular.module('ubirchAdminCrudApp')
           g.append("g")
             .attr("class", "axis axis--y")
             .call(d3.axisLeft(y)
-                .tickFormat(formatChange)
+                .tickFormat(formatChangeY)
                 .tickSize(-width)
                 .tickPadding(20)
             );
@@ -83,13 +85,12 @@ angular.module('ubirchAdminCrudApp')
             .attr("class", "axis axis--x")
             .attr("transform", "translate(0," + y(0) + ")")
             .call(d3.axisBottom(x)
-              .tickFormat(formatDate));
+              .tickFormat(formatChangeX)
+              .tickSize(10));
 
           var line = d3.line()
-            .x(function(d) {
-              return x(d.date); })
-            .y(function(d) {
-              return y(d.value); });
+            .x(function(d) { return x(d.date); })
+            .y(function(d) { return y(d.value); });
 
           ////tooltip
           var div = d3.select("body").append("div")
@@ -105,7 +106,13 @@ angular.module('ubirchAdminCrudApp')
             colorGroup[i].append("path")
               .attr("class", "line")
               .attr("d", line(lineDataSet))
-              .attr('stroke', function(){return colors[i];});
+              .attr('stroke', function(){return getColor(colors[i],1);})
+              .on("mouseover", function() {
+                d3.select(this).style("stroke-width", "2px");
+              })
+              .on("mouseout", function() {
+                d3.select(this).style("stroke-width", "1.5px");
+              });
 
             var circles =  colorGroup[i].selectAll("circle")
               .data(lineDataSet)
@@ -116,9 +123,8 @@ angular.module('ubirchAdminCrudApp')
               .attr("cy", function(d) {
                 return y(d.value);})
               .attr("r", "3" )
-              .attr("stroke",function(){
-                return colors[i];})
-              .attr("fill", "white");
+              .attr("fill",function(){
+                return  getColor(colors[i],1);});
               //tooltip
             circles.on("mouseover", function(d) {
                 div.transition()
@@ -128,6 +134,7 @@ angular.module('ubirchAdminCrudApp')
                   .style("left", (d3.event.pageX - (
                     parseFloat(d3.select(this).attr("cx")) / width * 40) ) + "px")
                   .style("top", (d3.event.pageY - 45) + "px");
+                div.style("border-color", function(){return  getColor(colors[i],0.3);});
               })
               .on("mouseout", function() {
                 div.transition()
