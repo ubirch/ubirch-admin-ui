@@ -5,12 +5,16 @@
   shape-rendering: crispEdges;
 }
 
-.axis--y .tick:not(.tick--one) line,
-.axis--x .tick:not(.tick--one) line {
+.axis .tick:not(.tick--one) line,
+.axis--x .domain {
   stroke-opacity: .15;
 }
 
-.axis .domain {
+.axis--x {
+  stroke-width: 2px;
+}
+
+.axis--y .domain {
   display: none;
 }
 
