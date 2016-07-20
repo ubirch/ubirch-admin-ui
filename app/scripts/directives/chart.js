@@ -52,7 +52,7 @@ angular.module('ubirchAdminCrudApp')
 
 
           var svg = d3.select("#visualisation");
-          var margin = {top: 40, right: 40, bottom: 40, left: 40},
+          var margin = {top: 40, right: 40, bottom: 80, left: 40},
             width = +svg.attr("width") - margin.left - margin.right,
             height = +svg.attr("height") - margin.top - margin.bottom;
 
@@ -106,13 +106,7 @@ angular.module('ubirchAdminCrudApp')
             colorGroup[i].append("path")
               .attr("class", "line")
               .attr("d", line(lineDataSet))
-              .attr('stroke', function(){return getColor(colors[i],1);})
-              .on("mouseover", function() {
-                d3.select(this).style("stroke-width", "2px");
-              })
-              .on("mouseout", function() {
-                d3.select(this).style("stroke-width", "1.5px");
-              });
+              .attr('stroke', function(){return getColor(colors[i],1);});
 
             var circles =  colorGroup[i].selectAll("circle")
               .data(lineDataSet)
@@ -127,22 +121,78 @@ angular.module('ubirchAdminCrudApp')
                 return  getColor(colors[i],1);});
               //tooltip
             circles.on("mouseover", function(d) {
+                var elem = d3.select(this),
+                   parent = d3.select(this.parentNode);
+
+              //highlight path
+                var path = parent.selectAll("path");
+                path.style("stroke-width", "2.5px");
+
+              //highlight node
+                elem.attr("r", "5");
+                parent.append("circle")
+                  .attr("id", "shadow")
+                  .attr("cx", elem.attr("cx"))
+                  .attr("cy", elem.attr("cy"))
+                  .attr("r", "9")
+                  .attr("stroke", getColor(colors[i],0.2))
+                  .attr("stroke-width", "3")
+                  .attr("fill","none");
+
+              //tooltip
                 div.transition()
                   .duration(200)
                   .style("opacity", 0.9);
-                div.html(formatDate(d.date) + "<br/>" + formatTime(d.date) + "<br/>" + d.value)
-                  .style("left", (d3.event.pageX - (
-                    parseFloat(d3.select(this).attr("cx")) / width * 40) ) + "px")
-                  .style("top", (d3.event.pageY - 45) + "px");
+                div.html(
+                  formatDate(d.date) + "<br/>" +
+                  formatTime(d.date) + "<br/><strong>" +
+                  paramNames[i] + ": " + d.value + "</strong>")
+                  .style("left", d3.event.pageX - (20 +
+                    parseFloat(elem.attr("cx") / width * 40)) + "px")
+                  .style("top", (d3.event.pageY - 65) + "px");
                 div.style("border-color", function(){return  getColor(colors[i],0.3);});
               })
               .on("mouseout", function() {
+                var elem = d3.select(this),
+                  parent = d3.select(this.parentNode);
+
+                var path = parent.selectAll("path");
+                path.style("stroke-width", "1.5px");
+
+                // remove highlight of node
+                elem.attr("r", "3");
+                d3.select("#shadow").remove();
+                // hide tooltip
                 div.transition()
                   .duration(500)
                   .style("opacity", 0);
               });
-
           });
+
+          var legendRectSize = 18;
+          var legendSpacing = 4;
+
+          var legendGroup = g.append("g")
+            .attr("transform", "translate(100,"+(height+20)+")");
+
+          var legend = legendGroup.selectAll('.legend')
+            .data(lineDataSets)
+            .enter()
+            .append('g')
+            .attr('class', 'legend')
+            .attr('transform', function(d, i) {
+              var height = legendRectSize + legendSpacing;
+              var offset =  height * lineDataSets.length / 2;
+              var horz = -2 * legendRectSize;
+              var vert = i * height - offset;
+              return 'translate(' + horz + ',' + vert + ')';
+            });
+          legend.append('rect')
+            .attr('width', legendRectSize)
+            .attr('height', legendRectSize)
+            .style('fill', function(d,i) { return getColor(colors[i],1);})
+            .style('stroke', function(d,i) { return getColor(colors[i],1);});
+
         }
       }
     };
