@@ -169,29 +169,29 @@ angular.module('ubirchAdminCrudApp')
               });
           });
 
-          var legendRectSize = 18;
-          var legendSpacing = 4;
-
-          var legendGroup = g.append("g")
-            .attr("transform", "translate(100,"+(height+20)+")");
-
-          var legend = legendGroup.selectAll('.legend')
-            .data(lineDataSets)
-            .enter()
-            .append('g')
-            .attr('class', 'legend')
-            .attr('transform', function(d, i) {
-              var height = legendRectSize + legendSpacing;
-              var offset =  height * lineDataSets.length / 2;
-              var horz = -2 * legendRectSize;
-              var vert = i * height - offset;
-              return 'translate(' + horz + ',' + vert + ')';
-            });
-          legend.append('rect')
-            .attr('width', legendRectSize)
-            .attr('height', legendRectSize)
-            .style('fill', function(d,i) { return getColor(colors[i],1);})
-            .style('stroke', function(d,i) { return getColor(colors[i],1);});
+          //var legendRectSize = 18;
+          //var legendSpacing = 4;
+          //
+          //var legendGroup = g.append("g")
+          //  .attr("transform", "translate(100,"+(height+20)+")");
+          //
+          //var legend = legendGroup.selectAll('.legend')
+          //  .data(lineDataSets)
+          //  .enter()
+          //  .append('g')
+          //  .attr('class', 'legend')
+          //  .attr('transform', function(d, i) {
+          //    var height = legendRectSize + legendSpacing;
+          //    var offset =  height * lineDataSets.length / 2;
+          //    var horz = -2 * legendRectSize;
+          //    var vert = i * height - offset;
+          //    return 'translate(' + horz + ',' + vert + ')';
+          //  });
+          //legend.append('rect')
+          //  .attr('width', legendRectSize)
+          //  .attr('height', legendRectSize)
+          //  .style('fill', function(d,i) { return getColor(colors[i],1);})
+          //  .style('stroke', function(d,i) { return getColor(colors[i],1);});
 
         }
       }
