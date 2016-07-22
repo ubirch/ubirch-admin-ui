@@ -13,7 +13,7 @@ angular.module('ubirchAdminCrudApp')
       replace: true,
       scope: {chartData: '@'
       },
-      template: '<svg id="visualisation" width="900" height="500"></svg>',
+      template: '<svg id="barchartvis" width="900" height="500"></svg>',
       link: function (scope, element, attrs) {
         var d3 = $window.d3;
 
@@ -39,7 +39,7 @@ angular.module('ubirchAdminCrudApp')
             );
           });
 
-          var svg = d3.select("svg"),
+          var svg = d3.select("#barchartvis"),
             margin = {top: 20, right: 20, bottom: 40, left: 60},
             width = +svg.attr("width") - margin.left - margin.right,
             height = +svg.attr("height") - margin.top - margin.bottom,
@@ -105,7 +105,7 @@ angular.module('ubirchAdminCrudApp')
                 .text("Value sent");
 
           var legend = g.selectAll(".legend")
-            .data(Object.keys(data[0]).slice(1).reverse())
+            .data(Object.keys(data[0]).slice(1))
             .enter().append("g")
             .attr("class", "legend")
             .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; })

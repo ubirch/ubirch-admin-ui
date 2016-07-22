@@ -13,7 +13,7 @@ angular.module('ubirchAdminCrudApp')
       replace: true,
       scope: {chartData: '@'
       },
-      template: '<svg id="visualisation" width="900" height="500"></svg>',
+      template: '<svg id="linechartvis" width="900" height="500"></svg>',
       link: function (scope, element, attrs) {
         var d3 = $window.d3;
 
@@ -22,6 +22,8 @@ angular.module('ubirchAdminCrudApp')
           var chartData = angular.fromJson(attrs.chartData).hits.hits;
 
           var parseDate = d3.utcParse("%Y-%m-%dT%H:%M:%SZ"),
+            formatDate = d3.timeFormat("%d.%B %y"),
+            formatTime = d3.timeFormat("%H:%M:%S"),
             formatChangeX = d3.timeFormat("%d.%B %y %H:%M"),
             formatChangeY = function(x) { return x/1000 + "K";};
 
@@ -39,7 +41,7 @@ angular.module('ubirchAdminCrudApp')
             );
           });
 
-          var svg = d3.select("svg"),
+          var svg = d3.select("#linechartvis"),
             margin = {top: 20, right: 20, bottom: 40, left: 60},
             width = +svg.attr("width") - margin.left - margin.right,
             height = +svg.attr("height") - margin.top - margin.bottom,
@@ -60,11 +62,18 @@ angular.module('ubirchAdminCrudApp')
             .range(["#FF0000", "#00FF00", "#0000FF"])
             .domain(Object.keys(data[0]).slice(1));
 
+          ////tooltip
+          var div = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
+
+
           var colorGroup =
             g.selectAll(".serie")
             .data(Object.keys(data[0]).slice(1))
             .enter().append("g")
             .attr("class", "path-group");
+
         colorGroup.append("path")
             .attr("class", "line")
             .attr("d", function(param) {
@@ -77,7 +86,7 @@ angular.module('ubirchAdminCrudApp')
             })
             .attr('stroke', function(d){return z(d);});
 
-          colorGroup.selectAll("circle")
+          var circles = colorGroup.selectAll("circle")
               .data(data)
               .enter()
               .append("circle")
@@ -87,17 +96,58 @@ angular.module('ubirchAdminCrudApp')
                 var param =d3.select(this.parentNode).data()[0];
                 return y(d[param]);})
               .attr("r", "3" )
-              .attr("fill",function(d){
+              .attr("fill",function(){
                 var param =d3.select(this.parentNode).data()[0];
                 return  z(param);});
+              //tooltip
+            circles.on("mouseover", function(d) {
+                var elem = d3.select(this),
+                   parent = d3.select(this.parentNode),
+                  param = parent.data()[0];
 
-          //.selectAll("rect")
-            //.data(function(d) { return d; })
-            //.enter().append("rect")
-            //.attr("x", function(d) { return x(d.data.date); })
-            //.attr("y", function(d) { return y(d[1]); })
-            //.attr("height", function(d) { return y(d[0]) - y(d[1]); })
-            //.attr("width", "5");
+              //highlight path
+                var path = parent.selectAll("path");
+                path.style("stroke-width", "2.5px");
+
+              //highlight node
+                elem.attr("r", "5");
+                parent.append("circle")
+                  .attr("id", "shadow")
+                  .attr("cx", elem.attr("cx"))
+                  .attr("cy", elem.attr("cy"))
+                  .attr("r", "9")
+                  .attr("stroke", getRGBA(z(param),0.2))
+                  .attr("stroke-width", "3")
+                  .attr("fill","none");
+
+              //tooltip
+                div.transition()
+                  .duration(200)
+                  .style("opacity", 0.9);
+                div.html(
+                  formatDate(d.date) + "<br/>" +
+                  formatTime(d.date) + "<br/><strong>" +
+                  param + ": " + d[param] + "</strong>")
+                  .style("left", d3.event.pageX - (20 +
+                    parseFloat(elem.attr("cx") / width * 40)) + "px")
+                  .style("top", (d3.event.pageY - 75) + "px");
+                div.style("border-color", function(){return  getRGBA(z(param),0.3);});
+              })
+              .on("mouseout", function() {
+                var elem = d3.select(this),
+                  parent = d3.select(this.parentNode);
+
+                var path = parent.selectAll("path");
+                path.style("stroke-width", "1.5px");
+
+                // remove highlight of node
+                elem.attr("r", "3");
+                d3.select("#shadow").remove();
+                // hide tooltip
+                div.transition()
+                  .duration(500)
+                  .style("opacity", 0);
+              });
 
           g.append("g")
             .attr("class", "axis axis--y")
@@ -129,7 +179,7 @@ angular.module('ubirchAdminCrudApp')
             .text("Value sent");
 
           var legend = g.selectAll(".legend")
-            .data(Object.keys(data[0]).slice(1).reverse())
+            .data(Object.keys(data[0]).slice(1))
             .enter().append("g")
             .attr("class", "legend")
             .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; })
@@ -147,6 +197,15 @@ angular.module('ubirchAdminCrudApp')
             .attr("dy", ".35em")
             .attr("text-anchor", "end")
             .text(function(d) { return d; });
+        }
+
+        function getRGBA(color,alpha){
+          if(color.length === 7){
+            var r = parseInt(color.substr(1,2),16);
+            var g = parseInt(color.substr(3,2),16);
+            var b = parseInt(color.substr(5,2),16);
+            return 'rgba('+r+','+g+','+b+','+alpha+')' ;
+          }
         }
 
       }

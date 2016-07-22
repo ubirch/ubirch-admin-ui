@@ -18,35 +18,38 @@ angular.module('ubirchAdminCrudApp')
         var d3 = $window.d3;
         if( attrs.chartData !== undefined) {
 
-          var data = angular.fromJson(attrs.chartData).hits.hits;
+          var data = attrs.chartData;
+          data = angular.fromJson(data).hits.hits;
 
           //format of timestamp
           var parseDate = d3.utcParse("%Y-%m-%dT%H:%M:%SZ"),
             formatDate = d3.timeFormat("%d.%B %y"),
             formatTime = d3.timeFormat("%H:%M:%S"),
             formatChangeX = d3.timeFormat("%d.%B %y %H:%M"),
-            formatChangeY = function(x) { return x/1000 + "K";};
+            formatChangeY = function(x) { return x/1000 + "K";},
+            getColor = function(color, alpha) {return "rgba(" + color + "," + alpha + ")";};
 
 
           // TODO: get colors from directive
-          var colors = ["#FF0000", "#00FF00", "#0000FF"];
+          var colors = ['255,0,0', '0,255,0', '0,0,255'];
           // TODO: get variable names from directive
           var paramNames = ['r', 'g', 'b'];
 
           //prepare data for chart
           var lineDataSets = [];
-          forEach (data, function(d){
-            lineDataSets.push(
-              {
-                date: parseDate(d._source.timestamp),
-                data: {
-                  r: d._source.deviceMessage.p.r,
-                  g: d._source.deviceMessage.p.g,
-                  b: d._source.deviceMessage.p.b
-                }
-              }
-            )
-          });
+          for (var paramIndex=0; paramIndex<paramNames.length; paramIndex++){
+            var lineData = [];
+            for (var dataIndex = 0; dataIndex < data.length; dataIndex++) {
+              var dot = {
+                date: parseDate(data[dataIndex]._source.timestamp),
+                //date: i,
+                value: data[dataIndex]._source.deviceMessage.p[paramNames[paramIndex]]
+              };
+              lineData[dataIndex] = dot;
+            }
+            lineDataSets[paramIndex] = lineData;
+          }
+
 
           var svg = d3.select("#visualisation");
           var margin = {top: 40, right: 40, bottom: 80, left: 40},
@@ -55,17 +58,17 @@ angular.module('ubirchAdminCrudApp')
 
           var x = d3.scaleUtc()
             .range([0, width])
-            .domain(d3.extent(lineDataSets, function(d) { return d.date;}));
+            .domain([
+              d3.min(lineDataSets[0], function(d) { return d.date;}),
+              d3.max(lineDataSets[0], function(d) { return d.date;})
+            ]);
 
           var y = d3.scaleLinear()
             .range([height, 0])
             .domain([
-              d3.min(lineDataSets, function(d) { return d3.min([d.data.r, d.data.g, d.data.b]);}),
-              d3.max(lineDataSets, function(d) { return d3.max([d.data.r, d.data.g, d.data.b]);})
+              d3.min(lineDataSets, function(lineData) { return d3.min(lineData, function(d) { return d.value;});}),
+              d3.max(lineDataSets, function(lineData) { return d3.max(lineData, function(d) { return d.value;});})
             ]);
-
-          var z = d3.scaleOrdinal()
-            .range(colors);
 
           var g = svg.append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -85,119 +88,111 @@ angular.module('ubirchAdminCrudApp')
               .tickFormat(formatChangeX)
               .tickSize(10));
 
+          var line = d3.line()
+            .x(function(d) { return x(d.date); })
+            .y(function(d) { return y(d.value); });
+
           ////tooltip
           var div = d3.select("body").append("div")
             .attr("class", "tooltip")
             .style("opacity", 0);
 
-          var colorGroup = g.selectAll("g")
-            .data(lineDataSets[0].data)
-            .enter().append("g")
-            .attr("class", "path-group");
+          var colorGroup = [];
 
-          var line = d3.line()
-            .x(function(d) { return x(d.date); })
-            .y(function(d) { return y(d.value); });
+          lineDataSets.forEach (function(lineDataSet, i){
+            colorGroup[i] = g.append("g")
+              .attr("class", "path-group");
 
-          var path = colorGroup.append("path")
-            .attr("class", "line")
-            .attr("d", line(lineDataSet))
-            .attr('stroke', function(){return getRGBA(colors[i],1);});
+            colorGroup[i].append("path")
+              .attr("class", "line")
+              .attr("d", line(lineDataSet))
+              .attr('stroke', function(){return getColor(colors[i],1);});
 
-          //var circles =  colorGroup[i].selectAll("circle")
-          //    .data(lineDataSet)
-          //    .enter()
-          //    .append("circle");
-          //  circles.attr("cx", function(d) {
-          //      return x(d.date);})
-          //    .attr("cy", function(d) {
-          //      return y(d.value);})
-          //    .attr("r", "3" )
-          //    .attr("fill",function(){
-          //      return  getRGBA(colors[i],1);});
-          //    //tooltip
-          //  circles.on("mouseover", function(d) {
-          //      var elem = d3.select(this),
-          //         parent = d3.select(this.parentNode);
+            var circles =  colorGroup[i].selectAll("circle")
+              .data(lineDataSet)
+              .enter()
+              .append("circle");
+            circles.attr("cx", function(d) {
+                return x(d.date);})
+              .attr("cy", function(d) {
+                return y(d.value);})
+              .attr("r", "3" )
+              .attr("fill",function(){
+                return  getColor(colors[i],1);});
+              //tooltip
+            circles.on("mouseover", function(d) {
+                var elem = d3.select(this),
+                   parent = d3.select(this.parentNode);
+
+              //highlight path
+                var path = parent.selectAll("path");
+                path.style("stroke-width", "2.5px");
+
+              //highlight node
+                elem.attr("r", "5");
+                parent.append("circle")
+                  .attr("id", "shadow")
+                  .attr("cx", elem.attr("cx"))
+                  .attr("cy", elem.attr("cy"))
+                  .attr("r", "9")
+                  .attr("stroke", getColor(colors[i],0.2))
+                  .attr("stroke-width", "3")
+                  .attr("fill","none");
+
+              //tooltip
+                div.transition()
+                  .duration(200)
+                  .style("opacity", 0.9);
+                div.html(
+                  formatDate(d.date) + "<br/>" +
+                  formatTime(d.date) + "<br/><strong>" +
+                  paramNames[i] + ": " + d.value + "</strong>")
+                  .style("left", d3.event.pageX - (20 +
+                    parseFloat(elem.attr("cx") / width * 40)) + "px")
+                  .style("top", (d3.event.pageY - 65) + "px");
+                div.style("border-color", function(){return  getColor(colors[i],0.3);});
+              })
+              .on("mouseout", function() {
+                var elem = d3.select(this),
+                  parent = d3.select(this.parentNode);
+
+                var path = parent.selectAll("path");
+                path.style("stroke-width", "1.5px");
+
+                // remove highlight of node
+                elem.attr("r", "3");
+                d3.select("#shadow").remove();
+                // hide tooltip
+                div.transition()
+                  .duration(500)
+                  .style("opacity", 0);
+              });
+          });
+
+          //var legendRectSize = 18;
+          //var legendSpacing = 4;
           //
-          //    //highlight path
-          //      var path = parent.selectAll("path");
-          //      path.style("stroke-width", "2.5px");
+          //var legendGroup = g.append("g")
+          //  .attr("transform", "translate(100,"+(height+20)+")");
           //
-          //    //highlight node
-          //      elem.attr("r", "5");
-          //      parent.append("circle")
-          //        .attr("id", "shadow")
-          //        .attr("cx", elem.attr("cx"))
-          //        .attr("cy", elem.attr("cy"))
-          //        .attr("r", "9")
-          //        .attr("stroke", getRGBA(colors[i],0.2))
-          //        .attr("stroke-width", "3")
-          //        .attr("fill","none");
-          //
-          //    //tooltip
-          //      div.transition()
-          //        .duration(200)
-          //        .style("opacity", 0.9);
-          //      div.html(
-          //        formatDate(d.date) + "<br/>" +
-          //        formatTime(d.date) + "<br/><strong>" +
-          //        paramNames[i] + ": " + d.value + "</strong>")
-          //        .style("left", d3.event.pageX - (20 +
-          //          parseFloat(elem.attr("cx") / width * 40)) + "px")
-          //        .style("top", (d3.event.pageY - 65) + "px");
-          //      div.style("border-color", function(){return  getRGBA(colors[i],0.3);});
-          //    })
-          //    .on("mouseout", function() {
-          //      var elem = d3.select(this),
-          //        parent = d3.select(this.parentNode);
-          //
-          //      var path = parent.selectAll("path");
-          //      path.style("stroke-width", "1.5px");
-          //
-          //      // remove highlight of node
-          //      elem.attr("r", "3");
-          //      d3.select("#shadow").remove();
-          //      // hide tooltip
-          //      div.transition()
-          //        .duration(500)
-          //        .style("opacity", 0);
-          //    });
-          //});
+          //var legend = legendGroup.selectAll('.legend')
+          //  .data(lineDataSets)
+          //  .enter()
+          //  .append('g')
+          //  .attr('class', 'legend')
+          //  .attr('transform', function(d, i) {
+          //    var height = legendRectSize + legendSpacing;
+          //    var offset =  height * lineDataSets.length / 2;
+          //    var horz = -2 * legendRectSize;
+          //    var vert = i * height - offset;
+          //    return 'translate(' + horz + ',' + vert + ')';
+          //  });
+          //legend.append('rect')
+          //  .attr('width', legendRectSize)
+          //  .attr('height', legendRectSize)
+          //  .style('fill', function(d,i) { return getColor(colors[i],1);})
+          //  .style('stroke', function(d,i) { return getColor(colors[i],1);});
 
-
-          var legendGroup = g.append("g")
-            .attr("transform", "translate(100,"+(height+20)+")");
-
-          var legend = legendGroup.selectAll('.legend')
-            .data(data.columns.slice(1).reverse())
-            .enter().append("g")
-            .attr("class", "legend")
-            .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; })
-            .style("font", "10px sans-serif");
-
-          legend.append("rect")
-            .attr("x", width - 18)
-            .attr("width", 18)
-            .attr("height", 18)
-            .attr("fill", z);
-
-          legend.append("text")
-            .attr("x", width - 24)
-            .attr("y", 9)
-            .attr("dy", ".35em")
-            .attr("text-anchor", "end")
-            .text(function(d) { return d; });
-
-        }
-
-        function getRGBA(color,alpha){
-          if(color.length === 7){
-            var r = parseInt(color.substr(1,2),16);
-            var g = parseInt(color.substr(3,2),16);
-            var b = parseInt(color.substr(5,2),16);
-            return 'rgba('+r+','+g+','+b+','+alpha+')' ;
-          }
         }
       }
     };
