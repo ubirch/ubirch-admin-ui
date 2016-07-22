@@ -25,14 +25,6 @@
   stroke-linecap: round;
 }
 
-.rect {
-  z-index: 100;
-}
-
-#shadow {
-  z-index: 1;
-}
-
 div.tooltip {
   position: absolute;
   text-align: center;

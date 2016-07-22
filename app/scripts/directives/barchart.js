@@ -89,11 +89,11 @@ angular.module('ubirchAdminCrudApp')
               //highlight
               parent.append("rect")
                 .attr("id", "shadow")
-                .attr("x", this.x.baseVal.value - 2)
-                .attr("y", this.y.baseVal.value - 2)
-                .attr("width", this.width.baseVal.value + 4)
-                .attr("height", this.height.baseVal.value + 4)
-                .attr("fill", function(){return  getRGBA(z(param),0.3);});
+                .attr("x", this.x.baseVal.value - 3)
+                .attr("y", this.y.baseVal.value - 3)
+                .attr("width", this.width.baseVal.value + 6)
+                .attr("height", this.height.baseVal.value + 6)
+                .attr("style", function(){return "fill: none; stroke-width: 2; stroke: " + getRGBA(z(param),0.3);});
 
               //tooltip
               div.transition()
