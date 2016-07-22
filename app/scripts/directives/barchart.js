@@ -22,6 +22,8 @@ angular.module('ubirchAdminCrudApp')
           var chartData = angular.fromJson(attrs.chartData).hits.hits;
 
           var parseDate = d3.utcParse("%Y-%m-%dT%H:%M:%SZ"),
+            formatDate = d3.timeFormat("%d.%B %y"),
+            formatTime = d3.timeFormat("%H:%M:%S"),
             formatChangeX = d3.timeFormat("%d.%B %y %H:%M"),
             formatChangeY = function(x) { return x/1000 + "K";};
 
@@ -51,14 +53,19 @@ angular.module('ubirchAdminCrudApp')
 
           var y = d3.scaleLinear()
             .range([height, 0])
-            .domain([
-              d3.min(data, function(d) { return d3.min([d.r, d.g, d.b]);}),
-              d3.max(data, function(d) { return d3.max([d.r, d.g, d.b]);})
+            .domain([0,
+              d3.max(data, function(d) {
+                return d.r+d.g+d.b;})
             ]);
 
           var z = d3.scaleOrdinal()
             .range(["#FF0000", "#00FF00", "#0000FF"])
             .domain(Object.keys(data[0]).slice(1));
+
+          ////tooltip
+          var div = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
 
           var stack = d3.stack();
 
@@ -73,7 +80,57 @@ angular.module('ubirchAdminCrudApp')
             .attr("x", function(d) { return x(d.data.date); })
             .attr("y", function(d) { return y(d[1]); })
             .attr("height", function(d) { return y(d[0]) - y(d[1]); })
-            .attr("width", "5");
+            .attr("width", "5")
+          //tooltip
+            .on("mouseover", function(d) {
+              var elem = d3.select(this),
+                parent = d3.select(this.parentNode),
+                param = parent.data()[0].key;
+              //
+              ////highlight path
+              //var path = parent.selectAll("path");
+              //path.style("stroke-width", "2.5px");
+              //
+              ////highlight node
+              //elem.attr("r", "5");
+              //parent.append("circle")
+              //  .attr("id", "shadow")
+              //  .attr("cx", elem.attr("cx"))
+              //  .attr("cy", elem.attr("cy"))
+              //  .attr("r", "9")
+              //  .attr("stroke", getRGBA(z(param),0.2))
+              //  .attr("stroke-width", "3")
+              //  .attr("fill","none");
+
+              //tooltip
+              div.transition()
+                .duration(200)
+                .style("opacity", 0.9);
+              div.html(
+                  formatDate(d.data.date) + "<br/>" +
+                  formatTime(d.data.date) + "<br/>" +
+                  "<strong>" + param + ": " + d[1] + "</strong>")
+                .style("left", (d3.event.pageX - (20 +
+                parseFloat(this.x.baseVal.value / width * 40)) + "px"))
+                .style("top", (d3.event.pageY - 65) + "px");
+              div.style("border-color", function(){return  getRGBA(z(param),0.3);});
+            })
+            .on("mouseout", function() {
+              //var elem = d3.select(this),
+              //  parent = d3.select(this.parentNode);
+              //
+              //var path = parent.selectAll("path");
+              //path.style("stroke-width", "1.5px");
+              //
+              //// remove highlight of node
+              //elem.attr("r", "3");
+              //d3.select("#shadow").remove();
+              //// hide tooltip
+              div.transition()
+                .duration(500)
+                .style("opacity", 0);
+            });
+
 
           g.append("g")
             .attr("class", "axis axis--y")
@@ -123,6 +180,15 @@ angular.module('ubirchAdminCrudApp')
             .attr("dy", ".35em")
             .attr("text-anchor", "end")
             .text(function(d) { return d; });
+        }
+
+        function getRGBA(color,alpha){
+          if(color.length === 7){
+            var r = parseInt(color.substr(1,2),16);
+            var g = parseInt(color.substr(3,2),16);
+            var b = parseInt(color.substr(5,2),16);
+            return 'rgba('+r+','+g+','+b+','+alpha+')' ;
+          }
         }
 
       }
