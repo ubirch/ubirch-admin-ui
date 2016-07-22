@@ -83,24 +83,17 @@ angular.module('ubirchAdminCrudApp')
             .attr("width", "5")
           //tooltip
             .on("mouseover", function(d) {
-              var elem = d3.select(this),
-                parent = d3.select(this.parentNode),
+              var parent = d3.select(this.parentNode),
                 param = parent.data()[0].key;
-              //
-              ////highlight path
-              //var path = parent.selectAll("path");
-              //path.style("stroke-width", "2.5px");
-              //
-              ////highlight node
-              //elem.attr("r", "5");
-              //parent.append("circle")
-              //  .attr("id", "shadow")
-              //  .attr("cx", elem.attr("cx"))
-              //  .attr("cy", elem.attr("cy"))
-              //  .attr("r", "9")
-              //  .attr("stroke", getRGBA(z(param),0.2))
-              //  .attr("stroke-width", "3")
-              //  .attr("fill","none");
+
+              //highlight
+              parent.append("rect")
+                .attr("id", "shadow")
+                .attr("x", this.x.baseVal.value - 2)
+                .attr("y", this.y.baseVal.value - 2)
+                .attr("width", this.width.baseVal.value + 4)
+                .attr("height", this.height.baseVal.value + 4)
+                .attr("fill", function(){return  getRGBA(z(param),0.3);});
 
               //tooltip
               div.transition()
@@ -116,16 +109,8 @@ angular.module('ubirchAdminCrudApp')
               div.style("border-color", function(){return  getRGBA(z(param),0.3);});
             })
             .on("mouseout", function() {
-              //var elem = d3.select(this),
-              //  parent = d3.select(this.parentNode);
-              //
-              //var path = parent.selectAll("path");
-              //path.style("stroke-width", "1.5px");
-              //
-              //// remove highlight of node
-              //elem.attr("r", "3");
-              //d3.select("#shadow").remove();
-              //// hide tooltip
+              d3.select("#shadow").remove();
+              // hide tooltip
               div.transition()
                 .duration(500)
                 .style("opacity", 0);
