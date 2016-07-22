@@ -7,7 +7,7 @@
  * # chart
  */
 angular.module('ubirchAdminCrudApp')
-  .directive('linechart',[ '$window', function ($window) {
+  .directive('chart',[ '$window', function ($window) {
     return {
       restrict: 'E',
       replace: true,
