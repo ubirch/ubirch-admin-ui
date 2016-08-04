@@ -33,6 +33,10 @@ angular.module('ubirchAdminCrudApp')
           $location.url('/devices-list');
         };
 
+        $scope.loadDevicesMap = function () {
+          $location.url('/devices-map');
+        };
+
         $scope.loadAbout = function () {
           $location.url('/about');
         };

@@ -43,6 +43,12 @@ angular
         controller: 'DevicesListCtrl',
         controllerAs: 'devicesList'
       })
+      .state('devices-map', {
+        url: '/devices-map',
+        templateUrl: '../views/devices-map.html',
+        controller: 'DevicesMapCtrl',
+        controllerAs: 'devicesMap'
+      })
       .state('device-crud', {
         url: '/device-crud/:deviceid?',
         templateUrl: '../views/device-crud.html',
