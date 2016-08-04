@@ -35,6 +35,8 @@ module.exports = function(config) {
       'bower_components/angular-xeditable/dist/js/xeditable.js',
       'bower_components/angular-ui-router/release/angular-ui-router.js',
       'bower_components/d3/d3.js',
+      'bower_components/leaflet/dist/leaflet-src.js',
+      'bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',

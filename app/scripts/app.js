@@ -17,7 +17,8 @@ angular
     'ngTouch',
     'xeditable',
     'pascalprecht.translate',
-    'ui.router'
+    'ui.router',
+    'leaflet-directive'
   ])
   .config(function ($stateProvider, $urlRouterProvider, $translateProvider) {
 

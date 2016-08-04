@@ -1,6 +1,7 @@
 {
-  "DEVICES_LIST_HEADLINE" : "device overview",
+  "DEVICES_LIST_HEADLINE" : "devices overview",
   "DEVICE_OVERVIEW_HEADLINE" : "device details of",
+  "DEVICES_MAP_HEADLINE" : "devices overview map",
   "CANCEL": "cancel",
   "SAVE": "save",
   "SAVE_CHANGES": "save changes",

@@ -1,1 +1,15 @@
-<p>This is the devices-map view.</p>
+<div class="container">
+
+  <!-- DeviceList -->
+  <div class="area-static">
+    <div class="area-header">
+      {{ 'DEVICES_MAP_HEADLINE' | translate }}
+    </div>
+  </div>
+  <form>
+    Latitude : <input type="number" step="any" ng-model="center.lat">
+    Longitude : <input type="number" step="any" ng-model="center.lng">
+    Zoom : <input type="number" step="any" ng-model="center.zoom">
+  </form>
+  <leaflet lf-center="center" height="480px" width="640px"></leaflet>
+</div>
