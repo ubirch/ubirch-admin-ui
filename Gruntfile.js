@@ -376,6 +376,16 @@ module.exports = function (grunt) {
           cwd: 'bower_components/bootstrap/dist',
           src: 'fonts/*',
           dest: '<%= yeoman.dist %>'
+        }, {
+          expand: true,
+          cwd: 'bower_components/Leaflet.awesome-markers/dist',
+          src: 'images/*',
+          dest: '<%= yeoman.dist %>/styles'
+        }, {
+          expand: true,
+          cwd: 'bower_components/Ionicons',
+          src: 'fonts/*',
+          dest: '<%= yeoman.dist %>'
         }]
       },
       styles: {
