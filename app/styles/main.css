@@ -75,6 +75,10 @@ body {
   min-width: 50px;
 }
 
+.awesome-marker i {
+  font-size: 24px;
+  margin-top: 8px;
+}
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
