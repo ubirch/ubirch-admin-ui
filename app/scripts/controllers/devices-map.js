@@ -19,7 +19,7 @@ angular.module('ubirchAdminCrudApp')
         ferzensMarker: {
           lat: 52.50466320614026,
           lng: 13.480031490325928,
-          message: "Ferzens live here!",
+          message: "Ferzens live here!<a href='http://www.google.de'><br>google</a>!",
           focus: true,
           draggable: false
         },
