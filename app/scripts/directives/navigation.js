@@ -16,7 +16,7 @@ angular.module('ubirchAdminCrudApp')
         // highlighting
         $scope.navClass = function (page) {
 
-          var currentRoute = $location.path().substring(1) || 'home';
+          var currentRoute = $location.path().substring(1) || 'devices-list';
 
           if (currentRoute.indexOf('device-details') === 0){
             currentRoute = 'device-details';
@@ -25,11 +25,7 @@ angular.module('ubirchAdminCrudApp')
           return page === currentRoute ? 'active' : '';
         };
 
-        $scope.loadHome = function () {
-          $location.url('/home');
-        };
-
-        $scope.loadDeviceslist = function () {
+         $scope.loadDeviceslist = function () {
           $location.url('/devices-list');
         };
 

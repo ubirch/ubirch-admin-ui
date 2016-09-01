@@ -17,19 +17,6 @@ body {
   padding-right: 15px;
 }
 
-/* Custom page header */
-.header {
-  border-bottom: 1px solid #e5e5e5;
-  margin-bottom: 10px;
-}
-/* Make the masthead heading the same height as the navigation */
-.header h3 {
-  margin-top: 0;
-  margin-bottom: 0;
-  line-height: 40px;
-  padding-bottom: 19px;
-}
-
 /* Custom page footer */
 .footer {
   padding-top: 19px;
@@ -37,8 +24,18 @@ body {
   border-top: 1px solid #e5e5e5;
 }
 
+.active {
+  border-bottom-style: solid;
+  border-bottom-color: #9393EC;
+}
+
 .area-header {
-  font-size: 2em;
+  border-bottom: 1px solid #BDBDBD;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+  margin-top: 0;
+  font-size: 1.5em;
+  color: #757575;
 }
 
 .container-narrow > hr {

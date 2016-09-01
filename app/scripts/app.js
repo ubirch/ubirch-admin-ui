@@ -56,12 +56,6 @@ angular
         controller: 'DeviceCrudCtrl',
         controllerAs: 'deviceCrud'
       })
-      .state('home', {
-        url: '/',
-        templateUrl: '../views/main.html',
-        controller: 'MainCtrl',
-        controllerAs: 'main'
-      })
       .state('about', {
         url: '/about',
         templateUrl: '../views/about.html',
@@ -69,5 +63,5 @@ angular
         controllerAs: 'about'
       });
 
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('devices-list');
   });
