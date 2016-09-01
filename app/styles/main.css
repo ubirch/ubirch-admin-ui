@@ -56,6 +56,13 @@ body {
   padding: 14px 24px;
 }
 
+.btn-primary {
+  color: #fff;
+  background-color: #555;
+  border-color: #555;
+  border-radius: 2px;
+}
+
 /* Supporting marketing content */
 .marketing {
   margin: 40px 0;
@@ -75,6 +82,26 @@ body {
 .awesome-marker i {
   font-size: 24px;
   margin-top: 8px;
+}
+
+.sensor-type-icon {
+  font-size: 24px;
+}
+
+.grey {
+  color: #757575;
+}
+
+.red {
+  color: #D32F2F;
+}
+
+.yellow {
+  color: #FBC02D;
+}
+
+.green {
+  color: #689F38;
 }
 
 /* Responsive: Portrait tablets and up */

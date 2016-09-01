@@ -159,8 +159,8 @@ app.controller('DevicesListCtrl', [ '$scope', '$location', function ($scope, $lo
         "subscriptions": [],
         "tags": [      "ubirch#0",       "sensor"    ],
         "updated": "2016-04-29T13:48:46.405Z",
-        "deviceLastUpdated": "2016-04-29T13:48:46.405Z",
-        "avatarLastUpdated": "2016-04-29T13:48:46.405Z",
+        "deviceLastUpdated": "2016-09-01T13:48:46.405Z",
+        "avatarLastUpdated": "2016-09-01T13:48:46.405Z",
         "syncState" : "insync",
         "avatarState": {
           "desired": {
@@ -186,6 +186,17 @@ app.controller('DevicesListCtrl', [ '$scope', '$location', function ($scope, $lo
       }
     ];
 
+  var d = new Date();
+  d.setHours(0);
+  d.setMinutes(0);
+  d.setSeconds(0);
+  $scope.today = d;
+
+  $scope.fromToday = function(date){
+    return new Date(date) >= $scope.today;
+  };
+
+
     $scope.openDeviceDetails = function (deviceId) {
       $location.url( "device-details/" + deviceId);
     };
@@ -200,14 +211,42 @@ app.controller('DevicesListCtrl', [ '$scope', '$location', function ($scope, $lo
 
       switch (deviceType) {
         case "lightsSensor":
-          iconStr = "glyphicon glyphicon-lamp";
+          iconStr = "ion-ios-lightbulb";
           break;
         case "temperaturesSensor":
-          iconStr = "glyphicon glyphicon-fire";
+          iconStr = "ion-thermometer";
+          break;
+        case "noisesSensor":
+          iconStr = "ion-mic-c";
+          break;
+        case "wetnessSensor":
+          iconStr = "ion-waterdrop";
           break;
         default:
-          iconStr = "glyphicon glyphicon-retweet";
+          iconStr = "ion-radio-waves";
       }
       return iconStr;
+    };
+
+  // TODO: change dummy and get real trustwothness state!!
+    $scope.getDeviceTrustColor = function(device){
+      var colorClassStr;
+      switch (device.deviceType) {
+        case "lightsSensor":
+          colorClassStr = "green";
+          break;
+        case "temperaturesSensor":
+          colorClassStr = "yellow";
+          break;
+        case "noisesSensor":
+          colorClassStr = "red";
+          break;
+        case "wetnessSensor":
+          colorClassStr = "yellow";
+          break;
+        default:
+          colorClassStr = "grey";
+      }
+      return colorClassStr;
     };
   }]);
