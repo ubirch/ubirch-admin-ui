@@ -7,8 +7,22 @@
 
 body {
   padding: 0;
+  font-size: 14px;
 }
 
+h4, .h4 {
+  font-size: 1em;
+}
+
+.editable-click, a.editable-click {
+  text-decoration: none;
+  color: #58588e;
+  border-bottom: 0px;
+}
+
+a {
+  color: #58588e;
+}
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
 .marketing,
@@ -24,6 +38,25 @@ body {
   border-top: 1px solid #e5e5e5;
 }
 
+.area-tabs .nav.nav-tabs {
+  border-bottom: 0px;
+  margin-top: -10px;
+}
+
+.nav-tabs li.active {
+  border-bottom: 1px solid transparent;
+}
+
+.nav-tabs li.active a,  .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+  border: 1px solid #ddd;
+  border-radius: 0 0 10px 10px;
+  border-top: 3px solid #9393EC;
+}
+
+.nav-tabs > li > a {
+  padding: 8px 7px;
+}
+
 .active {
   border-bottom-style: solid;
   border-bottom-color: #9393EC;
@@ -34,7 +67,7 @@ body {
   padding-bottom: 5px;
   margin-bottom: 10px;
   margin-top: 0;
-  font-size: 1.5em;
+  font-size: 1.25em;
   color: #757575;
 }
 
@@ -108,8 +141,8 @@ body {
 @media screen and (min-width: 768px) {
   .container {
     max-width: 900px;
+    font-size: 1.2em;
   }
-
   /* Remove the padding we set earlier */
   .header,
   .marketing,
@@ -124,5 +157,11 @@ body {
   /* Remove the bottom border on the jumbotron for visual effect */
   .jumbotron {
     border-bottom: 0;
+  }
+  .area-header {
+    font-size: 1.5em;
+  }
+  .nav-tabs > li > a {
+    padding: 10px 15px;
   }
 }

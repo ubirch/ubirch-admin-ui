@@ -1,18 +1,19 @@
 <div class="container">
 
-  <!-- DeviceList -->
-  <div class="area-static">
-    <div class="area-header">
+<!-- device details -->
+  <div class="area-header row">
+    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
       {{ 'DEVICE_OVERVIEW_HEADLINE' | translate }}
     </div>
-    <div class="h4">
-      <span class="{{getDeviceTypeIcon(device.deviceType)}}" aria-hidden="true"></span>
-      {{device.deviceType ? device.deviceType : "Sensor"}}: {{device.deviceName}}
+    <div class="col-lg-9 col-md-9 col-sm-8 col-xs-8 h4">
+        <span class="{{getDeviceTypeIcon(device.deviceType)}}" aria-hidden="true"></span>
+        {{device.deviceType ? device.deviceType : "Sensor"}}:<br> {{device.deviceName}}
     </div>
-    <div class="">
+  </div>
+  <div class="area-tabs">
       <ul class="nav nav-tabs">
         <li ng-class="{active: activeTab == 'state'}">
-          <a ng-click="activeTab = 'state'">state</a>
+          <a ng-click="activeTab = 'state'">sync state</a>
         </li>
         <li ng-class="{active: activeTab == 'history'}">
           <a ng-click="activeTab = 'history'">history</a>
@@ -37,7 +38,6 @@
           </div>
         </div>
       </div>
-    </div>
   </div>
 
 
