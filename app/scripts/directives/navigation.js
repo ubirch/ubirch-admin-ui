@@ -19,7 +19,7 @@ angular.module('ubirchAdminCrudApp')
           var currentRoute = $location.path().substring(1) || 'devices-list';
 
           if (currentRoute.indexOf('device-details') === 0){
-            currentRoute = 'device-details';
+            currentRoute = 'devices-list';
           }
 
           return page === currentRoute ? 'active' : '';
