@@ -6,8 +6,8 @@
       {{ 'DEVICE_OVERVIEW_HEADLINE' | translate }}
     </div>
     <div class="col-lg-9 col-md-9 col-sm-8 col-xs-8 h4">
-        <span class="{{getDeviceTypeIcon(device.deviceType)}}" aria-hidden="true"></span>
-        {{device.deviceType ? device.deviceType : "Sensor"}}:<br> {{device.deviceName}}
+      <devicetypeicon device-type='{{device.deviceType}}'></devicetypeicon>
+      {{device.deviceType ? device.deviceType : "Sensor"}}:<br> {{device.deviceName}}
     </div>
   </div>
   <div class="area-tabs">

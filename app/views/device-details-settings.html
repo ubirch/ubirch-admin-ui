@@ -19,7 +19,7 @@
         <div class="dropdown">
           <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
                   aria-haspopup="true" aria-expanded="true">
-            <span class="{{getDeviceTypeIcon(device.deviceType)}}" aria-hidden="true"></span>
+            <devicetypeicon device-type='{{device.deviceType}}'></devicetypeicon>
             {{device.deviceType ? device.deviceType : "Sensor"}}
             <span class="caret"></span>
           </button>

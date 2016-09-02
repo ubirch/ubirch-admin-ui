@@ -135,22 +135,6 @@ angular.module('ubirchAdminCrudApp')
       $scope.device.deviceType = type;
     };
 
-    $scope.getDeviceTypeIcon = function(deviceType){
-      var iconStr;
-
-      switch (deviceType) {
-        case "lightsSensor":
-          iconStr = "glyphicon glyphicon-lamp";
-          break;
-        case "temperaturesSensor":
-          iconStr = "glyphicon glyphicon-fire";
-          break;
-        default:
-          iconStr = "glyphicon glyphicon-retweet";
-      }
-      return iconStr;
-    };
-
     /**
        * For history of device data
      */

@@ -205,29 +205,6 @@ app.controller('DevicesListCtrl', [ '$scope', '$location', function ($scope, $lo
       $location.url( "device-crud");
     };
 
-
-    $scope.getDeviceTypeIcon = function(deviceType){
-      var iconStr;
-
-      switch (deviceType) {
-        case "lightsSensor":
-          iconStr = "ion-ios-lightbulb";
-          break;
-        case "temperaturesSensor":
-          iconStr = "ion-thermometer";
-          break;
-        case "noisesSensor":
-          iconStr = "ion-mic-c";
-          break;
-        case "wetnessSensor":
-          iconStr = "ion-waterdrop";
-          break;
-        default:
-          iconStr = "ion-radio-waves";
-      }
-      return iconStr;
-    };
-
   // TODO: change dummy and get real trustwothness state!!
     $scope.getDeviceTrustColor = function(device){
       var colorClassStr;
