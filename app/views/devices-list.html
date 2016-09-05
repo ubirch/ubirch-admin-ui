@@ -30,15 +30,14 @@
       <tbody>
       <tr ng-repeat="device in devices | filter:search" ng-click="openDeviceDetails(device.deviceId)" title="show device details">
         <td>
-          <devicetypeicon device-type='{{device.deviceType}}'></devicetypeicon>
+          <devicetype device-type='{{device.deviceType}}'></devicetype>
         </td>
         <th scope="row">{{device.deviceName}}</th>
         <td>
-          <truthworthicon device="{{device}}"></truthworthicon>
+          <truthworth device="{{device}}"></truthworth>
         </td>
         <td>
-          <i ng-show="device.syncState === 'insync'" class="ion-happy-outline"></i>
-          <i ng-show="device.syncState === 'outofsync'" class="ion-sad red"></i>
+          <syncstate device="{{device}}"></syncstate>
         </td>
         <td ng-if="!fromToday(device.deviceLastUpdated)">{{device.deviceLastUpdated | date:'dd.MM.yy HH:mm:ss'}}</td>
         <td ng-if="fromToday(device.deviceLastUpdated)">{{device.deviceLastUpdated | date:'HH:mm:ss'}}</td>

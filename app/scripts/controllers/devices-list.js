@@ -35,7 +35,6 @@ app.controller('DevicesListCtrl', [ '$scope', '$location', function ($scope, $lo
         "updated": "2016-04-29T13:48:46.405Z",
         "deviceLastUpdated": "2016-04-29T13:48:46.405Z",
         "avatarLastUpdated": "2016-04-29T13:48:46.405Z",
-        "syncState" : "insync",
         "avatarState": {
           "desired": {
             "i": 1800,
@@ -119,7 +118,7 @@ app.controller('DevicesListCtrl', [ '$scope', '$location', function ($scope, $lo
         "updated": "2016-04-29T13:48:46.405Z",
         "deviceLastUpdated": "2016-04-29T13:48:46.405Z",
         "avatarLastUpdated": "2016-04-29T13:48:46.405Z",
-        "syncState" : "insync",
+        "syncState" : "outofsync",
         "avatarState": {
           "desired": {
             "i": 1800,
@@ -159,8 +158,8 @@ app.controller('DevicesListCtrl', [ '$scope', '$location', function ($scope, $lo
         "subscriptions": [],
         "tags": [      "ubirch#0",       "sensor"    ],
         "updated": "2016-04-29T13:48:46.405Z",
-        "deviceLastUpdated": "2016-09-01T13:48:46.405Z",
-        "avatarLastUpdated": "2016-09-01T13:48:46.405Z",
+        "deviceLastUpdated": "2016-09-05T13:48:46.405Z",
+        "avatarLastUpdated": "2016-09-05T13:48:46.405Z",
         "syncState" : "insync",
         "avatarState": {
           "desired": {

@@ -19,14 +19,14 @@
         <div class="dropdown">
           <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
                   aria-haspopup="true" aria-expanded="true">
-            <devicetypeicon device-type='{{device.deviceType}}'></devicetypeicon>
+            <devicetype device-type='{{device.deviceType}}'></devicetype>
             {{device.deviceType ? device.deviceType : "Sensor"}}
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
             <li ng-repeat="(typeNo,type) in deviceTypes">
               <a href="" ng-click="selectType(type)">
-                <span class="{{getDeviceTypeIcon(type)}}" aria-hidden="true"></span>
+                <devicetype device-type='{{type}}'></devicetype>
                 {{type}}
               </a></li>
             </li>

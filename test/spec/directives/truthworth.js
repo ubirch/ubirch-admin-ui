@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Directive: devicetypeicon', function () {
+describe('Directive: truthworth', function () {
 
   // load the directive's module
   beforeEach(module('ubirchAdminCrudApp'));
@@ -13,8 +13,8 @@ describe('Directive: devicetypeicon', function () {
   }));
 
   it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<devicetypeicon></devicetypeicon>');
+    element = angular.element('<truthworth></truthworth>');
     element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the devicetypeicon directive');
+    expect(element.text()).toBe('this is the truthworth directive');
   }));
 });

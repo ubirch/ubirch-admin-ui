@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Directive: truthworthicon', function () {
+describe('Directive: syncstate', function () {
 
   // load the directive's module
   beforeEach(module('ubirchAdminCrudApp'));
@@ -13,8 +13,8 @@ describe('Directive: truthworthicon', function () {
   }));
 
   it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<truthworthicon></truthworthicon>');
+    element = angular.element('<syncstate></syncstate>');
     element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the truthworthicon directive');
+    expect(element.text()).toBe('this is the syncstate directive');
   }));
 });

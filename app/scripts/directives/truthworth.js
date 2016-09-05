@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc directive
- * @name ubirchAdminCrudApp.directive:truthworthicon
+ * @name ubirchAdminCrudApp.directive:truthworth
  * @description
- * # truthworthicon
+ * # truthworth
  */
 angular.module('ubirchAdminCrudApp')
-  .directive('truthworthicon', function () {
+  .directive('truthworth', function () {
     return {
       template: '<i class="sensor-trustworth-icon {{colorClassStr}} ion-record"></i>',
       restrict: 'E',
@@ -37,8 +37,6 @@ angular.module('ubirchAdminCrudApp')
           default:
             scope.colorClassStr = "grey";
         }
-        return scope.colorClassStr;
-
       }
     };
   });

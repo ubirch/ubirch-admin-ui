@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc directive
- * @name ubirchAdminCrudApp.directive:devicetypeicon
+ * @name ubirchAdminCrudApp.directive:devicetype
  * @description
- * # devicetypeicon
+ * # devicetype
  */
 angular.module('ubirchAdminCrudApp')
-  .directive('devicetypeicon', function () {
+  .directive('devicetype', function () {
     return {
       template: '<i class="sensor-type-icon {{iconStr}}"></i>',
       restrict: 'E',

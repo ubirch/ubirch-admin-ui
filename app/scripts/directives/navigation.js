@@ -9,7 +9,7 @@
 angular.module('ubirchAdminCrudApp')
   .directive('navigation', function () {
     return {
-      templateUrl: 'views/navigation.html',
+      templateUrl: 'views/directives/navigation.html',
       restrict: 'E',
       controllerAs: 'navCtrl',
       controller: ['$scope', '$location', function ($scope, $location) {
