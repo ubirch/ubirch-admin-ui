@@ -39,8 +39,9 @@
         <td>
           <syncstate device="{{device}}"></syncstate>
         </td>
-        <td ng-if="!fromToday(device.deviceLastUpdated)">{{device.deviceLastUpdated | date:'dd.MM.yy HH:mm:ss'}}</td>
-        <td ng-if="fromToday(device.deviceLastUpdated)">{{device.deviceLastUpdated | date:'HH:mm:ss'}}</td>
+        <td>
+          <timestamp date="{{device.deviceLastUpdated}}"></timestamp>
+        </td>
       </tr>
       </tbody>
     </table>

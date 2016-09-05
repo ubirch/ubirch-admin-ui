@@ -1,0 +1,8 @@
+<div>
+  <span ng-if="!fromToday">
+    {{date | date:'dd.MM.yy HH:mm:ss'}}
+  </span>
+  <span ng-if="fromToday">
+    {{date | date:'HH:mm:ss'}}
+  </span>
+</div>
