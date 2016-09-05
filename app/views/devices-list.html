@@ -34,7 +34,7 @@
         </td>
         <th scope="row">{{device.deviceName}}</th>
         <td>
-          <i class="sensor-trustworth-icon {{getDeviceTrustColor(device)}} ion-record"></i>
+          <truthworthicon device="{{device}}"></truthworthicon>
         </td>
         <td>
           <i ng-show="device.syncState === 'insync'" class="ion-happy-outline"></i>

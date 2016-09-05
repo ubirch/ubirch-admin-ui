@@ -205,25 +205,4 @@ app.controller('DevicesListCtrl', [ '$scope', '$location', function ($scope, $lo
       $location.url( "device-crud");
     };
 
-  // TODO: change dummy and get real trustwothness state!!
-    $scope.getDeviceTrustColor = function(device){
-      var colorClassStr;
-      switch (device.deviceType) {
-        case "lightsSensor":
-          colorClassStr = "green";
-          break;
-        case "temperaturesSensor":
-          colorClassStr = "yellow";
-          break;
-        case "noisesSensor":
-          colorClassStr = "red";
-          break;
-        case "wetnessSensor":
-          colorClassStr = "yellow";
-          break;
-        default:
-          colorClassStr = "grey";
-      }
-      return colorClassStr;
-    };
   }]);
