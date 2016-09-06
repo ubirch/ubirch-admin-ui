@@ -8,19 +8,22 @@
  * Service in the ubirchAdminCrudApp.
  */
 angular.module('ubirchAdminCrudApp')
-  .service('DeviceMessage', ['$resource', 'constant', '$log', '$http', function ($resource, constant, $log, $http) {
+  .service('DeviceMessage', ['$resource', 'constant', '$log', function ($resource, constant, $log) {
 
     var url = constant.REST_ENDPOINT_URL + constant.UBIRCH_INDEX;
-
-//    $http.defaults.headers.common.Authorization = 'Basic ' + 'beatefiss:virtuoso-schism-shutout-demesne-zest';
-    $http.defaults.headers.common.Authorization = 'Basic ' + constant.CREDENTIALS;
 
     return {
       // http://search-ubirch-device-data-3bfmzb4qqzvbj6cwxvhxwnol6y.us-east-1.es.amazonaws.com/ubirch-device-data/d65f1582-5cd2-4f8c-8607-922ecc2b4b45/_search
 
       history: $resource(url + '/:deviceId' + '/_search',
-                    {deviceId: '@deviceId'}
-                ),
+                    {deviceId: '@deviceId'},
+                    {
+                      'save': {
+                        method: 'GET',
+                        headers: {'Authorization': 'Basic ' + constant.CREDENTIALS} //    $http.defaults.headers.common.Authorization = 'Basic ' + 'beatefiss:virtuoso-schism-shutout-demesne-zest';
+                      }
+                    }
+                  ),
 
       getHistory: function(deviceId, numOfMessages){
         var query = {
