@@ -18,7 +18,8 @@ angular
     'xeditable',
     'pascalprecht.translate',
     'ui.router',
-    'leaflet-directive'
+    'leaflet-directive',
+    'ui.bootstrap'
   ])
   .config(function ($stateProvider, $urlRouterProvider, $translateProvider) {
 

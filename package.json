@@ -37,8 +37,5 @@
   },
   "scripts": {
     "test": "karma start test/karma.conf.js"
-  },
-  "dependencies": {
-    "angular-ui-bootstrap": "^2.1.3"
   }
 }
