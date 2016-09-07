@@ -11,9 +11,11 @@ angular.module('ubirchAdminCrudApp')
     return {
       templateUrl: 'views/directives/messagecontent.html',
       restrict: 'E',
-      scope: {message: '@'
+      scope: {message: '@',
+        deviceType: '@'
       },
       link: function postLink(scope, element, attrs) {
+        scope.type = attrs.deviceType;
         scope.mess = angular.fromJson(attrs.message);
       }
     };

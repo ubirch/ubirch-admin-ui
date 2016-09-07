@@ -1,18 +1,10 @@
-<div>a: {{mess.a}}</div>
-<div>s: {{mess.s}}</div>
-<div>version: {{mess.v}}</div>
-<!--
-<div ng-switch="activeTab">
+<div ng-switch="type">
   <div
-    ng-switch-when="state">
-    <ng-include src="'views/device-details-state.html'"></ng-include>
+    ng-switch-when="lightsSensor">
+    <ng-include src="'views/devicetypes/messages/lightssensor.html'"></ng-include>
   </div>
-  <div ng-switch-when="history">
-    <ng-include src="'views/device-details-history.html'"></ng-include>
-  </div>
+
   <div ng-switch-default>
-    <ng-include src="'views/device-details-settings.html'"></ng-include>
+    <ng-include src="'views/devicetypes/messages/default.html'"></ng-include>
   </div>
 </div>
-
--->

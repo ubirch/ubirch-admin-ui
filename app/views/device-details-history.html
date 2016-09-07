@@ -13,44 +13,16 @@
           <uib-accordion-heading>
             <div class="row">
               <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"><timestamp date="{{message._source.timestamp}}"></timestamp></div>
-              <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8"><messageheader message="{{message._source.deviceMessage}}"></messageheader></div>
+              <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8"><messageheader device-type="{{message._source.deviceType}}" message="{{message._source.deviceMessage}}"></messageheader></div>
               <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                 <blockchain message='{{message._source.deviceMessage}}'></blockchain>
                 <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
               </div>
             </div>
           </uib-accordion-heading>
-          <messagecontent message="{{message._source.deviceMessage}}"></messagecontent>
+          <messagecontent device-type="{{message._source.deviceType}}" message="{{message._source.deviceMessage}}"></messagecontent>
         </div>
       </uib-accordion>
     </div>
-
-
-
-
-    <table class="table table-hover">
-      <thead>
-      <tr>
-        <th>Timestamp</th>
-        <th>v</th>
-        <th>a</th>
-        <th>s</th>
-        <th>p</th>
-        <th></th>
-      </tr>
-      </thead>
-      <tbody class="message-list">
-      <tr ng-if="messages.hits && messages.hits.total > 0" ng-repeat="message in messages.hits.hits">
-        <th scope="row"><timestamp date="{{message._source.timestamp}}"></timestamp></th>
-        <td>{{message._source.deviceMessage.v}}</td>
-        <td>{{message._source.deviceMessage.a}}</td>
-        <td>{{message._source.deviceMessage.s}}</td>
-        <td>{{message._source.deviceMessage.p}}</td>
-        <td>
-          <blockchain message="{{message._source.deviceMessage}}"></blockchain>
-        </td>
-      </tr>
-      </tbody>
-    </table>
   </div>
 </div>
