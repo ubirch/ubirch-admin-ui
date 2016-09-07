@@ -310,7 +310,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= yeoman.dist %>',
-          src: ['*.html','views/{,*/}*.html'],
+          src: ['*.html','views/{,*/}{,*/}*.html'],
           dest: '<%= yeoman.dist %>'
         }]
       }
@@ -324,7 +324,7 @@ module.exports = function (grunt) {
           usemin: 'scripts/scripts.js'
         },
         cwd: '<%= yeoman.app %>',
-        src: 'views/{,*/}*.html',
+        src: 'views/{,*/}{,*/}*.html',
         dest: '.tmp/templateCache.js'
       }
     },
@@ -361,7 +361,7 @@ module.exports = function (grunt) {
             '*.{ico,png,txt}',
             '.htaccess',
             '*.html',
-            'views/{,*/}*.html',
+            'views/{,*/}{,*/}*.html',
             'images/{,*/}*.{webp}',
             'styles/fonts/{,*/}*.*',
             'i18n/{,*/}*.json'
