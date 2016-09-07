@@ -8,8 +8,9 @@
 -->
   <div class="form-group">
     <div class="message-list">
-      <uib-accordion ng-if="messages.hits && messages.hits.total > 0" ng-repeat="message in messages.hits.hits">
-        <div uib-accordion-group class="panel-default">
+
+      <uib-accordion>
+        <div uib-accordion-group class="panel-default"  ng-if="messages.hits && messages.hits.total > 0" ng-repeat="message in messages.hits.hits"  is-open="status.open">
           <uib-accordion-heading>
             <div class="row">
               <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"><timestamp date="{{message._source.timestamp}}"></timestamp></div>
@@ -23,6 +24,7 @@
           <messagecontent device-type="{{message._source.deviceType}}" message="{{message._source.deviceMessage}}"></messagecontent>
         </div>
       </uib-accordion>
+
     </div>
   </div>
 </div>
