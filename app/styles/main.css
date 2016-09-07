@@ -112,6 +112,10 @@ a {
   min-width: 50px;
 }
 
+.message-list a {
+  font-size: 0.8em;
+}
+
 .awesome-marker i {
   font-size: 24px;
   margin-top: 8px;

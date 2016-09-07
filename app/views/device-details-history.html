@@ -7,16 +7,22 @@
   </div>
 -->
   <div class="form-group">
-    <div>
-      <accordion-group is-open="isopen">
-
-        <accordion-heading>
-          I can have markup, too! <i class="glyphicon glyphicon-chevron-right animated" ng-class="{'rotate': isopen}"></i>
-        </accordion-heading>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque, delectus, quod, animi rem error doloribus repudiandae repellat aspernatur dolor aliquid maiores perspiciatis obcaecati reiciendis itaque est laboriosam tempore! Maxime, ut!
-        </p>
-      </accordion-group>
+    <div class="message-list">
+      <uib-accordion ng-if="messages.hits && messages.hits.total > 0" ng-repeat="message in messages.hits.hits">
+        <div uib-accordion-group class="panel-default">
+          <uib-accordion-heading>
+            <div class="row">
+              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"><timestamp date="{{message._source.timestamp}}"></timestamp></div>
+              <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8"><messageheader message="{{message._source.deviceMessage}}"></messageheader></div>
+              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <blockchain message='{{message._source.deviceMessage}}'></blockchain>
+                <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+              </div>
+            </div>
+          </uib-accordion-heading>
+          <messagecontent message="{{message._source.deviceMessage}}"></messagecontent>
+        </div>
+      </uib-accordion>
     </div>
 
 
