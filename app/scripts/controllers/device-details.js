@@ -8,7 +8,7 @@
  * Controller of the ubirchAdminCrudApp
  */
 angular.module('ubirchAdminCrudApp')
-  .controller('DeviceDetailsCtrl',[ '$scope', '$window', '$location', '$stateParams', 'DeviceMessage', function ($scope, $window, $location, $stateParams, DeviceMessage) {
+  .controller('DeviceDetailsCtrl',[ '$scope', '$window', '$location', '$stateParams', 'Device', function ($scope, $window, $location, $stateParams, Device) {
     var listUrl = "devices-list";
     var deviceMock = {
       "created": "2016-04-29T13:48:46.403Z",
@@ -143,5 +143,5 @@ angular.module('ubirchAdminCrudApp')
       var deviceId = "d65f1582-5cd2-4f8c-8607-922ecc2b4b45";
       var numOfMessages = 10;
 
-      $scope.messages = DeviceMessage.getHistory(deviceId, numOfMessages);
+      $scope.messages = Device.getHistory(deviceId, numOfMessages);
   }]);

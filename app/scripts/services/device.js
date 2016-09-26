@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc service
- * @name ubirchAdminCrudApp.DeviceMessage
+ * @name ubirchAdminCrudApp.Device
  * @description
- * # DeviceMessage
+ * # Device
  * Service in the ubirchAdminCrudApp.
  */
 angular.module('ubirchAdminCrudApp')
-  .service('DeviceMessage', ['$resource', 'constant', '$log', function ($resource, constant, $log) {
+  .service('Device', ['$resource', 'constant', '$log', function ($resource, constant, $log) {
 
     var url = constant.REST_ENDPOINT_URL + constant.UBIRCH_INDEX;
 
@@ -39,10 +39,10 @@ angular.module('ubirchAdminCrudApp')
 
         return this.history.save(deviceId, query,
           function(data){
-            $log.debug("Got history data from DeviceMessage: " + data);
+            $log.debug("Got history data from Device: " + data);
           },
           function(error){
-            $log.debug("Requested history from DeviceMessage - ERROR OCCURED: " + error);
+            $log.debug("Requested history from Device - ERROR OCCURED: " + error);
           });
       }
     };
