@@ -19,10 +19,13 @@ angular.module('ubirchAdminCrudApp')
         {deviceId: '@deviceId'}
       ),
 
-      getDevicesList: function(){
+      getDevicesList: function(callback){
         return this.deviceState.query(
           function(data){
             $log.debug("Got devices list data: " + data);
+            if (callback !== undefined){
+              callback();
+            }
           },
           function(error){
             $log.debug("Requested list of devices - ERROR OCCURRED: " + error);
