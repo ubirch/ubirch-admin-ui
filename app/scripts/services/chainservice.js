@@ -10,7 +10,7 @@
 angular.module('ubirchAdminCrudApp')
   .service('ChainService', ['$resource', 'settings', 'constant', function ($resource, settings, constant) {
 
-    var url = settings.CHAIN_SERVICE_HOST + constant.CHAIN_SERVICE_REST_ENDPOINT;
+    var url = settings.UBIRCH_API_HOST + constant.CHAIN_SERVICE_REST_ENDPOINT;
 
     return {
 
