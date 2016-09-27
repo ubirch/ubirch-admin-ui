@@ -16,7 +16,7 @@
               <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"><timestamp date="{{message._source.timestamp}}"></timestamp></div>
               <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8"><messageheader device-type="{{message._source.deviceType}}" message="{{message._source.deviceMessage}}"></messageheader></div>
               <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                <blockchain message='{{message._source.deviceMessage}}'></blockchain>
+<!--                <blockchain message='{{message._source.deviceMessage}}'></blockchain> -->
                 <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
               </div>
             </div>
