@@ -19,7 +19,4 @@ angular.module('ubirchAdminCrudApp')
     UBIRCH_INDEX : "ubirch-device-data",
     CREDENTIALS : "YmVhdGVmaXNzOnZpcnR1b3NvLXNjaGlzbS1zaHV0b3V0LWRlbWVzbmUtemVzdA==",
     TODAY: undefined
-  })
-  .constant('settings', {
-    UBIRCH_API_HOST : "http://localhost:8080"
   });

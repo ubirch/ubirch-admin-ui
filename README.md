@@ -48,11 +48,13 @@ If you want to run the latest code from git, here's how to get started:
 
         bower install
 
-4. Build and run the code
+4. Start backend on localhost:8080
+
+5. Build and run the code
 
         grunt serve
 
-5. Open in Browser:
+6. Open in Browser:
 
         http://localhost:9000
 
@@ -66,7 +68,15 @@ If you want to deploy the latest version on a server, follow these instructions:
 
 Follow 1.-3. of build for local use
 
-4. Build the code
+4. Server settings
+
+  change the settings, especially the url of the backend server in one of the following files:
+   
+  *  settings/settings_dev.js
+  *  settings/settings_int.js
+  *  settings/settings_prod.js
+  
+5. Build the code
 
         grunt build
   
@@ -76,7 +86,16 @@ Follow 1.-3. of build for local use
 
         Open http://localhost:9000
 
-5. Copy content of directory `dist` into the root directory of your web server
+  OR: connect to another stage backend server:
+  
+  * default: settings_dev.js are copied
+  * otherwise tell me which stage version you want, e.g.:
+
+        grunt build --staging=int
+        grunt serve:dist --staging=prod
+
+
+6. Copy content of directory `dist` into the root directory of your web server
 
 
 ## Contact

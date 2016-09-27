@@ -393,6 +393,18 @@ module.exports = function (grunt) {
         cwd: '<%= yeoman.app %>/styles',
         dest: '.tmp/styles/',
         src: '{,*/}*.css'
+      },
+      dev_settings: {
+        src: 'settings/settings_dev.js',
+        dest: 'app/scripts/services/settings.js'
+      },
+      int_settings: {
+        src: 'settings/settings_int.js',
+        dest: 'app/scripts/services/settings.js'
+      },
+      prod_settings: {
+        src: 'settings/settings_prod.js',
+        dest: 'app/scripts/services/settings.js'
       }
     },
 
@@ -420,8 +432,21 @@ module.exports = function (grunt) {
     }
   });
 
+  var staging = grunt.option('staging') || 'dev';
 
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
+
+    switch (staging) {
+      case 'dev':
+      case 'int':
+      case 'prod':
+        grunt.task.run(['copy:' + staging + '_settings']);
+        break;
+      default:
+        grunt.log.warn("Interpreted staging params: dev, int, prod; Call: grunt --staging=qa");
+        grunt.task.run(['copy:dev_settings']);
+    }
+
     if (target === 'dist') {
       return grunt.task.run(['build', 'connect:dist:keepalive']);
     }
@@ -443,6 +468,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('test', [
     'clean:server',
+    'copy:dev_settings',
     'wiredep',
     'concurrent:test',
     'autoprefixer',
@@ -450,23 +476,37 @@ module.exports = function (grunt) {
     'karma'
   ]);
 
-  grunt.registerTask('build', [
-    'clean:dist',
-    'wiredep',
-    'useminPrepare',
-    'concurrent:dist',
-    'autoprefixer',
-    'ngtemplates',
-    'concat',
-    'ngAnnotate',
-    'copy:dist',
-    'cdnify',
-    'cssmin',
-    'uglify',
-    'filerev',
-    'usemin',
-    'htmlmin'
-  ]);
+  grunt.registerTask('build', "Compiling project for staging = " + staging , function() {
+
+    switch (staging) {
+      case 'dev':
+      case 'int':
+      case 'prod':
+        grunt.task.run(['copy:' + staging + '_settings']);
+        break;
+      default:
+        grunt.log.warn("Interpreted staging params: dev, int, prod; Call: grunt --staging=qa");
+        grunt.task.run(['copy:dev_settings']);
+    }
+
+    grunt.task.run([
+      'clean:dist',
+      'wiredep',
+      'useminPrepare',
+      'concurrent:dist',
+      'autoprefixer',
+      'ngtemplates',
+      'concat',
+      'ngAnnotate',
+      'copy:dist',
+      'cdnify',
+      'cssmin',
+      'uglify',
+      'filerev',
+      'usemin',
+      'htmlmin'
+    ]);
+  });
 
   grunt.registerTask('default', [
     'newer:jshint',
