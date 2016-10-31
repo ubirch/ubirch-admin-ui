@@ -12,7 +12,7 @@ angular.module('ubirchAdminCrudApp')
     // ChainService
       CHAIN_SERVICE_REST_ENDPOINT : "/api/v1/chainService/explorer",
     // AvatarService
-      AVATAR_SERVICE_REST_ENDPOINT : "/api/v1/avatarService",
+      AVATAR_SERVICE_REST_ENDPOINT : "/api/avatarService/v1",
 
     // device states
     ES_REST_ENDPOINT_URL : "https://kibana.ci.ubirch.com/",
