@@ -15,12 +15,12 @@ angular.module('ubirchAdminCrudApp')
 
     return {
       // http://localhost:8080/api/v1/avatarService/device
-      deviceState: $resource(url + '/device/:deviceId',
+      device: $resource(url + '/device/:deviceId',
         {deviceId: '@deviceId'}
       ),
 
       getDevicesList: function(callback){
-        return this.deviceState.query(
+        return this.device.query(
           function(data){
             $log.debug("Got devices list data: " + data);
             if (callback !== undefined){
@@ -33,41 +33,41 @@ angular.module('ubirchAdminCrudApp')
       },
 
       getDevice: function(deviceId, callback){
-        return this.deviceState.get({deviceId: deviceId},
+        return this.device.get({deviceId: deviceId},
           function(data){
-            $log.debug("Got device state and config: " + data);
+            $log.debug("Got device data and config: " + data);
             callback(data);
           },
           function(error){
-            $log.debug("Requested device state and config - ERROR OCCURRED: " + error);
+            $log.debug("Requested device data and config - ERROR OCCURRED: " + error);
           });
 
       },
 
-      // http://search-ubirch-device-data-3bfmzb4qqzvbj6cwxvhxwnol6y.us-east-1.es.amazonaws.com/ubirch-device-data/d65f1582-5cd2-4f8c-8607-922ecc2b4b45/_search
-      history: $resource(es_url + '/:deviceId' + '/_search',
-                    {deviceId: '@deviceId'},
-                    {
-                      'save': {
-                        method: 'GET',
-                        headers: {'Authorization': 'Basic ' + constant.CREDENTIALS} //    $http.defaults.headers.common.Authorization = 'Basic ' + 'beatefiss:virtuoso-schism-shutout-demesne-zest';
-                      }
-                    }
+      deviceState: $resource(url + '/device/:deviceId/state',
+        {deviceId: '@deviceId'}
+      ),
+
+      getDeviceState: function(deviceId, callback){
+        return this.deviceState.get({deviceId: deviceId},
+          function(data){
+            $log.debug("Got device state: " + data);
+            callback(data);
+          },
+          function(error){
+            $log.debug("Requested device state - ERROR OCCURRED: " + error);
+          });
+
+      },
+
+      // http://localhost:8080/api/avatarService/v1/device/125555/history
+      history: $resource(url + '/device/:deviceId/history',
+                    {deviceId: '@deviceId'}
                   ),
 
       getHistory: function(deviceId, numOfMessages){
-        var query = {
-          "sort" : [
-            { "timestamp" : "desc" }
-          ],
-          "query": {
-            "match_all": {}
-          },
-          "from" : 0,
-          "size" : numOfMessages
-        };
 
-        return this.history.save(deviceId, query,
+        return this.history.get(deviceId,
           function(data){
             $log.debug("Got history data from Device: " + data);
           },

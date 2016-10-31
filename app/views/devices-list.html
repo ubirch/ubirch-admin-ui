@@ -30,7 +30,7 @@
       <tbody>
       <tr ng-repeat="device in devices | filter:search" ng-click="openDeviceDetails(device.deviceId)" title="show device details">
         <td>
-          <devicetype device-type='{{device.deviceType}}'></devicetype>
+          <devicetype device-type='{{device.deviceTypeKey}}'></devicetype>
         </td>
         <th scope="row">{{device.deviceName}}</th>
         <td>

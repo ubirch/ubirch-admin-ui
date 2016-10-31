@@ -21,12 +21,12 @@ angular.module('ubirchAdminCrudApp')
 
 
     if ($stateParams.deviceid) {
-      $scope.device = Device.getDevice($stateParams.deviceid,
+      $scope.device = Device.getDeviceState($stateParams.deviceid,
         function(data){
 
           var collector = {};
 
-          angular.forEach( data.avatarState, function(katObj, kat){
+          angular.forEach( data, function(katObj, kat){
 
             var kategory = kat;
             // save the parameter name for row identification
@@ -93,6 +93,6 @@ angular.module('ubirchAdminCrudApp')
 
     $scope.selectType = function(type){
 
-      $scope.device.deviceType = type;
+      $scope.device.deviceTypeKey = type;
     };
   }]);
