@@ -10,7 +10,6 @@
 angular.module('ubirchAdminCrudApp')
   .service('Device', ['$resource', 'constant', 'settings', '$log', function ($resource, constant, settings, $log) {
 
-    var es_url = constant.ES_REST_ENDPOINT_URL + constant.UBIRCH_INDEX;
     var url = settings.UBIRCH_API_HOST + constant.AVATAR_SERVICE_REST_ENDPOINT;
 
     return {
@@ -36,7 +35,9 @@ angular.module('ubirchAdminCrudApp')
         return this.device.get({deviceId: deviceId},
           function(data){
             $log.debug("Got device data and config: " + data);
-            callback(data);
+            if (callback !== undefined){
+              callback(data);
+            }
           },
           function(error){
             $log.debug("Requested device data and config - ERROR OCCURRED: " + error);
@@ -52,7 +53,9 @@ angular.module('ubirchAdminCrudApp')
         return this.deviceState.get({deviceId: deviceId},
           function(data){
             $log.debug("Got device state: " + data);
-            callback(data);
+            if (callback !== undefined){
+              callback(data);
+            }
           },
           function(error){
             $log.debug("Requested device state - ERROR OCCURRED: " + error);

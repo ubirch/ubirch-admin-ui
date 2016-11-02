@@ -21,29 +21,44 @@ angular.module('ubirchAdminCrudApp')
 
 
     if ($stateParams.deviceid) {
-      $scope.device = Device.getDeviceState($stateParams.deviceid,
+      $scope.device = Device.getDevice($stateParams.deviceid);
+      Device.getDeviceState($stateParams.deviceid,
         function(data){
 
           var collector = {};
 
           angular.forEach( data, function(katObj, kat){
+            // don't add $promise, $resolved aso
+            if (!kat.startsWith("$")){
+              switch(kat) {
+                case "avatarLastUpdate":
+                  $scope.avatarLastUpdate = katObj;
+                  break;
+                case "deviceLastUpdate":
+                  $scope.deviceLastUpdate = katObj;
+                  break;
+                case "syncState":
+                  $scope.syncState = katObj;
+                  break;
+                default:
+                  var kategory = kat;
+                  // save the parameter name for row identification
+                  $scope.stateKats.push(kategory);
 
-            var kategory = kat;
-            // save the parameter name for row identification
-            $scope.stateKats.push(kategory);
-
-            angular.forEach(katObj, function(value, key){
-              if (!collector[key]){
-                collector[key] = {"stateKey": key};
+                  angular.forEach(katObj, function(value, key){
+                    if (!collector[key]){
+                      collector[key] = {"stateKey": key};
+                    }
+                    collector[key][kategory] = value;
+                  });
               }
-              collector[key][kategory] = value;
-            });
+            }
+          });
+          $scope.deviceState = collector;
+
+          deviceStateSaved = angular.copy($scope.deviceState);
         }
       );
-      $scope.deviceState = collector;
-
-      deviceStateSaved = angular.copy($scope.deviceState);
-    });
 
       /**
        * For history of device data (test-data-set: deviceId = "d65f1582-5cd2-4f8c-8607-922ecc2b4b45")
