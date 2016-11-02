@@ -13,7 +13,8 @@ app.run(function(editableOptions) {
   editableOptions.theme = 'bs3';
 });
 
-app.controller('DevicesListCtrl', [ '$scope', '$location', 'Device', function ($scope, $location, Device) {
+app.controller('DevicesListCtrl', [ '$scope', '$location', 'Device', '$translate', '$window', 'toaster',
+  function ($scope, $location, Device, $translate, $window, toaster) {
 
   $scope.devices = Device.getDevicesList();
 
@@ -32,8 +33,22 @@ app.controller('DevicesListCtrl', [ '$scope', '$location', 'Device', function ($
       $location.url( "device-details/" + deviceId);
     };
 
-    $scope.createDevice = function() {
-      $location.url( "device-crud");
+    $scope.cancelCreateDevice = function() {
+      toaster.pop('warning', "Abbruch", "Anlegen eines neuen Gerätes wurde abgebrochen");
     };
 
+    $scope.newDevice = {
+      hwDeviceId: undefined
+    };
+    $scope.createDevice = function() {
+      Device.createDevice(
+        $scope.newDevice,
+        function(data){
+          $location.url( "device-details/" + data.deviceId);
+        },
+        function(error) {
+          toaster.pop('error', "Fehler", "Es konnte kein neues Gerät angelegt werden!!");
+        }
+      );
+    };
   }]);

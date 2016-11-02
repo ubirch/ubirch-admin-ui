@@ -19,7 +19,9 @@ angular
     'pascalprecht.translate',
     'ui.router',
     'leaflet-directive',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'angularUUID2',
+    'toaster'
   ])
   .config(function ($stateProvider, $urlRouterProvider, $translateProvider) {
 

@@ -3,8 +3,11 @@
   "DEVICE_OVERVIEW_HEADLINE" : "Gerätedetails",
   "DEVICES_MAP_HEADLINE" : "Geräteübersichtskarte",
   "CANCEL": "Abbrechen",
+  "ABORT": "Abbruch",
   "SAVE": "Speichern",
   "SAVE_CHANGES": "Änderungen speichern",
   "CREATE": "Erzeugen",
-  "ADD_DEVICE": "Gerät hinzufügen"
+  "ADD_DEVICE": "Gerät hinzufügen",
+  "ADD_HWDEVICEID_OPTIONAL": "Optional kann hier die Hardware DeviceID eingegeben werden:",
+  "CREATING_DEVICE_CANCELED": "Anlegen eines neuen Gerätes wurde abgebrochen"
 }

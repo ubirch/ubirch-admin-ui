@@ -1,5 +1,5 @@
 <div class="container-fluid">
-
+  <toaster-container toaster-options="{'close-button': true}"></toaster-container>
   <!-- DeviceList -->
     <div class="area-header row">
       <div class="col-lg-4 col-md-4 col-sm-5 col-xs-5">
@@ -46,9 +46,28 @@
       </tbody>
     </table>
     <button type="button" class="btn btn-primary btn-lg btn-block"
-            ng-click="createDevice()" title="add device">
+            data-toggle="modal" data-target="#myModal" title="add device">
       <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
       {{ 'ADD_DEVICE' | translate }}
     </button>
+  </div>
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancelCreateDevice()"><span aria-hidden="true">&times;</span></button>
+          <h2 class="modal-title" id="myModalLabel">{{ 'ADD_DEVICE' | translate }}</h2>
+        </div>
+        <div class="modal-body">
+          <h4>{{ 'ADD_HWDEVICEID_OPTIONAL' | translate }}</h4>
+          <input type="text" class="form-control" ng-model="newDevice.hwDeviceId">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancelCreateDevice()">{{ 'CANCEL' | translate }}</button>
+          <button type="button" class="btn btn-primary"  ng-click="createDevice()">{{ 'CREATE' | translate }}</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

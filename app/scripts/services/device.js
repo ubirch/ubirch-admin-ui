@@ -8,7 +8,7 @@
  * Service in the ubirchAdminCrudApp.
  */
 angular.module('ubirchAdminCrudApp')
-  .service('Device', ['$resource', 'constant', 'settings', '$log', function ($resource, constant, settings, $log) {
+  .service('Device', ['$resource', 'constant', 'settings', '$log', 'uuid2', function ($resource, constant, settings, $log, uuid2) {
 
     var url = settings.UBIRCH_API_HOST + constant.AVATAR_SERVICE_REST_ENDPOINT;
 
@@ -31,7 +31,23 @@ angular.module('ubirchAdminCrudApp')
           });
       },
 
-      getDevice: function(deviceId, callback){
+      createDevice: function(device, callback){
+        var deviceId = uuid2.newuuid();
+        device.deviceId = deviceId;
+        return this.device.save({}, device,
+          function(data){
+            $log.debug("Saved device with deviceId "+deviceId+": " + data);
+            if (callback !== undefined){
+              callback(data);
+            }
+          },
+          function(error){
+            $log.debug("Requested device data and config - ERROR OCCURRED: " + error);
+          });
+
+      },
+
+      getDevice: function(deviceId, callback, error_callback){
         return this.device.get({deviceId: deviceId},
           function(data){
             $log.debug("Got device data and config: " + data);
@@ -41,6 +57,9 @@ angular.module('ubirchAdminCrudApp')
           },
           function(error){
             $log.debug("Requested device data and config - ERROR OCCURRED: " + error);
+            if (error_callback !== undefined){
+              error_callback(error);
+            }
           });
 
       },
@@ -68,7 +87,7 @@ angular.module('ubirchAdminCrudApp')
                     {deviceId: '@deviceId'}
                   ),
 
-      getHistory: function(deviceId, numOfMessages){
+      getHistory: function(deviceId /*, numOfMessages */){
 
         return this.history.get(deviceId,
           function(data){
