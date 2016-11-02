@@ -8,7 +8,8 @@
  * Controller of the ubirchAdminCrudApp
  */
 angular.module('ubirchAdminCrudApp')
-  .controller('DeviceDetailsCtrl',[ '$scope', '$window', '$location', '$stateParams', 'Device', function ($scope, $window, $location, $stateParams, Device) {
+  .controller('DeviceDetailsCtrl',[ '$scope', '$window', '$location', '$stateParams', 'Device', 'toaster',
+    function ($scope, $window, $location, $stateParams, Device, toaster) {
     var listUrl = "devices-list";
 
     $scope.activeTab = "state";
@@ -83,15 +84,16 @@ angular.module('ubirchAdminCrudApp')
       // TODO: send data to server
     };
 
-    $scope.removeDevice = function (device) {
-
-      var deviceStr = "Are you sure to delete device " + device.deviceName + "?";
-
-      $window.bootbox.confirm(deviceStr, function (doit) {
-        if (doit) {
-          // TODO: send data to server
+    $scope.deleteDevice = function () {
+      angular.element('#myModal').modal('hide');
+      Device.deleteDevice($scope.device.deviceId,
+        function(){
+          $location.url( "devices-list");
+        },
+        function() {
+          toaster.pop('error', "Fehler", "Gerät konnte nicht gelöscht werden!!");
         }
-      });
+      );
     };
 
     $scope.save = function (){

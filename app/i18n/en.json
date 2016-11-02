@@ -3,11 +3,14 @@
   "DEVICE_OVERVIEW_HEADLINE" : "device details",
   "DEVICES_MAP_HEADLINE" : "devices overview map",
   "CANCEL": "cancel",
-  "ABORT": "Abort",
+  "ABORT": "abort",
   "SAVE": "save",
+  "DELETE": "delete",
   "SAVE_CHANGES": "save changes",
   "CREATE": "create",
   "ADD_DEVICE": "add device",
-  "ADD_HWDEVICEID_OPTIONAL": "Optionally you can add the hardware deviceID here:",
-  "CREATING_DEVICE_CANCELED": "Creation of new device has been canceled"
+  "DELETE_DEVICE": "delete device",
+  "CONFIRM_DELETE": "Are you sure you want to delete this device?",
+  "ADD_HWDEVICEID_OPTIONAL": "optionally you can add the hardware deviceID here:",
+  "CREATING_DEVICE_CANCELED": "creation of new device has been canceled"
 }

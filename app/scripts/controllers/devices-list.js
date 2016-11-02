@@ -13,8 +13,8 @@ app.run(function(editableOptions) {
   editableOptions.theme = 'bs3';
 });
 
-app.controller('DevicesListCtrl', [ '$scope', '$location', 'Device', '$translate', '$window', 'toaster',
-  function ($scope, $location, Device, $translate, $window, toaster) {
+app.controller('DevicesListCtrl', [ '$scope', '$location', 'Device', '$translate', '$window', '$document', 'toaster',
+  function ($scope, $location, Device, $translate, $window, $document, toaster) {
 
   $scope.devices = Device.getDevicesList();
 
@@ -41,12 +41,13 @@ app.controller('DevicesListCtrl', [ '$scope', '$location', 'Device', '$translate
       hwDeviceId: undefined
     };
     $scope.createDevice = function() {
+      angular.element('#myModal').modal('hide');
       Device.createDevice(
         $scope.newDevice,
         function(data){
           $location.url( "device-details/" + data.deviceId);
         },
-        function(error) {
+        function() {
           toaster.pop('error', "Fehler", "Es konnte kein neues Gerät angelegt werden!!");
         }
       );

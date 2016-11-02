@@ -61,7 +61,22 @@ angular.module('ubirchAdminCrudApp')
               error_callback(error);
             }
           });
+      },
 
+      deleteDevice: function(deviceId, callback, error_callback){
+        return this.device.delete({deviceId: deviceId},
+          function(data){
+            $log.debug("Device deleted: " + data);
+            if (callback !== undefined){
+              callback(data);
+            }
+          },
+          function(error){
+            $log.debug("Tried to delete device - ERROR OCCURRED: " + error);
+            if (error_callback !== undefined){
+              error_callback(error);
+            }
+          });
       },
 
       deviceState: $resource(url + '/device/:deviceId/state',

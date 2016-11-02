@@ -5,9 +5,12 @@
   "CANCEL": "Abbrechen",
   "ABORT": "Abbruch",
   "SAVE": "Speichern",
+  "DELETE": "Löschen",
   "SAVE_CHANGES": "Änderungen speichern",
   "CREATE": "Erzeugen",
   "ADD_DEVICE": "Gerät hinzufügen",
+  "DELETE_DEVICE": "Gerät löschen",
+  "CONFIRM_DELETE": "Soll das Gerät wirklich gelöscht werden?",
   "ADD_HWDEVICEID_OPTIONAL": "Optional kann hier die Hardware DeviceID eingegeben werden:",
   "CREATING_DEVICE_CANCELED": "Anlegen eines neuen Gerätes wurde abgebrochen"
 }
