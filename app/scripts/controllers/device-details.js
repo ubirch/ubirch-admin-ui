@@ -18,7 +18,7 @@ angular.module('ubirchAdminCrudApp')
     var deviceStateSaved =  [];
     $scope.stateDataChanged = false;
     $scope.stateKats = [];
-    var numOfMessages = 10;
+//    var numOfMessages = 10;
 
 
     if ($stateParams.deviceid) {
@@ -32,11 +32,11 @@ angular.module('ubirchAdminCrudApp')
             // don't add $promise, $resolved aso
             if (!kat.startsWith("$")){
               switch(kat) {
-                case "avatarLastUpdate":
-                  $scope.avatarLastUpdate = katObj;
+                case "avatarLastUpdated":
+                  $scope.avatarLastUpdated = katObj;
                   break;
-                case "deviceLastUpdate":
-                  $scope.deviceLastUpdate = katObj;
+                case "deviceLastUpdated":
+                  $scope.deviceLastUpdated = katObj;
                   break;
                 case "syncState":
                   $scope.syncState = katObj;
@@ -65,7 +65,7 @@ angular.module('ubirchAdminCrudApp')
        * For history of device data (test-data-set: deviceId = "d65f1582-5cd2-4f8c-8607-922ecc2b4b45")
        */
 
-      $scope.messages = Device.getHistory($stateParams.deviceid, numOfMessages);
+      $scope.messages = Device.getHistory($stateParams.deviceid /*, numOfMessages */);
 
     }
 
@@ -94,14 +94,6 @@ angular.module('ubirchAdminCrudApp')
           toaster.pop('error', "Fehler", "Gerät konnte nicht gelöscht werden!!");
         }
       );
-    };
-
-    $scope.save = function (){
-      $location.url(listUrl);
-    };
-
-    $scope.create = function (){
-      $location.url(listUrl);
     };
 
     $scope.backToList = function () {
