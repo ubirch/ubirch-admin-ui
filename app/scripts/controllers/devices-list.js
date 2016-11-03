@@ -38,7 +38,8 @@ app.controller('DevicesListCtrl', [ '$scope', '$location', 'Device', '$translate
     };
 
     $scope.newDevice = {
-      hwDeviceId: undefined
+      hwDeviceId: undefined,
+      deviceTypeKey: "unknownDeviceTypeKey"
     };
     $scope.createDevice = function() {
       angular.element('#myModal').modal('hide');

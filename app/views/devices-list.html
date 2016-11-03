@@ -45,6 +45,9 @@
       </tr>
       </tbody>
     </table>
+  </div>
+
+  <div class="row">
     <button type="button" class="btn btn-primary btn-lg btn-block"
             data-toggle="modal" data-target="#myModal" title="{{ 'ADD_DEVICE' | translate }}">
       <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
@@ -62,6 +65,7 @@
         <div class="modal-body">
           <h4>{{ 'ADD_HWDEVICEID_OPTIONAL' | translate }}</h4>
           <input type="text" class="form-control" ng-model="newDevice.hwDeviceId">
+          <devicetypelist device-type='newDevice.deviceTypeKey'></devicetypelist>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancelCreateDevice()">{{ 'CANCEL' | translate }}</button>
