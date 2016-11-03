@@ -11,24 +11,7 @@
     </div>
     <div class="form-group">
       <span class="label label-default">device type</span>
-      <div class="fromgroup-with-button">
-        <div class="dropdown">
-          <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="true">
-            <devicetype device-type='{{device.deviceTypeKey}}'></devicetype>
-            {{device.deviceTypeKey ? device.deviceTypeKey : "Sensor"}}
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li ng-repeat="(typeNo,type) in deviceTypes">
-              <a href="" ng-click="selectType(type)">
-                <devicetype device-type='{{type}}'></devicetype>
-                {{type}}
-              </a></li>
-            </li>
-          </ul>
-        </div>
-      </div>
+      <devicetypelist device-type='device.deviceTypeKey'></devicetypelist>
     </div>
 
     <div class="form-group">

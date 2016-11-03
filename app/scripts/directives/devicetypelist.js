@@ -86,6 +86,7 @@ angular.module('ubirchAdminCrudApp')
 
         scope.selectType = function(type){
           scope.selectedDeviceType = getSelectedDeviceType(type.key);
+          scope.deviceType = scope.selectedDeviceType.key;
         };
       }
     };
