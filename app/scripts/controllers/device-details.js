@@ -69,22 +69,45 @@ angular.module('ubirchAdminCrudApp')
 
     }
 
-    $scope.checkChanges = function() {
+      /**
+       * edit and save device state items
+       */
+
+    $scope.checkDeviceStateChanges = function() {
       $scope.stateDataChanged = true;
     };
 
-    $scope.discardChanges = function(){
+    $scope.discardDeviceStateChanges = function(){
       $scope.deviceState = angular.copy(deviceStateSaved);
       $scope.stateDataChanged = false;
     };
 
-    $scope.saveChanges = function(){
+    $scope.saveDeviceStateChanges = function(){
       deviceStateSaved = angular.copy($scope.deviceState);
       $scope.stateDataChanged = false;
       // TODO: send data to server
+      $window.bootbox.alert("Sorry, to change the state of a device is not yet implemented!");
     };
 
-    $scope.deleteDevice = function () {
+      /**
+       * device CRUD
+       */
+
+      $scope.updateDevice = function () {
+        Device.updateDevice(
+          $scope.device,
+          function(){
+            toaster.pop('success', "Änderungen gespeichert", "Änderungen am Gerät wurden gespeichert");
+            $location.url( "device-details/"+$scope.device.deviceId);
+          },
+          function() {
+            toaster.pop('error', "Fehler", "Gerät konnte nicht gelöscht werden!!");
+          }
+        );
+      };
+
+
+      $scope.deleteDevice = function () {
       angular.element('#myModal').modal('hide');
       Device.deleteDevice($scope.device.deviceId,
         function(){

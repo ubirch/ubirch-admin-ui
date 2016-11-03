@@ -1,9 +1,5 @@
 <div>
-  <button type="submit" class="btn btn-default btn-xs"
-          ng-click="removeDevice(device)" title="remove device" ng-show="device.created">
-    <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" ></span>
-  </button>
-
+  <div>
   <form name="deviceForm">
     <div class="form-group">
       <span class="label label-default">deviceId<sup ng-hide="device.created">*</sup></span>
@@ -61,4 +57,5 @@
       </table>
     </div>
   </form>
+  </div>
 </div>

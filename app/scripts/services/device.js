@@ -15,7 +15,8 @@ angular.module('ubirchAdminCrudApp')
     return {
       // http://localhost:8080/api/v1/avatarService/device
       device: $resource(url + '/device/:deviceId',
-        {deviceId: '@deviceId'}
+        {deviceId: '@deviceId'},
+        {'update': {method: 'PUT', params:{deviceId: '@deviceId'}, isArray:false}}
       ),
 
       getDevicesList: function(callback){
@@ -43,6 +44,23 @@ angular.module('ubirchAdminCrudApp')
           },
           function(error){
             $log.debug("Requested device data and config - ERROR OCCURRED: " + error);
+          });
+
+      },
+
+      updateDevice: function(device, callback, error_callback){
+        return this.device.update({deviceId: device.deviceId}, device,
+          function(data){
+            $log.debug("Successfully saved update of device: " + data);
+            if (callback !== undefined){
+              callback(data);
+            }
+          },
+          function(error){
+            $log.debug("Tried to save update of device - ERROR OCCURRED: " + error);
+            if (error_callback !== undefined){
+              error_callback(error);
+            }
           });
 
       },
