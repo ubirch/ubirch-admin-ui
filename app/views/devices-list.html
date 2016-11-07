@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <toaster-container toaster-options="{'close-button': true}"></toaster-container>
-  <!-- DeviceList -->
+  <!-- Filter for DeviceList -->
     <div class="area-header row">
       <div class="col-lg-4 col-md-4 col-sm-5 col-xs-5">
         {{ 'DEVICES_LIST_HEADLINE' | translate }}
@@ -20,17 +20,17 @@
                 <span class="glyphicon glyphicon-search"></span>
               </button>
             </span>
-          </div><!-- /input-group -->
+          </div>
         </form>
       </div>
     </div>
-
+  <!-- DeviceList -->
   <div class="row">
     <table class="table table-hover">
       <tbody>
       <tr ng-repeat="device in devices | filter:search" ng-click="openDeviceDetails(device.deviceId)" title="show device details">
         <td>
-          <devicetype device-type='{{device.deviceTypeKey}}'></devicetype>
+          <devicetypeicon device-type='{{device.deviceTypeKey}}'></devicetypeicon>
         </td>
         <th scope="row">{{device.deviceName}}</th>
         <td>
@@ -65,7 +65,7 @@
         <div class="modal-body">
           <h4>{{ 'ADD_HWDEVICEID_OPTIONAL' | translate }}</h4>
           <input type="text" class="form-control" ng-model="newDevice.hwDeviceId">
-          <devicetypelist device-type='newDevice.deviceTypeKey'></devicetypelist>
+          <devicetypelist device-type-key='newDevice.deviceTypeKey'></devicetypelist>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancelCreateDevice()">{{ 'CANCEL' | translate }}</button>
