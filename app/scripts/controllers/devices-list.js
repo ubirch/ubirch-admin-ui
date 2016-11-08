@@ -44,7 +44,7 @@ app.controller('DevicesListCtrl', [ '$scope', '$location', 'Device', '$translate
 
     $scope.$watch( "newDevice.deviceTypeKey", function(newTypeKey) {
       var newType = DeviceTypes.getDeviceType(newTypeKey);
-      $scope.newDevice.properties = newType.defaults.properties;
+      $scope.newDevice.deviceProperties = newType.defaults.properties;
       $scope.newDevice.tags = newType.defaults.tags;
       $scope.newDevice.deviceConfig = newType.defaults.config;
     });

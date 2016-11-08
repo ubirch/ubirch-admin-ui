@@ -40,7 +40,7 @@ angular.module('ubirchAdminCrudApp')
               ir: 191,
               s: 0
           },
-          tags: []
+          tags: ["sensor", "ubirch"]
         }
       },
       {
@@ -58,7 +58,7 @@ angular.module('ubirchAdminCrudApp')
             i: 1000,
             s: 0
           },
-          tags: []
+          tags: ["sensor"]
         }
       },
       {
@@ -76,7 +76,7 @@ angular.module('ubirchAdminCrudApp')
             i: 1000,
             s: 0
           },
-          tags: []
+          tags: ["sensor"]
         }
       },
       {
@@ -94,7 +94,7 @@ angular.module('ubirchAdminCrudApp')
             i: 10000,
             s: 0
           },
-          tags: []
+          tags: ["sensor"]
         }
       },
       {

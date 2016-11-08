@@ -1,0 +1,62 @@
+<div>
+  <div class="form-group">
+    <span class="label label-default">{{ 'HW_DEVICE_ID' | translate }}</span>
+    <input type="text" class="form-control" ng-model="device.hwDeviceId">
+  </div>
+  <div class="form-group">
+    <span class="label label-default">{{ 'DEVICE_NAME' | translate }}</span>
+    <input type="text" class="form-control" ng-model="device.deviceName" required>
+  </div>
+  <div class="form-group">
+    <span class="label label-default">{{ 'DEVICE_TYPE' | translate }}</span>
+    <devicetypelist device-type-key='device.deviceTypeKey'></devicetypelist>
+  </div>
+  <div class="form-group">
+    <span class="label label-default">{{ 'DEVICE_CONFIG' | translate }}</span>
+    <table class="table table-hover"  ng-hide="device.deviceConfig === undefined || device.deviceConfig.length === 0">
+      <thead>
+      <tr>
+        <th>Parameter</th>
+        <th>Value</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="(key,param) in device.deviceConfig">
+        <th scope="row">{{key}}</th>
+        <td><input type="text" class="form-control" ng-model="device.deviceConfig[key]" required></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="form-group">
+    <span class="label label-default">{{ 'DEVICE_PROPERTIES' | translate }}</span>
+    <table class="table table-hover"  ng-hide="device.deviceProperties === undefined || device.deviceProperties.length === 0">
+      <thead>
+      <tr>
+        <th>Parameter</th>
+        <th>Value</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="(key,param) in device.deviceProperties">
+        <th scope="row">{{key}}</th>
+        <td><input type="text" class="form-control" ng-model="device.deviceProperties[key]" required></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="form-group">
+    <span class="label label-default">{{ 'DEVICE_tags' | translate }}</span>
+    <table class="table table-hover"  ng-hide="device.tags === undefined || device.tags.length === 0">
+      <tbody>
+      <tr ng-repeat="(index, tag) in device.tags">
+        <td><input type="text" class="form-control" ng-model="device.tags[index]" required></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="form-group">
+    <span class="label label-default">{{ 'DEVICE_SUBSCRIPTIONS' | translate }}</span>
+  </div>
+</div>
+

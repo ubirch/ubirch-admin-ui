@@ -11,46 +11,9 @@
 
         <h4>{{ 'ADD_HWDEVICEID_OPTIONAL' | translate }}</h4>
 
-        <div class="form-group">
-          <span class="label label-default">{{ 'HW_DEVICE_ID' | translate }}</span>
-          <input type="text" class="form-control" ng-model="newDevice.hwDeviceId">
-        </div>
-        <div class="form-group">
-          <span class="label label-default">{{ 'DEVICE_NAME' | translate }}</span>
-          <input type="text" class="form-control" ng-model="newDevice.deviceName" required>
-        </div>
-        <div class="form-group">
-          <span class="label label-default">{{ 'DEVICE_TYPE' | translate }}</span>
-          <devicetypelist device-type-key='newDevice.deviceTypeKey'></devicetypelist>
-        </div>
-        <div class="form-group">
-          <span class="label label-default">{{ 'DEVICE_CONFIG' | translate }}</span>
-          <table class="table table-hover">
-            <thead>
-            <tr>
-              <th>Parameter</th>
-              <th>Value</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="(key,param) in newDevice.deviceConfig">
-              <th scope="row">{{key}}</th>
-              <td><input type="text" class="form-control" ng-model="newDevice.deviceConfig[key]" required></td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="form-group">
-          <span class="label label-default">{{ 'DEVICE_PROPERTIES' | translate }}</span>
-        </div>
-        <div class="form-group">
-          <span class="label label-default">{{ 'DEVICE_tags' | translate }}</span>
-        </div>
-        <div class="form-group">
-          <span class="label label-default">{{ 'DEVICE_SUBSCRIPTIONS' | translate }}</span>
-        </div>
-      </div>
+        <device-editable-fields device="newDevice"></device-editable-fields>
 
+      </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancelCreateDevice()">{{ 'CANCEL' | translate }}</button>
         <button type="button" class="btn btn-primary"  ng-click="createDevice()">{{ 'CREATE' | translate }}</button>
