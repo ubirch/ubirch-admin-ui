@@ -16,11 +16,10 @@ angular.module('ubirchAdminCrudApp')
       },
       link: function postLink(scope) {
         scope.deviceTypes = DeviceTypes.getDeviceTypeList();
-        scope.defaultDeviceTypeNo = 0;
-        scope.selectedDeviceType = DeviceTypes.getDeviceType(scope.deviceTypeKey, scope.defaultDeviceTypeNo);
+        scope.selectedDeviceType = DeviceTypes.getDeviceType(scope.deviceTypeKey);
 
         scope.selectType = function(type){
-          scope.selectedDeviceType = DeviceTypes.getDeviceType(type.key, scope.defaultDeviceTypeNo);
+          scope.selectedDeviceType = DeviceTypes.getDeviceType(type.key);
           scope.deviceTypeKey = scope.selectedDeviceType.key;
         };
       }

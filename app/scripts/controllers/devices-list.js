@@ -13,8 +13,8 @@ app.run(function(editableOptions) {
   editableOptions.theme = 'bs3';
 });
 
-app.controller('DevicesListCtrl', [ '$scope', '$location', 'Device', '$translate', '$window', '$document', 'toaster',
-  function ($scope, $location, Device, $translate, $window, $document, toaster) {
+app.controller('DevicesListCtrl', [ '$scope', '$location', 'Device', '$translate', '$window', '$document', 'toaster', 'DeviceTypes',
+  function ($scope, $location, Device, $translate, $window, $document, toaster, DeviceTypes) {
 
   $scope.devices = Device.getDevicesList();
 
@@ -39,8 +39,15 @@ app.controller('DevicesListCtrl', [ '$scope', '$location', 'Device', '$translate
 
     $scope.newDevice = {
       hwDeviceId: undefined,
-      deviceTypeKey: "unknownDeviceTypeKey"
+      deviceTypeKey: DeviceTypes.getDefaultType().key
     };
+
+    $scope.$watch( "newDevice.deviceTypeKey", function(newTypeKey) {
+      var newType = DeviceTypes.getDeviceType(newTypeKey);
+      $scope.newDevice.properties = newType.defaults.properties;
+      $scope.newDevice.tags = newType.defaults.tags;
+      $scope.newDevice.deviceConfig = newType.defaults.config;
+    });
     $scope.createDevice = function() {
       angular.element('#myModal').modal('hide');
       Device.createDevice(

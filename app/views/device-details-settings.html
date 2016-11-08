@@ -2,20 +2,23 @@
   <div>
   <form name="deviceForm">
     <div class="form-group">
-      <span class="label label-default">deviceId<sup ng-hide="device.created">*</sup></span>
+      <span class="label label-default">{{ 'DEVICE_ID' | translate }}<sup ng-hide="device.created">*</sup></span>
       <input type="text" class="form-control" ng-model="device.deviceId" ng-readonly="{{device.created !== undefined}}" required>
     </div>
     <div class="form-group">
-      <span class="label label-default">device name<sup ng-hide="device.created">*</sup></span>
+      <span class="label label-default">{{ 'HW_DEVICE_ID' | translate }}<sup ng-hide="device.created">*</sup></span>
+      <input type="text" class="form-control" ng-model="device.hwDeviceId" required>
+    </div>
+    <div class="form-group">
+      <span class="label label-default">{{ 'DEVICE_NAME' | translate }}<sup ng-hide="device.created">*</sup></span>
       <input type="text" class="form-control" ng-model="device.deviceName" required>
     </div>
     <div class="form-group">
-      <span class="label label-default">device type</span>
+      <span class="label label-default">{{ 'DEVICE_TYPE' | translate }}</span>
       <devicetypelist device-type-key='device.deviceTypeKey'></devicetypelist>
     </div>
-
     <div class="form-group">
-      <span class="label label-default">device configuration</span>
+      <span class="label label-default">{{ 'DEVICE_CONFIG' | translate }}</span>
       <table class="table table-hover">
         <thead>
         <tr>
@@ -24,21 +27,31 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <th scope="row">i</th>
-          <td><input type="text" class="form-control" ng-model="device.deviceConfig.i" required></td>
-        </tr>
-        <tr>
-          <th scope="row">ir</th>
-          <td><input type="text" class="form-control" ng-model="device.deviceConfig.ir" required></td>
-        </tr>
-        <tr>
-          <th scope="row">s</th>
-          <td><input type="text" class="form-control" ng-model="device.deviceConfig.s" required></td>
+        <tr ng-repeat="(key,param) in device.deviceConfig">
+          <th scope="row">{{key}}</th>
+          <td><input type="text" class="form-control" ng-model="device.deviceConfig[key]" required></td>
         </tr>
         </tbody>
       </table>
     </div>
+    <div class="form-group">
+      <span class="label label-default">{{ 'DEVICE_PROPERTIES' | translate }}</span>
+    </div>
+    <div class="form-group">
+      <span class="label label-default">{{ 'DEVICE_tags' | translate }}</span>
+    </div>
+    <div class="form-group">
+      <span class="label label-default">{{ 'DEVICE_SUBSCRIPTIONS' | translate }}</span>
+    </div>
+    <div class="form-group">
+      <span class="label label-default">{{ 'DEVICE_CREATED' | translate }}</span>
+      <timestamp date="{{device.created}}"></timestamp>
+    </div>
+    <div class="form-group">
+      <span class="label label-default">{{ 'DEVICE_UPDATED' | translate }}</span>
+      <timestamp date="{{device.updated}}"></timestamp>
+    </div>
+
   </form>
   </div>
 </div>
