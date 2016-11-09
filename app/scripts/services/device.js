@@ -19,8 +19,13 @@ angular.module('ubirchAdminCrudApp')
         {'update': {method: 'PUT', params:{deviceId: '@deviceId'}, isArray:false}}
       ),
 
+      // http://localhost:8080/api/v1/avatarService/device/stub
+      deviceStub: $resource(url + '/device/stub/:deviceId',
+        {deviceId: '@deviceId'}
+      ),
+
       getDevicesList: function(callback){
-        return this.device.query(
+        return this.deviceStub.query(
           function(data){
             $log.debug("Got devices list data: " + data);
             if (callback !== undefined){

@@ -32,10 +32,15 @@
         <td>
           <devicetypeicon device-type='{{device.deviceTypeKey}}'></devicetypeicon>
         </td>
-        <th scope="row">{{device.deviceName}}</th>
+        <th scope="row">
+          {{device.deviceName}}<br/>
+          <small>{{device.deviceId}}</small>
+        </th>
+<!--
         <td>
           <truthworth device="{{device}}"></truthworth>
         </td>
+-->
         <td>
           <syncstate sync-state="{{device.syncState}}"></syncstate>
         </td>
