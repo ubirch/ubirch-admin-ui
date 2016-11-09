@@ -161,7 +161,7 @@ angular.module('ubirchAdminCrudApp')
           if (device.tags === undefined){
             device.tags = [];
           }
-          if (tag.value.length > 0){
+          if (tag.value.length > 0 && device.tags.indexOf(tag.value) === -1){
             device.tags.push(tag.value);
           }
         });
