@@ -13,15 +13,9 @@ angular.module('ubirchAdminCrudApp')
       restrict: 'E',
       replace: true,
       scope: {device: '=',
-        addedProperties: '&'
+        addedProperties: '='
       },
       link: function postLink(scope) {
-
-        scope.addedProperties = {
-          properties: [],
-          config: [],
-          tags: []
-        };
 
         scope.add = function(key){
           switch (key) {

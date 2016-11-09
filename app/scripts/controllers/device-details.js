@@ -92,8 +92,14 @@ angular.module('ubirchAdminCrudApp')
       /**
        * device CRUD
        */
+      $scope.added = Device.initDevice();
+
 
       $scope.updateDevice = function () {
+
+        $scope.device = Device.addProperties($scope.device,  $scope.added);
+        $scope.added = Device.initDevice();
+
         Device.updateDevice(
           $scope.device,
           function(){

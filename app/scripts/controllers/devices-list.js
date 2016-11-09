@@ -48,8 +48,15 @@ app.controller('DevicesListCtrl', [ '$scope', '$location', 'Device', '$translate
       $scope.newDevice.tags = newType.defaults.tags;
       $scope.newDevice.deviceConfig = newType.defaults.config;
     });
+
+    $scope.addedProperties = Device.initDevice();
+
     $scope.createDevice = function() {
       angular.element('#myModal').modal('hide');
+
+      $scope.newDevice = Device.addProperties($scope.newDevice,  $scope.addedProperties);
+      $scope.addedProperties = Device.initDevice();
+
       Device.createDevice(
         $scope.newDevice,
         function(data){

@@ -129,6 +129,44 @@ angular.module('ubirchAdminCrudApp')
           function(error){
             $log.debug("Requested history from Device - ERROR OCCURRED: " + error);
           });
+      },
+
+      initDevice: function() {
+        return {
+          properties: [],
+          config: [],
+          tags: []
+        };
+      },
+
+      addProperties: function(device, addedProperties){
+
+        addedProperties.properties.forEach( function(property) {
+          if (property.key.length > 0 && property.value.length > 0){
+            if (device.deviceProperties === undefined){
+              device.deviceProperties = {};
+            }
+            device.deviceProperties[property.key] = property.value;
+          }
+        });
+        addedProperties.config.forEach( function(config) {
+          if (device.deviceConfig === undefined){
+            device.deviceConfig = {};
+          }
+          if (config.key.length > 0 && config.value.length > 0){
+            device.deviceConfig[config.key] = config.value;
+          }
+        });
+        addedProperties.tags.forEach( function(tag) {
+          if (device.tags === undefined){
+            device.tags = [];
+          }
+          if (tag.value.length > 0){
+            device.tags.push(tag.value);
+          }
+        });
+
+        return device;
       }
     };
   }]);
