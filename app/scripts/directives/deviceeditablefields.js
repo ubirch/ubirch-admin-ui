@@ -44,6 +44,34 @@ angular.module('ubirchAdminCrudApp')
               break;
           }
         };
+        scope.deleteField = function(key, index, isNew){
+          switch (key) {
+            case 'property':
+              if (isNew){
+                scope.addedProperties.properties.splice(index, 1);
+              }
+              else {
+                delete scope.device.deviceProperties[index];
+              }
+              break;
+            case 'config':
+              if (isNew){
+                scope.addedProperties.config.splice(index, 1);
+              }
+              else {
+                delete scope.device.deviceConfig[index];
+              }
+              break;
+            case 'tag':
+              if (isNew){
+                scope.addedProperties.tags.splice(index, 1);
+              }
+              else {
+                scope.device.tags.splice(index, 1);
+              }
+              break;
+          }
+        };
       }
     };
   });

@@ -5,7 +5,7 @@
   </div>
   <div class="form-group">
     <span class="label label-default">{{ 'DEVICE_NAME' | translate }}</span>
-    <input type="text" class="form-control" ng-model="device.deviceName" required>
+    <input type="text" class="form-control" ng-model="device.deviceName">
   </div>
   <div class="form-group">
     <span class="label label-default">{{ 'DEVICE_TYPE' | translate }}</span>
@@ -23,16 +23,29 @@
       <tr>
         <th>Parameter</th>
         <th>Value</th>
+        <th></th>
       </tr>
       </thead>
       <tbody>
-      <tr ng-hide="addedProperties.config.length === 0" ng-repeat="config in addedProperties.config">
+      <tr ng-hide="addedProperties.config.length === 0" ng-repeat="(index, config) in addedProperties.config">
         <th scope="row"><input type="text" class="form-control" ng-model="config.key"></th>
         <td><input type="text" class="form-control" ng-model="config.value"></td>
+        <td>
+          <button type="submit" class="btn btn-danger btn-xs"
+                  title="{{ 'DELETE' | translate }}" ng-click="deleteField('config', index, true)">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+          </button>
+        </td>
       </tr>
       <tr ng-repeat="(key,param) in device.deviceConfig">
         <th scope="row">{{key}}</th>
         <td><input type="text" class="form-control" ng-model="device.deviceConfig[key]"></td>
+        <td>
+          <button type="submit" class="btn btn-danger btn-xs"
+                  title="{{ 'DELETE' | translate }}" ng-click="deleteField('config', key, false)">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+          </button>
+        </td>
       </tr>
       </tbody>
     </table>
@@ -49,16 +62,29 @@
       <tr>
         <th>Parameter</th>
         <th>Value</th>
+        <th></th>
       </tr>
       </thead>
       <tbody>
-      <tr ng-hide="addedProperties.properties.length === 0" ng-repeat="property in addedProperties.properties">
+      <tr ng-hide="addedProperties.properties.length === 0" ng-repeat="(index, property) in addedProperties.properties">
         <th scope="row"><input type="text" class="form-control" ng-model="property.key"></th>
         <td><input type="text" class="form-control" ng-model="property.value"></td>
+        <td>
+          <button type="submit" class="btn btn-danger btn-xs"
+                    title="{{ 'DELETE' | translate }}" ng-click="deleteField('property', index, true)">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+          </button>
+        </td>
       </tr>
       <tr ng-repeat="(key,param) in device.deviceProperties">
         <th scope="row">{{key}}</th>
-        <td><input type="text" class="form-control" ng-model="device.deviceProperties[key]" required></td>
+        <td><input type="text" class="form-control" ng-model="device.deviceProperties[key]"></td>
+        <td>
+          <button type="submit" class="btn btn-danger btn-xs"
+                  title="{{ 'DELETE' | translate }}" ng-click="deleteField('property', key, false)">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+          </button>
+        </td>
       </tr>
       </tbody>
     </table>
@@ -72,11 +98,23 @@
     </button>
     <table class="table table-hover">
       <tbody>
-      <tr ng-hide="addedProperties.tags.length === 0" ng-repeat="tag in addedProperties.tags">
+      <tr ng-hide="addedProperties.tags.length === 0" ng-repeat="(index, tag) in addedProperties.tags">
         <td><input type="text" class="form-control" ng-model="tag.value"></td>
+        <td>
+          <button type="submit" class="btn btn-danger btn-xs"
+                  title="{{ 'DELETE' | translate }}" ng-click="deleteField('tag', index, true)">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+          </button>
+        </td>
       </tr>
       <tr ng-repeat="(index, tag) in device.tags">
-        <td><input type="text" class="form-control" ng-model="device.tags[index]" required></td>
+        <td><input type="text" class="form-control" ng-model="device.tags[index]"></td>
+        <td>
+          <button type="submit" class="btn btn-danger btn-xs"
+                  title="{{ 'DELETE' | translate }}" ng-click="deleteField('tag', index, false)">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+          </button>
+        </td>
       </tr>
       </tbody>
     </table>
