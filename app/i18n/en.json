@@ -16,6 +16,7 @@
   "CREATING_DEVICE_CANCELED": "creation of new device has been canceled",
   "DEVICE_ID": "device id",
   "HW_DEVICE_ID": "hardware device id",
+  "HASHED_HW_DEVICE_ID": "hashed hardware device id",
   "DEVICE_TYPE": "device type",
   "DEVICE_NAME": "device name",
   "DEVICE_CREATED": "created",

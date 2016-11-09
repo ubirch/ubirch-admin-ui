@@ -16,6 +16,7 @@
   "CREATING_DEVICE_CANCELED": "Anlegen eines neuen Gerätes wurde abgebrochen",
   "DEVICE_ID": "Geräte ID",
   "HW_DEVICE_ID": "Hardware Geräte ID",
+  "HASHED_HW_DEVICE_ID": "gehashte Hardware Geräte ID",
   "DEVICE_TYPE": "Gerätetyp",
   "DEVICE_NAME": "Gerätname",
   "DEVICE_CREATED": "angelegt am",
