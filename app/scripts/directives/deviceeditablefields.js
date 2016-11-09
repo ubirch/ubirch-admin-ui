@@ -12,10 +12,44 @@ angular.module('ubirchAdminCrudApp')
       templateUrl: 'views/directives/deviceeditablefields.html',
       restrict: 'E',
       replace: true,
-      scope: {device: '='
+      scope: {device: '=',
+        addedProperties: '&'
       },
-      link: function postLink() {
+      link: function postLink(scope) {
 
+        scope.addedProperties = {
+          properties: [],
+          config: [],
+          tags: []
+        };
+
+        scope.add = function(key){
+          switch (key) {
+            case 'property':
+              scope.addedProperties.properties.push(
+                {
+                  key: "",
+                  value: ""
+                }
+              );
+              break;
+            case 'config':
+              scope.addedProperties.config.push(
+                {
+                  key: "",
+                  value: ""
+                }
+              );
+              break;
+            case 'tag':
+              scope.addedProperties.tags.push(
+                {
+                  value: ""
+                }
+              );
+              break;
+          }
+        };
       }
     };
   });

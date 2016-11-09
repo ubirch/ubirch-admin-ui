@@ -5,6 +5,7 @@
   "CANCEL": "cancel",
   "ABORT": "abort",
   "SAVE": "save",
+  "ADD": "add",
   "DELETE": "delete",
   "SAVE_CHANGES": "save changes",
   "CREATE": "create",
