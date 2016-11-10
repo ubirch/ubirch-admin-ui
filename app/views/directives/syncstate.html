@@ -1,5 +1,5 @@
 <span>
-  <i ng-if="syncState === 'in sync'" class="ion-happy-outline"></i>
-  <i ng-if="syncState === 'out of sync'" class="ion-sad red"></i>
-  <i ng-if="syncState === undefined" class="ion-sad grey"></i>
+  <i ng-if="inSync === undefined" class="ion-sad grey"></i>
+  <i ng-if="inSync !== undefined && inSync" class="ion-happy-outline"></i>
+  <i ng-if="inSync !== undefined && !inSync" class="ion-sad red"></i>
 </span>
