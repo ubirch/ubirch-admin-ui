@@ -14,9 +14,7 @@ angular.module('ubirchAdminCrudApp')
       replace: true,
       scope: {date: '@'
       },
-      link: function postLink(scope, element, attrs) {
-
-        scope.date = attrs.date;
+      link: function postLink(scope) {
 
         if (constant.TODAY === undefined){
           var d = new Date();
@@ -26,7 +24,16 @@ angular.module('ubirchAdminCrudApp')
           constant.TODAY = d;
         }
 
-        scope.fromToday = new Date(attrs.date) >= constant.TODAY;
+        var getDate = function(newDate){
+          scope.date = newDate;
+          scope.fromToday = new Date(newDate) >= constant.TODAY;
+        };
+
+        getDate(scope.date);
+
+        scope.$watch('date', function(newDate){
+          getDate(newDate);
+        });
       }
     };
   }]);
