@@ -15,7 +15,15 @@ angular.module('ubirchAdminCrudApp')
       scope: {deviceType: '@'
       },
       link: function postLink(scope) {
-        scope.iconStr = DeviceTypes.getDeviceTypeIcon(scope.deviceType);
+        var getIcon = function(newDeviceType){
+          scope.iconStr = DeviceTypes.getDeviceTypeIcon(newDeviceType);
+        };
+
+        getIcon(scope.deviceType);
+
+        scope.$watch('deviceType', function(newDeviceType){
+          getIcon(newDeviceType);
+        });
       }
     };
   }]);

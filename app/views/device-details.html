@@ -7,20 +7,21 @@
       {{ 'DEVICE_OVERVIEW_HEADLINE' | translate }}
     </div>
     <div class="col-lg-9 col-md-9 col-sm-8 col-xs-8 h4">
-      <devicetype device-type='{{device.deviceType}}'></devicetype>
-      {{device.deviceType ? device.deviceType : "Sensor"}}:<br> {{device.deviceName}}
+      {{device.deviceName}}&nbsp;
+      <devicetypeicon device-type='{{deviceType.key}}'></devicetypeicon>
+      <small>{{deviceType.name.en}}</small>
     </div>
   </div>
   <div class="area-tabs">
       <ul class="nav nav-tabs">
         <li ng-class="{active: activeTab == 'state'}">
-          <a ng-click="activeTab = 'state'">sync state</a>
+          <a ng-click="activeTab = 'state'">{{ 'TABLABEL_SYNC_STATE' | translate }}</a>
         </li>
         <li ng-class="{active: activeTab == 'history'}">
-          <a ng-click="activeTab = 'history'">history</a>
+          <a ng-click="activeTab = 'history'">{{ 'TABLABEL_HISTORY' | translate }}</a>
         </li>
         <li ng-class="{active: activeTab == 'settings'}">
-          <a ng-click="activeTab = 'settings'">additional settings</a>
+          <a ng-click="activeTab = 'settings'">{{ 'TABLABEL_SETTINGS' | translate }}</a>
         </li>
       </ul>
 

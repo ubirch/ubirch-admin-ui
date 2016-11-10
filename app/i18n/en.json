@@ -32,5 +32,8 @@
   "DEVICE_SYNC_STATE": "sync state",
   "DEVICE_IN_SYNC": "in sync",
   "DEVICE_OUT_OF_SYNC": "out of sync",
-  "UNKNOWN": "unknown"
+  "UNKNOWN": "unknown",
+  "TABLABEL_SYNC_STATE": "sync state",
+  "TABLABEL_HISTORY": "history",
+  "TABLABEL_SETTINGS": "additional settings"
 }

@@ -32,5 +32,8 @@
   "DEVICE_SYNC_STATE": "Status der Synchronisation",
   "DEVICE_IN_SYNC": "in sync",
   "DEVICE_OUT_OF_SYNC": "out of sync",
-  "UNKNOWN": "unbekannt"
+  "UNKNOWN": "unbekannt",
+  "TABLABEL_SYNC_STATE": "Aktueller Zustand",
+  "TABLABEL_HISTORY": "Verlauf",
+  "TABLABEL_SETTINGS": "Einstellungen"
 }
