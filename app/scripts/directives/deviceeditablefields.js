@@ -13,7 +13,8 @@ angular.module('ubirchAdminCrudApp')
       restrict: 'E',
       replace: true,
       scope: {device: '=',
-        addedProperties: '='
+        addedProperties: '=',
+        creationView: '@'
       },
       link: function postLink(scope) {
 
