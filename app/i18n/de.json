@@ -12,7 +12,7 @@
   "ADD_DEVICE": "Gerät hinzufügen",
   "DELETE_DEVICE": "Gerät löschen",
   "CONFIRM_DELETE": "Soll das Gerät wirklich gelöscht werden?",
-  "ADD_HWDEVICEID_OPTIONAL": "Optional kann hier die Hardware DeviceID eingegeben werden:",
+  "ADD_HWDEVICEID_OPTIONAL": "Um ihre Handware mit dem ubirch System zu verbinden müssen Sie hier die HardwareID ihres Gerätes eingeben! Optional können Sie hier auch gleich weitere Einstellungen vornehmen:",
   "CREATING_DEVICE_CANCELED": "Anlegen eines neuen Gerätes wurde abgebrochen",
   "DEVICE_ID": "Geräte ID",
   "HW_DEVICE_ID": "Hardware Geräte ID",
