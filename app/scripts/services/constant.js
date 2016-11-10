@@ -14,6 +14,7 @@ angular.module('ubirchAdminCrudApp')
     // AvatarService
       AVATAR_SERVICE_REST_ENDPOINT : "/api/avatarService/v1",
 
+    POLLING_INTERVAL : 3000,
     // device states
     CREDENTIALS : "YmVhdGVmaXNzOnZpcnR1b3NvLXNjaGlzbS1zaHV0b3V0LWRlbWVzbmUtemVzdA==",
     TODAY: undefined

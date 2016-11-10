@@ -29,7 +29,7 @@ angular.module('ubirchAdminCrudApp')
           function(data){
             $log.debug("Got devices list data: " + data);
             if (callback !== undefined){
-              callback();
+              callback(data);
             }
           },
           function(error){

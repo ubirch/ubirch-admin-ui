@@ -13,12 +13,20 @@ app.run(function(editableOptions) {
   editableOptions.theme = 'bs3';
 });
 
-app.controller('DevicesListCtrl', [ '$scope', '$location', 'Device', '$translate', '$window', '$document', 'toaster', 'DeviceTypes',
-  function ($scope, $location, Device, $translate, $window, $document, toaster, DeviceTypes) {
+app.controller('DevicesListCtrl', [ '$scope', '$location', 'Device', '$translate', '$window', '$document', '$timeout', 'toaster', 'DeviceTypes', 'constant',
+  function ($scope, $location, Device, $translate, $window, $document, $timeout, toaster, DeviceTypes, constant) {
 
   $scope.devices = Device.getDevicesList();
 
-  var d = new Date();
+    (function tick() {
+      Device.getDevicesList(function (data) {
+        $scope.devices = data;
+        $timeout(tick, constant.POLLING_INTERVAL);
+      });
+    })();
+
+
+    var d = new Date();
   d.setHours(0);
   d.setMinutes(0);
   d.setSeconds(0);
