@@ -13,25 +13,25 @@ angular.module('ubirchAdminCrudApp')
       templateUrl: 'views/directives/syncstate.html',
       restrict: 'E',
       replace: true,
-      scope: {syncState: '@'
+      scope: {inSync: '@'
       },
       link: function postLink(scope) {
 
         var getSyncState = function(newSyncValue){
           if (newSyncValue === 'true'){
-            scope.inSync = true;
+            scope.showInSync = true;
           }
           else if (newSyncValue === 'false'){
-            scope.inSync = false;
+            scope.showInSync = false;
           }
           else {
-            scope.inSync = undefined;
+            scope.showInSync = undefined;
           }
         };
 
-        getSyncState(scope.syncState);
+        getSyncState(scope.inSync);
 
-        scope.$watch('syncState', function(newSyncValue){
+        scope.$watch('inSync', function(newSyncValue){
           getSyncState(newSyncValue);
         });
       }

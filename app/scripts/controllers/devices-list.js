@@ -16,8 +16,6 @@ app.run(function(editableOptions) {
 app.controller('DevicesListCtrl', [ '$scope', '$location', 'Device', '$translate', '$window', '$document', '$timeout', 'toaster', 'DeviceTypes', 'constant',
   function ($scope, $location, Device, $translate, $window, $document, $timeout, toaster, DeviceTypes, constant) {
 
-  $scope.devices = Device.getDevicesList();
-
     (function tick() {
       Device.getDevicesList(function (data) {
         $scope.devices = data;

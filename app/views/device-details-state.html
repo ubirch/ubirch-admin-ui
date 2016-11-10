@@ -25,10 +25,10 @@
 
     <div class="form-group">
       <span class="label label-default">{{ 'DEVICE_SYNC_STATE' | translate }}</span>
-      <syncstate sync-state="{{syncState}}"></syncstate>
-      <span ng-if="syncState === undefined">{{ 'UNKNOWN' | translate }}</span>
-      <span ng-if="syncState !== undefined && syncState">{{ 'DEVICE_IN_SYNC' | translate }}</span>
-      <span ng-if="syncState !== undefined && !syncState">{{ 'DEVICE_OUT_OF_SYNC' | translate }}</span>
+      <syncstate in-sync="{{inSync}}"></syncstate>
+      <span ng-if="inSync === undefined">{{ 'UNKNOWN' | translate }}</span>
+      <span ng-if="inSync !== undefined && inSync">{{ 'DEVICE_IN_SYNC' | translate }}</span>
+      <span ng-if="inSync !== undefined && !inSync">{{ 'DEVICE_OUT_OF_SYNC' | translate }}</span>
     </div>
     <div class="form-group">
       <span class="label label-default">{{ 'DEVICE_LAST_UPDATED' | translate }}</span>

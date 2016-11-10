@@ -38,8 +38,8 @@ angular.module('ubirchAdminCrudApp')
                 case "deviceLastUpdated":
                   $scope.deviceLastUpdated = katObj;
                   break;
-                case "syncState":
-                  $scope.syncState = katObj;
+                case "inSync":
+                  $scope.inSync = katObj;
                   break;
                 default:
                   var kategory = kat;
