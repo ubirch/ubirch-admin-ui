@@ -8,159 +8,80 @@
  * Service in the ubirchAdminCrudApp.
  */
 angular.module('ubirchAdminCrudApp')
-  .service('DeviceTypes', function () {
+  .service('DeviceTypes', ['$resource', 'constant', 'settings', '$log', function ($resource, constant, settings, $log) {
     var defaultDeviceTypeNo = 0;
-    var deviceTypes = [
-      {
-        key: "unknownDeviceTypeKey",
-        name: {
-          de: "unbekannterDeviceTyp",
-          en: "unknownDeviceType"
-        },
-        icon: "ion-help-circled",
-        defaults: {
-          properties: {},
-          config: {},
-          tags: []
-        }
-      },
-      {
-        key: "lightsSensorTypeKey",
-        name: {
-          de: "Lichtsensor",
-          en: "lightssensor"
-        },
-        icon: "ion-ios-lightbulb",
-        defaults: {
-          properties: {
-              countryCode: "unknown"
-          },
-          config: {
-              i: 3600,
-              ir: 191,
-              s: 0
-          },
-          tags: ["sensor", "ubirch"]
-        }
-      },
-      {
-        key: "temperaturesSensorTypeKey",
-        name: {
-          de: "Temperatursensor",
-          en: "temperaturessensor"
-        },
-        icon: "ion-thermometer",
-        defaults: {
-          properties: {
-            countryCode: "unknown"
-          },
-          config: {
-            i: 1000,
-            s: 0
-          },
-          tags: ["sensor"]
-        }
-      },
-      {
-        key: "noiseSensorTypeKey",
-        name: {
-          de: "Geräuschsensor",
-          en: "noisesensor"
-        },
-        icon: "ion-mic-c",
-        defaults: {
-          properties: {
-            countryCode: "unknown"
-          },
-          config: {
-            i: 1000,
-            s: 0
-          },
-          tags: ["sensor"]
-        }
-      },
-      {
-        key: "waterSensorTypeKey",
-        name: {
-          de: "Wassersensor",
-          en: "watersensor"
-        },
-        icon: "ion-waterdrop",
-        defaults: {
-          properties: {
-            countryCode: "unknown"
-          },
-          config: {
-            i: 10000,
-            s: 0
-          },
-          tags: ["sensor"]
-        }
-      },
-      {
-        key: "customDeviceTypeKey",
-        name: {
-          de: "eigenerDeviceTyp",
-          en: "customdevicetype"
-        },
-        icon: "ion-radio-waves",
-        defaults: {
-          properties: {},
-          config: {},
-          tags: []
-        }
-      }
-    ];
 
-    var getDeviceType4key = function (deviceTypeKey){
+    var url = settings.UBIRCH_API_HOST + constant.AVATAR_SERVICE_REST_ENDPOINT;
+
+    var getDeviceTypeNo4key = function (deviceTypeKey){
       if (deviceTypes.length > 0){
         if (deviceTypeKey !== undefined){
           for (var i = 0; i < deviceTypes.length; i++){
             if (deviceTypes[i].key === deviceTypeKey){
-              return deviceTypes[i];
+              return i;
             }
           }
         }
         if (defaultDeviceTypeNo !== undefined){
-          return deviceTypes[defaultDeviceTypeNo];
+          return defaultDeviceTypeNo;
         }
       }
-      return undefined;
+      return -1;
     };
 
-    return {
-      getDeviceTypeList: function(){
-        return deviceTypes;
-      },
+    var getDeviceType4key = function (deviceTypeKey){
+      var index = getDeviceTypeNo4key(deviceTypeKey);
+      return index >= 0 ? deviceTypes[index] : undefined;
+    };
 
-      getDeviceType: function(deviceTypeKey){
+    var deviceType = $resource(url + '/device/deviceType');
+
+    var deviceTypes = [];
+
+    deviceType.init = function(callback) {
+      if (deviceTypes.length > 0){
+        callback(deviceTypes);
+      }
+      else {
+        deviceTypes = deviceType.query( function(data){
+          // initialise the default device type
+          if (! deviceType.setDefaultType(constant.DEFAULT_DEVICE_TYPE_KEY)){
+            $log.warn("Missing default device type!! Please add default device type key in app > scripts > services > constant > DEFAULT_DEVICE_TYPE_KEY");
+          }
+          if (callback !== undefined){
+            callback(data);
+          }
+        });
+      }
+    };
+
+    deviceType.getDeviceTypeList = function(){
+      return deviceTypes;
+    };
+
+    deviceType.getDeviceType = function(deviceTypeKey){
         return getDeviceType4key(deviceTypeKey, defaultDeviceTypeNo);
-      },
+    };
 
-      getDeviceTypeIcon: function(deviceTypeKey){
-        if (defaultDeviceTypeNo === undefined && deviceTypes !== undefined && deviceTypes.length > 0){
-          defaultDeviceTypeNo = 0;
-        }
+    deviceType.getDeviceTypeIcon = function(deviceTypeKey){
         var type = getDeviceType4key(deviceTypeKey);
         return type.icon;
-      },
-
-      /**
-       * default of default type is the first item in return array of device types
-       * @param defaultDeviceTypeNoParam changes the number of the default device type
-       */
-      setDefaultTypeNo: function(defaultDeviceTypeNoParam) {
-        if (defaultDeviceTypeNoParam === undefined && deviceTypes !== undefined && deviceTypes.length > 0){
-          defaultDeviceTypeNo = 0;
-        }
-        else {
-          defaultDeviceTypeNo = defaultDeviceTypeNoParam;
-        }
-      },
-
-      getDefaultType: function () {
-          return getDeviceType4key(defaultDeviceTypeNo);
-      }
-
     };
-  });
+
+    /**
+     * default of default type is the first item in return array of device types
+     * @param defaultDeviceTypeParam changes the default device type
+     */
+    deviceType.setDefaultType = function(defaultDeviceTypeParam) {
+      var index = getDeviceTypeNo4key(defaultDeviceTypeParam);
+      defaultDeviceTypeNo = index;
+      return index >= 0;
+    };
+
+    deviceType.getDefaultType = function () {
+          return getDeviceType4key(defaultDeviceTypeNo);
+    };
+
+    return deviceType;
+
+  }]);

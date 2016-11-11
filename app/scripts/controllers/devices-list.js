@@ -16,24 +16,40 @@ app.run(function(editableOptions) {
 app.controller('DevicesListCtrl', [ '$scope', '$location', 'Device', '$translate', '$window', '$document', '$timeout', 'toaster', 'DeviceTypes', 'constant',
   function ($scope, $location, Device, $translate, $window, $document, $timeout, toaster, DeviceTypes, constant) {
 
-    (function tick() {
+    function tick() {
       Device.getDevicesList(function (data) {
         $scope.devices = data;
         $timeout(tick, constant.POLLING_INTERVAL);
       });
-    })();
+    }
 
+    DeviceTypes.init(
+      function(){
+        tick();
+        $scope.newDevice = {
+        };
+
+        $scope.$watch( "newDevice.deviceTypeKey", function(newTypeKey) {
+          var newType = DeviceTypes.getDeviceType(newTypeKey);
+          $scope.newDevice.deviceProperties = newType.defaults.properties;
+          $scope.newDevice.tags = newType.defaults.tags;
+          $scope.newDevice.deviceConfig = newType.defaults.config;
+        });
+
+        $scope.addedProperties = Device.initDevice();
+
+      }
+    );
 
     var d = new Date();
-  d.setHours(0);
-  d.setMinutes(0);
-  d.setSeconds(0);
-  $scope.today = d;
+    d.setHours(0);
+    d.setMinutes(0);
+    d.setSeconds(0);
+    $scope.today = d;
 
-  $scope.fromToday = function(date){
-    return new Date(date) >= $scope.today;
-  };
-
+    $scope.fromToday = function(date){
+      return new Date(date) >= $scope.today;
+    };
 
     $scope.openDeviceDetails = function (deviceId) {
       $location.url( "device-details/" + deviceId);
@@ -42,20 +58,6 @@ app.controller('DevicesListCtrl', [ '$scope', '$location', 'Device', '$translate
     $scope.cancelCreateDevice = function() {
       toaster.pop('warning', "Abbruch", "Anlegen eines neuen Gerätes wurde abgebrochen");
     };
-
-    $scope.newDevice = {
-      hwDeviceId: undefined,
-      deviceTypeKey: DeviceTypes.getDefaultType().key
-    };
-
-    $scope.$watch( "newDevice.deviceTypeKey", function(newTypeKey) {
-      var newType = DeviceTypes.getDeviceType(newTypeKey);
-      $scope.newDevice.deviceProperties = newType.defaults.properties;
-      $scope.newDevice.tags = newType.defaults.tags;
-      $scope.newDevice.deviceConfig = newType.defaults.config;
-    });
-
-    $scope.addedProperties = Device.initDevice();
 
     $scope.createDevice = function() {
       angular.element('#myModal').modal('hide');
