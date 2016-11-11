@@ -20,8 +20,7 @@ angular.module('ubirchAdminCrudApp')
     $scope.stateKats = [];
 //    var numOfMessages = 10;
 
-
-    if ($stateParams.deviceid) {
+      if ($stateParams.deviceid) {
       $scope.device = Device.getDevice($stateParams.deviceid, function(deviceVal){
         $scope.deviceType = DeviceTypes.getDeviceType(deviceVal.deviceTypeKey);
       });
