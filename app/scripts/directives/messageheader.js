@@ -14,9 +14,10 @@ angular.module('ubirchAdminCrudApp')
       scope: {message: '@',
         deviceType: '@'
       },
-      link: function postLink(scope, element, attrs) {
-        scope.type = attrs.deviceType;
-        scope.mess = angular.fromJson(attrs.message);
+      link: function postLink(scope) {
+        scope.messageObj = angular.fromJson(scope.message);
+        scope.type = scope.messageObj.deviceType;
+        scope.deviceMessage = scope.messageObj.deviceMessage;
       }
     };
   });

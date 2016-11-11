@@ -120,14 +120,14 @@ angular.module('ubirchAdminCrudApp')
 
       },
 
-      // http://localhost:8080/api/avatarService/v1/device/125555/history
-      history: $resource(url + '/device/:deviceId/history',
+      // http://localhost:8080/api/avatarService/v1/device/85281602-0a46-424b-be96-e3d88a3c91cc/data/history
+      history: $resource(url + '/device/:deviceId/data/history',
                     {deviceId: '@deviceId'}
                   ),
 
       getHistory: function(deviceId /*, numOfMessages */){
 
-        return this.history.get(deviceId,
+        return this.history.query({deviceId: deviceId},
           function(data){
             $log.debug("Got history data from Device: " + data);
           },
