@@ -39,7 +39,12 @@ angular
         url: '/device-details/:deviceid',
         templateUrl: '../views/device-details.html',
         controller: 'DeviceDetailsCtrl',
-        controllerAs: 'deviceDetails'
+        controllerAs: 'deviceDetails',
+        resolve:{
+          deviceTypesList: function(DeviceTypes){
+            return DeviceTypes.query();
+          }
+        }
       })
       .state('devices-list', {
         url: '/devices-list',

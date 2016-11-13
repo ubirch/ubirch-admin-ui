@@ -23,7 +23,7 @@ angular.module('ubirchAdminCrudApp')
               seriesData[key] = [];
             }
             seriesData[key].push(message.deviceMessage[key]);
-          })
+          });
         });
 
         var series = [], i = 0;
