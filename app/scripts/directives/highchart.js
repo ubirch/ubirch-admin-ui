@@ -18,12 +18,15 @@ angular.module('ubirchAdminCrudApp')
       link: function postLink(scope, element) {
         var seriesData = {};
         scope.messages.forEach(function(message){
+
+          var timestamp = Date.parse(message.timestamp);
+
           Object.keys(message.deviceMessage).forEach(function(key){
             if (seriesData[key] === undefined){
               seriesData[key] = [];
             }
-            seriesData[key].push(message.deviceMessage[key]);
-          })
+            seriesData[key].push([ timestamp, message.deviceMessage[key]]);
+          });
         });
 
         var series = [], i = 0;
@@ -40,11 +43,13 @@ angular.module('ubirchAdminCrudApp')
             type: 'line'
           },
           title: {
-            text: 'Temperature data'
+            text: 'Sensor data'
           },
           xAxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-              'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            title: {
+              text: 'Datum'
+            },
+            type: 'datetime'
           },
           series: series
         });
