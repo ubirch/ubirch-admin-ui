@@ -38,7 +38,28 @@ angular.module('ubirchAdminCrudApp')
           i++;
         });
 
-        Highcharts.chart(element[0], {
+        // var convertDateToUTC = function(date) {
+        //   return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+        // };
+        var lastDisplayedDay;
+
+        Highcharts.dateFormats = {
+          O: function (timestamp) {
+            var date = new Date(timestamp),
+              currentDay = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
+            if (lastDisplayedDay !== undefined && lastDisplayedDay.getTime() === currentDay.getTime()){
+              return "";
+            }
+            else {
+              var returnStr = date.getDate() + "." + (date.getMonth()+1) + "." + date.getFullYear();
+              lastDisplayedDay = currentDay;
+              return returnStr;
+            }
+          }
+        };
+
+        new Highcharts.chart(element[0], {
           chart: {
             type: 'line'
           },
@@ -47,9 +68,16 @@ angular.module('ubirchAdminCrudApp')
           },
           xAxis: {
             title: {
-              text: 'Datum'
+              text: 'Date'
             },
-            type: 'datetime'
+            type: 'datetime',
+            startOnTick: true,
+            labels: {
+              format: '{value:%O %H:%M:%S}',
+              align: 'right',
+              rotation: -30
+            }
+
           },
           series: series
         });

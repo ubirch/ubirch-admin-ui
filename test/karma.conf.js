@@ -22,6 +22,7 @@ module.exports = function(config) {
       // bower:js
       'bower_components/jquery/dist/jquery.js',
       'bower_components/angular/angular.js',
+      'bower_components/highcharts/highcharts.js',
       'bower_components/bootstrap/dist/js/bootstrap.js',
       'bower_components/bootbox/bootbox.js',
       'bower_components/angular-animate/angular-animate.js',
@@ -41,7 +42,6 @@ module.exports = function(config) {
       'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
       'bower_components/angular.uuid2/dist/angular-uuid2.js',
       'bower_components/AngularJS-Toaster/toaster.js',
-      'bower_components/highcharts/highcharts.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',
