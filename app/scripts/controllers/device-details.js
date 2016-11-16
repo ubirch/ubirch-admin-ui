@@ -8,8 +8,8 @@
  * Controller of the ubirchAdminCrudApp
  */
 angular.module('ubirchAdminCrudApp')
-  .controller('DeviceDetailsCtrl',[ '$scope', '$window', '$location', '$stateParams', 'Device', 'toaster', 'DeviceTypes',
-    function ($scope, $window, $location, $stateParams, Device, toaster, DeviceTypes) {
+  .controller('DeviceDetailsCtrl',[ '$scope', '$window', '$location', '$stateParams', 'Device', 'toaster', 'deviceTypesList',
+    function ($scope, $window, $location, $stateParams, Device, toaster, deviceTypesList) {
     var listUrl = "devices-list";
 
     $scope.activeTab = "state";
@@ -20,55 +20,57 @@ angular.module('ubirchAdminCrudApp')
     $scope.stateKats = [];
 //    var numOfMessages = 10;
 
+    var deviceTypeList = $scope.deviceTypesList;
+
       if ($stateParams.deviceid) {
-      $scope.device = Device.getDevice($stateParams.deviceid, function(deviceVal){
-        $scope.deviceType = DeviceTypes.getDeviceType(deviceVal.deviceTypeKey);
-      });
-      Device.getDeviceState($stateParams.deviceid,
-        function(data){
+        $scope.device = Device.getDevice($stateParams.deviceid, function(deviceVal){
+          $scope.deviceType = DeviceTypes.getDeviceType(deviceVal.deviceTypeKey);
+        });
+        Device.getDeviceState($stateParams.deviceid,
+          function(data){
 
-          var collector = {};
+            var collector = {};
 
-          angular.forEach( data, function(katObj, kat){
-            // don't add $promise, $resolved aso
-            if (!kat.startsWith("$")){
-              switch(kat) {
-                case "avatarLastUpdated":
-                  $scope.avatarLastUpdated = katObj;
-                  break;
-                case "deviceLastUpdated":
-                  $scope.deviceLastUpdated = katObj;
-                  break;
-                case "inSync":
-                  $scope.inSync = katObj;
-                  break;
-                default:
-                  var kategory = kat;
-                  // save the parameter name for row identification
-                  $scope.stateKats.push(kategory);
+            angular.forEach( data, function(katObj, kat){
+              // don't add $promise, $resolved aso
+              if (!kat.startsWith("$")){
+                switch(kat) {
+                  case "avatarLastUpdated":
+                    $scope.avatarLastUpdated = katObj;
+                    break;
+                  case "deviceLastUpdated":
+                    $scope.deviceLastUpdated = katObj;
+                    break;
+                  case "inSync":
+                    $scope.inSync = katObj;
+                    break;
+                  default:
+                    var kategory = kat;
+                    // save the parameter name for row identification
+                    $scope.stateKats.push(kategory);
 
-                  angular.forEach(katObj, function(value, key){
-                    if (!collector[key]){
-                      collector[key] = {"stateKey": key};
-                    }
-                    collector[key][kategory] = value;
-                  });
+                    angular.forEach(katObj, function(value, key){
+                      if (!collector[key]){
+                        collector[key] = {"stateKey": key};
+                      }
+                      collector[key][kategory] = value;
+                    });
+                }
               }
-            }
-          });
-          $scope.deviceState = collector;
+            });
+            $scope.deviceState = collector;
 
-          deviceStateSaved = angular.copy($scope.deviceState);
-        }
-      );
+            deviceStateSaved = angular.copy($scope.deviceState);
+          }
+        );
 
-      /**
-       * For history of device data (test-data-set: deviceId = "d65f1582-5cd2-4f8c-8607-922ecc2b4b45")
-       */
+        /**
+         * For history of device data (test-data-set: deviceId = "d65f1582-5cd2-4f8c-8607-922ecc2b4b45")
+         */
 
-      $scope.messages = Device.getHistory($stateParams.deviceid /*, numOfMessages */);
+        $scope.messages = Device.getHistory($stateParams.deviceid /*, numOfMessages */);
 
-    }
+      }
 
       /**
        * edit and save device state items
