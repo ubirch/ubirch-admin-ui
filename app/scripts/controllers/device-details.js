@@ -8,8 +8,8 @@
  * Controller of the ubirchAdminCrudApp
  */
 angular.module('ubirchAdminCrudApp')
-  .controller('DeviceDetailsCtrl',[ '$scope', '$window', '$location', '$stateParams', 'Device', 'toaster', 'deviceTypesList',
-    function ($scope, $window, $location, $stateParams, Device, toaster, deviceTypesList) {
+  .controller('DeviceDetailsCtrl',[ '$scope', '$window', '$location', '$stateParams', '$filter', 'Device', 'toaster', 'deviceTypesList',
+    function ($scope, $window, $location, $stateParams, $filter, Device, toaster, deviceTypesList) {
     var listUrl = "devices-list";
 
     $scope.activeTab = "state";
@@ -20,12 +20,11 @@ angular.module('ubirchAdminCrudApp')
     $scope.stateKats = [];
 //    var numOfMessages = 10;
 
-    var deviceTypeList = $scope.deviceTypesList;
-
       if ($stateParams.deviceid) {
         $scope.device = Device.getDevice($stateParams.deviceid, function(deviceVal){
-          $scope.deviceType = DeviceTypes.getDeviceType(deviceVal.deviceTypeKey);
+          $scope.deviceType = $filter('getDeviceType')(deviceTypesList, deviceVal.deviceTypeKey);
         });
+
         Device.getDeviceState($stateParams.deviceid,
           function(data){
 

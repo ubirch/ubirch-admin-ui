@@ -42,7 +42,7 @@ angular
         controllerAs: 'deviceDetails',
         resolve:{
           deviceTypesList: function(DeviceTypes){
-            return DeviceTypes.query();
+            return DeviceTypes.getDeviceTypeList();
           }
         }
       })
@@ -50,19 +50,23 @@ angular
         url: '/devices-list',
         templateUrl: '../views/devices-list.html',
         controller: 'DevicesListCtrl',
-        controllerAs: 'devicesList'
+        controllerAs: 'devicesList',
+        resolve:{
+          deviceTypesList: function(DeviceTypes){
+            return DeviceTypes.getDeviceTypeList();
+          }
+        }
       })
       .state('devices-map', {
         url: '/devices-map',
         templateUrl: '../views/devices-map.html',
         controller: 'DevicesMapCtrl',
-        controllerAs: 'devicesMap'
-      })
-      .state('device-crud', {
-        url: '/device-crud/:deviceid?',
-        templateUrl: '../views/device-crud.html',
-        controller: 'DeviceCrudCtrl',
-        controllerAs: 'deviceCrud'
+        controllerAs: 'devicesMap',
+        resolve:{
+          deviceTypesList: function(DeviceTypes){
+            return DeviceTypes.getDeviceTypeList();
+          }
+        }
       })
       .state('about', {
         url: '/about',
