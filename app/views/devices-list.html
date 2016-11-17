@@ -30,7 +30,7 @@
       <tbody>
       <tr ng-repeat="device in devices | filter:search" ng-click="openDeviceDetails(device.deviceId)" title="show device details">
         <td>
-          <devicetypeicon device-type='{{device.deviceTypeKey}}'></devicetypeicon>
+          <i ng-repeat="deviceType in deviceTypes | filter:match(device.deviceTypeKey)" class="sensor-type-icon {{deviceType.icon}}"></i>
         </td>
         <th scope="row">
           {{device.deviceName}}<br/>
@@ -53,7 +53,7 @@
   </div>
   <div class="row">
     <button type="button" class="btn btn-primary btn-lg btn-block"
-            data-toggle="modal" data-target="#myModal" title="{{ 'ADD_DEVICE' | translate }}">
+            ng-click="openNewDeviceDialog()" title="{{ 'ADD_DEVICE' | translate }}">
       <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
       {{ 'ADD_DEVICE' | translate }}
     </button>

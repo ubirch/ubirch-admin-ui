@@ -7,7 +7,7 @@
  * # DeviceTypeList
  */
 angular.module('ubirchAdminCrudApp')
-  .directive('devicetypelist',['DeviceTypes', function (DeviceTypes) {
+  .directive('devicetypelist',['DeviceTypes', '$filter', function (DeviceTypes, $filter) {
     return {
       templateUrl: 'views/directives/devicetypelist.html',
       restrict: 'E',
@@ -16,10 +16,10 @@ angular.module('ubirchAdminCrudApp')
       },
       link: function postLink(scope) {
         scope.deviceTypes = DeviceTypes.getDeviceTypeList();
-        scope.selectedDeviceType = DeviceTypes.getDeviceType(scope.deviceTypeKey);
+        scope.selectedDeviceType = $filter('getDeviceType')(scope.deviceTypes, scope.deviceTypeKey);
 
         scope.selectType = function(type){
-          scope.selectedDeviceType = DeviceTypes.getDeviceType(type.key);
+          scope.selectedDeviceType =  $filter('getDeviceType')(scope.deviceTypes, type.key);
           scope.deviceTypeKey = scope.selectedDeviceType.key;
         };
       }

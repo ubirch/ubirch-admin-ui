@@ -13,33 +13,19 @@ app.run(function(editableOptions) {
   editableOptions.theme = 'bs3';
 });
 
-app.controller('DevicesListCtrl', [ '$scope', '$location', 'Device', '$translate', '$window', '$document', '$timeout', 'toaster', 'DeviceTypes', 'constant',
-  function ($scope, $location, Device, $translate, $window, $document, $timeout, toaster, DeviceTypes, constant) {
+app.controller('DevicesListCtrl', [ '$scope', '$location', 'Device', '$translate', '$window', '$document', '$timeout', '$filter', 'toaster', 'DeviceTypes', 'constant', 'deviceTypesList',
+  function ($scope, $location, Device, $translate, $window, $document, $timeout, $filter, toaster, DeviceTypes, constant, deviceTypesList) {
+
+    $scope.deviceTypes = deviceTypesList;
 
     function tick() {
       Device.getDevicesList(function (data) {
         $scope.devices = data;
-        $timeout(tick, constant.POLLING_INTERVAL);
+ //       $timeout(tick, constant.POLLING_INTERVAL);
       });
     }
 
-    DeviceTypes.init(
-      function(){
-        tick();
-        $scope.newDevice = {
-        };
-
-        $scope.$watch( "newDevice.deviceTypeKey", function(newTypeKey) {
-          var newType = DeviceTypes.getDeviceType(newTypeKey);
-          $scope.newDevice.deviceProperties = newType.defaults.properties;
-          $scope.newDevice.tags = newType.defaults.tags;
-          $scope.newDevice.deviceConfig = newType.defaults.config;
-        });
-
-        $scope.addedProperties = Device.initDevice();
-
-      }
-    );
+    tick();
 
     var d = new Date();
     d.setHours(0);
@@ -53,6 +39,21 @@ app.controller('DevicesListCtrl', [ '$scope', '$location', 'Device', '$translate
 
     $scope.openDeviceDetails = function (deviceId) {
       $location.url( "device-details/" + deviceId);
+    };
+
+    $scope.openNewDeviceDialog = function() {
+      $scope.newDevice = {
+        deviceTypeKey: constant.DEFAULT_DEVICE_TYPE_KEY
+      };
+      $scope.addedProperties = Device.initDevice();
+
+      $scope.$watch( "newDevice.deviceTypeKey", function(newTypeKey) {
+        var newType = $filter('getDeviceType')($scope.deviceTypes, newTypeKey);
+        $scope.newDevice.deviceProperties = newType.defaults.properties;
+        $scope.newDevice.tags = newType.defaults.tags;
+        $scope.newDevice.deviceConfig = newType.defaults.config;
+      });
+      angular.element('#myModal').modal('show');
     };
 
     $scope.cancelCreateDevice = function() {
@@ -74,5 +75,8 @@ app.controller('DevicesListCtrl', [ '$scope', '$location', 'Device', '$translate
           toaster.pop('error', "Fehler", "Es konnte kein neues Gerät angelegt werden!!");
         }
       );
+    };
+    $scope.match = function(key) {
+      return function(collection) { return collection.key.match(key); };
     };
   }]);
