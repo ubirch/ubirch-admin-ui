@@ -16,7 +16,10 @@ angular.module('ubirchAdminCrudApp')
       },
       link: function postLink(scope) {
         scope.deviceTypes = DeviceTypes.getDeviceTypeList();
-        scope.selectedDeviceType = $filter('getDeviceType')(scope.deviceTypes, scope.deviceTypeKey);
+
+        scope.$watch('deviceTypeKey', function(newTypeKey){
+          scope.selectedDeviceType = $filter('getDeviceType')(scope.deviceTypes, newTypeKey);
+        });
 
         scope.selectType = function(type){
           scope.selectedDeviceType =  $filter('getDeviceType')(scope.deviceTypes, type.key);
