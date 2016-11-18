@@ -485,7 +485,7 @@ module.exports = function (grunt) {
         grunt.task.run(['copy:' + staging + '_settings']);
         break;
       default:
-        grunt.log.warn("Interpreted staging params: dev, int, prod; Call: grunt --staging=qa");
+        grunt.log.warn("Interpreted staging params: dev, int, prod; Call: grunt --staging=dev");
         grunt.task.run(['copy:dev_settings']);
     }
 

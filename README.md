@@ -66,9 +66,12 @@ Running `grunt test` will run the unit tests with karma.
 
 If you want to deploy the latest version on a server, follow these instructions:
 
-Follow 1.-3. of build for local use
+1. Clone the code:
 
-4. Server settings
+        git clone https://github.com/ubirch/ubirch-admin-ui
+        cd ubirch-admin-ui
+
+2. Server settings
 
   change the settings, especially the url of the backend server in one of the following files:
    
@@ -76,27 +79,9 @@ Follow 1.-3. of build for local use
   *  settings/settings_int.js
   *  settings/settings_prod.js
   
-5. Build the code
+3. Run deployment script
 
-        grunt build
-  
-  OR: Build an test the dist code:
-  
-        grunt serve:dist
-
-        Open http://localhost:9000
-
-  OR: connect to another stage backend server:
-  
-  * default: settings_dev.js are copied
-  * otherwise tell me which stage version you want, e.g.:
-
-        grunt build --staging=int
-        grunt serve:dist --staging=prod
-
-
-6. Copy content of directory `dist` into the root directory of your web server
-
+        ./deployWeb.sh
 
 ## Contact
 
