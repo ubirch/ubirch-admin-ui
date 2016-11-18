@@ -28,7 +28,7 @@
   <div class="row">
     <table class="table table-hover">
       <tbody>
-      <tr ng-repeat="device in devices | filter:search" ng-click="openDeviceDetails(device.deviceId)" title="show device details">
+      <tr ng-repeat="device in devices | filter:search" ng-click="openDeviceDetails(device.deviceId)" title="show device details" ng-class="{'out-of-sync': !device.inSync}">
         <td>
           <i ng-repeat="deviceType in deviceTypes | filter:match(device.deviceTypeKey)" class="sensor-type-icon {{deviceType.icon}}"></i>
         </td>
