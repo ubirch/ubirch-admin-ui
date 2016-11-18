@@ -13,19 +13,29 @@ app.run(function(editableOptions) {
   editableOptions.theme = 'bs3';
 });
 
-app.controller('DevicesListCtrl', [ '$scope', '$location', 'Device', '$translate', '$window', '$document', '$timeout', '$filter', 'toaster', 'DeviceTypes', 'constant', 'deviceTypesList',
-  function ($scope, $location, Device, $translate, $window, $document, $timeout, $filter, toaster, DeviceTypes, constant, deviceTypesList) {
+app.controller('DevicesListCtrl', [ '$scope', '$location', 'Device', '$translate', '$window', '$document', '$timeout', '$filter', '$log', 'toaster', 'DeviceTypes', 'constant', 'deviceTypesList',
+  function ($scope, $location, Device, $translate, $window, $document, $timeout, $filter, $log, toaster, DeviceTypes, constant, deviceTypesList) {
 
     $scope.deviceTypes = deviceTypesList;
 
-    function tick() {
+    var listPromise;
+
+    (function refreshData() {
+      // Assign to scope within callback to avoid data flickering on screen
       Device.getDevicesList(function (data) {
         $scope.devices = data;
- //       $timeout(tick, constant.POLLING_INTERVAL);
-      });
-    }
+        listPromise = $timeout(refreshData, constant.POLLING_INTERVAL);
+      },
+        function (error) {
+          $log.warn("On loading device list an error uccurred: "+error);
+          listPromise = $timeout(refreshData, constant.POLLING_INTERVAL);
+        }
+      );
+    })();
 
-    tick();
+    $scope.$on('$destroy', function(){
+      $timeout.cancel(listPromise);
+    });
 
     var d = new Date();
     d.setHours(0);
