@@ -22,10 +22,12 @@ angular.module('ubirchAdminCrudApp')
           var timestamp = Date.parse(message.timestamp);
 
           Object.keys(message.deviceMessage).forEach(function(key){
-            if (seriesData[key] === undefined){
-              seriesData[key] = [];
+            if (typeof message.deviceMessage[key] === "number"){
+              if (seriesData[key] === undefined){
+                seriesData[key] = [];
+              }
+              seriesData[key].push([ timestamp, message.deviceMessage[key]]);
             }
-            seriesData[key].push([ timestamp, message.deviceMessage[key]]);
           });
         });
 
