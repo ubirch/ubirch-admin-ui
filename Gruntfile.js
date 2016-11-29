@@ -128,7 +128,11 @@ module.exports = function (grunt) {
         src: [
           'Gruntfile.js',
           '<%= yeoman.app %>/scripts/{,*/}*.js'
-        ]
+        ],
+        options:{
+          predef: ['Highcharts']
+        },
+        files: ['/bower_components/highcharts/js/highcharts.js']
       },
       test: {
         options: {

@@ -8,7 +8,7 @@ npm install
 echo bower install
 bower install
 
-STAGE="dev"
+STAGE="prod"
 if [ "$1" != "" ]
   then
     STAGE=$1

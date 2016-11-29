@@ -9,7 +9,7 @@
  */
 var app = angular.module('ubirchAdminCrudApp');
 
-app.filter('getDeviceType', ['constant', '$log', function(constant, $log) {
+app.filter('getDeviceType', ['settings', 'constant', '$log', function(settings, constant, $log) {
   return function(deviceTypes, deviceTypeKey) {
     if (deviceTypes !== undefined && deviceTypes.length > 0){
       if (deviceTypeKey !== undefined){
@@ -20,11 +20,14 @@ app.filter('getDeviceType', ['constant', '$log', function(constant, $log) {
           }
         }
       }
-      if (constant.DEFAULT_DEVICE_TYPE_KEY !== undefined){
+      if (settings.DEFAULT_DEVICE_TYPE_KEY !== undefined){
+        return deviceTypes[settings.DEFAULT_DEVICE_TYPE_KEY];
+      }
+      else if (constant.DEFAULT_DEVICE_TYPE_KEY !== undefined){
         return deviceTypes[constant.DEFAULT_DEVICE_TYPE_KEY];
       }
       else {
-        $log.warn("Missing default device type!! Please add default device type key in app > scripts > services > constant > DEFAULT_DEVICE_TYPE_KEY");
+        $log.warn("Missing default device type!! Please add default device type key in settings > DEFAULT_DEVICE_TYPE_KEY");
       }
     }
     return null;

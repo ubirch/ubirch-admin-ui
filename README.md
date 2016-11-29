@@ -6,6 +6,7 @@ ubrich user interface to manage and monitor IOT devices
 
 ## Quick Start
 
+0. start ubirch-avatar-service at localhost:8080 (default)
 1. `npm install`
 2. `bower install`
 3. `grunt serve
@@ -34,6 +35,10 @@ We expect the following tools been installed on the machine:
 ### Run locally
 
 If you want to run the latest code from git, here's how to get started:
+
+0. checkout and follow the instructions of the ubirch-avatar-service
+
+        git clone https://github.com/ubirch/ubirch-avatar-service
 
 1. Clone the code:
 
@@ -73,15 +78,26 @@ If you want to deploy the latest version on a server, follow these instructions:
 
 2. Server settings
 
-  change the settings, especially the url of the backend server in one of the following files:
+  change the settings, especially in one of the following files:
    
   *  settings/settings_dev.js
   *  settings/settings_int.js
   *  settings/settings_prod.js
   
+  especially change 
+  
+  * the url of the backend server in UBIRCH_API_HOST
+  * specify DEFAULT_DEVICE_TYPE_KEY if it doesn't equal to 'unknownDeviceTypeKey'
+  
 3. Run deployment script
 
+For prod deployment execute
+
         ./deployWeb.sh
+
+For int deployment execute
+
+        ./deployWeb.sh int
 
 ## Contact
 
