@@ -42,11 +42,11 @@ app.service('DeviceTypes', ['$resource', 'constant', 'settings', '$log', functio
 
     var deviceTypes;
 
-  deviceTypeResource.getDeviceTypeList = function(){
+    deviceTypeResource.getDeviceTypeList = function(){
       if (deviceTypes === undefined){
         deviceTypes = deviceTypeResource.query( function(){
           if (constant.DEFAULT_DEVICE_TYPE_KEY === undefined){
-            $log.warn("Missing default device type!! Please add default device type key in app > scripts > services > constant > DEFAULT_DEVICE_TYPE_KEY");
+            $log.warn("Missing default device type!! Please add default device type key in settings > DEFAULT_DEVICE_TYPE_KEY");
           }
         });
       }
