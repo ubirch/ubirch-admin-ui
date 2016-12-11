@@ -1,8 +1,11 @@
 <span>
-  <span ng-if="!fromToday">
+  <span ng-if="date && isToday(date)">
+    {{date | date:'HH:mm:ss'}}
+  </span>
+  <span ng-if="date && !isToday(date)">
     {{date | date:'dd.MM.yy HH:mm:ss'}}
   </span>
-  <span ng-if="fromToday">
-    {{date | date:'HH:mm:ss'}}
+  <span ng-if="date === undefined">
+    undefined
   </span>
 </span>

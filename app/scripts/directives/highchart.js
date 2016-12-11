@@ -22,10 +22,13 @@ angular.module('ubirchAdminCrudApp')
         var series = formatSeriesData(filteredData);
 
 
-        // var convertDateToUTC = function(date) {
-        //   return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
-        // };
         var lastDisplayedDay;
+
+        Highcharts.setOptions({                                            // This is for all plots, change Date axis to local timezone
+          global : {
+            useUTC : false
+          }
+        });
 
         Highcharts.dateFormats = {
           O: function (timestamp) {
@@ -79,7 +82,7 @@ angular.module('ubirchAdminCrudApp')
           // filter value
           scope.messages.forEach(function (message) {
 
-            var timestamp = Date.parse(message.timestamp);
+            var timestamp = new Date(message.timestamp).getTime();
             // filter deviceType if not the same as the last message came from
             if (deviceType === undefined || (deviceType != undefined && deviceType.key !== message.deviceType)) {
               deviceType = $filter('getDeviceType')(deviceTypes, message.deviceType);

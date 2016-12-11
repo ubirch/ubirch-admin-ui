@@ -17,23 +17,16 @@ angular.module('ubirchAdminCrudApp')
       link: function postLink(scope) {
 
         if (constant.TODAY === undefined){
-          var d = new Date();
-          d.setHours(0);
-          d.setMinutes(0);
-          d.setSeconds(0);
-          constant.TODAY = d;
+          var now = new Date();
+          constant.TODAY = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+          constant.TOMORROW = constant.TODAY + 1000*60*60*24;
         }
 
-        var getDate = function(newDate){
-          scope.date = newDate;
-          scope.fromToday = new Date(newDate) >= constant.TODAY;
-        };
-
-        getDate(scope.date);
-
-        scope.$watch('date', function(newDate){
-          getDate(newDate);
-        });
+        scope.isToday = function(dateStr) {
+          if (dateStr === undefined){ return false; }
+          var date = new Date(dateStr);
+          return (date > constant.TODAY && date < constant.TOMORROW);
+        }
       }
     };
   }]);
