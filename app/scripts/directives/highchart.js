@@ -91,7 +91,7 @@ angular.module('ubirchAdminCrudApp')
             Object.keys(message.deviceMessage).forEach(function (key) {
 
               // if displayKeys are defined for this deviceType filter these keys from message properties
-              if (deviceType && deviceType.displayKeys) {
+              if (deviceType && deviceType.displayKeys && deviceType.displayKeys.length > 0) {
                 if (deviceType.displayKeys.indexOf(key) !== -1) {
                   addValue(seriesData, key, message.deviceMessage[key], timestamp);
                 }
