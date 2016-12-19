@@ -13,8 +13,8 @@ app.run(function(editableOptions) {
   editableOptions.theme = 'bs3';
 });
 
-app.controller('DevicesListCtrl', [ '$scope', '$location', 'Device', '$translate', '$window', '$document', '$timeout', '$filter', '$log', 'toaster', 'DeviceTypes', 'constant', 'deviceTypesList',
-  function ($scope, $location, Device, $translate, $window, $document, $timeout, $filter, $log, toaster, DeviceTypes, constant, deviceTypesList) {
+app.controller('DevicesListCtrl', [ '$scope', '$location', 'Device', '$translate', '$window', '$document', '$timeout', '$filter', '$log', 'toaster', 'DeviceTypes', 'constant', 'settings', 'deviceTypesList',
+  function ($scope, $location, Device, $translate, $window, $document, $timeout, $filter, $log, toaster, DeviceTypes, constant, settings, deviceTypesList) {
 
     $scope.deviceTypes = deviceTypesList;
 
@@ -53,7 +53,7 @@ app.controller('DevicesListCtrl', [ '$scope', '$location', 'Device', '$translate
 
     $scope.openNewDeviceDialog = function() {
       $scope.newDevice = {
-        deviceTypeKey: constant.DEFAULT_DEVICE_TYPE_KEY
+        deviceTypeKey: settings.DEFAULT_DEVICE_TYPE_KEY ? settings.DEFAULT_DEVICE_TYPE_KEY : constant.DEFAULT_DEVICE_TYPE_KEY
       };
       $scope.addedProperties = Device.initDevice();
 
