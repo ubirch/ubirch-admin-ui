@@ -37,5 +37,6 @@
   "TABLABEL_HISTORY": "Verlauf",
   "TABLABEL_SETTINGS": "Einstellungen",
   "PAGE_PREV": "zurück",
-  "PAGE_NEXT": "weiter"
+  "PAGE_NEXT": "weiter",
+  "NUM_OF_DATASETS": "Anzahl Datensätze"
 }
