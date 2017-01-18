@@ -18,7 +18,7 @@ angular.module('ubirchAdminCrudApp')
     var deviceStateSaved =  [];
     $scope.stateDataChanged = false;
     $scope.stateKats = [];
-    $scope.numOfMessages = 30;
+    $scope.numOfMessages = 10;
     $scope.startIndex = 0;
 
       if ($stateParams.deviceid) {
@@ -134,5 +134,15 @@ angular.module('ubirchAdminCrudApp')
     $scope.selectType = function(type){
 
       $scope.device.deviceTypeKey = type;
+    };
+
+    $scope.page_next = function() {
+      $scope.startIndex += $scope.numOfMessages;
+      $scope.messages = Device.getDefinedHistory($stateParams.deviceid, $scope.startIndex, $scope.numOfMessages);
+    };
+
+    $scope.page_prev = function() {
+      $scope.startIndex = $scope.startIndex >= $scope.numOfMessages ? $scope.startIndex - $scope.numOfMessages : 0;
+      $scope.messages = Device.getDefinedHistory($stateParams.deviceid, $scope.startIndex, $scope.numOfMessages);
     };
   }]);
