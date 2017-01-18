@@ -35,5 +35,7 @@
   "UNKNOWN": "unknown",
   "TABLABEL_SYNC_STATE": "sync state",
   "TABLABEL_HISTORY": "history",
-  "TABLABEL_SETTINGS": "additional settings"
+  "TABLABEL_SETTINGS": "additional settings",
+  "PAGE_PREV": "previous data",
+  "PAGE_NEXT": "next data"
 }
