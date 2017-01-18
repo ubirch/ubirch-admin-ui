@@ -125,9 +125,25 @@ angular.module('ubirchAdminCrudApp')
                     {deviceId: '@deviceId'}
                   ),
 
-      getHistory: function(deviceId /*, numOfMessages */){
+      // http://localhost:8080/api/avatarService/v1/device/85281602-0a46-424b-be96-e3d88a3c91cc/data/history/0/10
+      history_defined: $resource(url + '/device/:deviceId/data/history/:from/:size',
+        {deviceId: '@deviceId', from: '@from', size: '@size'}
+      ),
+
+      getHistory: function(deviceId){
 
         return this.history.query({deviceId: deviceId},
+          function(data){
+            $log.debug("Got history data from Device: " + data);
+          },
+          function(error){
+            $log.debug("Requested history from Device - ERROR OCCURRED: " + error);
+          });
+      },
+
+      getDefinedHistory: function(deviceId, from, size){
+
+        return this.history_defined.query({deviceId: deviceId, from: from, size: size},
           function(data){
             $log.debug("Got history data from Device: " + data);
           },

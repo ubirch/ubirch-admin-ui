@@ -18,7 +18,8 @@ angular.module('ubirchAdminCrudApp')
     var deviceStateSaved =  [];
     $scope.stateDataChanged = false;
     $scope.stateKats = [];
-    $scope.numOfMessages = 10;
+    $scope.numOfMessages = 30;
+    $scope.startIndex = 0;
 
       if ($stateParams.deviceid) {
         $scope.device = Device.getDevice($stateParams.deviceid, function(deviceVal){
@@ -67,8 +68,7 @@ angular.module('ubirchAdminCrudApp')
          * For history of device data (test-data-set: deviceId = "d65f1582-5cd2-4f8c-8607-922ecc2b4b45")
          */
 
-        $scope.messages = Device.getHistory($stateParams.deviceid /*, numOfMessages */);
-
+        $scope.messages = Device.getDefinedHistory($stateParams.deviceid, $scope.startIndex, $scope.numOfMessages);
       }
 
       /**
