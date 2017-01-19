@@ -12,15 +12,16 @@ angular.module('ubirchAdminCrudApp')
     function ($scope, $window, $location, $stateParams, $filter, Device, toaster, deviceTypesList) {
     var listUrl = "devices-list";
 
-    $scope.activeTab = "state";
-    $scope.device = {};
-    $scope.deviceState =  [];
-    var deviceStateSaved =  [];
-    $scope.stateDataChanged = false;
-    $scope.stateKats = [];
-    $scope.numOfMessages = 10;
-    $scope.startIndex = 0;
-    $scope.endOfDataReached = false;
+      $scope.activeTab = "state";
+      $scope.device = {};
+      $scope.deviceState =  [];
+      var deviceStateSaved =  [];
+      $scope.stateDataChanged = false;
+      $scope.stateKats = [];
+      $scope.values = {};
+      $scope.values.numOfMessages = 10;
+      $scope.startIndex = 0;
+      $scope.endOfDataReached = false;
 
       if ($stateParams.deviceid) {
         $scope.device = Device.getDevice($stateParams.deviceid, function(deviceVal){
@@ -133,24 +134,28 @@ angular.module('ubirchAdminCrudApp')
       $scope.device.deviceTypeKey = type;
     };
 
-    $scope.page_next = function() {
-      $scope.startIndex += $scope.numOfMessages;
+      $scope.numOfMessagesChanged = function() {
+        loadHistory();
+      };
+
+      $scope.page_next = function() {
+      $scope.startIndex += $scope.values.numOfMessages;
       loadHistory();
     };
 
     $scope.page_prev = function() {
-      $scope.startIndex = $scope.startIndex >= $scope.numOfMessages ? $scope.startIndex - $scope.numOfMessages : 0;
+      $scope.startIndex = $scope.startIndex >= $scope.values.numOfMessages ? $scope.startIndex - $scope.values.numOfMessages : 0;
       loadHistory();
     };
 
     function loadHistory(){
-      Device.getDefinedHistory($stateParams.deviceid, $scope.startIndex, $scope.numOfMessages,
+      Device.getDefinedHistory($stateParams.deviceid, $scope.startIndex, $scope.values.numOfMessages,
         function(data){
           $scope.messages = data;
           $scope.endOfDataReached = false;
         },
         function(){
-          $scope.startIndex = $scope.startIndex >= $scope.numOfMessages ? $scope.startIndex - $scope.numOfMessages : 0;
+          $scope.startIndex = $scope.startIndex >= $scope.values.numOfMessages ? $scope.startIndex - $scope.values.numOfMessages : 0;
           $scope.endOfDataReached = true;
         });
     }

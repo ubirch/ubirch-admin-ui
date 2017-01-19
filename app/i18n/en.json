@@ -38,5 +38,6 @@
   "TABLABEL_SETTINGS": "additional settings",
   "PAGE_PREV": "previous data",
   "PAGE_NEXT": "next data",
-  "NUM_OF_DATASETS": "Number of data sets"
+  "NUM_OF_DATASETS": "number of data sets",
+  "RELOAD": "reload"
 }
