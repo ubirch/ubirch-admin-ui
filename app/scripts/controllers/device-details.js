@@ -20,6 +20,7 @@ angular.module('ubirchAdminCrudApp')
     $scope.stateKats = [];
     $scope.numOfMessages = 10;
     $scope.startIndex = 0;
+    $scope.endOfDataReached = false;
 
       if ($stateParams.deviceid) {
         $scope.device = Device.getDevice($stateParams.deviceid, function(deviceVal){
@@ -64,11 +65,7 @@ angular.module('ubirchAdminCrudApp')
           }
         );
 
-        /**
-         * For history of device data (test-data-set: deviceId = "d65f1582-5cd2-4f8c-8607-922ecc2b4b45")
-         */
-
-        $scope.messages = Device.getDefinedHistory($stateParams.deviceid, $scope.startIndex, $scope.numOfMessages);
+        loadHistory();
       }
 
       /**
@@ -138,11 +135,23 @@ angular.module('ubirchAdminCrudApp')
 
     $scope.page_next = function() {
       $scope.startIndex += $scope.numOfMessages;
-      $scope.messages = Device.getDefinedHistory($stateParams.deviceid, $scope.startIndex, $scope.numOfMessages);
+      loadHistory();
     };
 
     $scope.page_prev = function() {
       $scope.startIndex = $scope.startIndex >= $scope.numOfMessages ? $scope.startIndex - $scope.numOfMessages : 0;
-      $scope.messages = Device.getDefinedHistory($stateParams.deviceid, $scope.startIndex, $scope.numOfMessages);
+      loadHistory();
     };
+
+    function loadHistory(){
+      Device.getDefinedHistory($stateParams.deviceid, $scope.startIndex, $scope.numOfMessages,
+        function(data){
+          $scope.messages = data;
+          $scope.endOfDataReached = false;
+        },
+        function(){
+          $scope.startIndex = $scope.startIndex >= $scope.numOfMessages ? $scope.startIndex - $scope.numOfMessages : 0;
+          $scope.endOfDataReached = true;
+        });
+    }
   }]);

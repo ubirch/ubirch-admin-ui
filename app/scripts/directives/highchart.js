@@ -17,11 +17,6 @@ angular.module('ubirchAdminCrudApp')
       },
       link: function (scope, element) {
 
-        var filteredData = filterMessageKeys();
-
-        var series = formatSeriesData(filteredData);
-
-
         var lastDisplayedDay;
 
         Highcharts.setOptions({                                            // This is for all plots, change Date axis to local timezone
@@ -46,30 +41,36 @@ angular.module('ubirchAdminCrudApp')
           }
         };
 
-        new Highcharts.chart(element[0], {
-          chart: {
-            type: 'line'
-          },
-          title: {
-            text: 'Sensor data'
-          },
-          credits: {
-            enabled: false
-          },
-          xAxis: {
-            title: {
-              text: 'Date'
-            },
-            type: 'datetime',
-            startOnTick: true,
-            labels: {
-              format: '{value:%O %H:%M:%S}',
-              align: 'right',
-              rotation: -30
-            }
+        scope.$watch('messages', function(newTypeKey){
+          var filteredData = filterMessageKeys();
 
-          },
-          series: series
+          var series = formatSeriesData(filteredData);
+
+          new Highcharts.chart(element[0], {
+            chart: {
+              type: 'line'
+            },
+            title: {
+              text: 'Sensor data'
+            },
+            credits: {
+              enabled: false
+            },
+            xAxis: {
+              title: {
+                text: 'Date'
+              },
+              type: 'datetime',
+              startOnTick: true,
+              labels: {
+                format: '{value:%O %H:%M:%S}',
+                align: 'right',
+                rotation: -30
+              }
+
+            },
+            series: series
+          });
         });
 
         function filterMessageKeys() {

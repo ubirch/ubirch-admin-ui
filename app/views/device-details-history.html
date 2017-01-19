@@ -13,7 +13,7 @@
       <input type="number" class="form-control" ng-model="numOfMessages">
     </div>
     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-      <span class="pull-right" ng-click="page_next()">
+      <span class="pull-right" ng-hide="endOfDataReached"  ng-click="page_next()">
         <span>{{ 'PAGE_NEXT' | translate }}</span>
         <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
       </span>

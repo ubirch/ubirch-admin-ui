@@ -141,14 +141,20 @@ angular.module('ubirchAdminCrudApp')
           });
       },
 
-      getDefinedHistory: function(deviceId, from, size){
+      getDefinedHistory: function(deviceId, from, size, callback, errorCallBack){
 
         return this.history_defined.query({deviceId: deviceId, from: from, size: size},
           function(data){
             $log.debug("Got history data from Device: " + data);
+            if (callback){
+              callback(data);
+            }
           },
           function(error){
             $log.debug("Requested history from Device - ERROR OCCURRED: " + error);
+            if (errorCallBack){
+              errorCallBack(error);
+            }
           });
       },
 
