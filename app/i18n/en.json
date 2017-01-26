@@ -39,5 +39,6 @@
   "PAGE_PREV": "previous data",
   "PAGE_NEXT": "next data",
   "NUM_OF_DATASETS": "number of data sets",
-  "RELOAD": "reload"
+  "RELOAD": "reload",
+  "LOGIN_PLEASE": "Please login by one of the following services:"
 }

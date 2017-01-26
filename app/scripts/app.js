@@ -35,6 +35,12 @@ angular
     $translateProvider.preferredLanguage('en');
 
     $stateProvider
+      .state('login', {
+        url: '/login',
+        templateUrl: '../views/login.html',
+        controller: 'LoginCtrl',
+        controllerAs: 'login'
+      })
       .state('device-details', {
         url: '/device-details/:deviceid',
         templateUrl: '../views/device-details.html',
@@ -75,5 +81,8 @@ angular
         controllerAs: 'about'
       });
 
-    $urlRouterProvider.otherwise('devices-list');
-  });
+      $urlRouterProvider.otherwise('devices-list');
+  })
+  .config(['$httpProvider', function ($httpProvider) {
+    $httpProvider.interceptors.push('loginInterceptor');
+  }]);
