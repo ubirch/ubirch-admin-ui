@@ -21,8 +21,13 @@ angular
     'leaflet-directive',
     'ui.bootstrap',
     'angularUUID2',
-    'toaster'
-  ])
+    'toaster',
+    'ngStorage',
+    'oauth2.directive',      // login directive
+    'oauth2.accessToken',    // access token service
+    'oauth2.endpoint',       // oauth endpoint service
+    'oauth2.interceptor'     // bearer token interceptor
+])
   .config(function ($stateProvider, $urlRouterProvider, $translateProvider) {
 
     $translateProvider.useStaticFilesLoader({
@@ -79,10 +84,12 @@ angular
         templateUrl: '../views/about.html',
         controller: 'AboutCtrl',
         controllerAs: 'about'
-      });
+      })
 
       $urlRouterProvider.otherwise('devices-list');
   })
-  .config(['$httpProvider', function ($httpProvider) {
-    $httpProvider.interceptors.push('loginInterceptor');
-  }]);
+  .config(['$locationProvider','$httpProvider',
+    function($locationProvider, $httpProvider) {
+      $httpProvider.interceptors.push('OAuth2Interceptor');
+    }
+  ]);

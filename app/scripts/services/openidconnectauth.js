@@ -95,7 +95,7 @@ angular.module('oauth2.accessToken', ['ngStorage']).factory('AccessToken', ['$ro
 }]);
 
 // Auth interceptor - if token is missing or has expired this broadcasts an authRequired event
-angular.module('oauth2.interceptor', []).factory('OAuth2Interceptor', ['$rootScope', '$q', '$sessionStorage', function ($rootScope, $q, $sessionStorage) {
+angular.module('oauth2.interceptor', []).factory('OAuth2Interceptor', ['$rootScope', '$q', '$sessionStorage', '$location', function ($rootScope, $q, $sessionStorage, $location) {
   var expired = function(token) {
     return (token && token.expires_at && new Date(token.expires_at) < new Date());
   };
@@ -245,15 +245,3 @@ angular.module('oauth2.directive', []).directive('oauth2',
 
       return definition;
     }]);
-
-// App libraries
-angular.module('afOAuth2', [
-  'oauth2.directive',      // login directive
-  'oauth2.accessToken',    // access token service
-  'oauth2.endpoint',       // oauth endpoint service
-  'oauth2.interceptor'     // bearer token interceptor
-]).config(['$locationProvider','$httpProvider',
-  function($locationProvider, $httpProvider) {
-    $httpProvider.interceptors.push('OAuth2Interceptor');
-  }
-]);
