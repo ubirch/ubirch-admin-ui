@@ -17,7 +17,9 @@ angular.module('ubirchAdminCrudApp')
 
         response: function (result) {//res
           console.log('Repos:');
-          console.log(result.status);
+          if (result.status === 200) {
+            $location.url('/');
+          }
           return result;
         },
 
