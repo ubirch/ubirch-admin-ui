@@ -20,13 +20,12 @@ angular.module('ubirchAdminCrudApp')
       ),
 
       // http://localhost:8080/api/v1/avatarService/device/stub
-      // deviceStub: $resource(url + '/device/stub/:deviceId',
-      //   {deviceId: '@deviceId'}),
-      // TODO: remove 403 dummy
-      deviceStub: $resource(url + '/wumms'),
+      deviceStub: $resource(url + '/device/stub/:deviceId',
+        {deviceId: '@deviceId'}
+      ),
 
       getDevicesList: function(callback){
-        return this.deviceStub.get(
+        return this.deviceStub.query(
           function(data){
             $log.debug("Got devices list data: " + data);
             if (callback !== undefined){
