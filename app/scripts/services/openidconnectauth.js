@@ -178,6 +178,7 @@ angular.module('oauth2.directive', []).directive('oauth2',
           state: '@',						// state to use for CSRF protection
           template: '@',					// template for the button, defaults to the one supplied by bower
           buttonClass: '@',				// the class to use for the sign in / out button - defaults to btn btn-primary
+          buttonIconClass: '@',   // the ionicons, fontawesome or glyphicons class to add icon to button - dafaults to glyphicon glyphicon-log-in
           signInText: '@',				// text for the sign in button
           signOutText: '@',				// text for the sign out button
           signOutUrl: '@',				// url on the authorization server for logging out. Local token is deleted even if no URL is given but that will leave user logged in against STS
@@ -206,6 +207,7 @@ angular.module('oauth2.directive', []).directive('oauth2',
         function init() {
           scope.template = scope.template || 'bower_components/angularjs-oauth2/dist/templates/angularJsOAuth2.html';
           scope.buttonClass = scope.buttonClass || 'btn btn-primary';
+          scope.buttonIconClass = scope.buttonIconClass || 'glyphicon glyphicon-log-in';
           scope.signInText = scope.signInText || 'Sign In';
           scope.signOutText = scope.signOutText || 'Sign Out';
           scope.responseType = scope.responseType || 'token';
