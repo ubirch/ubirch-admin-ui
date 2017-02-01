@@ -186,3 +186,14 @@
   color: #fff;
   background-color: #0d2c4a;
 }
+
+.btn-paypal {
+  color: #fff;
+  background-color: #0070ba;
+}
+
+.btn-paypal:hover,
+.btn-paypal:focus {
+  color: #fff;
+  background-color: #009cde;
+}

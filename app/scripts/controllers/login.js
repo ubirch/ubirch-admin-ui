@@ -8,6 +8,8 @@
  * Controller of the ubirchAdminCrudApp
  */
 angular.module('ubirchAdminCrudApp')
-  .controller('LoginCtrl', [ '$scope', function ($scope) {
+  .controller('LoginCtrl', [ '$scope', 'AuthService', function ($scope, AuthService) {
+
+    $scope.providersList = AuthService.providerInfo.query();
 
   }]);

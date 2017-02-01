@@ -4,13 +4,15 @@
   </div>
   <oauth2
     template="views/templates/social-media-button.html"
-    authorization-url="https://github.com/login/oauth/authorize"
-    client-id="4b423118df944c3653b1"
+    authorization-url="https://accounts.google.com/o/oauth2/v2/auth"
+    client-id="370115332091-q7dccmh0leq20rqgs2550vp0u67pj42p.apps.googleusercontent.com"
     redirect-url="http://localhost:9000"
-    response-type="token"
+    response-type="code"
     scope="openid"
-    sign-in-text="Sign in with GitHub"
-    button-class="btn btn-block btn-github"
-    button-icon-class="ion-social-github">
+    state="GeQDsOFCchIw1K7g7B4Iyo8fQ-gLBojTimiunKrdO3Q"
+    nonce="INDpdTA7BOWLuee9uhgs7h_Xh4vNIiYQrCpjz2QGaMg"
+    sign-in-text="{{ 'SIGN_IN_WITH' | translate }} Google"
+    button-class="btn btn-block btn-google-plus"
+    button-icon-class="ion-social-google">
   </oauth2>
 </div>
