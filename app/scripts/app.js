@@ -87,8 +87,6 @@ angular
       });
 
     $locationProvider.html5Mode(true).hashPrefix('!');
-
-    $urlRouterProvider.otherwise('devices-list');
   })
   .config(['$locationProvider','$httpProvider',
     function($locationProvider, $httpProvider) {
