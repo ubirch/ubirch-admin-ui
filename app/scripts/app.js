@@ -28,7 +28,7 @@ angular
     'oauth2.endpoint',       // oauth endpoint service
     'oauth2.interceptor'     // bearer token interceptor
 ])
-  .config(function ($stateProvider, $urlRouterProvider, $translateProvider) {
+  .config(function ($stateProvider, $urlRouterProvider, $translateProvider, $locationProvider) {
 
     $translateProvider.useStaticFilesLoader({
       files: [{
@@ -84,9 +84,11 @@ angular
         templateUrl: '../views/about.html',
         controller: 'AboutCtrl',
         controllerAs: 'about'
-      })
+      });
 
-      $urlRouterProvider.otherwise('devices-list');
+    $locationProvider.html5Mode(true).hashPrefix('!');
+
+    $urlRouterProvider.otherwise('devices-list');
   })
   .config(['$locationProvider','$httpProvider',
     function($locationProvider, $httpProvider) {
