@@ -115,8 +115,9 @@ angular.module('oauth2.interceptor', []).factory('OAuth2Interceptor', ['$rootSco
 
     responseError: function (rejection) {//error
       console.log('Failed with', rejection.status, 'status');
-      if (rejection.status === 403) {
+      if (rejection.status === 401) {
         $location.url('/login');
+        return $q.reject(rejection);
       }
 
       return $q.reject(rejection);

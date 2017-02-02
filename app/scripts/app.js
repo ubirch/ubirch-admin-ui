@@ -28,7 +28,7 @@ angular
     'oauth2.endpoint',       // oauth endpoint service
     'oauth2.interceptor'     // bearer token interceptor
 ])
-  .config(function ($stateProvider, $urlRouterProvider, $translateProvider, $locationProvider) {
+  .config(function ($stateProvider, $urlRouterProvider, $translateProvider, $locationProvider, $httpProvider) {
 
     $translateProvider.useStaticFilesLoader({
       files: [{
@@ -40,6 +40,23 @@ angular
     $translateProvider.preferredLanguage('en');
 
     $stateProvider
+      .state('auth', {
+        abstract: true, // this state can not be activated itself and must be a parent
+        template: '<ui-view/>', // needed in order to inject the children into the view
+        resolve: {
+          user: ['$q', function ($q) {
+            var d = $q.defer();
+            if (false) {
+              // I also provide the user for child controllers
+              d.resolve(auth.user);
+            } else {
+              // here the rejection
+              d.reject('not logged');
+            }
+            return d.promise;
+          }]
+        }
+      })
       .state('login', {
         url: '/login',
         templateUrl: '../views/login.html',
@@ -55,7 +72,8 @@ angular
           deviceTypesList: function(DeviceTypes){
             return DeviceTypes.getDeviceTypeList();
           }
-        }
+        },
+        parent: 'auth'
       })
       .state('devices-list', {
         url: '/devices-list',
@@ -66,7 +84,8 @@ angular
           deviceTypesList: function(DeviceTypes){
             return DeviceTypes.getDeviceTypeList();
           }
-        }
+        },
+        parent: 'auth'
       })
       .state('devices-map', {
         url: '/devices-map',
@@ -77,7 +96,8 @@ angular
           deviceTypesList: function(DeviceTypes){
             return DeviceTypes.getDeviceTypeList();
           }
-        }
+        },
+        parent: 'auth'
       })
       .state('about', {
         url: '/about',
@@ -87,9 +107,18 @@ angular
       });
 
     $locationProvider.html5Mode(true).hashPrefix('!');
+
+    $urlRouterProvider.otherwise('devices-list');
+
+    $httpProvider.interceptors.push('OAuth2Interceptor');
   })
-  .config(['$locationProvider','$httpProvider',
-    function($locationProvider, $httpProvider) {
-      $httpProvider.interceptors.push('OAuth2Interceptor');
-    }
-  ]);
+  .run(['$rootScope', '$location',
+    function ($rootScope,   $location) {
+
+      $rootScope.$on('$stateChangeStart', function (event, next) {
+        if (next.name != "login") {
+          $location.path('/login');
+          return $q.reject(rejection);
+        }
+      });
+    }]);
