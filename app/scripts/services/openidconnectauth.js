@@ -178,8 +178,8 @@ angular.module('oauth2.directive', []).directive('oauth2',
 
       definition.link = function(scope, element, attrs) {
         function compile() {
-          $http.get(scope.template, { cache: $templateCache }).then(function(html) {
-            element.html(html);
+          $http.get(scope.template, { cache: $templateCache }).then(function(response) {
+            element.html(response.data);
             $compile(element.contents())(scope);
           });
         }
