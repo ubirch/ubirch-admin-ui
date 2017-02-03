@@ -113,6 +113,13 @@ angular.module('oauth2.interceptor', []).factory('OAuth2Interceptor', ['$rootSco
       return config;
     },
 
+    response: function (response) {
+      // console.log(response); // Contains the data from the response.
+
+      // Return the response or promise.
+      return response || $q.when(response);
+    },
+
     responseError: function (rejection) {//error
       console.log('Failed with', rejection.status, 'status');
       if (rejection.status === 401) {

@@ -40,6 +40,12 @@ angular
     $translateProvider.preferredLanguage('en');
 
     $stateProvider
+      .state('auth', {
+        url: '/auth',
+        templateUrl: '../views/auth.html',
+        controller: 'AuthCtrl',
+        controllerAs: 'auth'
+      })
       .state('login', {
         url: '/login',
         templateUrl: '../views/login.html',
@@ -87,7 +93,7 @@ angular
         templateUrl: '../views/about.html',
         controller: 'AboutCtrl',
         controllerAs: 'about'
-      })
+      });
 
     $urlRouterProvider.otherwise('devices-list');
 
