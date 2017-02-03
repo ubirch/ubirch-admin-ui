@@ -9,24 +9,13 @@
  * Main module of the application.
  */
 angular
-  .module('ubirchAdminCrudApp', [
+  .module('ubirchAuth', [
     'ngAnimate',
     'ngCookies',
     'ngResource',
     'ngSanitize',
     'ngTouch',
-    'xeditable',
-    'pascalprecht.translate',
-    'ui.router',
-    'leaflet-directive',
-    'ui.bootstrap',
-    'angularUUID2',
-    'toaster',
-    'ngStorage',
-    'oauth2.directive',      // login directive
-    'oauth2.accessToken',    // access token service
-    'oauth2.endpoint',       // oauth endpoint service
-    'oauth2.interceptor'     // bearer token interceptor
+    'ngStorage'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $translateProvider, $locationProvider, $httpProvider) {
 
@@ -88,6 +77,8 @@ angular
         controller: 'AboutCtrl',
         controllerAs: 'about'
       });
+
+    $locationProvider.html5Mode(true).hashPrefix('!');
 
     $urlRouterProvider.otherwise('devices-list');
 

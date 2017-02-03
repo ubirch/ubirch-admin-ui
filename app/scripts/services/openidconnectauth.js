@@ -145,19 +145,7 @@ angular.module('oauth2.endpoint', []).factory('Endpoint', ['AccessToken', functi
   };
 
   service.init = function(params) {
-    service.url = params.authorizationUrl + '?' +
-      'client_id=' + encodeURI(params.clientId) + '&' +
-      'redirect_uri=' + encodeURI(params.redirectUrl) + '&' +
-      'response_type=' + encodeURI(params.responseType) + '&' +
-      'scope=' + encodeURI(params.scope) + '&' +
-      'state=' + encodeURI(params.state);
-    service.signOutUrl = params.signOutUrl;
-    if (params.signOutAppendToken === 'true') {
-      service.appendSignoutToken = true;
-    }
-    if (params.signOutRedirectUrl.length > 0) {
-      service.signOutUrl = service.signOutUrl+ '?post_logout_redirect_uri=' + encodeURI(params.signOutRedirectUrl);
-    }
+    service.url = params.authorizationUrl;
   };
 
   return service;
@@ -190,7 +178,7 @@ angular.module('oauth2.directive', []).directive('oauth2',
 
       definition.link = function(scope, element, attrs) {
         function compile() {
-          $http.get(scope.template, { cache: $templateCache }).success(function(html) {
+          $http.get(scope.template, { cache: $templateCache }).then(function(html) {
             element.html(html);
             $compile(element.contents())(scope);
           });
