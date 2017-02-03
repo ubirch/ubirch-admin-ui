@@ -41,5 +41,6 @@
   "NUM_OF_DATASETS": "Anzahl Datensätze",
   "RELOAD": "Neu laden",
   "LOGIN_PLEASE": "Bitte loggen Sie sich über einen der folgenden Anbieter ein:",
-  "SIGN_IN_WITH": "Anmelden mit"
+  "SIGN_IN_WITH": "Anmelden mit",
+  "CHECK_AUTHENTICATION": "Authentifizierung wird überprüft"
 }

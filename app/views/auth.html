@@ -1,1 +1,11 @@
-<p>This is the auth view.</p>
+<div class="container-fluid" ng-cloak>
+  <div ng-show="workinprogress">
+    <div  class="area-header">
+      {{ 'CHECK_AUTHENTICATION' | translate }}...
+    </div>
+    <div style="height:200px">
+      <span us-spinner style="position: relative; top: 50%; left: 50%"></span>
+    </div>
+  </div>
+</div>
+

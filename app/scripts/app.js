@@ -23,6 +23,7 @@ angular
     'angularUUID2',
     'toaster',
     'ngStorage',
+    'angularSpinner',
     'oauth2.directive',      // login directive
     'oauth2.accessToken',    // access token service
     'oauth2.endpoint',       // oauth endpoint service

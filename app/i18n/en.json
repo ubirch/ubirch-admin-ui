@@ -41,5 +41,6 @@
   "NUM_OF_DATASETS": "number of data sets",
   "RELOAD": "reload",
   "LOGIN_PLEASE": "Please login by one of the following services:",
-  "SIGN_IN_WITH": "Sign in with"
+  "SIGN_IN_WITH": "Sign in with",
+  "CHECK_AUTHENTICATION": "Check authentication"
 }
