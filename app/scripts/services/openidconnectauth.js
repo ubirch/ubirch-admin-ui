@@ -12,7 +12,7 @@ angular.module('oauth2.accessToken', ['ngStorage']).factory('AccessToken', ['$ro
   var service = {
     token: null
   };
-  var oAuth2HashParams = ['access_token', 'token_type', 'expires_in', 'scope', 'state', 'error', 'error_description'];
+  var oAuth2HashParams = ['code', 'access_token', 'token_type', 'expires_in', 'scope', 'state', 'session_state', 'nonce', 'authuser', 'error', 'error_description'];
 
   function setExpiresAt(token) {
     if(token){
@@ -107,7 +107,7 @@ angular.module('oauth2.interceptor', []).factory('OAuth2Interceptor', ['$rootSco
         $rootScope.$broadcast('oauth2:authExpired', token);
       }
       else if (token) {
-        config.headers.Authorization = 'Bearer ' + token.access_token;
+        config.headers.Authorization = 'Bearer ' + token.code;
         return config;
       }
       return config;

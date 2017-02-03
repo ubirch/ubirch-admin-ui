@@ -19,4 +19,9 @@ angular.module('ubirchAdminCrudApp')
 
     AccessToken.set();
 
+    var token = AccessToken.get();
+    if (token){
+
+    }
+
   }]);

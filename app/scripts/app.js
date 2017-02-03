@@ -24,10 +24,10 @@ angular
     'toaster',
     'ngStorage',
     'angularSpinner',
+    'ubirchAuth',
     'oauth2.directive',      // login directive
     'oauth2.accessToken',    // access token service
-    'oauth2.endpoint',       // oauth endpoint service
-    'oauth2.interceptor'     // bearer token interceptor
+    'oauth2.endpoint'       // oauth endpoint service
 ])
   .config(function ($stateProvider, $urlRouterProvider, $translateProvider, $locationProvider, $httpProvider) {
 
