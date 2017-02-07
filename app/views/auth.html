@@ -3,9 +3,12 @@
     <div  class="area-header">
       {{ 'CHECK_AUTHENTICATION' | translate }}...
     </div>
-    <div style="height:200px">
+    <div style="height:200px" ng-show="workinprogress">
       <span us-spinner style="position: relative; top: 50%; left: 50%"></span>
     </div>
+  </div>
+  <div ng-show="token">
+    {{token}}
   </div>
 </div>
 

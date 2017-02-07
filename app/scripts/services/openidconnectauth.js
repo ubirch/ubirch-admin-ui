@@ -45,7 +45,7 @@ angular.module('oauth2.accessToken', ['ngStorage']).factory('AccessToken', ['$ro
       }
     }
 
-    if((token.access_token && token.expires_in) || token.error){
+    if(token.code || token.access_token || token.error){
       return token;
     }
     return null;
@@ -57,11 +57,10 @@ angular.module('oauth2.accessToken', ['ngStorage']).factory('AccessToken', ['$ro
   service.set = function() {
     // Try and get the token from the hash params on the URL
     var hashValues = window.location.hash;
+
     if (hashValues.length > 0) {
-      if (hashValues.indexOf('#/') === 0) {
-        hashValues = hashValues.substring(2);
-      }
-      service.token = setTokenFromHashParams(hashValues);
+      var query = hashValues.substr(hashValues.indexOf("?")+1);
+      service.token = setTokenFromHashParams(query);
     }
 
     if (service.token === null) {

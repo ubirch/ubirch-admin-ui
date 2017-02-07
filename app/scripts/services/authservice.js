@@ -15,9 +15,9 @@ app.service('AuthService', ['$resource', 'constant', 'settings', '$log', functio
 
     return {
       // http://localhost:8091/api/loginService/v1/providerInfo/list
-      providerInfo: $resource(url + '/providerInfo/list')
+      providerInfo: $resource(url + '/providerInfo/list'),
 
-
+      verifyAuth: $resource(url + '/verify/code', {providerId: '@providerId', code: '@code', state: '@state'})
     }
   }]);
 
