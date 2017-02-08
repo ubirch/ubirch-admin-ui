@@ -26,7 +26,6 @@ angular
     'angularSpinner',
     'ubirchAuth',
     'oauth2.directive',      // login directive
-    'oauth2.accessToken',    // access token service
     'oauth2.endpoint'       // oauth endpoint service
 ])
   .config(function ($stateProvider, $urlRouterProvider, $translateProvider, $locationProvider, $httpProvider) {
@@ -100,12 +99,12 @@ angular
 
     $httpProvider.interceptors.push('OAuth2Interceptor');
   })
-  .run(['$rootScope', '$location', '$sessionStorage',
-    function ($rootScope, $location, $sessionStorage) {
+  .run(['$rootScope', '$location', '$sessionStorage', 'AccessToken',
+    function ($rootScope, $location, $sessionStorage, AccessToken) {
 
       $rootScope.$on('$stateChangeStart', function (event, next) {
 
-        if (next.tokenRequired && !$sessionStorage.token) {
+        if (next.tokenRequired && (!$sessionStorage.token || AccessToken.expired($sessionStorage.token))) {
           $location.path('/login');
         }
       });
