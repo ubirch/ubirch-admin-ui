@@ -9,7 +9,7 @@
  */
 var app = angular.module('ubirchAuth', ['ngStorage']);
 
-app.factory('AccessToken', ['$rootScope', '$location', '$sessionStorage', function($rootScope, $location, $sessionStorage) {
+app.factory('AccessToken', ['$rootScope', '$location', '$sessionStorage', 'settings', function($rootScope, $location, $sessionStorage, settings) {
   var service = {
     token: null
   };
@@ -17,12 +17,14 @@ app.factory('AccessToken', ['$rootScope', '$location', '$sessionStorage', functi
 
   function setExpiresAt(token) {
     if(token){
-      var expires_at = new Date();
-      var expires_in = token.expires_in ? parseInt(token.expires_in)-60 : 60; // 60 seconds less to secure browser and response latency or 1min for testing -> TODO
+      if (token.expires_in || settings.DEFAULT_AUTH_EXPIRED_SECS >= 0){
+        var expires_at = new Date();
+        var expires_in = token.expires_in ? parseInt(token.expires_in)-60 : settings.DEFAULT_AUTH_EXPIRED_SECS; // 60 seconds less to secure browser and response latency or default from settings
 
-      expires_at.setSeconds(expires_at.getSeconds()+expires_in); // 60 seconds less to secure browser and response latency
+        expires_at.setSeconds(expires_at.getSeconds()+expires_in); // 60 seconds less to secure browser and response latency
 
-      token.expires_at = expires_at;
+        token.expires_at = expires_at;
+      }
     }
   }
 
