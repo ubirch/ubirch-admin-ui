@@ -40,7 +40,10 @@
   "PAGE_NEXT": "weiter",
   "NUM_OF_DATASETS": "Anzahl Datensätze",
   "RELOAD": "Neu laden",
+  "LOGIN": "Zum Login",
   "LOGIN_PLEASE": "Bitte loggen Sie sich über einen der folgenden Anbieter ein:",
   "SIGN_IN_WITH": "Anmelden mit",
-  "CHECK_AUTHENTICATION": "Authentifizierung wird überprüft"
+  "CHECK_AUTHENTICATION": "Authentifizierung wird überprüft",
+  "AUTHENTICATION_FAILED": "Authentifikation missglückt!",
+  "SORRY_AUTHENTICATION_FAILED": "Es tut uns leid aber bei der Authentifikation ist folgender Fehler aufgetreten:"
 }

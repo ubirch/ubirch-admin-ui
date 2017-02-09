@@ -19,7 +19,10 @@ app.factory('AccessToken', ['$rootScope', '$location', '$sessionStorage', functi
     if(token){
       var expires_at = new Date();
       var expires_in = token.expires_in ? parseInt(token.expires_in)-60 : 60; // 60 seconds less to secure browser and response latency or 1min for testing -> TODO
-      token.expires_at = expires_at + expires_in;
+
+      expires_at.setSeconds(expires_at.getSeconds()+expires_in); // 60 seconds less to secure browser and response latency
+
+      token.expires_at = expires_at;
     }
   }
 
@@ -114,7 +117,7 @@ app.factory('OAuth2Interceptor', ['$rootScope', '$q', '$sessionStorage', '$locat
     request: function(config) {
       var token = $sessionStorage.token;
       if (AccessToken.expired(token)) {
-        $rootScope.$broadcast('oauth2:authExpired', token);
+        $rootScope.$broadcast('auth:authExpired', token);
       }
       else if (token) {
         // config.headers.Authorization = 'Bearer ' + token.code;

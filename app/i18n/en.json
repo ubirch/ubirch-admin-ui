@@ -40,7 +40,10 @@
   "PAGE_NEXT": "next data",
   "NUM_OF_DATASETS": "number of data sets",
   "RELOAD": "reload",
+  "LOGIN": "login",
   "LOGIN_PLEASE": "Please login by one of the following services:",
   "SIGN_IN_WITH": "Sign in with",
-  "CHECK_AUTHENTICATION": "Check authentication"
+  "CHECK_AUTHENTICATION": "Check authentication",
+  "AUTHENTICATION_FAILED": "Authentication failed!",
+  "SORRY_AUTHENTICATION_FAILED": "Sorry, an authentication error occurred:"
 }
