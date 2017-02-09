@@ -61,4 +61,8 @@ angular.module('ubirchAdminCrudApp')
     else {
       $rootScope.$broadcast('auth:authError', "Authentication token from OpenId Connect provider didn't contain code and/or state parameter.");
     }
+
+    $scope.openLogin = function(){
+      $location.url('/login');
+    }
   }]);
