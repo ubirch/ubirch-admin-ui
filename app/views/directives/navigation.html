@@ -20,6 +20,12 @@
         <li ng-class="navClass('about')"><a href="" ng-click="loadAbout()" role="tab" data-toggle="tab">about</a></li>
 -->
       </ul>
+      <ul ng-if="!isAuthenticated()" class="nav navbar-nav pull-right ng-scope">
+        <li><a ng-click="login()">Login</a></li>
+      </ul>
+      <ul ng-if="isAuthenticated()" class="nav navbar-nav pull-right ng-scope">
+        <li><a ng-click="logout()">Logout</a></li>
+      </ul>
     </div>
   </div>
 </div>

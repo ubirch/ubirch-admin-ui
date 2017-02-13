@@ -8,7 +8,7 @@
  * Controller of the ubirchAdminCrudApp
  */
 angular.module('ubirchAdminCrudApp')
-  .controller('AuthCtrl',['$scope', '$rootScope', '$location', 'AccessToken', 'AuthService', function ($scope, $rootScope, $location, AccessToken, AuthService) {
+  .controller('AuthCtrl',['$scope', '$location', 'AuthService', function ($scope, $location, AuthService) {
 
     $scope.workinprogress = true;
     $scope.error = undefined;
@@ -35,32 +35,7 @@ angular.module('ubirchAdminCrudApp')
       $location.url('/');
     });
 
-    AccessToken.set();
-
-    var token = AccessToken.get();
-    if (!token){
-      $rootScope.$broadcast('auth:authError', 'Got no authentication token from OpenId Connect provider.');
-    }
-    else if (AccessToken.expired(token)){
-      $rootScope.$broadcast('auth:authExpired', 'Your authentication token has expired. You need a new one. Please login again!');
-    }
-    else if (token.code && token.state){
-      AuthService.verifyAuth.save(
-        { "providerId": "google",
-          "code": token.code,
-          "state": token.state
-        },
-        function(data){
-          $rootScope.$broadcast('auth:verified', data);
-        },
-        function(error){
-          $rootScope.$broadcast('auth:authError', error);
-        }
-      )
-    }
-    else {
-      $rootScope.$broadcast('auth:authError', "Authentication token from OpenId Connect provider didn't contain code and/or state parameter.");
-    }
+    AuthService.verifyAuth.verify();
 
     $scope.openLogin = function(){
       $location.url('/login');

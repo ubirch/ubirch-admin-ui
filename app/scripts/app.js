@@ -24,9 +24,7 @@ angular
     'toaster',
     'ngStorage',
     'angularSpinner',
-    'ubirchAuth',
-    'oauth2.directive',      // login directive
-    'oauth2.endpoint'       // oauth endpoint service
+    'ubirchAuth'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $translateProvider, $locationProvider, $httpProvider) {
 

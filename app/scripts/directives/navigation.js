@@ -12,7 +12,7 @@ angular.module('ubirchAdminCrudApp')
       templateUrl: 'views/directives/navigation.html',
       restrict: 'E',
       controllerAs: 'navCtrl',
-      controller: ['$scope', '$location', function ($scope, $location) {
+      controller: ['$scope', '$location', 'AuthService', function ($scope, $location, AuthService) {
         // highlighting
         $scope.navClass = function (page) {
 
@@ -35,6 +35,14 @@ angular.module('ubirchAdminCrudApp')
 
         $scope.loadAbout = function () {
           $location.url('/about');
+        };
+
+        $scope.login = function () {
+          $location.path('/login');
+        };
+
+        $scope.logout = function () {
+          AuthService.signOut();
         };
       }]
     };
