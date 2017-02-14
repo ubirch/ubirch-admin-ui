@@ -102,7 +102,7 @@ angular
 
       $rootScope.$on('$stateChangeStart', function (event, next) {
 
-        if (next.tokenRequired){
+        if (next.tokenRequired && (!$sessionStorage.token || ($sessionStorage.token && AccessToken.expired($sessionStorage.token)))){
             $location.path('/auth');
         }
       });

@@ -288,11 +288,9 @@ app.directive('authButton',
           buttonClass: '@',				// the class to use for the sign in / out button - defaults to btn btn-primary
           buttonIconClass: '@',   // the ionicons, fontawesome or glyphicons class to add icon to button - dafaults to glyphicon glyphicon-log-in
           signInText: '@',				// text for the sign in button
-          signOutText: '@',				// text for the sign out button
 
           providerId: '@',        // id of openid connect provider
-          authorizationUrl: '@',  // authorization server url
-          signOutRedirectUrl: '@' // redirect url after locally deleting token to logout user (leave user logged in against OP)
+          authorizationUrl: '@'  // authorization server url
         }
       };
 
@@ -309,7 +307,6 @@ app.directive('authButton',
           scope.buttonClass = scope.buttonClass || 'btn btn-primary';
           scope.buttonIconClass = scope.buttonIconClass || 'glyphicon glyphicon-log-in';
           scope.signInText = scope.signInText || 'Sign In';
-          scope.signOutText = scope.signOutText || 'Sign Out';
           scope.providerId = scope.providerId || '';
           scope.authorizationUrl = scope.authorizationUrl || '';
           scope.signOutRedirectUrl = scope.signOutRedirectUrl || '/login';
@@ -334,11 +331,14 @@ app.directive('authButton',
 
 // Open ID directive
 app.directive('authNavButton',
-    function() {
+   ['$location', function($location) {
       return {
         restrict: 'E',
         templateUrl: 'views/templates/auth-nav-button.html',
         replace: true,
+        scope: {
+          signOutRedirectUrl: '@' // redirect url after locally deleting token to logout user (leave user logged in against OP)
+        },
         link: function postLink(scope) {
 
           scope.login = function() {
@@ -346,4 +346,4 @@ app.directive('authNavButton',
           };
         }
       };
-    });
+    }]);
