@@ -25,6 +25,8 @@ module.exports = function (grunt) {
     dist: 'dist'
   };
 
+  var staging = grunt.option('staging') || 'dev';
+
   // Define the configuration for all the tasks
   grunt.initConfig({
 
@@ -398,18 +400,10 @@ module.exports = function (grunt) {
         dest: '.tmp/styles/',
         src: '{,*/}*.css'
       },
-      dev_settings: {
-        src: 'settings/settings_dev.js',
+      settings: {
+        src: 'settings/settings_' + staging + '.js',
         dest: 'app/scripts/services/settings.js'
       },
-      int_settings: {
-        src: 'settings/settings_int.js',
-        dest: 'app/scripts/services/settings.js'
-      },
-      prod_settings: {
-        src: 'settings/settings_prod.js',
-        dest: 'app/scripts/services/settings.js'
-      }
     },
 
     // Run some tasks in parallel to speed up the build process
@@ -436,20 +430,18 @@ module.exports = function (grunt) {
     }
   });
 
-  var staging = grunt.option('staging') || 'dev';
+  grunt.registerTask('copy_settings', "copy settings_" + staging + ".js", function() {
+
+    grunt.log.writeln("using settings_" + staging + ".js");
+    grunt.log.writeln("you can add settings file  settings_XY.js in settings directory and call : grunt --staging=XY");
+    grunt.log.writeln("(default: dev)");
+    grunt.task.run(['copy:settings']);
+
+  });
 
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
 
-    switch (staging) {
-      case 'dev':
-      case 'int':
-      case 'prod':
-        grunt.task.run(['copy:' + staging + '_settings']);
-        break;
-      default:
-        grunt.log.warn("Interpreted staging params: dev, int, prod; Call: grunt --staging=qa");
-        grunt.task.run(['copy:dev_settings']);
-    }
+    grunt.task.run(['copy_settings']);
 
     if (target === 'dist') {
       return grunt.task.run(['build', 'connect:dist:keepalive']);
@@ -472,7 +464,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('test', [
     'clean:server',
-    'copy:dev_settings',
+    'copy:settings',
     'wiredep',
     'concurrent:test',
     'autoprefixer',
@@ -482,16 +474,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', "Compiling project for staging = " + staging , function() {
 
-    switch (staging) {
-      case 'dev':
-      case 'int':
-      case 'prod':
-        grunt.task.run(['copy:' + staging + '_settings']);
-        break;
-      default:
-        grunt.log.warn("Interpreted staging params: dev, int, prod; Call: grunt --staging=dev");
-        grunt.task.run(['copy:dev_settings']);
-    }
+    grunt.task.run(['copy_settings']);
 
     grunt.task.run([
       'clean:dist',
