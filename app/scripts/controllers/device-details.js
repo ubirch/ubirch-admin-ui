@@ -151,12 +151,21 @@ angular.module('ubirchAdminCrudApp')
     function loadHistory(){
       Device.getDefinedHistory($stateParams.deviceid, $scope.startIndex, $scope.values.numOfMessages,
         function(data){
-          $scope.messages = data;
-          $scope.endOfDataReached = false;
+          if (data.length > 0){
+            $scope.messages = data;
+            $scope.endOfDataReached = false;
+          }
+          else {
+            disableNextButton();
+          }
         },
         function(){
-          $scope.startIndex = $scope.startIndex >= $scope.values.numOfMessages ? $scope.startIndex - $scope.values.numOfMessages : 0;
-          $scope.endOfDataReached = true;
+          disableNextButton();
         });
+    }
+
+    function disableNextButton() {
+      $scope.startIndex = $scope.startIndex >= $scope.values.numOfMessages ? $scope.startIndex - $scope.values.numOfMessages : 0;
+      $scope.endOfDataReached = true;
     }
   }]);
