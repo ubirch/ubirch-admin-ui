@@ -103,13 +103,7 @@ angular
       $rootScope.$on('$stateChangeStart', function (event, next) {
 
         if (next.tokenRequired){
-          if (!$sessionStorage.token){
-            $location.path('/login');
-          }
-          else if(AccessToken.expired($sessionStorage.token)) {
             $location.path('/auth');
-            $rootScope.$broadcast('auth:authExpired', "Your authentication token has expired. You need a new one. Please login again!");
-          }
         }
       });
     }])

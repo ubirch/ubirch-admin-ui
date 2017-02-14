@@ -29,6 +29,12 @@ angular.module('ubirchAdminCrudApp')
       $scope.error = error;
     });
 
+    $scope.$on('auth:authRequired', function () {
+      $scope.success = false;
+      $scope.workinprogress = false;
+      $location.url('/login');
+    });
+
     $scope.$on('auth:verified', function () {
       $scope.success = true;
       $scope.workinprogress = false;

@@ -13,8 +13,10 @@ app.factory('AccessToken', ['$rootScope', '$location', '$sessionStorage', 'setti
   var service = {
     token: null
   };
-  var openIDConnectHashParams = ['code', 'state', 'session_state', 'access_token', 'token_type', 'expires_in', 'scope', 'nonce', 'authuser', 'error', 'error_description'];
 
+  /**
+   *   if OAuth query contains expires_in OR settings.DEFAULT_AUTH_EXPIRED_SECS is set the token.expires_at date-time will be set
+   */
   function setExpiresAt(token) {
     if(token){
       if (token.expires_in || settings.DEFAULT_AUTH_EXPIRED_SECS >= 0){
@@ -28,15 +30,13 @@ app.factory('AccessToken', ['$rootScope', '$location', '$sessionStorage', 'setti
     }
   }
 
-  function setTokenFromHashParams(hash) {
-    var token = getTokenFromHashParams(hash);
-    if (token !== null) {
-      $sessionStorage.token = token;
-    }
-    return token;
-  }
-
-  function getTokenFromHashParams(hash) {
+  var openIDConnectHashParams = ['code', 'state', 'session_state', 'access_token', 'token_type', 'expires_in', 'scope', 'nonce', 'authuser', 'error', 'error_description'];
+  /**
+   *
+   * @param hash: query string from request
+   * @returns token with found params, defined in openIDConnectHashParams
+   */
+  service.getTokenFromHashParams = function(hash) {
     var token = {};
     var regex = /([^&=]+)=([^&]*)/g;
     var m;
@@ -55,43 +55,76 @@ app.factory('AccessToken', ['$rootScope', '$location', '$sessionStorage', 'setti
       return token;
     }
     return null;
-  }
+  };
 
+  /**
+   * calls getTokenFromHashParams to fetch params from query and stores token in AccessToken service
+   * AND removes token from sessionStorage
+   * @param hash: query string from request
+   * @returns token with found params, defined in openIDConnectHashParams
+   */
+  service.setTokenFromHashParams = function(hash) {
+    var token = this.getTokenFromHashParams(hash);
+    if (token !== null) {
+      $sessionStorage.token = null;
+      delete $sessionStorage.token;
+    }
+    return token;
+  };
+
+  /**
+   * check code and state of the sent data to be the same as stored token
+   * @param token to be checked
+   * @returns {boolean} true if code and state of the sent data are correct
+   */
+  service.check = function(token) {
+    // TODO: check code and state of the sent data to be the same as stored token
+    return true;
+  };
+
+  /**
+   * stores token in sessionStorage
+   * @param token to be stored
+   */
+  service.saveTokenInSession = function(token) {
+      $sessionStorage.token = token;
+  };
+
+  /**
+   * stores token in sessionStorage
+   * @param token to be stored
+   */
+  service.getTokenFromSession = function() {
+    return $sessionStorage.token ? $sessionStorage.token : null;
+  };
+
+
+  /**
+   * @returns stored token
+   */
   service.get = function() {
     return this.token;
   };
-  service.set = function() {
-    // Try and get the token from the hash params on the URL
-    var hashValues = window.location.hash;
 
-    if (hashValues.length > 0) {
-      var query = hashValues.substr(hashValues.indexOf("?")+1);
-      service.token = setTokenFromHashParams(query);
-    }
-
-    if (service.token === null && $sessionStorage.token != undefined) {
-      service.token = $sessionStorage.token;
-    }
-
-    if (service.token && service.token.error) {
-      var error = service.token.error;
-      service.destroy();
-      $rootScope.$broadcast('auth:authError', error);
-    }
-
-    if (service.token !== null && $sessionStorage.oauthRedirectRoute) {
-      var path = $sessionStorage.oauthRedirectRoute;
-      $sessionStorage.oauthRedirectRoute = null;
-      $location.path(path);
-    }
-
-    return service.token;
+  /**
+   * stores token in AccessToken service
+   */
+  service.set = function(token) {
+    service.token = token;
   };
 
+  /**
+   *
+   * @param token
+   * @returns {boolean} if token is expired
+   */
   service.expired = function(token) {
     return (token && token.expires_at && new Date(token.expires_at) < new Date());
   };
 
+  /**
+   * removes token from service and sessionStorage
+   */
   service.destroy = function() {
     $sessionStorage.token = null;
     delete $sessionStorage.token;
@@ -134,32 +167,76 @@ app.service('AuthService', ['$resource', 'constant', 'settings', '$rootScope', '
 
   service.verifyAuth.verify = function() {
 
-    AccessToken.set();
+    // check if query params added in request
+    var hashValues = window.location.hash;
+    var queryStart = hashValues.length > 0 ? hashValues.indexOf("?") : -1;
+    if (queryStart >= 0) {
 
-    var token = AccessToken.get();
-    if (!token){
-      $rootScope.$broadcast('auth:authError', 'Got no authentication token from OpenId Connect provider.');
-    }
-    else if (AccessToken.expired(token)){
-      $rootScope.$broadcast('auth:authExpired', 'Your authentication token has expired. You need a new one. Please login again!');
-    }
-    else if (token.code && token.state){
-      this.save(
-        { "providerId": "google",
-          "code": token.code,
-          "state": token.state
-        },
-        function(data){
-          $rootScope.$broadcast('auth:verified', data);
-        },
-        function(error){
-          $rootScope.$broadcast('auth:authError', error);
+      var queryStr = hashValues.substr(hashValues.indexOf("?")+1);
+      var query = AccessToken.setTokenFromHashParams(queryStr);
+
+      if (query){
+        if (query.error) {
+          // handle authentication error
+          this.handleError(query.error, query.error_description);
         }
-      )
+        else {
+          if (query.code && query.state) {
+            // check agains authService
+
+            var self = this;
+            // TODO: replace static providerId dynamically
+            this.save(
+              {
+                "providerId": "google",
+                "code": query.code,
+                "state": query.state
+              },
+              function (data) {
+                if (AccessToken.check(data)) {
+                  var token = AccessToken.get();
+                  AccessToken.saveTokenInSession(token);
+                  $rootScope.$broadcast('auth:verified', token);
+                }
+                else {
+                  self.handleError("InconsistentCodeStateError", "Something went wrong with your authentication (code and/or state not the same as sended - probably a manInTheMiddle");
+                }
+              },
+              function (error) {
+                // handle authentication error
+                self.handleError(error.data.errorType, error.data.errorMessage);
+              }
+            )
+          }
+        }
+      }
+      else {
+        $rootScope.$broadcast('auth:authError', "Authentication token from OpenId Connect provider didn't contain code and/or state parameter.");
+      }
     }
     else {
-      $rootScope.$broadcast('auth:authError', "Authentication token from OpenId Connect provider didn't contain code and/or state parameter.");
+      // no query
+      var sessionToken = AccessToken.getTokenFromSession();
+      if (sessionToken) {
+        if (AccessToken.expired(sessionToken)){
+          $rootScope.$broadcast('auth:authExpired', 'Your authentication token has expired. You need a new one. Please login again!');
+        }
+        else {
+          AccessToken.set(sessionToken);
+          $rootScope.$broadcast('auth:verified', token);
+        }
+      }
+      else {
+        $rootScope.$broadcast('auth:authRequired', 'You need to login');
+      }
     }
+  };
+
+  service.verifyAuth.handleError = function(errorType, errorMessage) {
+    // remove sessionToken
+    AccessToken.destroy();
+    // broadcast error
+    $rootScope.$broadcast('auth:authError', errorType + ": " + errorMessage);
   };
 
   return service;
@@ -182,6 +259,11 @@ app.factory('OAuth2Interceptor', ['$rootScope', '$q', '$sessionStorage', '$locat
     responseError: function (rejection) {//error
       console.log('Failed with', rejection.status, 'status');
       if (rejection.status === 401) {
+        $location.url('/login');
+        return $q.reject(rejection);
+      }
+      else if (rejection.status === 403) {
+        // TODO: separate page for forbidden requests
         $location.url('/login');
         return $q.reject(rejection);
       }
@@ -252,45 +334,16 @@ app.directive('authButton',
 
 // Open ID directive
 app.directive('authNavButton',
-  ['AuthService',
-    function(AuthService) {
-      var definition = {
+    function() {
+      return {
         restrict: 'E',
         templateUrl: 'views/templates/auth-nav-button.html',
-        replace: true
-      };
+        replace: true,
+        link: function postLink(scope) {
 
-      definition.link = function(scope, element) {
-        function compileTemplate() {
-          $http.get(scope.template, { cache: $templateCache }).then(function(response) {
-            element.html(response.data);
-            $compile(element.contents())(scope);
-          });
+          scope.login = function() {
+            $location.url('/login');
+          };
         }
-
-        function init() {
-          scope.template = scope.template || 'views/templates/social-media-button.html';
-          scope.buttonClass = scope.buttonClass || 'btn btn-primary';
-          scope.buttonIconClass = scope.buttonIconClass || 'glyphicon glyphicon-log-in';
-          scope.signInText = scope.signInText || 'Sign In';
-          scope.signOutText = scope.signOutText || 'Sign Out';
-          scope.providerId = scope.providerId || '';
-          scope.authorizationUrl = scope.authorizationUrl || '';
-          scope.signOutRedirectUrl = scope.signOutRedirectUrl || '/login';
-
-          compileTemplate();
-
-//          scope.signedIn = accessToken.set() !== null;
-        }
-
-        scope.$watch('clientId', function() { init(); }); // on resolved
-
-
-        scope.signIn = function() {
-          AuthService.service.init(scope);
-          AuthService.service.authorize();
-        };
       };
-
-      return definition;
-    }]);
+    });
