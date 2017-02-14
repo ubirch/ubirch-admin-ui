@@ -4,8 +4,7 @@ STAGE="$1"
 
 if [ "" != "$STAGE" ]
   then
-    echo fetch updates from git
-    git pull
+    echo "create dist version for stage >>$STAGE<<"
     echo install missing npm components
     npm install
     echo install missing bower components
