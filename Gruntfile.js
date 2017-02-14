@@ -409,6 +409,10 @@ module.exports = function (grunt) {
       prod_settings: {
         src: 'settings/settings_prod.js',
         dest: 'app/scripts/services/settings.js'
+      },
+      docker_settings: {
+        src: 'settings/settings_docker.js',
+        dest: 'app/scripts/services/settings.js'
       }
     },
 
