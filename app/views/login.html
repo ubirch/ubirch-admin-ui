@@ -2,12 +2,12 @@
   <div  class="area-header">
     {{ 'LOGIN_PLEASE' | translate }}
   </div>
-  <auth-button
-    template="views/templates/social-media-button.html"
-    authorization-url="https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=370115332091-q7dccmh0leq20rqgs2550vp0u67pj42p.apps.googleusercontent.com&redirect_uri=http://localhost:9000/auth&scope=openid&state=0ZOE_BDT6eZrwBczvox2iSSNJVtjYDPFgtEkJVLFbR8&nonce=eRYsplr2e67ozm6ZCb6sqhBJXVNlika6m9AuC1MDR_M"
-    sign-in-text="{{ 'SIGN_IN_WITH' | translate }} Google"
-    button-class="btn btn-block btn-google-plus"
-    button-icon-class="ion-social-google"
-    provider-id="google">
-  </auth-button>
+  <div ng-repeat="provider in providersList">
+    <auth-button
+      template="views/templates/social-media-button.html"
+      authorization-url="{{provider.redirectUrl}}"
+      sign-in-text="{{ 'SIGN_IN_WITH' | translate }} {{provider.name}}"
+      provider-id="{{provider.id}}">
+    </auth-button>
+  </div>
 </div>

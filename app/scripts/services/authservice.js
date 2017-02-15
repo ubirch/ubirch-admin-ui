@@ -113,6 +113,21 @@ app.factory('AccessToken', ['$rootScope', '$location', '$sessionStorage', 'setti
     service.token = token;
   };
 
+  service.storeInSession = function(key, value){
+
+    if (!$sessionStorage.authServiceProps) {
+      $sessionStorage.authServiceProps = {};
+    }
+    $sessionStorage.authServiceProps[key] = value;
+  };
+
+  service.getFromSession = function(key){
+    if (!$sessionStorage.authServiceProps){
+      return undefined;
+    }
+    return $sessionStorage.authServiceProps[key];
+  };
+
   /**
    *
    * @param token
@@ -144,102 +159,99 @@ app.service('AuthService', ['$resource', 'constant', 'settings', '$rootScope', '
 
       verifyAuth: $resource(url + '/verify/code'),
 
-      service: {
-        providerId: "",
-        authorizationUrl: "",
-        signOutRedirectUrl: "",
-        init: function (params) {
-          if (params.authorizationUrl){
-            this.authorizationUrl = params.authorizationUrl;
+      authorizationUrl: "",
+      signOutRedirectUrl: "",
+      init: function (params) {
+        if (params.authorizationUrl) {
+          this.authorizationUrl = params.authorizationUrl;
+        }
+        if (params.signOutRedirectUrl) {
+          this.signOutRedirectUrl = params.signOutRedirectUrl;
+        }
+        if (params.providerId) {
+          // store providerId in SessionStorage
+          AccessToken.storeInSession("providerId", params.providerId);
+        }
+      },
+      authorize: function () {
+        if (this.authorizationUrl && this.authorizationUrl.length > 0) {
+          window.location.replace(this.authorizationUrl);
+        }
+      },
+      signOut: function () {
+        AccessToken.destroy();
+        $rootScope.$broadcast("auth:signedOut", "You have been logged out");
+        $location.url(this.signOutRedirectUrl);
+      },
+
+      verify: function () {
+
+        // check if query params added in request
+        var hashValues = window.location.hash;
+        var queryStart = hashValues.length > 0 ? hashValues.indexOf("?") : -1;
+        if (queryStart >= 0) {
+
+          var queryStr = hashValues.substr(hashValues.indexOf("?") + 1);
+          var query = AccessToken.setTokenFromHashParams(queryStr);
+
+          if (query) {
+            if (query.error) {
+              // handle authentication error
+              handleError(query.error, query.error_description);
+            }
+            else {
+              var providerId = AccessToken.getFromSession("providerId");
+              if (query.code && query.state && providerId) {
+                // check agains authService
+
+                this.verifyAuth.save(
+                  {
+                    "providerId": providerId,
+                    "code": query.code,
+                    "state": query.state
+                  },
+                  function (data) {
+                    if (AccessToken.check(data)) {
+                      var token = AccessToken.get();
+                      AccessToken.saveTokenInSession(token);
+                      $rootScope.$broadcast('auth:verified', token);
+                    }
+                    else {
+                      handleError("InconsistentCodeStateError", "Something went wrong with your authentication (code and/or state not the same as sended - probably a manInTheMiddle");
+                    }
+                  },
+                  function (error) {
+                    // handle authentication error
+                    handleError(error.data.errorType, error.data.errorMessage);
+                  }
+                )
+              }
+            }
           }
-          if (params.signOutRedirectUrl) {
-            this.signOutRedirectUrl = params.signOutRedirectUrl;
+          else {
+            $rootScope.$broadcast('auth:authError', "Authentication token from OpenId Connect provider didn't contain code and/or state parameter.");
           }
-          if (params.providerId) {
-            this.providerId = params.providerId;
+        }
+        else {
+          // no query
+          var sessionToken = AccessToken.getTokenFromSession();
+          if (sessionToken) {
+            if (AccessToken.expired(sessionToken)) {
+              $rootScope.$broadcast('auth:authExpired', 'Your authentication token has expired. You need a new one. Please login again!');
+            }
+            else {
+              AccessToken.set(sessionToken);
+              $rootScope.$broadcast('auth:verified', token);
+            }
           }
-        },
-        authorize: function () {
-          if (this.authorizationUrl && this.authorizationUrl.length > 0) {
-            window.location.replace(this.authorizationUrl);
+          else {
+            $rootScope.$broadcast('auth:authRequired', 'You need to login');
           }
-        },
-        signOut: function () {
-          AccessToken.destroy();
-          $rootScope.$broadcast("auth:signedOut", "You have been logged out");
-          $location.url(this.signOutRedirectUrl);
         }
       }
     };
 
-  service.verifyAuth.verify = function() {
-
-    // check if query params added in request
-    var hashValues = window.location.hash;
-    var queryStart = hashValues.length > 0 ? hashValues.indexOf("?") : -1;
-    if (queryStart >= 0) {
-
-      var queryStr = hashValues.substr(hashValues.indexOf("?")+1);
-      var query = AccessToken.setTokenFromHashParams(queryStr);
-
-      if (query){
-        if (query.error) {
-          // handle authentication error
-          this.handleError(query.error, query.error_description);
-        }
-        else {
-          if (query.code && query.state) {
-            // check agains authService
-
-            var self = this;
-            // TODO: replace static providerId dynamically
-            this.save(
-              {
-                "providerId": "google",
-                "code": query.code,
-                "state": query.state
-              },
-              function (data) {
-                if (AccessToken.check(data)) {
-                  var token = AccessToken.get();
-                  AccessToken.saveTokenInSession(token);
-                  $rootScope.$broadcast('auth:verified', token);
-                }
-                else {
-                  self.handleError("InconsistentCodeStateError", "Something went wrong with your authentication (code and/or state not the same as sended - probably a manInTheMiddle");
-                }
-              },
-              function (error) {
-                // handle authentication error
-                self.handleError(error.data.errorType, error.data.errorMessage);
-              }
-            )
-          }
-        }
-      }
-      else {
-        $rootScope.$broadcast('auth:authError', "Authentication token from OpenId Connect provider didn't contain code and/or state parameter.");
-      }
-    }
-    else {
-      // no query
-      var sessionToken = AccessToken.getTokenFromSession();
-      if (sessionToken) {
-        if (AccessToken.expired(sessionToken)){
-          $rootScope.$broadcast('auth:authExpired', 'Your authentication token has expired. You need a new one. Please login again!');
-        }
-        else {
-          AccessToken.set(sessionToken);
-          $rootScope.$broadcast('auth:verified', token);
-        }
-      }
-      else {
-        $rootScope.$broadcast('auth:authRequired', 'You need to login');
-      }
-    }
-  };
-
-  service.verifyAuth.handleError = function(errorType, errorMessage) {
+  var handleError = function(errorType, errorMessage) {
     // remove sessionToken
     AccessToken.destroy();
     // broadcast error
@@ -322,12 +334,12 @@ app.directive('authButton',
 //          scope.signedIn = accessToken.set() !== null;
         }
 
-        scope.$watch('clientId', function() { init(); }); // on resolved
+        scope.$watch('authorizationUrl', function() { init(); }); // on resolved
 
 
         scope.signIn = function() {
-          AuthService.service.init(scope);
-          AuthService.service.authorize();
+          AuthService.init(scope);
+          AuthService.authorize();
         };
       };
 
@@ -357,7 +369,7 @@ app.directive('authNavButton',
             logoutUrl: scope.signOutRedirectUrl || scope.loginUrl
           };
 
-          AuthService.service.init(authServiceParams);
+          AuthService.init(authServiceParams);
 
           scope.login = function() {
             $location.url(scope.loginUrl);
@@ -365,7 +377,7 @@ app.directive('authNavButton',
 
           scope.logout = function() {
             // remove token from AccessToken service and sessionStorage
-            AuthService.service.signOut();
+            AuthService.signOut();
           };
 
           $rootScope.signedIn = false;

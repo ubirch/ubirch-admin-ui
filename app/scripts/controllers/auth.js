@@ -47,7 +47,7 @@ angular.module('ubirchAdminCrudApp')
       $location.url('/login');
     });
 
-    AuthService.verifyAuth.verify();
+    AuthService.verify();
 
     $scope.openLogin = function(){
       $location.url('/login');
