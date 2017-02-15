@@ -41,6 +41,12 @@ angular.module('ubirchAdminCrudApp')
       $location.url('/');
     });
 
+    $scope.$on('auth:signedOut', function () {
+      $scope.success = false;
+      $scope.workinprogress = false;
+      $location.url('/login');
+    });
+
     AuthService.verifyAuth.verify();
 
     $scope.openLogin = function(){

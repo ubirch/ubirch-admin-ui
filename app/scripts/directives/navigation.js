@@ -12,7 +12,7 @@ angular.module('ubirchAdminCrudApp')
       templateUrl: 'views/directives/navigation.html',
       restrict: 'E',
       controllerAs: 'navCtrl',
-      controller: ['$scope', '$location', 'AuthService', function ($scope, $location, AuthService) {
+      controller: ['$scope', '$rootScope', '$location', 'AuthService', function ($scope, $rootScope, $location, AuthService) {
         // highlighting
         $scope.navClass = function (page) {
 

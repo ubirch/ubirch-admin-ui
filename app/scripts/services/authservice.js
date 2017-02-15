@@ -149,9 +149,15 @@ app.service('AuthService', ['$resource', 'constant', 'settings', '$rootScope', '
         authorizationUrl: "",
         signOutRedirectUrl: "",
         init: function (params) {
-          this.authorizationUrl = params.authorizationUrl;
-          this.signOutRedirectUrl = params.signOutRedirectUrl;
-          this.providerId = params.providerId;
+          if (params.authorizationUrl){
+            this.authorizationUrl = params.authorizationUrl;
+          }
+          if (params.signOutRedirectUrl) {
+            this.signOutRedirectUrl = params.signOutRedirectUrl;
+          }
+          if (params.providerId) {
+            this.providerId = params.providerId;
+          }
         },
         authorize: function () {
           if (this.authorizationUrl && this.authorizationUrl.length > 0) {
@@ -160,6 +166,7 @@ app.service('AuthService', ['$resource', 'constant', 'settings', '$rootScope', '
         },
         signOut: function () {
           AccessToken.destroy();
+          $rootScope.$broadcast("auth:signedOut", "You have been logged out");
           $location.url(this.signOutRedirectUrl);
         }
       }
@@ -309,7 +316,6 @@ app.directive('authButton',
           scope.signInText = scope.signInText || 'Sign In';
           scope.providerId = scope.providerId || '';
           scope.authorizationUrl = scope.authorizationUrl || '';
-          scope.signOutRedirectUrl = scope.signOutRedirectUrl || '/login';
 
           compileTemplate();
 
@@ -331,19 +337,44 @@ app.directive('authButton',
 
 // Open ID directive
 app.directive('authNavButton',
-   ['$location', function($location) {
+   ['$location', 'AuthService', '$rootScope', function($location, AuthService, $rootScope) {
       return {
         restrict: 'E',
         templateUrl: 'views/templates/auth-nav-button.html',
         replace: true,
         scope: {
-          signOutRedirectUrl: '@' // redirect url after locally deleting token to logout user (leave user logged in against OP)
+          loginUrl: '@',           // path to the login page - mandatory
+          loginText: '@',          // text for the login button
+          logoutText: '@',         //  text for the logout button
+          signOutRedirectUrl: '@'  // redirect url after locally deleting token to logout user (leave user logged in against OP) - optional; otherwise loginUrl is used
         },
         link: function postLink(scope) {
 
-          scope.login = function() {
-            $location.url('/login');
+          scope.loginText = scope.loginText || 'login';
+          scope.logoutText = scope.logoutText || 'logout';
+
+          var authServiceParams = {
+            logoutUrl: scope.signOutRedirectUrl || scope.loginUrl
           };
+
+          AuthService.service.init(authServiceParams);
+
+          scope.login = function() {
+            $location.url(scope.loginUrl);
+          };
+
+          scope.logout = function() {
+            // remove token from AccessToken service and sessionStorage
+            AuthService.service.signOut();
+          };
+
+          $rootScope.signedIn = false;
+          scope.$on('auth:authError', function () { $rootScope.signedIn = false; });
+          scope.$on('auth:authExpired', function () { $rootScope.signedIn = false; });
+          scope.$on('auth:authRequired', function () { $rootScope.signedIn = false; });
+          scope.$on('auth:signedOut', function () { $rootScope.signedIn = false; });
+          scope.$on('auth:verified', function () { $rootScope.signedIn = true; });
+
         }
       };
     }]);

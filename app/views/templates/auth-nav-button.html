@@ -1,4 +1,4 @@
 <ul  class="nav navbar-nav pull-right ng-scope">
-  <li ng-if="!isAuthenticated()"><a ng-click="login()">Login</a></li>
-  <li ng-if="isAuthenticated()"><a ng-click="logout()">Logout</a></li>
+  <li ng-if="!$root.signedIn"><a ng-click="login()">{{loginText}}</a></li>
+  <li ng-if="$root.signedIn"><a ng-click="logout()">{{logoutText}}</a></li>
 </ul>
