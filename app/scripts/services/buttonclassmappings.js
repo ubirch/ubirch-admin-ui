@@ -9,26 +9,30 @@
  */
 angular.module('ubirchAdminCrudApp')
   .constant('buttonClassMappings', {
-    "github": {
+    github: {
       buttonClass: "btn btn-block btn-github",
       iconClass: "ion-social-github"
     },
-    "ebay": {
+    ebay: {
       logoUrl: "https://upload.wikimedia.org/wikipedia/commons/1/1b/EBay_logo.svg"
     },
-    "google": {
-        buttonClass: "btn btn-block btn-google-plus",
-        iconClass: "ion-social-google"
+    google: {
+      buttonClass: "btn btn-block btn-google-plus",
+      iconClass: "ion-social-google"
     },
-    "windowslive": {
+    windowslive: {
       buttonClass: "btn btn-block btn-live",
       iconClass: "ion-social-windows"
     },
-    "paypal": {
+    paypal: {
       buttonClass: "btn btn-block btn-live",
       iconClass: "fa fa-paypal"
+    },
+    default: {
+      buttonClass: "btn btn-block btn-default",
+      iconClass: "ion-log-in"
     }
-});
+  });
 
 
 /*

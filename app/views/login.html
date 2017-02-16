@@ -7,6 +7,8 @@
       template="views/templates/social-media-button.html"
       authorization-url="{{provider.redirectUrl}}"
       sign-in-text="{{ 'SIGN_IN_WITH' | translate }} {{provider.name}}"
+      button-class="{{getButtonClass(provider.id)}}"
+      button-icon-class="{{getButtonIcon(provider.id)}}"
       provider-id="{{provider.id}}">
     </auth-button>
   </div>

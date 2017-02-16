@@ -197,3 +197,15 @@
   color: #fff;
   background-color: #009cde;
 }
+
+.btn-default {
+  color: #444;
+  background-color: #fff;
+  border: 1px solid #3b3b3b;
+}
+
+.btn-default:hover,
+.btn-default:focus {
+  color: #444;
+  background-color: #aaa;
+}
