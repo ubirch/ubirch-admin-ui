@@ -20,7 +20,19 @@ The documentation of the underlying API can be found [here](http://developer.ubi
 
 We expect the following tools been installed on the machine:
 
+* Node.js and
 * [npm, package manager for JavaScript](https://www.npmjs.com) (used for nodejs components)
+
+npm is bundled with node
+
+Download and install Node.js from the following download page:
+
+https://nodejs.org/en/download/
+
+For Unix you can all
+
+        curl -L https://www.npmjs.com/install.sh | sh
+
 
 * [bower, package manager](http://gruntjs.com) (used for angular components)
   
@@ -42,7 +54,9 @@ If you want to run the latest code from git, here's how to get started:
 
 1. Clone the code:
 
-        git clone https://github.com/ubirch/ubirch-admin-ui
+    (deposit your PubKey at gitHub) 
+
+        git clone git@github.com:ubirch/ubirch-admin-ui.git
         cd ubirch-admin-ui
 
 2. Install the project dependencies
@@ -53,19 +67,17 @@ If you want to run the latest code from git, here's how to get started:
 
         bower install
 
-4. Start backend on localhost:8080
+4. Start backend
 
-5. Build and run the code
+See instructions in BE components
+
+5. Build and run the code on localhost:9000
 
         grunt serve
 
 6. Open in Browser:
 
         http://localhost:9000
-
-### Run tests
-
-Running `grunt test` will run the unit tests with karma.
 
 ### Deployment
 
