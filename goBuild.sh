@@ -4,7 +4,7 @@ NPM_CONTAINER_VERSION="latest"
 
 
 
-function init() {
+init () {
 
   DEPENDENCY_LABEL=$GO_DEPENDENCY_LABEL_NPM_CONTAINER
 
@@ -18,13 +18,13 @@ function init() {
 
 }
 
-function build_software() {
+build_software () {
 
 	docker run -e HOME=/build -e npm_config_cache=/build/.npm --user `id -u`:`id -g` --rm -v $PWD:/build ubirch/npm-build-container:$NPM_CONTAINER_VERSION /build/buildWeb.sh $1
 
 }
 
-function build_container() {
+build_container () {
   # copy artefacts to TMP directory for faster build
   rm -rf TMP/
   mkdir -p TMP
