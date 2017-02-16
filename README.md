@@ -107,6 +107,27 @@ For int deployment execute
 
         ./deployWeb.sh xy
 
+### Docker Deployment
+
+```
+./goBuild.sh docker
+```
+
+creates a dist version in ./dist/
+
+All files under ./dist/ have to be put into a webserver root folder.
+
+These placeholder: 
+
+* ${UBIRCH_API_HOST}
+  * e.g. https://api.dev.ubirch.com
+* ${UBIRCH_AUTH_SERVICE_API_HOST}
+  * e.g. https://auth.dev.ubirch.com
+
+have to be replaced in ./dist/scripts/scripts.*.js
+
+In each dist version all js files have a random number as a part of the filename to avoid caching problems. 
+
 ## Contact
 
 This project is a creation of the [ubirch GmbH](http://www.ubirch.com).
