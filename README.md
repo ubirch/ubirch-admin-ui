@@ -99,6 +99,14 @@ For int deployment execute
 
         ./deployWeb.sh int
 
+4. optional: define special settings
+  
+  * create a file settings/settings_xy.js
+  * specify all settings properties you find in settings_dev.js
+  * call
+
+        ./deployWeb.sh xy
+
 ## Contact
 
 This project is a creation of the [ubirch GmbH](http://www.ubirch.com).
