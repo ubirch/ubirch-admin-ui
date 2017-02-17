@@ -65,11 +65,27 @@ app.factory('AccessToken', ['$rootScope', '$location', '$sessionStorage', 'setti
    */
   service.setTokenFromHashParams = function(hash) {
     var token = this.getTokenFromHashParams(hash);
+    this.token = token;
+
     if (token !== null) {
       $sessionStorage.token = null;
       delete $sessionStorage.token;
     }
+
     return token;
+  };
+
+  /**
+   * add param to token; creates an empty token if neccessary
+   * @returns token
+   */
+  service.addTokenParam = function(param, value) {
+    if (!this.token){
+      this.token = {};
+    }
+    this.token[param] = value;
+
+    return this.token;
   };
 
   /**
@@ -184,18 +200,20 @@ app.service('AuthService', ['$resource', 'constant', 'settings', '$rootScope', '
       }
     },
     signOut: function () {
-      var token = AccessToken.get();
+      var token = AccessToken.getTokenFromSession();
       if (token && token.providerId) {
+
+        var self = this;
 
         this.logout.save(
           {
             "providerId": token.providerId,
-            "token": token
+            "token": token.code
           },
           function () {
             AccessToken.destroy();
             $rootScope.$broadcast("auth:signedOut", "You have been logged out");
-            $location.url(this.signOutRedirectUrl);
+            $location.url(self.signOutRedirectUrl);
           },
           function () {
             handleError("LogoutFailedError", "Something went wrong, you cannot be logged out");
@@ -223,10 +241,12 @@ app.service('AuthService', ['$resource', 'constant', 'settings', '$rootScope', '
             handleError(query.error, query.error_description);
           }
           else {
-            var providerId = query.provider || AccessToken.getFromSession("providerId");
-            if (query.code && query.state && providerId) {
-              // check agains authService
+            var providerId = query.providerId || AccessToken.getFromSession("providerId");
+            AccessToken.addTokenParam("providerId", providerId);
 
+            if (query.code && query.state && providerId) {
+
+              // check agains authService
               this.verifyAuth.save(
                 {
                   "providerId": providerId,
@@ -264,7 +284,7 @@ app.service('AuthService', ['$resource', 'constant', 'settings', '$rootScope', '
           }
           else {
             AccessToken.set(sessionToken);
-            $rootScope.$broadcast('auth:verified', token);
+            $rootScope.$broadcast('auth:verified', 'You are logged in successfully');
           }
         }
         else {
@@ -275,10 +295,18 @@ app.service('AuthService', ['$resource', 'constant', 'settings', '$rootScope', '
   };
 
   var handleError = function(errorType, errorMessage) {
-    // remove sessionToken
-    AccessToken.destroy();
-    // broadcast error
-    $rootScope.$broadcast('auth:authError', errorType + ": " + errorMessage);
+
+    switch (errorType){
+      case "LogoutFailedError":
+        // user is still logged in
+        $rootScope.$broadcast('auth:verified', errorMessage);
+        break;
+      default:
+        // remove sessionToken
+        AccessToken.destroy();
+        // broadcast error
+        $rootScope.$broadcast('auth:authError', errorType + ": " + errorMessage);
+    }
   };
 
   return service;
