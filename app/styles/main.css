@@ -130,6 +130,10 @@ a {
   font-size: 24px;
 }
 
+.login-button-group {
+  width: 50%;
+}
+
 .grey {
   color: #cccccc;
 }
