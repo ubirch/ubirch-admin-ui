@@ -20,7 +20,7 @@ init () {
 
 build_software () {
 
-	docker run -e HOME=/build -e npm_config_cache=/build/.npm --user `id -u`:`id -g` --rm -v $PWD:/build ubirch/npm-build-container:$NPM_CONTAINER_VERSION /build/buildWeb.sh $1
+	docker run -e HOME=/build -e UBIRCH_API_HOST=avatar-service -e npm_config_cache=/build/.npm --user `id -u`:`id -g` --rm -v $PWD:/build ubirch/npm-build-container:$NPM_CONTAINER_VERSION /build/buildWeb.sh $1
 
 }
 
