@@ -417,7 +417,7 @@ app.directive('authNavButton',
         scope.logoutText = scope.logoutText || 'logout';
 
         var authServiceParams = {
-          logoutUrl: scope.signOutRedirectUrl || scope.loginUrl
+          signOutRedirectUrl: scope.signOutRedirectUrl || scope.loginUrl
         };
 
         AuthService.init(authServiceParams);

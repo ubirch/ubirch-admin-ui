@@ -37,6 +37,10 @@ app.controller('DevicesListCtrl', [ '$scope', '$location', 'Device', '$translate
       $timeout.cancel(listPromise);
     });
 
+    $scope.$on('auth:signedOut', function () {
+      $timeout.cancel(listPromise);
+    });
+
     var d = new Date();
     d.setHours(0);
     d.setMinutes(0);
