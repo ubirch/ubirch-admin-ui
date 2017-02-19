@@ -26,7 +26,7 @@ angular
     'angularSpinner',
     'ubirchAuth'
 ])
-  .config(function ($stateProvider, $urlRouterProvider, $translateProvider, $locationProvider, $httpProvider) {
+  .config(['$stateProvider', '$urlRouterProvider', '$translateProvider', '$locationProvider', '$httpProvider', function ($stateProvider, $urlRouterProvider, $translateProvider, $locationProvider, $httpProvider) {
 
     $translateProvider.useStaticFilesLoader({
       files: [{
@@ -96,7 +96,7 @@ angular
     $urlRouterProvider.otherwise('devices-list');
 
     $httpProvider.interceptors.push('OAuth2Interceptor');
-  })
+  }])
   .run(['$rootScope', '$location', '$sessionStorage', 'AccessToken',
     function ($rootScope, $location, $sessionStorage, AccessToken) {
 
