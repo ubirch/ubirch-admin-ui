@@ -348,9 +348,10 @@ app.factory('OAuth2Interceptor', ['$rootScope', '$q', '$sessionStorage', '$locat
 
 // Open ID directive
 app.directive('authButton',
-  ['$rootScope', '$http', '$location', '$templateCache', '$compile', '$sessionStorage', 'AccessToken', 'AuthService',
-    function($rootScope, $http, $location, $templateCache, $compile, $sessionStorage, accessToken, AuthService) {
+  ['$rootScope', '$http', '$location', '$sessionStorage', 'AccessToken', 'AuthService',
+    function($rootScope, $http, $location, $sessionStorage, accessToken, AuthService) {
       var definition = {
+        templateUrl: 'views/templates/social-media-button.html',
         restrict: 'E',
         replace: true,
         scope: {
@@ -364,25 +365,13 @@ app.directive('authButton',
         }
       };
 
-      definition.link = function(scope, element) {
-        function compileTemplate() {
-          $http.get(scope.template, { cache: $templateCache }).then(function(response) {
-            element.html(response.data);
-            $compile(element.contents())(scope);
-          });
-        }
-
+      definition.link = function(scope) {
         function init() {
-          scope.template = scope.template || 'views/templates/social-media-button.html';
           scope.buttonClass = scope.buttonClass || 'btn btn-primary';
           scope.buttonIconClass = scope.buttonIconClass || 'glyphicon glyphicon-log-in';
           scope.signInText = scope.signInText || 'Sign In';
           scope.providerId = scope.providerId || '';
           scope.authorizationUrl = scope.authorizationUrl || '';
-
-          compileTemplate();
-
-//          scope.signedIn = accessToken.set() !== null;
         }
 
         scope.$watch('authorizationUrl', function() { init(); }); // on resolved
