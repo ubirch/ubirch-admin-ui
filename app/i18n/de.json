@@ -39,5 +39,6 @@
   "PAGE_PREV": "zurück",
   "PAGE_NEXT": "weiter",
   "NUM_OF_DATASETS": "Anzahl Datensätze",
-  "RELOAD": "Neu laden"
+  "RELOAD": "Neu laden",
+  "NO_HISTORY_DATA": "Für dieses Gerät sind keine Verlaufsdaten verfügbar"
 }
