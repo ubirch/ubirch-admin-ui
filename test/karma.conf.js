@@ -35,7 +35,6 @@ module.exports = function(config) {
       'bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
       'bower_components/angular-xeditable/dist/js/xeditable.js',
       'bower_components/angular-ui-router/release/angular-ui-router.js',
-      'bower_components/d3/d3.js',
       'bower_components/leaflet/dist/leaflet-src.js',
       'bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.js',
       'bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.js',
