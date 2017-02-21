@@ -42,5 +42,5 @@
   "PAGE_NEXT": "next",
   "NUM_OF_DATASETS": "number of data sets",
   "RELOAD": "reload",
-  "NO_HISTORY_DATA": "No history data available for this device"
+  "NO_HISTORY_DATA": "No history data available for this device in selected range"
 }
