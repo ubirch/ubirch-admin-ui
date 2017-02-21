@@ -167,7 +167,7 @@ angular.module('ubirchAdminCrudApp')
 
         if ($scope.activeFilterTab === "filterbydate"){
           // TODO: get history by date
-          Device.getHistoryOfDay($stateParams.deviceid, $scope.startDate,
+          Device.getHistoryOfDateRange($stateParams.deviceid, $scope.startDate, $scope.endDate,
             function(data){
               if (data.length > 0){
                 $scope.messages = data;
