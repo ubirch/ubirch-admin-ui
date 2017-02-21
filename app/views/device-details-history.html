@@ -15,16 +15,22 @@
 
       <div class="tab-content">
         <!-- state -->
-        <div ng-switch="activeTab">
+        <div ng-switch="activeFilterTab">
           <div ng-switch-when="filterbydate">
             <div class="row">
-              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                 <span class="pull-left" ng-click="prev_date()">
                   <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
                   <span>{{ 'PAGE_PREV' | translate }}</span>
                 </span>
               </div>
+              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                Daten vom:
+              </div>
               <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <input type="date" class="form-control" ng-model="values.startDate" ng-change="load_history()"/>
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                 <span class="pull-right" ng-hide="todayReached"  ng-click="next_date()">
                   <span>{{ 'PAGE_NEXT' | translate }}</span>
                   <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>

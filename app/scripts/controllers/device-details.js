@@ -15,8 +15,6 @@ angular.module('ubirchAdminCrudApp')
       $scope.activeTab = "state";
       $scope.activeFilterTab = "filterbydate";
       $scope.todayReached = true;
-      $scope.startDate = new Date();
-      $scope.endDate = undefined;
       $scope.device = {};
       $scope.deviceState =  [];
       var deviceStateSaved =  [];
@@ -24,6 +22,8 @@ angular.module('ubirchAdminCrudApp')
       $scope.stateKats = [];
       $scope.values = {};
       $scope.values.numOfMessages = 10;
+      $scope.values.startDate = new Date();
+      $scope.values.endDate = undefined;
       $scope.startIndex = 0;
       $scope.endOfDataReached = false;
       $scope.messages = undefined;
@@ -154,12 +154,30 @@ angular.module('ubirchAdminCrudApp')
       };
 
       $scope.next_date = function() {
-        // TODO calculate next date range
+        var nextday = new Date();
+        nextday.setDate($scope.values.startDate.getDate()+1);
+
+        $scope.values.startDate = nextday;
+
+        if (nextday > constant.TODAY){
+          $scope.todayReached = true;
+        }
+
         loadHistory();
+
+
       };
 
       $scope.prev_date = function() {
-        // TODO calculate previous date range
+        var prevday = new Date();
+        prevday.setDate($scope.values.startDate.getDate()-1);
+
+        $scope.values.startDate = prevday;
+        loadHistory();
+        $scope.todayReached = false;
+      };
+
+      $scope.load_history = function() {
         loadHistory();
       };
 
@@ -167,16 +185,18 @@ angular.module('ubirchAdminCrudApp')
 
         if ($scope.activeFilterTab === "filterbydate"){
           // TODO: get history by date
-          Device.getHistoryOfDateRange($stateParams.deviceid, $scope.startDate, $scope.endDate,
+          Device.getHistoryOfDateRange($stateParams.deviceid, $scope.values.startDate, $scope.values.endDate,
             function(data){
               if (data.length > 0){
                 $scope.messages = data;
                 $scope.endOfDataReached = false;
               }
               else {
+                $scope.messages = [];
               }
             },
             function(){
+              $scope.messages = [];
             });
         }
         else {
