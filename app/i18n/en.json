@@ -39,5 +39,6 @@
   "PAGE_PREV": "previous data",
   "PAGE_NEXT": "next data",
   "NUM_OF_DATASETS": "number of data sets",
-  "RELOAD": "reload"
+  "RELOAD": "reload",
+  "NO_HISTORY_DATA": "No history data available for this device"
 }

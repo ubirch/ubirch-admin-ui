@@ -79,7 +79,11 @@ module.exports = function (grunt) {
       },
       livereload: {
         options: {
-          open: true,
+          open: {
+            //target: 'http://localhost:9000', <- this works too
+            target: 'http://localhost:<%= connect.options.port %>',
+            appName: 'Google Chrome'
+          },
           middleware: function (connect) {
             return [
               connect.static('.tmp'),
@@ -114,7 +118,10 @@ module.exports = function (grunt) {
       },
       dist: {
         options: {
-          open: true,
+          open: {
+            target: 'http://localhost:<%= connect.options.port %>',
+            appName: 'Google Chrome'
+          },
           base: '<%= yeoman.dist %>'
         }
       }
