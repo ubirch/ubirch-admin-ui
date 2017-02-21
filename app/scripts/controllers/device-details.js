@@ -24,6 +24,18 @@ angular.module('ubirchAdminCrudApp')
       $scope.endOfDataReached = false;
       $scope.messages = undefined;
 
+      angular.extend($scope, {
+        center: {
+          lat: 52.50466320614026,
+          lng: 13.480031490325928,
+          zoom: 12
+        },
+        markers: {},
+        defaults: {
+          scrollWheelZoom: false
+        }
+      });
+
       if ($stateParams.deviceid) {
         $scope.device = Device.getDevice($stateParams.deviceid, function(deviceVal){
           $scope.deviceType = $filter('getDeviceType')(deviceTypesList, deviceVal.deviceTypeKey);
@@ -155,6 +167,7 @@ angular.module('ubirchAdminCrudApp')
           if (data.length > 0){
             $scope.messages = data;
             $scope.endOfDataReached = false;
+            calculateMap();
           }
           else {
             disableNextButton();
@@ -168,5 +181,11 @@ angular.module('ubirchAdminCrudApp')
     function disableNextButton() {
       $scope.startIndex = $scope.startIndex >= $scope.values.numOfMessages ? $scope.startIndex - $scope.values.numOfMessages : 0;
       $scope.endOfDataReached = true;
+    }
+
+    function calculateMap() {
+      angular.forEach($scope.messages, function(message) {
+        console.log(message);
+      });
     }
   }]);
