@@ -8,11 +8,15 @@
  * Controller of the ubirchAdminCrudApp
  */
 angular.module('ubirchAdminCrudApp')
-  .controller('DeviceDetailsCtrl',[ '$scope', '$window', '$location', '$stateParams', '$filter', 'Device', 'toaster', 'deviceTypesList',
-    function ($scope, $window, $location, $stateParams, $filter, Device, toaster, deviceTypesList) {
+  .controller('DeviceDetailsCtrl',[ '$scope', '$window', '$location', '$stateParams', '$filter', 'Device', 'constant', 'toaster', 'deviceTypesList',
+    function ($scope, $window, $location, $stateParams, $filter, Device, constant, toaster, deviceTypesList) {
     var listUrl = "devices-list";
 
       $scope.activeTab = "state";
+      $scope.activeFilterTab = "filterbydate";
+      $scope.todayReached = true;
+      $scope.startDate = new Date();
+      $scope.endDate = undefined;
       $scope.device = {};
       $scope.deviceState =  [];
       var deviceStateSaved =  [];
@@ -140,30 +144,57 @@ angular.module('ubirchAdminCrudApp')
       };
 
       $scope.page_next = function() {
-      $scope.startIndex += $scope.values.numOfMessages;
-      loadHistory();
-    };
+        $scope.startIndex += $scope.values.numOfMessages;
+        loadHistory();
+      };
 
-    $scope.page_prev = function() {
-      $scope.startIndex = $scope.startIndex >= $scope.values.numOfMessages ? $scope.startIndex - $scope.values.numOfMessages : 0;
-      loadHistory();
-    };
+      $scope.page_prev = function() {
+        $scope.startIndex = $scope.startIndex >= $scope.values.numOfMessages ? $scope.startIndex - $scope.values.numOfMessages : 0;
+        loadHistory();
+      };
 
-    function loadHistory(){
-      Device.getDefinedHistory($stateParams.deviceid, $scope.startIndex, $scope.values.numOfMessages,
-        function(data){
-          if (data.length > 0){
-            $scope.messages = data;
-            $scope.endOfDataReached = false;
-          }
-          else {
-            disableNextButton();
-          }
-        },
-        function(){
-          disableNextButton();
-        });
-    }
+      $scope.next_date = function() {
+        // TODO calculate next date range
+        loadHistory();
+      };
+
+      $scope.prev_date = function() {
+        // TODO calculate previous date range
+        loadHistory();
+      };
+
+      function loadHistory(){
+
+        if ($scope.activeFilterTab === "filterbydate"){
+          // TODO: get history by date
+          Device.getHistoryOfDay($stateParams.deviceid, $scope.startDate,
+            function(data){
+              if (data.length > 0){
+                $scope.messages = data;
+                $scope.endOfDataReached = false;
+              }
+              else {
+              }
+            },
+            function(){
+            });
+        }
+        else {
+          Device.getHistoryOfRange($stateParams.deviceid, $scope.startIndex, $scope.values.numOfMessages,
+            function(data){
+              if (data.length > 0){
+                $scope.messages = data;
+                $scope.endOfDataReached = false;
+              }
+              else {
+                disableNextButton();
+              }
+            },
+            function(){
+              disableNextButton();
+            });
+        }
+      }
 
     function disableNextButton() {
       $scope.startIndex = $scope.startIndex >= $scope.values.numOfMessages ? $scope.startIndex - $scope.values.numOfMessages : 0;
