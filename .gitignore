@@ -4,7 +4,6 @@
 /.tmp
 /.sass-cache
 /bower_components
-/.idea/
 .bower
 .cache
 .config
