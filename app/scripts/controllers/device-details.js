@@ -155,6 +155,10 @@ angular.module('ubirchAdminCrudApp')
         loadHistory();
       };
 
+      $scope.changeTab = function(tabname) {
+        $scope.activeFilterTab = tabname;
+      }
+
       $scope.page_next = function() {
         $scope.startIndex += $scope.values.numOfMessages;
         loadHistory();
@@ -163,6 +167,21 @@ angular.module('ubirchAdminCrudApp')
       $scope.page_prev = function() {
         $scope.startIndex = $scope.startIndex >= $scope.values.numOfMessages ? $scope.startIndex - $scope.values.numOfMessages : 0;
         loadHistory();
+      };
+
+      $scope.next_date = function() {
+        var nextday = new Date();
+        nextday.setDate($scope.values.startDate.getDate()+1);
+
+        $scope.values.startDate = nextday;
+
+        if (nextday > constant.TODAY){
+          $scope.todayReached = true;
+        }
+
+        loadHistory();
+
+
       };
 
       $scope.prev_date = function() {
@@ -205,10 +224,12 @@ angular.module('ubirchAdminCrudApp')
                 calculateMap();
               }
               else {
+                $scope.messages = [];
                 disableNextButton();
               }
             },
             function(){
+              $scope.messages = [];
               disableNextButton();
             });
         }
