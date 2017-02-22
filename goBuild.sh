@@ -15,12 +15,18 @@ init () {
     NPM_CONTAINER_VERSION="v${DEPENDENCY_LABEL}"
   fi
 
+  #Clean up
+  if [ -d dist ]; then
+    echo "Cleaning up old dist"
+    rm -rf dist/
+  fi
+
 
 }
 
 build_software () {
 
-	docker run -e HOME=/build -e UBIRCH_API_HOST=avatar-service -e npm_config_cache=/build/.npm --user `id -u`:`id -g` --rm -v $PWD:/build ubirch/npm-build-container:$NPM_CONTAINER_VERSION /build/buildWeb.sh $1
+	docker run -e HOME=/build -e npm_config_cache=/build/.npm --user `id -u`:`id -g` --rm -v $PWD:/build ubirch/npm-build-container:$NPM_CONTAINER_VERSION /build/buildWeb.sh $1
 
 }
 
@@ -57,7 +63,7 @@ build_container () {
 case "$1" in
     build)
         init
-        build_software "docker"
+        build_software "dev"
         ;;
     containerbuild)
         build_container
