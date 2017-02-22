@@ -165,37 +165,6 @@ angular.module('ubirchAdminCrudApp')
         loadHistory();
       };
 
-    function loadHistory(){
-      Device.getDefinedHistory($stateParams.deviceid, $scope.startIndex, $scope.values.numOfMessages,
-        function(data){
-          if (data.length > 0){
-            $scope.messages = data;
-            $scope.endOfDataReached = false;
-            calculateMap();
-          }
-          else {
-            disableNextButton();
-          }
-        },
-        function(){
-          disableNextButton();
-        });
-    }
-      $scope.next_date = function() {
-        var nextday = new Date();
-        nextday.setDate($scope.values.startDate.getDate()+1);
-
-        $scope.values.startDate = nextday;
-
-        if (nextday > constant.TODAY){
-          $scope.todayReached = true;
-        }
-
-        loadHistory();
-
-
-      };
-
       $scope.prev_date = function() {
         var prevday = new Date();
         prevday.setDate($scope.values.startDate.getDate()-1);
@@ -212,12 +181,12 @@ angular.module('ubirchAdminCrudApp')
       function loadHistory(){
 
         if ($scope.activeFilterTab === "filterbydate"){
-          // TODO: get history by date
           Device.getHistoryOfDateRange($stateParams.deviceid, $scope.values.startDate, $scope.values.endDate,
             function(data){
               if (data.length > 0){
                 $scope.messages = data;
                 $scope.endOfDataReached = false;
+                calculateMap();
               }
               else {
                 $scope.messages = [];
@@ -233,6 +202,7 @@ angular.module('ubirchAdminCrudApp')
               if (data.length > 0){
                 $scope.messages = data;
                 $scope.endOfDataReached = false;
+                calculateMap();
               }
               else {
                 disableNextButton();
