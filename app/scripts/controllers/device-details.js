@@ -8,11 +8,13 @@
  * Controller of the ubirchAdminCrudApp
  */
 angular.module('ubirchAdminCrudApp')
-  .controller('DeviceDetailsCtrl',[ '$scope', '$window', '$location', '$stateParams', '$filter', 'Device', 'toaster', 'deviceTypesList',
-    function ($scope, $window, $location, $stateParams, $filter, Device, toaster, deviceTypesList) {
+  .controller('DeviceDetailsCtrl',[ '$scope', '$window', '$location', '$stateParams', '$filter', 'Device', 'constant', 'toaster', 'deviceTypesList',
+    function ($scope, $window, $location, $stateParams, $filter, Device, constant, toaster, deviceTypesList) {
     var listUrl = "devices-list";
 
       $scope.activeTab = "state";
+      $scope.activeFilterTab = "filterbydate";
+      $scope.todayReached = true;
       $scope.device = {};
       $scope.deviceState =  [];
       var deviceStateSaved =  [];
@@ -20,6 +22,8 @@ angular.module('ubirchAdminCrudApp')
       $scope.stateKats = [];
       $scope.values = {};
       $scope.values.numOfMessages = 10;
+      $scope.values.startDate = new Date();
+      $scope.values.endDate = undefined;
       $scope.startIndex = 0;
       $scope.endOfDataReached = false;
       $scope.messages = undefined;
@@ -152,14 +156,14 @@ angular.module('ubirchAdminCrudApp')
       };
 
       $scope.page_next = function() {
-      $scope.startIndex += $scope.values.numOfMessages;
-      loadHistory();
-    };
+        $scope.startIndex += $scope.values.numOfMessages;
+        loadHistory();
+      };
 
-    $scope.page_prev = function() {
-      $scope.startIndex = $scope.startIndex >= $scope.values.numOfMessages ? $scope.startIndex - $scope.values.numOfMessages : 0;
-      loadHistory();
-    };
+      $scope.page_prev = function() {
+        $scope.startIndex = $scope.startIndex >= $scope.values.numOfMessages ? $scope.startIndex - $scope.values.numOfMessages : 0;
+        loadHistory();
+      };
 
     function loadHistory(){
       Device.getDefinedHistory($stateParams.deviceid, $scope.startIndex, $scope.values.numOfMessages,
@@ -177,6 +181,68 @@ angular.module('ubirchAdminCrudApp')
           disableNextButton();
         });
     }
+      $scope.next_date = function() {
+        var nextday = new Date();
+        nextday.setDate($scope.values.startDate.getDate()+1);
+
+        $scope.values.startDate = nextday;
+
+        if (nextday > constant.TODAY){
+          $scope.todayReached = true;
+        }
+
+        loadHistory();
+
+
+      };
+
+      $scope.prev_date = function() {
+        var prevday = new Date();
+        prevday.setDate($scope.values.startDate.getDate()-1);
+
+        $scope.values.startDate = prevday;
+        loadHistory();
+        $scope.todayReached = false;
+      };
+
+      $scope.load_history = function() {
+        loadHistory();
+      };
+
+      function loadHistory(){
+
+        if ($scope.activeFilterTab === "filterbydate"){
+          // TODO: get history by date
+          Device.getHistoryOfDateRange($stateParams.deviceid, $scope.values.startDate, $scope.values.endDate,
+            function(data){
+              if (data.length > 0){
+                $scope.messages = data;
+                $scope.endOfDataReached = false;
+              }
+              else {
+                $scope.messages = [];
+              }
+            },
+            function(){
+              $scope.messages = [];
+            });
+        }
+        else {
+          Device.getHistoryOfRange($stateParams.deviceid, $scope.startIndex, $scope.values.numOfMessages,
+            function(data){
+              if (data.length > 0){
+                $scope.messages = data;
+                $scope.endOfDataReached = false;
+              }
+              else {
+                disableNextButton();
+              }
+            },
+            function(){
+              disableNextButton();
+            });
+        }
+      }
 
     function disableNextButton() {
       $scope.startIndex = $scope.startIndex >= $scope.values.numOfMessages ? $scope.startIndex - $scope.values.numOfMessages : 0;

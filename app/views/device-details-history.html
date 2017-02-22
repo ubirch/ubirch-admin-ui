@@ -1,57 +1,100 @@
 <div class="tab-content" ng-cloak>
-  <div ng-if="!messages || messages.length <= 0" style="height:200px" class="row">
-    <div class="col-lg-6 col-md-6 col-sm-8 col-xs-10 col-lg-offset-3 col-md-offset-3 col-sm-offset-2 col-xs-offset-1">{{ 'NO_HISTORY_DATA' | translate }}</div>
-  </div>
-  <div ng-if="messages.length > 0">
-    <div class="row">
-      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-      <span class="pull-left" ng-show="startIndex > 0"  ng-click="page_prev()">
-        <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
-        <span>{{ 'PAGE_PREV' | translate }}</span>
-      </span>
-      </div>
-      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-        <span class="pull-right">{{ 'NUM_OF_DATASETS' | translate }}:</span>
-      </div>
-      <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-        <input type="number" class="form-control" ng-model="values.numOfMessages"/>
-      </div>
-      <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-        <button type="submit" class="btn btn-default btn-xs"
-                title="{{ 'RELOAD' | translate }}" ng-click="numOfMessagesChanged()">
-          <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
-        </button>
-      </div>
-      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-      <span class="pull-right" ng-hide="endOfDataReached"  ng-click="page_next()">
-        <span>{{ 'PAGE_NEXT' | translate }}</span>
-        <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-      </span>
-      </div>
-    </div>
-    <div>
-      <hc-chart messages="messages"></hc-chart>
-    </div>
-    <div class="form-group">
-      <div class="message-list">
+  <div>
+    <div class="area-tabs">
+      <ul class="nav nav-tabs">
+        <li ng-class="{active: activeFilterTab == 'filterbydate'}">
+          <a ng-click="activeFilterTab = 'filterbydate'">{{ 'TABLABEL_FILTERBY_DATE' | translate }}</a>
+        </li>
+        <li ng-class="{active: activeFilterTab == 'filterbyrange'}">
+          <a ng-click="activeFilterTab = 'filterbyrange'">{{ 'TABLABEL_FILTERBY_RANGE' | translate }}</a>
+        </li>
+      </ul>
 
-        <uib-accordion>
-          <div uib-accordion-group class="panel-default"  ng-if="messages.length > 0" ng-repeat="message in messages"  is-open="status.open">
-            <uib-accordion-heading>
-              <div class="row">
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"><timestamp date="{{message.timestamp}}"></timestamp></div>
-                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8"><messageheader message="{{message}}"></messageheader></div>
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                  <!--                <blockchain message='{{message._source.deviceMessage}}'></blockchain> -->
-                  <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
-                </div>
+      <div class="tab-content">
+        <!-- state -->
+        <div ng-switch="activeFilterTab">
+          <div ng-switch-when="filterbydate">
+            <div class="row">
+              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <span class="pull-left" ng-click="prev_date()">
+                  <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
+                  <span>{{ 'PAGE_PREV' | translate }}</span>
+                </span>
               </div>
-            </uib-accordion-heading>
-            <messagecontent message="{{message}}"></messagecontent>
+              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                Daten vom:
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <input type="date" class="form-control" ng-model="values.startDate" ng-change="load_history()"/>
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <span class="pull-right" ng-hide="todayReached"  ng-click="next_date()">
+                  <span>{{ 'PAGE_NEXT' | translate }}</span>
+                  <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+                </span>
+              </div>
+            </div>
           </div>
-        </uib-accordion>
-
+          <div ng-switch-when="filterbyrange">
+            <div class="row">
+              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <span class="pull-left" ng-show="startIndex > 0"  ng-click="page_prev()">
+                  <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
+                  <span>{{ 'PAGE_PREV' | translate }}</span>
+                </span>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <span class="pull-right">{{ 'NUM_OF_DATASETS' | translate }}:</span>
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <input type="number" class="form-control" ng-model="values.numOfMessages"/>
+              </div>
+              <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                <button type="submit" class="btn btn-default btn-xs"
+                        title="{{ 'RELOAD' | translate }}" ng-click="numOfMessagesChanged()">
+                  <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+                </button>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <span class="pull-right" ng-hide="endOfDataReached"  ng-click="page_next()">
+                  <span>{{ 'PAGE_NEXT' | translate }}</span>
+                  <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+
+    <div ng-if="!messages || messages.length <= 0" class="row">
+      <div class="col-lg-6 col-md-6 col-sm-8 col-xs-10 col-lg-offset-3 col-md-offset-3 col-sm-offset-2 col-xs-offset-1 center_message">{{ 'NO_HISTORY_DATA' | translate }}</div>
+    </div>
+    <div ng-if="messages.length > 0">
+      <div>
+        <hc-chart messages="messages"></hc-chart>
+      </div>
+      <div class="form-group">
+        <div class="message-list">
+
+          <uib-accordion>
+            <div uib-accordion-group class="panel-default"  ng-if="messages.length > 0" ng-repeat="message in messages"  is-open="status.open">
+              <uib-accordion-heading>
+                <div class="row">
+                  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"><timestamp date="{{message.timestamp}}"></timestamp></div>
+                  <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8"><messageheader message="{{message}}"></messageheader></div>
+                  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                    <!--                <blockchain message='{{message._source.deviceMessage}}'></blockchain> -->
+                    <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+                  </div>
+                </div>
+              </uib-accordion-heading>
+              <messagecontent message="{{message}}"></messagecontent>
+            </div>
+          </uib-accordion>
+
+        </div>
+      </div>
+    </div>
+ </div>
 </div>

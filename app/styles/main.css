@@ -130,6 +130,10 @@ a {
   font-size: 24px;
 }
 
+.center_message {
+  padding: 100px;
+}
+
 .grey {
   color: #cccccc;
 }
