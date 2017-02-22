@@ -16,12 +16,6 @@ angular.module('ubirchAdminCrudApp')
       },
       link: function postLink(scope) {
 
-        if (constant.TODAY === undefined){
-          var now = new Date();
-          constant.TODAY = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-          constant.TOMORROW = constant.TODAY + 1000*60*60*24;
-        }
-
         scope.isToday = function(dateStr) {
           if (dateStr === undefined){ return false; }
           var date = new Date(dateStr);

@@ -76,4 +76,12 @@ angular
       });
 
     $urlRouterProvider.otherwise('devices-list');
-  });
+  })
+  .run(['constant', function (constant) {
+
+    if (constant.TODAY === undefined){
+      var now = new Date();
+      constant.TODAY = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      constant.TOMORROW = constant.TODAY + 1000*60*60*24;
+    }
+  }]);
