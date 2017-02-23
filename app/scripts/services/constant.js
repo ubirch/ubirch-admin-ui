@@ -16,7 +16,5 @@ angular.module('ubirchAdminCrudApp')
 
     POLLING_INTERVAL : 3000,
     DEFAULT_DEVICE_TYPE_KEY: "unknownDeviceTypeKey",
-    // device states
-    CREDENTIALS : "YmVhdGVmaXNzOnZpcnR1b3NvLXNjaGlzbS1zaHV0b3V0LWRlbWVzbmUtemVzdA==",
     TODAY: undefined
   });

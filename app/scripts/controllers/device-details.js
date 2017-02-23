@@ -8,21 +8,30 @@
  * Controller of the ubirchAdminCrudApp
  */
 angular.module('ubirchAdminCrudApp')
-  .controller('DeviceDetailsCtrl',[ '$scope', '$window', '$location', '$stateParams', '$filter', 'Device', 'toaster', 'deviceTypesList',
-    function ($scope, $window, $location, $stateParams, $filter, Device, toaster, deviceTypesList) {
+  .controller('DeviceDetailsCtrl',[ '$scope', '$window', '$location', '$stateParams', '$filter', 'Device', 'constant', 'toaster', 'deviceTypesList',
+    function ($scope, $window, $location, $stateParams, $filter, Device, constant, toaster, deviceTypesList) {
     var listUrl = "devices-list";
 
-      $scope.activeTab = "state";
+      $scope.deviceid = $stateParams.deviceid;
       $scope.device = {};
       $scope.deviceState =  [];
       var deviceStateSaved =  [];
       $scope.stateDataChanged = false;
       $scope.stateKats = [];
-      $scope.values = {};
-      $scope.values.numOfMessages = 10;
-      $scope.startIndex = 0;
-      $scope.endOfDataReached = false;
       $scope.messages = undefined;
+      $scope.activeTab = "state";
+
+      angular.extend($scope, {
+        center: {
+          lat: 52.50466320614026,
+          lng: 13.480031490325928,
+          zoom: 12
+        },
+        markers: {},
+        defaults: {
+          scrollWheelZoom: false
+        }
+      });
 
       if ($stateParams.deviceid) {
         $scope.device = Device.getDevice($stateParams.deviceid, function(deviceVal){
@@ -66,8 +75,6 @@ angular.module('ubirchAdminCrudApp')
             deviceStateSaved = angular.copy($scope.deviceState);
           }
         );
-
-        loadHistory();
       }
 
       /**
@@ -135,38 +142,4 @@ angular.module('ubirchAdminCrudApp')
       $scope.device.deviceTypeKey = type;
     };
 
-      $scope.numOfMessagesChanged = function() {
-        loadHistory();
-      };
-
-      $scope.page_next = function() {
-      $scope.startIndex += $scope.values.numOfMessages;
-      loadHistory();
-    };
-
-    $scope.page_prev = function() {
-      $scope.startIndex = $scope.startIndex >= $scope.values.numOfMessages ? $scope.startIndex - $scope.values.numOfMessages : 0;
-      loadHistory();
-    };
-
-    function loadHistory(){
-      Device.getDefinedHistory($stateParams.deviceid, $scope.startIndex, $scope.values.numOfMessages,
-        function(data){
-          if (data.length > 0){
-            $scope.messages = data;
-            $scope.endOfDataReached = false;
-          }
-          else {
-            disableNextButton();
-          }
-        },
-        function(){
-          disableNextButton();
-        });
-    }
-
-    function disableNextButton() {
-      $scope.startIndex = $scope.startIndex >= $scope.values.numOfMessages ? $scope.startIndex - $scope.values.numOfMessages : 0;
-      $scope.endOfDataReached = true;
-    }
   }]);

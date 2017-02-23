@@ -35,10 +35,13 @@
   "UNKNOWN": "unknown",
   "TABLABEL_SYNC_STATE": "sync state",
   "TABLABEL_HISTORY": "history",
+  "TABLABEL_MAP": "position map",
   "TABLABEL_SETTINGS": "additional settings",
-  "PAGE_PREV": "previous data",
-  "PAGE_NEXT": "next data",
+  "TABLABEL_FILTERBY_DATE": "filter by date",
+  "TABLABEL_FILTERBY_RANGE": "filter by dataset range",
+  "PAGE_PREV": "previous",
+  "PAGE_NEXT": "next",
   "NUM_OF_DATASETS": "number of data sets",
   "RELOAD": "reload",
-  "NO_HISTORY_DATA": "No history data available for this device"
+  "NO_HISTORY_DATA": "No history data available for this device in selected range"
 }

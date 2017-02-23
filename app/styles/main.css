@@ -57,9 +57,11 @@ a {
   padding: 8px 7px;
 }
 
-.active {
-  border-bottom-style: solid;
-  border-bottom-color: #9393EC;
+.area-tabs.filter-group {
+  border: 1px solid #ccc;
+  border-radius: 10px 10px 0 0;
+  padding: 10px 10px;
+  border-bottom: 0px;
 }
 
 .area-header {
@@ -130,6 +132,10 @@ a {
   font-size: 24px;
 }
 
+.center_message {
+  padding: 100px;
+}
+
 .grey {
   color: #cccccc;
 }
@@ -168,8 +174,5 @@ a {
   /* Remove the bottom border on the jumbotron for visual effect */
   .jumbotron {
     border-bottom: 0;
-  }
-  .nav-tabs > li > a {
-    padding: 10px 15px;
   }
 }

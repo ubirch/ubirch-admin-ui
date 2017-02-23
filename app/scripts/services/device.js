@@ -8,7 +8,7 @@
  * Service in the ubirchAdminCrudApp.
  */
 angular.module('ubirchAdminCrudApp')
-  .service('Device', ['$resource', 'constant', 'settings', '$log', 'uuid2', function ($resource, constant, settings, $log, uuid2) {
+  .service('Device', ['$resource', 'constant', 'settings', '$log', 'uuid2', '$filter', function ($resource, constant, settings, $log, uuid2, $filter) {
 
     var url = settings.UBIRCH_API_HOST + constant.AVATAR_SERVICE_REST_ENDPOINT;
 
@@ -126,8 +126,18 @@ angular.module('ubirchAdminCrudApp')
                   ),
 
       // http://localhost:8080/api/avatarService/v1/device/85281602-0a46-424b-be96-e3d88a3c91cc/data/history/0/10
-      history_defined: $resource(url + '/device/:deviceId/data/history/:from/:size',
+      history_of_data_range: $resource(url + '/device/:deviceId/data/history/:from/:size',
         {deviceId: '@deviceId', from: '@from', size: '@size'}
+      ),
+
+      // http://localhost:8080/api/avatarService/v1/device/7353a975-52fe-4c24-9efe-4dbf7178f66d/data/history/byDate/day/2017-02-21
+      history_of_day: $resource(url + '/device/:deviceId/data/history/byDate/day/:date',
+        {deviceId: '@deviceId', date: '@date'}
+      ),
+
+      // http://localhost:8080/api/avatarService/v1/device/7353a975-52fe-4c24-9efe-4dbf7178f66d/data/history/byDate/from/2017-02-15/to/2017-02-21
+      history_of_date_range: $resource(url + '/device/:deviceId/data/history/byDate/from/:from/to/:to',
+        {deviceId: '@deviceId', from: '@from', to: '@to'}
       ),
 
       getHistory: function(deviceId){
@@ -141,9 +151,9 @@ angular.module('ubirchAdminCrudApp')
           });
       },
 
-      getDefinedHistory: function(deviceId, from, size, callback, errorCallBack){
+      getHistoryOfRange: function(deviceId, from, size, callback, errorCallBack){
 
-        return this.history_defined.query({deviceId: deviceId, from: from, size: size},
+        return this.history_of_data_range.query({deviceId: deviceId, from: from, size: size},
           function(data){
             $log.debug("Got history data from Device: " + data);
             if (callback){
@@ -156,6 +166,46 @@ angular.module('ubirchAdminCrudApp')
               errorCallBack(error);
             }
           });
+      },
+
+      getHistoryOfDateRange: function(deviceId, from_date, to_date, callback, errorCallBack){
+        if (!from_date || !to_date){
+          errorCallBack("No date range defined");
+          return null;
+        }
+        var from_iso = $filter('date')(from_date, "'yyyy-MM-dd");
+        var to_iso = $filter('date')(to_date, "'yyyy-MM-dd");
+
+        if (from_date < to_date){
+          return this.history_of_date_range.query({deviceId: deviceId, from: from_iso, to: to_iso},
+            function(data){
+              $log.debug("Got history data from Device: " + data);
+              if (callback){
+                callback(data);
+              }
+            },
+            function(error){
+              $log.debug("Requested history from Device - ERROR OCCURRED: " + error);
+              if (errorCallBack){
+                errorCallBack(error);
+              }
+            });
+        }
+        else {
+          return this.history_of_day.query({deviceId: deviceId, date: from_iso},
+            function(data){
+              $log.debug("Got history data from Device: " + data);
+              if (callback){
+                callback(data);
+              }
+            },
+            function(error){
+              $log.debug("Requested history from Device - ERROR OCCURRED: " + error);
+              if (errorCallBack){
+                errorCallBack(error);
+              }
+            });
+        }
       },
 
       initDevice: function() {
