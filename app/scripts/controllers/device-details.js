@@ -18,31 +18,17 @@ angular.module('ubirchAdminCrudApp')
       var deviceStateSaved =  [];
       $scope.stateDataChanged = false;
       $scope.stateKats = [];
-      $scope.messages = undefined;
+      $scope.messages = {
+        content: undefined
+      };
       $scope.activeTab = "state";
       $scope.activeVisualTab = "chart";
-
-      var mainMarker = {
-        lat: 52.50466320614026,
-        lng: 13.480031490325928,
-        focus: true,
-        message: "Home, sweet home",
-        draggable: false
+      $scope.leafletValues = {
+        center: { zoom: 12 },
+        markers: {},
+        defaults: { scrollWheelZoom: false }
       };
 
-      angular.extend($scope, {
-        center: {
-          lat: 52.50466320614026,
-          lng: 13.480031490325928,
-          zoom: 12
-        },
-        markers: {
-          mainMarker: angular.copy(mainMarker)
-        },
-        defaults: {
-          scrollWheelZoom: false
-        }
-      });
 
       if ($stateParams.deviceid) {
         $scope.device = Device.getDevice($stateParams.deviceid, function(deviceVal){
@@ -152,5 +138,88 @@ angular.module('ubirchAdminCrudApp')
 
       $scope.device.deviceTypeKey = type;
     };
+      /**
+       * calculate map markers when new messages loaded
+       */
+      $scope.$watch('messages.content', function() {
+        calculateMap();
+      });
 
-  }]);
+      function calculateMap() {
+
+        if ($scope.messages.content) {
+
+          var markers = {};
+
+          $scope.messages.content.forEach(function (message, i) {
+
+            var label = message.deviceType;
+            // message: "Temperature Sensor<br><strong>18,5°C</strong><br><a href='http://admin.ubirch.com/#/device-details/0c5a19bf-194c-40ea-bf46-0416a176aedb'><br>open sensor data</a>!",
+            label += "<br><strong>";
+            switch (message.deviceType) {
+              case "envSensor":
+                label += "humidity:" + message.deviceMessage.humidity + ", presure:" + message.deviceMessage.presure + ", temperature:" + message.deviceMessage.temperature;
+                break;
+              default:
+                label += "...";
+            }
+            label += "</strong>";
+            label += "<br>" + message.timestamp;
+
+            var marker = {
+              focus: false,
+              draggable: true,
+              lat: message.deviceMessage.latitude,
+              lng: message.deviceMessage.longitude,
+              message: label,
+              opacity: 1 / $scope.messages.content.length * (i + 1)
+            };
+
+            markers["marker" + i] = angular.copy(marker);
+          });
+
+          $scope.leafletValues.markers = markers;
+
+          if ($scope.messages.content.length > 0) {
+            $scope.leafletValues.center.lat = markers['marker0'].lat;
+            $scope.leafletValues.center.lng = markers['marker0'].lng;
+          }
+        }
+      }
+
+      function filterMessageKeys() {
+
+        var deviceTypes = DeviceTypes.getDeviceTypeList();
+        var deviceType;
+
+        var seriesData = {};
+
+        // filter value
+        scope.messages.forEach(function (message) {
+
+          var timestamp = new Date(message.timestamp).getTime();
+          // filter deviceType if not the same as the last message came from
+          if (deviceType === undefined || (deviceType != undefined && deviceType.key !== message.deviceType)) {
+            deviceType = $filter('getDeviceType')(deviceTypes, message.deviceType);
+          }
+
+          Object.keys(message.deviceMessage).forEach(function (key) {
+
+            // if displayKeys are defined for this deviceType filter these keys from message properties
+            if (deviceType && deviceType.displayKeys && deviceType.displayKeys.length > 0) {
+              if (deviceType.displayKeys.indexOf(key) !== -1) {
+                addValue(seriesData, key, message.deviceMessage[key], timestamp);
+              }
+            }
+            // if no displayKeys are defined for this deviceType display all message properties that are numerical
+            else if (typeof message.deviceMessage[key] === "number") {
+              addValue(seriesData, key, message.deviceMessage[key], timestamp);
+            }
+
+          });
+        });
+
+        return seriesData;
+      }
+
+    }]);
