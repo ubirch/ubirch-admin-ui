@@ -20,9 +20,6 @@
         <li ng-class="{active: activeTab == 'history'}">
           <a ng-click="activeTab = 'history'">{{ 'TABLABEL_HISTORY' | translate }}</a>
         </li>
-        <li ng-class="{active: activeTab == 'map'}">
-          <a ng-click="activeTab = 'map'">{{ 'TABLABEL_MAP' | translate }}</a>
-        </li>
         <li ng-class="{active: activeTab == 'settings'}">
           <a ng-click="activeTab = 'settings'">{{ 'TABLABEL_SETTINGS' | translate }}</a>
         </li>
@@ -37,9 +34,6 @@
           </div>
           <div ng-switch-when="history">
             <ng-include src="'views/device-details-history.html'"></ng-include>
-          </div>
-          <div ng-switch-when="map">
-            <ng-include src="'views/device-details-map.html'"></ng-include>
           </div>
           <div ng-switch-when="settings">
             <ng-include src="'views/device-details-settings.html'"></ng-include>

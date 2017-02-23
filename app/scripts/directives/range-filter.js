@@ -89,7 +89,6 @@ angular.module('ubirchAdminCrudApp')
                 if (data.length > 0){
                   scope.messages = data;
                   scope.endOfDataReached = false;
-                  calculateMap();
                 }
                 else {
                   scope.messages = [];
@@ -105,7 +104,6 @@ angular.module('ubirchAdminCrudApp')
                 if (data.length > 0){
                   scope.messages = data;
                   scope.endOfDataReached = false;
-                  calculateMap();
                 }
                 else {
                   scope.messages = [];
@@ -122,12 +120,6 @@ angular.module('ubirchAdminCrudApp')
         function disableNextButton() {
           scope.values.startIndex = scope.values.startIndex >= scope.values.numOfMessages ? scope.values.startIndex - scope.values.numOfMessages : 0;
           scope.endOfDataReached = true;
-        }
-
-        function calculateMap() {
-          angular.forEach(scope.messages, function(message) {
-            console.log(message);
-          });
         }
 
       }
