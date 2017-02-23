@@ -169,10 +169,14 @@ angular.module('ubirchAdminCrudApp')
       },
 
       getHistoryOfDateRange: function(deviceId, from_date, to_date, callback, errorCallBack){
+        if (!from_date || !to_date){
+          errorCallBack("No date range defined");
+          return null;
+        }
         var from_iso = $filter('date')(from_date, "'yyyy-MM-dd");
-        var to_iso = to_date ? $filter('date')(to_date, "'yyyy-MM-dd") : undefined;
+        var to_iso = $filter('date')(to_date, "'yyyy-MM-dd");
 
-        if (to_iso){
+        if (from_date < to_date){
           return this.history_of_date_range.query({deviceId: deviceId, from: from_iso, to: to_iso},
             function(data){
               $log.debug("Got history data from Device: " + data);

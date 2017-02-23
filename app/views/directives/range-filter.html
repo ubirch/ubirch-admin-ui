@@ -19,11 +19,17 @@
                   <span>{{ 'PAGE_PREV' | translate }}</span>
                 </span>
           </div>
-          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-            Daten vom:
+          <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+            von:
           </div>
           <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
             <input type="date" class="form-control" ng-model="values.startDate" ng-change="load_history()"/>
+          </div>
+          <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+            bis:
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+            <input type="date" class="form-control" ng-model="values.endDate" ng-change="load_history()"/>
           </div>
           <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                 <span class="pull-right" ng-hide="todayReached"  ng-click="next_date()">

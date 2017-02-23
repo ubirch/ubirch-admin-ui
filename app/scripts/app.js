@@ -82,6 +82,7 @@ angular
     if (constant.TODAY === undefined){
       var now = new Date();
       constant.TODAY = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      constant.TOMORROW = constant.TODAY + 1000*60*60*24;
+      constant.ONEDAY = 1000*60*60*24;
+      constant.TOMORROW = constant.TODAY + constant.ONEDAY;
     }
   }]);

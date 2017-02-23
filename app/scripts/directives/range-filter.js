@@ -20,8 +20,8 @@ angular.module('ubirchAdminCrudApp')
         scope.todayReached = true;
         scope.values = {};
         scope.values.numOfMessages = 10;
-        scope.values.startDate = new Date();
-        scope.values.endDate = undefined;
+        scope.values.startDate = constant.TODAY;
+        scope.values.endDate = constant.TODAY;
         scope.values.startIndex = 0;
         scope.endOfDataReached = false;
 
@@ -44,27 +44,28 @@ angular.module('ubirchAdminCrudApp')
         };
 
         scope.next_date = function() {
-          var nextday = new Date();
-          nextday.setDate(scope.values.startDate.getDate()+1);
-
-          scope.values.startDate = nextday;
-
-          if (nextday > constant.TODAY){
-            scope.todayReached = true;
-          }
-
-          loadHistory();
-
-
+          set_new_range(direction_next);
         };
 
         scope.prev_date = function() {
-          var prevday = new Date();
-          prevday.setDate(scope.values.startDate.getDate()-1);
+          set_new_range(direction_previous);
+        };
 
-          scope.values.startDate = prevday;
+        var direction_next = 1, direction_previous = -1;
+
+        function set_new_range(direction) {
+          if (scope.values.endDate < scope.values.startDate){
+            scope.values.endDate = scope.values.startDate;
+          }
+
+          var range = (scope.values.endDate - scope.values.startDate + constant.ONEDAY) * direction;
+
+          scope.values.startDate = new Date(scope.values.startDate.getTime() + range);
+          scope.values.endDate = new Date(scope.values.endDate.getTime() + range);
+
           loadHistory();
-          scope.todayReached = false;
+
+          scope.todayReached = scope.values.endDate >= constant.TODAY;
         };
 
         scope.$watch('deviceId', function() {
@@ -82,7 +83,6 @@ angular.module('ubirchAdminCrudApp')
         };
 
         function loadHistory(){
-
           if (scope.activeFilterTab === "filterbydate"){
             Device.getHistoryOfDateRange(scope.deviceId, scope.values.startDate, scope.values.endDate,
               function(data){
