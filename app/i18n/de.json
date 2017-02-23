@@ -39,6 +39,8 @@
   "TABLABEL_SETTINGS": "Einstellungen",
   "TABLABEL_FILTERBY_DATE": "Datumsfilter",
   "TABLABEL_FILTERBY_RANGE": "Datenbereichsfilter",
+  "TABLABEL_CHART": "Diagramm",
+  "TABLABEL_MAP": "Karte",
   "PAGE_PREV": "zurück",
   "PAGE_NEXT": "weiter",
   "NUM_OF_DATASETS": "Anzahl Datensätze",

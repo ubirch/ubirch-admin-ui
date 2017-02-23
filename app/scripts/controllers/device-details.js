@@ -20,6 +20,15 @@ angular.module('ubirchAdminCrudApp')
       $scope.stateKats = [];
       $scope.messages = undefined;
       $scope.activeTab = "state";
+      $scope.activeVisualTab = "chart";
+
+      var mainMarker = {
+        lat: 52.50466320614026,
+        lng: 13.480031490325928,
+        focus: true,
+        message: "Home, sweet home",
+        draggable: false
+      };
 
       angular.extend($scope, {
         center: {
@@ -27,7 +36,9 @@ angular.module('ubirchAdminCrudApp')
           lng: 13.480031490325928,
           zoom: 12
         },
-        markers: {},
+        markers: {
+          mainMarker: angular.copy(mainMarker)
+        },
         defaults: {
           scrollWheelZoom: false
         }

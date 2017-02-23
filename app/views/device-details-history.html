@@ -5,9 +5,29 @@
       <div class="col-lg-6 col-md-6 col-sm-8 col-xs-10 col-lg-offset-3 col-md-offset-3 col-sm-offset-2 col-xs-offset-1 center_message">{{ 'NO_HISTORY_DATA' | translate }}</div>
     </div>
     <div ng-if="messages.length > 0">
-      <div>
-        <hc-chart messages="messages"></hc-chart>
+      <div class="area-tabs">
+        <ul class="nav nav-tabs">
+          <li ng-class="{active: activeVisualTab == 'chart'}">
+            <a ng-click="activeVisualTab = 'chart'">{{ 'TABLABEL_CHART' | translate }}</a>
+          </li>
+          <li ng-class="{active: activeVisualTab == 'map'}">
+            <a ng-click="activeVisualTab = 'map'">{{ 'TABLABEL_MAP' | translate }}</a>
+          </li>
+        </ul>
+
+        <div class="tab-content">
+          <!-- state -->
+          <div ng-switch="activeVisualTab">
+            <div ng-switch-when="chart">
+              <hc-chart messages="messages"></hc-chart>
+            </div>
+            <div ng-switch-when="map">
+              <leaflet lf-center="center" markers="markers" height="480px" width="100%"></leaflet>
+            </div>
+          </div>
+        </div>
       </div>
+
       <div class="form-group">
         <div class="message-list">
 
