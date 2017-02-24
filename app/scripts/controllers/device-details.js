@@ -21,8 +21,17 @@ angular.module('ubirchAdminCrudApp')
       $scope.messages = {
         content: undefined
       };
-      $scope.activeTab = "state";
-      $scope.activeVisualTab = "chart";
+      $scope.activeTab = {
+        main: "history",
+        visual: "chart",
+        filter: "filterbydate"
+      };
+      $scope.filterValues = {
+        numOfMessages: 10,
+        startDate: constant.TODAY,
+        endDate: constant.TODAY,
+        startIndex: 0
+      };
 
       $scope.leafletValues = {
         center: {},
@@ -147,6 +156,7 @@ angular.module('ubirchAdminCrudApp')
         calculateMap();
       });
 
+      // TODO: check negative GEO Cooredinates
       function calculateMapExtract(markers) {
         var markerKeys = Object.keys(markers);
         if (markerKeys.length) {

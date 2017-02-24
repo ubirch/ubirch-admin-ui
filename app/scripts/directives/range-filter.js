@@ -13,33 +13,26 @@ angular.module('ubirchAdminCrudApp')
       restrict: 'E',
       scope: {
         messages: '=',
-        deviceId: '='
+        deviceId: '=',
+        values: '=',
+        activeTab: '='
       },
       link: function postLink(scope) {
-        scope.activeFilterTab = "filterbydate";
-        scope.todayReached = true;
-        scope.values = {};
-        scope.values.numOfMessages = 10;
-        scope.values.startDate = constant.TODAY;
-        scope.values.endDate = constant.TODAY;
-        scope.values.startIndex = 0;
+        scope.activeTab.filter = "filterbydate";
+        scope.todayReached = scope.values.endDate >= constant.TODAY;
         scope.endOfDataReached = false;
 
         scope.numOfMessagesChanged = function() {
           loadHistory();
         };
 
-        scope.changeTab = function(tabname) {
-          scope.activeFilterTab = tabname;
-        }
-
         scope.page_next = function() {
-          scope.values.startIndex += scope.values.numOfMessages;
+          scope.values.startIndex = scope.values.startIndex >= scope.values.numOfMessages ? scope.values.startIndex - scope.values.numOfMessages : 0;
           loadHistory();
         };
 
         scope.page_prev = function() {
-          scope.values.startIndex = scope.values.startIndex >= scope.values.numOfMessages ? scope.values.startIndex - scope.values.numOfMessages : 0;
+          scope.values.startIndex += scope.values.numOfMessages;
           loadHistory();
         };
 
@@ -74,7 +67,7 @@ angular.module('ubirchAdminCrudApp')
           }
         });
 
-        scope.$watch('activeFilterTab', function() {
+        scope.$watch('activeTab.filter', function() {
             loadHistory();
         });
 
@@ -83,7 +76,7 @@ angular.module('ubirchAdminCrudApp')
         };
 
         function loadHistory(){
-          if (scope.activeFilterTab === "filterbydate"){
+          if (scope.activeTab.filter === "filterbydate"){
             Device.getHistoryOfDateRange(scope.deviceId, scope.values.startDate, scope.values.endDate,
               function(data){
                 if (data.length > 0){

@@ -14,20 +14,20 @@
   </div>
   <div class="area-tabs">
       <ul class="nav nav-tabs">
-        <li ng-class="{active: activeTab == 'state'}">
-          <a ng-click="activeTab = 'state'">{{ 'TABLABEL_SYNC_STATE' | translate }}</a>
+        <li ng-class="{active: activeTab.main == 'history'}">
+          <a ng-click="activeTab.main = 'history'">{{ 'TABLABEL_HISTORY' | translate }}</a>
         </li>
-        <li ng-class="{active: activeTab == 'history'}">
-          <a ng-click="activeTab = 'history'">{{ 'TABLABEL_HISTORY' | translate }}</a>
+        <li ng-class="{active: activeTab.main == 'state'}">
+          <a ng-click="activeTab.main = 'state'">{{ 'TABLABEL_SYNC_STATE' | translate }}</a>
         </li>
-        <li ng-class="{active: activeTab == 'settings'}">
-          <a ng-click="activeTab = 'settings'">{{ 'TABLABEL_SETTINGS' | translate }}</a>
+        <li ng-class="{active: activeTab.main == 'settings'}">
+          <a ng-click="activeTab.main = 'settings'">{{ 'TABLABEL_SETTINGS' | translate }}</a>
         </li>
       </ul>
 
       <div class="tab-content">
         <!-- state -->
-        <div ng-switch="activeTab">
+        <div ng-switch="activeTab.main">
           <div
             ng-switch-when="state">
             <ng-include src="'views/device-details-state.html'"></ng-include>
