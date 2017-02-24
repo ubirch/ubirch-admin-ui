@@ -23,6 +23,10 @@ init () {
 
 
 }
+sync_npm () {
+
+
+}
 
 build_software () {
 
@@ -63,7 +67,7 @@ build_container () {
 case "$1" in
     build)
         init
-        build_software "dev"
+        build_software "docker"
         ;;
     containerbuild)
         build_container
