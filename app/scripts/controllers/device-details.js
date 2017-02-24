@@ -8,8 +8,8 @@
  * Controller of the ubirchAdminCrudApp
  */
 angular.module('ubirchAdminCrudApp')
-  .controller('DeviceDetailsCtrl',[ '$scope', '$window', '$location', '$stateParams', '$filter', 'Device', 'constant', 'toaster', 'deviceTypesList', 'DeviceTypes',
-    function ($scope, $window, $location, $stateParams, $filter, Device, constant, toaster, deviceTypesList, DeviceTypes) {
+  .controller('DeviceDetailsCtrl',[ '$scope', '$window', '$location', '$stateParams', '$filter', 'Device', 'constant', 'toaster', 'deviceTypesList', 'DeviceTypes', 'leafletBoundsHelpers',
+    function ($scope, $window, $location, $stateParams, $filter, Device, constant, toaster, deviceTypesList, DeviceTypes, leafletBoundsHelpers) {
     var listUrl = "devices-list";
 
       $scope.deviceid = $stateParams.deviceid;
@@ -23,9 +23,11 @@ angular.module('ubirchAdminCrudApp')
       };
       $scope.activeTab = "state";
       $scope.activeVisualTab = "chart";
+
       $scope.leafletValues = {
-        center: { zoom: 12 },
+        center: {},
         markers: {},
+        bounds: {},
         defaults: { scrollWheelZoom: false }
       };
 
@@ -145,46 +147,105 @@ angular.module('ubirchAdminCrudApp')
         calculateMap();
       });
 
+      function calculateMapExtract(markers) {
+        var markerKeys = Object.keys(markers);
+        if (markerKeys.length) {
+
+          markerKeys.forEach(function(key) {
+
+            var marker = markers[key];
+            // TODO: calculate bounds from marker positions
+
+          });
+
+          var bounds = leafletBoundsHelpers.createBoundsFromArray([
+            [ 51.508742458803326, -0.087890625 ],
+            [ 51.508742458803326, -0.087890625 ]
+          ]);
+          $scope.leafletValues.bounds = {};
+          $scope.leafletValues.center = {
+            zoom: 15,
+            lat: markers['marker0'].lat,
+            lng: markers['marker0'].lng
+          };
+        }
+        else {
+          $scope.leafletValues.bounds = {};
+        }
+      }
       function calculateMap() {
+
+        var markers = {};
 
         if ($scope.messages.content) {
 
-          var markers = {};
-
           $scope.messages.content.forEach(function (message, i) {
 
-            var label = message.deviceType;
-            // message: "Temperature Sensor<br><strong>18,5°C</strong><br><a href='http://admin.ubirch.com/#/device-details/0c5a19bf-194c-40ea-bf46-0416a176aedb'><br>open sensor data</a>!",
-            label += "<br><strong>";
-            switch (message.deviceType) {
-              case "envSensor":
-                label += "humidity:" + message.deviceMessage.humidity + ", presure:" + message.deviceMessage.presure + ", temperature:" + message.deviceMessage.temperature;
-                break;
-              default:
-                label += "...";
+            if (message.deviceMessage.latitude && message.deviceMessage.longitude ){
+              var marker = {
+                focus: false,
+                draggable: true,
+                lat: message.deviceMessage.latitude,
+                lng: message.deviceMessage.longitude,
+                message: filterMessageKeys(message),
+                opacity: 1 / $scope.messages.content.length * (i + 1)
+              };
+
+              markers["marker" + i] = angular.copy(marker);
             }
-            label += "</strong>";
-            label += "<br>" + message.timestamp;
-
-            var marker = {
-              focus: false,
-              draggable: true,
-              lat: message.deviceMessage.latitude,
-              lng: message.deviceMessage.longitude,
-              message: label,
-              opacity: 1 / $scope.messages.content.length * (i + 1)
-            };
-
-            markers["marker" + i] = angular.copy(marker);
           });
-
-          $scope.leafletValues.markers = markers;
-
-          if ($scope.messages.content.length > 0) {
-            $scope.leafletValues.center.lat = markers['marker0'].lat;
-            $scope.leafletValues.center.lng = markers['marker0'].lng;
-          }
         }
+
+        $scope.leafletValues.markers = markers;
+
+        calculateMapExtract(markers);
+
+      }
+
+      function addParamToMessage (message, label, key) {
+        if (label.length > 0){
+          label += ", ";
+        }
+        label += key + ": " + message.deviceMessage[key];
+        return label;
+      }
+
+      /**
+       * construct
+       * "Temperature Sensor<br><strong>18,5°C</strong><br>2017-02-24, 9:41:25"
+       * @param message
+       * @returns {*}
+       */
+      function filterMessageKeys(message) {
+
+        var deviceTypes = DeviceTypes.getDeviceTypeList();
+        var deviceType = $filter('getDeviceType')(deviceTypes, message.deviceType);
+        var timestamp = new Date(message.timestamp).getTime();
+
+        var paramStr = "";
+
+        Object.keys(message.deviceMessage).forEach(function (key) {
+
+          // if displayKeys are defined for this deviceType filter these keys from message properties
+          if (deviceType && deviceType.displayKeys && deviceType.displayKeys.length > 0) {
+            if (deviceType.displayKeys.indexOf(key) !== -1) {
+              paramStr = addParamToMessage(message, paramStr, key);
+            }
+          }
+          // if no displayKeys are defined for this deviceType display all message properties
+          else if (key != "latitude" && key != "longitude" ){
+            paramStr = addParamToMessage(message, paramStr, key);
+          }
+
+        });
+
+        var label = deviceType.name.en;
+        label += "<br><strong>";
+        label += paramStr;
+        label += "</strong>";
+        label += "<br>" + $filter('date')(timestamp, 'yyyy-MM-dd, H:mm:ss');
+
+        return label;
       }
 
     }]);
