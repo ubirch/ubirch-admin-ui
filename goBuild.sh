@@ -1,4 +1,4 @@
-#!/bin/sh -x
+#!/bin/bash -x
 
 NPM_CONTAINER_VERSION="latest"
 
@@ -20,6 +20,10 @@ init () {
     echo "Cleaning up old dist"
     rm -rf dist/
   fi
+
+
+}
+sync_npm () {
 
 
 }
@@ -63,7 +67,7 @@ build_container () {
 case "$1" in
     build)
         init
-        build_software "dev"
+        build_software "docker"
         ;;
     containerbuild)
         build_container
