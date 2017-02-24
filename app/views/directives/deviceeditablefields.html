@@ -33,7 +33,9 @@
       <tbody>
       <tr ng-hide="addedProperties.config.length === 0" ng-repeat="(index, config) in addedProperties.config">
         <th scope="row"><input type="text" class="form-control" ng-model="config.key"></th>
-        <td><input type="text" class="form-control" ng-model="config.value"></td>
+        <td>
+          <input type="text" class="form-control" ng-model="config.value"></td>
+        </td>
         <td>
           <button type="submit" class="btn btn-danger btn-xs"
                   title="{{ 'DELETE' | translate }}" ng-click="deleteField('config', index, true)">
@@ -43,7 +45,11 @@
       </tr>
       <tr ng-repeat="(key,param) in device.deviceConfig">
         <th scope="row">{{key}}</th>
-        <td><input type="text" class="form-control" ng-model="device.deviceConfig[key]"></td>
+        <td data-ng-switch on="getTypeFor(device.deviceConfig[key])">
+          <input data-ng-switch-when="string" type="text" class="form-control" ng-model="device.deviceConfig[key]">
+          <input data-ng-switch-when="number" type="number" class="form-control" ng-model="device.deviceConfig[key]">
+          <input data-ng-switch-when="boolean" type="checkbox" class="form-control" ng-model="device.deviceConfig[key]">
+        </td>
         <td>
           <button type="submit" class="btn btn-danger btn-xs"
                   title="{{ 'DELETE' | translate }}" ng-click="deleteField('config', key, false)">
@@ -72,7 +78,9 @@
       <tbody>
       <tr ng-hide="addedProperties.properties.length === 0" ng-repeat="(index, property) in addedProperties.properties">
         <th scope="row"><input type="text" class="form-control" ng-model="property.key"></th>
-        <td><input type="text" class="form-control" ng-model="property.value"></td>
+        <td>
+          <input type="text" class="form-control" ng-model="property.value">
+        </td>
         <td>
           <button type="submit" class="btn btn-danger btn-xs"
                     title="{{ 'DELETE' | translate }}" ng-click="deleteField('property', index, true)">
@@ -82,7 +90,11 @@
       </tr>
       <tr ng-repeat="(key,param) in device.deviceProperties">
         <th scope="row">{{key}}</th>
-        <td><input type="text" class="form-control" ng-model="device.deviceProperties[key]"></td>
+        <td data-ng-switch on="getTypeFor(device.deviceProperties[key])">
+          <input data-ng-switch-when="string" type="text" class="form-control" ng-model="device.deviceProperties[key]">
+          <input data-ng-switch-when="number" type="number" class="form-control" ng-model="device.deviceProperties[key]">
+          <input data-ng-switch-when="boolean" type="checkbox" class="form-control" ng-model="device.deviceProperties[key]">
+        </td>
         <td>
           <button type="submit" class="btn btn-danger btn-xs"
                   title="{{ 'DELETE' | translate }}" ng-click="deleteField('property', key, false)">
@@ -103,7 +115,8 @@
     <table class="table table-hover">
       <tbody>
       <tr ng-hide="addedProperties.tags.length === 0" ng-repeat="(index, tag) in addedProperties.tags">
-        <td><input type="text" class="form-control" ng-model="tag.value"></td>
+        <td>
+          <input type="text" class="form-control" ng-model="tag.value"></td>
         <td>
           <button type="submit" class="btn btn-danger btn-xs"
                   title="{{ 'DELETE' | translate }}" ng-click="deleteField('tag', index, true)">
@@ -112,7 +125,11 @@
         </td>
       </tr>
       <tr ng-repeat="(index, tag) in device.tags">
-        <td><input type="text" class="form-control" ng-model="device.tags[index]"></td>
+        <td data-ng-switch on="getTypeFor(device.tags[index])">
+          <input data-ng-switch-when="string" type="text" class="form-control" ng-model="device.tags[index]">
+          <input data-ng-switch-when="number" type="number" class="form-control" ng-model="device.tags[index]">
+          <input data-ng-switch-when="boolean" type="checkbox" class="form-control" ng-model="device.tags[index]">
+        </td>
         <td>
           <button type="submit" class="btn btn-danger btn-xs"
                   title="{{ 'DELETE' | translate }}" ng-click="deleteField('tag', index, false)">

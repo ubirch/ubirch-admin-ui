@@ -73,6 +73,11 @@ angular.module('ubirchAdminCrudApp')
               break;
           }
         };
+        scope.getTypeFor = function(configvalue) {
+          if (configvalue === undefined)
+            return "text";
+          return typeof(configvalue);
+        }
       }
     };
   });
