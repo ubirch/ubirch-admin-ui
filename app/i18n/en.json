@@ -6,6 +6,8 @@
   "ABORT": "abort",
   "SAVE": "save",
   "ADD": "add",
+  "FROM": "from",
+  "TO": "to",
   "DELETE": "delete",
   "SAVE_CHANGES": "save changes",
   "CREATE": "create",
