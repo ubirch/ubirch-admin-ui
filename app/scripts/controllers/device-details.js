@@ -8,8 +8,8 @@
  * Controller of the ubirchAdminCrudApp
  */
 angular.module('ubirchAdminCrudApp')
-  .controller('DeviceDetailsCtrl',[ '$scope', '$window', '$location', '$stateParams', '$filter', 'Device', 'constant', 'toaster', 'deviceTypesList',
-    function ($scope, $window, $location, $stateParams, $filter, Device, constant, toaster, deviceTypesList) {
+  .controller('DeviceDetailsCtrl',[ '$scope', '$window', '$location', '$stateParams', '$filter', 'Device', 'constant', 'toaster', 'deviceTypesList', 'DeviceTypes',
+    function ($scope, $window, $location, $stateParams, $filter, Device, constant, toaster, deviceTypesList, DeviceTypes) {
     var listUrl = "devices-list";
 
       $scope.deviceid = $stateParams.deviceid;
@@ -185,41 +185,6 @@ angular.module('ubirchAdminCrudApp')
             $scope.leafletValues.center.lng = markers['marker0'].lng;
           }
         }
-      }
-
-      function filterMessageKeys() {
-
-        var deviceTypes = DeviceTypes.getDeviceTypeList();
-        var deviceType;
-
-        var seriesData = {};
-
-        // filter value
-        scope.messages.forEach(function (message) {
-
-          var timestamp = new Date(message.timestamp).getTime();
-          // filter deviceType if not the same as the last message came from
-          if (deviceType === undefined || (deviceType != undefined && deviceType.key !== message.deviceType)) {
-            deviceType = $filter('getDeviceType')(deviceTypes, message.deviceType);
-          }
-
-          Object.keys(message.deviceMessage).forEach(function (key) {
-
-            // if displayKeys are defined for this deviceType filter these keys from message properties
-            if (deviceType && deviceType.displayKeys && deviceType.displayKeys.length > 0) {
-              if (deviceType.displayKeys.indexOf(key) !== -1) {
-                addValue(seriesData, key, message.deviceMessage[key], timestamp);
-              }
-            }
-            // if no displayKeys are defined for this deviceType display all message properties that are numerical
-            else if (typeof message.deviceMessage[key] === "number") {
-              addValue(seriesData, key, message.deviceMessage[key], timestamp);
-            }
-
-          });
-        });
-
-        return seriesData;
       }
 
     }]);
