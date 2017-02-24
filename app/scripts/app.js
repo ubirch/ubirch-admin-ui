@@ -18,7 +18,7 @@ angular
     'xeditable',
     'pascalprecht.translate',
     'ui.router',
-    'leaflet-directive',
+    'ui-leaflet',
     'ui.bootstrap',
     'angularUUID2',
     'toaster'

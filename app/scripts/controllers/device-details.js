@@ -8,8 +8,8 @@
  * Controller of the ubirchAdminCrudApp
  */
 angular.module('ubirchAdminCrudApp')
-  .controller('DeviceDetailsCtrl',[ '$scope', '$window', '$location', '$stateParams', '$filter', 'Device', 'constant', 'toaster', 'deviceTypesList',
-    function ($scope, $window, $location, $stateParams, $filter, Device, constant, toaster, deviceTypesList) {
+  .controller('DeviceDetailsCtrl',[ '$scope', '$window', '$location', '$stateParams', '$filter', 'Device', 'constant', 'toaster', 'deviceTypesList', 'DeviceTypes',
+    function ($scope, $window, $location, $stateParams, $filter, Device, constant, toaster, deviceTypesList, DeviceTypes) {
     var listUrl = "devices-list";
 
       $scope.deviceid = $stateParams.deviceid;
@@ -18,20 +18,17 @@ angular.module('ubirchAdminCrudApp')
       var deviceStateSaved =  [];
       $scope.stateDataChanged = false;
       $scope.stateKats = [];
-      $scope.messages = undefined;
+      $scope.messages = {
+        content: undefined
+      };
       $scope.activeTab = "state";
-
-      angular.extend($scope, {
-        center: {
-          lat: 52.50466320614026,
-          lng: 13.480031490325928,
-          zoom: 12
-        },
+      $scope.activeVisualTab = "chart";
+      $scope.leafletValues = {
+        center: { zoom: 12 },
         markers: {},
-        defaults: {
-          scrollWheelZoom: false
-        }
-      });
+        defaults: { scrollWheelZoom: false }
+      };
+
 
       if ($stateParams.deviceid) {
         $scope.device = Device.getDevice($stateParams.deviceid, function(deviceVal){
@@ -141,5 +138,53 @@ angular.module('ubirchAdminCrudApp')
 
       $scope.device.deviceTypeKey = type;
     };
+      /**
+       * calculate map markers when new messages loaded
+       */
+      $scope.$watch('messages.content', function() {
+        calculateMap();
+      });
 
-  }]);
+      function calculateMap() {
+
+        if ($scope.messages.content) {
+
+          var markers = {};
+
+          $scope.messages.content.forEach(function (message, i) {
+
+            var label = message.deviceType;
+            // message: "Temperature Sensor<br><strong>18,5°C</strong><br><a href='http://admin.ubirch.com/#/device-details/0c5a19bf-194c-40ea-bf46-0416a176aedb'><br>open sensor data</a>!",
+            label += "<br><strong>";
+            switch (message.deviceType) {
+              case "envSensor":
+                label += "humidity:" + message.deviceMessage.humidity + ", presure:" + message.deviceMessage.presure + ", temperature:" + message.deviceMessage.temperature;
+                break;
+              default:
+                label += "...";
+            }
+            label += "</strong>";
+            label += "<br>" + message.timestamp;
+
+            var marker = {
+              focus: false,
+              draggable: true,
+              lat: message.deviceMessage.latitude,
+              lng: message.deviceMessage.longitude,
+              message: label,
+              opacity: 1 / $scope.messages.content.length * (i + 1)
+            };
+
+            markers["marker" + i] = angular.copy(marker);
+          });
+
+          $scope.leafletValues.markers = markers;
+
+          if ($scope.messages.content.length > 0) {
+            $scope.leafletValues.center.lat = markers['marker0'].lat;
+            $scope.leafletValues.center.lng = markers['marker0'].lng;
+          }
+        }
+      }
+
+    }]);
