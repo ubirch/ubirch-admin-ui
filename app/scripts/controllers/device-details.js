@@ -151,23 +151,27 @@ angular.module('ubirchAdminCrudApp')
         var markerKeys = Object.keys(markers);
         if (markerKeys.length) {
 
+          var marker = markers[markerKeys[0]];
+          // initialize with first marker
+          var coordArray = [[marker.lat,marker.lng],[marker.lat,marker.lng]];
+
           markerKeys.forEach(function(key) {
-
-            var marker = markers[key];
-            // TODO: calculate bounds from marker positions
-
+            marker = markers[key];
+            if (marker.lat < coordArray[0][0]){
+              coordArray[0][0] = marker.lat;
+            }
+            if (marker.lng < coordArray[0][1]){
+              coordArray[0][1] = marker.lng;
+            }
+            if (marker.lat > coordArray[1][0]){
+              coordArray[1][0] = marker.lat;
+            }
+            if (marker.lng > coordArray[1][1]){
+              coordArray[1][1] = marker.lng;
+            }
           });
 
-          var bounds = leafletBoundsHelpers.createBoundsFromArray([
-            [ 51.508742458803326, -0.087890625 ],
-            [ 51.508742458803326, -0.087890625 ]
-          ]);
-          $scope.leafletValues.bounds = {};
-          $scope.leafletValues.center = {
-            zoom: 15,
-            lat: markers['marker0'].lat,
-            lng: markers['marker0'].lng
-          };
+          $scope.leafletValues.bounds = leafletBoundsHelpers.createBoundsFromArray(coordArray);
         }
         else {
           $scope.leafletValues.bounds = {};
