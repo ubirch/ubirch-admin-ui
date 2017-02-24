@@ -8,8 +8,8 @@
  * Controller of the ubirchAdminCrudApp
  */
 angular.module('ubirchAdminCrudApp')
-  .controller('DeviceDetailsCtrl',[ '$scope', '$window', '$location', '$stateParams', '$filter', 'Device', 'constant', 'toaster', 'deviceTypesList', 'DeviceTypes',
-    function ($scope, $window, $location, $stateParams, $filter, Device, constant, toaster, deviceTypesList, DeviceTypes) {
+  .controller('DeviceDetailsCtrl',[ '$scope', '$window', '$location', '$stateParams', '$filter', 'Device', 'constant', 'toaster', 'deviceTypesList', 'DeviceTypes', 'leafletBoundsHelpers',
+    function ($scope, $window, $location, $stateParams, $filter, Device, constant, toaster, deviceTypesList, DeviceTypes, leafletBoundsHelpers) {
     var listUrl = "devices-list";
 
       $scope.deviceid = $stateParams.deviceid;
@@ -23,9 +23,11 @@ angular.module('ubirchAdminCrudApp')
       };
       $scope.activeTab = "state";
       $scope.activeVisualTab = "chart";
+
       $scope.leafletValues = {
         center: {},
         markers: {},
+        bounds: {},
         defaults: { scrollWheelZoom: false }
       };
 
@@ -146,13 +148,29 @@ angular.module('ubirchAdminCrudApp')
       });
 
       function calculateMapExtract(markers) {
-        if (markers.marker0) {
-          $scope.leafletValues.center.zoom = 15;
-          $scope.leafletValues.center.lat = markers['marker0'].lat;
-          $scope.leafletValues.center.lng = markers['marker0'].lng;
+        var markerKeys = Object.keys(markers);
+        if (markerKeys.length) {
+
+          markerKeys.forEach(function(key) {
+
+            var marker = markers[key];
+            // TODO: calculate bounds from marker positions
+
+          });
+
+          var bounds = leafletBoundsHelpers.createBoundsFromArray([
+            [ 51.508742458803326, -0.087890625 ],
+            [ 51.508742458803326, -0.087890625 ]
+          ]);
+          $scope.leafletValues.bounds = {};
+          $scope.leafletValues.center = {
+            zoom: 15,
+            lat: markers['marker0'].lat,
+            lng: markers['marker0'].lng
+          };
         }
         else {
-          $scope.leafletValues.center = {};
+          $scope.leafletValues.bounds = {};
         }
       }
       function calculateMap() {
