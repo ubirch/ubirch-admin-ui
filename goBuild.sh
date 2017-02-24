@@ -23,10 +23,6 @@ init () {
 
 
 }
-sync_npm () {
-
-
-}
 
 build_software () {
 
