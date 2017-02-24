@@ -1,23 +1,23 @@
 <div class="tab-content" ng-cloak>
   <div>
-    <range-filter messages="messages.content" device-id="deviceid"></range-filter>
+    <range-filter messages="messages.content" device-id="deviceid" values="filterValues" active-tab="activeTab"></range-filter>
     <div ng-if="!messages.content || messages.content.length <= 0" class="row">
       <div class="col-lg-6 col-md-6 col-sm-8 col-xs-10 col-lg-offset-3 col-md-offset-3 col-sm-offset-2 col-xs-offset-1 center_message">{{ 'NO_HISTORY_DATA' | translate }}</div>
     </div>
     <div ng-if="messages.content.length > 0">
       <div class="area-tabs">
         <ul class="nav nav-tabs">
-          <li ng-class="{active: activeVisualTab == 'chart'}">
-            <a ng-click="activeVisualTab = 'chart'">{{ 'TABLABEL_CHART' | translate }}</a>
+          <li ng-class="{active: activeTab.visual == 'chart'}">
+            <a ng-click="activeTab.visual = 'chart'">{{ 'TABLABEL_CHART' | translate }}</a>
           </li>
-          <li ng-class="{active: activeVisualTab == 'map'}">
-            <a ng-click="activeVisualTab = 'map'">{{ 'TABLABEL_MAP' | translate }}</a>
+          <li ng-class="{active: activeTab.visual == 'map'}">
+            <a ng-click="activeTab.visual = 'map'">{{ 'TABLABEL_MAP' | translate }}</a>
           </li>
         </ul>
 
         <div class="tab-content">
           <!-- state -->
-          <div ng-switch="activeVisualTab">
+          <div ng-switch="activeTab.visual">
             <div ng-switch-when="chart">
               <hc-chart messages="messages.content"></hc-chart>
             </div>
