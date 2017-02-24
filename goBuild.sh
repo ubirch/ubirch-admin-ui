@@ -1,4 +1,4 @@
-#!/bin/sh -x
+#!/bin/bash -x
 
 NPM_CONTAINER_VERSION="latest"
 
