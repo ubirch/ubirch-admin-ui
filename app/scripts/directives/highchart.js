@@ -41,7 +41,7 @@ angular.module('ubirchAdminCrudApp')
           }
         };
 
-        scope.$watch('messages', function(newTypeKey){
+        scope.$watch('messages', function(){
           var filteredData = filterMessageKeys();
 
           var series = formatSeriesData(filteredData);

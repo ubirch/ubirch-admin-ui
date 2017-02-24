@@ -8,20 +8,27 @@
  * Controller of the ubirchAdminCrudApp
  */
 angular.module('ubirchAdminCrudApp')
-  .controller('DeviceDetailsCtrl',[ '$scope', '$window', '$location', '$stateParams', '$filter', 'Device', 'toaster', 'deviceTypesList',
-    function ($scope, $window, $location, $stateParams, $filter, Device, toaster, deviceTypesList) {
+  .controller('DeviceDetailsCtrl',[ '$scope', '$window', '$location', '$stateParams', '$filter', 'Device', 'constant', 'toaster', 'deviceTypesList', 'DeviceTypes',
+    function ($scope, $window, $location, $stateParams, $filter, Device, constant, toaster, deviceTypesList, DeviceTypes) {
     var listUrl = "devices-list";
 
-      $scope.activeTab = "state";
+      $scope.deviceid = $stateParams.deviceid;
       $scope.device = {};
       $scope.deviceState =  [];
       var deviceStateSaved =  [];
       $scope.stateDataChanged = false;
       $scope.stateKats = [];
-      $scope.values = {};
-      $scope.values.numOfMessages = 10;
-      $scope.startIndex = 0;
-      $scope.endOfDataReached = false;
+      $scope.messages = {
+        content: undefined
+      };
+      $scope.activeTab = "state";
+      $scope.activeVisualTab = "chart";
+      $scope.leafletValues = {
+        center: { zoom: 12 },
+        markers: {},
+        defaults: { scrollWheelZoom: false }
+      };
+
 
       if ($stateParams.deviceid) {
         $scope.device = Device.getDevice($stateParams.deviceid, function(deviceVal){
@@ -65,8 +72,6 @@ angular.module('ubirchAdminCrudApp')
             deviceStateSaved = angular.copy($scope.deviceState);
           }
         );
-
-        loadHistory();
       }
 
       /**
@@ -133,39 +138,53 @@ angular.module('ubirchAdminCrudApp')
 
       $scope.device.deviceTypeKey = type;
     };
+      /**
+       * calculate map markers when new messages loaded
+       */
+      $scope.$watch('messages.content', function() {
+        calculateMap();
+      });
 
-      $scope.numOfMessagesChanged = function() {
-        loadHistory();
-      };
+      function calculateMap() {
 
-      $scope.page_next = function() {
-      $scope.startIndex += $scope.values.numOfMessages;
-      loadHistory();
-    };
+        if ($scope.messages.content) {
 
-    $scope.page_prev = function() {
-      $scope.startIndex = $scope.startIndex >= $scope.values.numOfMessages ? $scope.startIndex - $scope.values.numOfMessages : 0;
-      loadHistory();
-    };
+          var markers = {};
 
-    function loadHistory(){
-      Device.getDefinedHistory($stateParams.deviceid, $scope.startIndex, $scope.values.numOfMessages,
-        function(data){
-          if (data.length > 0){
-            $scope.messages = data;
-            $scope.endOfDataReached = false;
+          $scope.messages.content.forEach(function (message, i) {
+
+            var label = message.deviceType;
+            // message: "Temperature Sensor<br><strong>18,5°C</strong><br><a href='http://admin.ubirch.com/#/device-details/0c5a19bf-194c-40ea-bf46-0416a176aedb'><br>open sensor data</a>!",
+            label += "<br><strong>";
+            switch (message.deviceType) {
+              case "envSensor":
+                label += "humidity:" + message.deviceMessage.humidity + ", presure:" + message.deviceMessage.presure + ", temperature:" + message.deviceMessage.temperature;
+                break;
+              default:
+                label += "...";
+            }
+            label += "</strong>";
+            label += "<br>" + message.timestamp;
+
+            var marker = {
+              focus: false,
+              draggable: true,
+              lat: message.deviceMessage.latitude,
+              lng: message.deviceMessage.longitude,
+              message: label,
+              opacity: 1 / $scope.messages.content.length * (i + 1)
+            };
+
+            markers["marker" + i] = angular.copy(marker);
+          });
+
+          $scope.leafletValues.markers = markers;
+
+          if ($scope.messages.content.length > 0) {
+            $scope.leafletValues.center.lat = markers['marker0'].lat;
+            $scope.leafletValues.center.lng = markers['marker0'].lng;
           }
-          else {
-            disableNextButton();
-          }
-        },
-        function(){
-          disableNextButton();
-        });
-    }
+        }
+      }
 
-    function disableNextButton() {
-      $scope.startIndex = $scope.startIndex >= $scope.values.numOfMessages ? $scope.startIndex - $scope.values.numOfMessages : 0;
-      $scope.endOfDataReached = true;
-    }
-  }]);
+    }]);
