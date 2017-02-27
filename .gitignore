@@ -4,5 +4,9 @@
 /.tmp
 /.sass-cache
 /bower_components
+.bower
+.cache
+.config
+.npm
 /.idea
 .DS_Store
