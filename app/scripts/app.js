@@ -83,6 +83,7 @@ angular
       var now = new Date();
       constant.TODAY = new Date(now.getFullYear(), now.getMonth(), now.getDate());
       constant.ONEDAY = 1000*60*60*24;
-      constant.TOMORROW = constant.TODAY + constant.ONEDAY;
+      constant.TOMORROW = constant.TODAY.getTime() + constant.ONEDAY;
+      constant.TODAY_END = constant.TOMORROW - 1;
     }
   }]);

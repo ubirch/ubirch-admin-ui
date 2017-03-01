@@ -136,10 +136,9 @@ a {
   padding: 100px;
 }
 
-.center {
-  display:table-cell;
-  vertical-align:middle;
-  float:none;
+.vertical-align {
+  display: flex;
+  align-items: center;
 }
 
 .grey {

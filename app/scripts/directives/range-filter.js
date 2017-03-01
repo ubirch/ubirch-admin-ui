@@ -77,7 +77,7 @@ angular.module('ubirchAdminCrudApp')
 
         function loadHistory(){
           if (scope.activeTab.filter === "filterbydate"){
-            Device.getHistoryOfDateRange(scope.deviceId, scope.values.startDate, scope.values.endDate,
+            Device.getHistoryOfDateRange(scope.deviceId, scope.values.startDate, scope.values.endDate, scope.values.ignoreTime,
               function(data){
                 if (data.length > 0){
                   scope.messages = data;

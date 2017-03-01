@@ -135,7 +135,7 @@ angular.module('ubirchAdminCrudApp')
         {deviceId: '@deviceId', date: '@date'}
       ),
 
-      // http://localhost:8080/api/avatarService/v1/device/7353a975-52fe-4c24-9efe-4dbf7178f66d/data/history/byDate/from/2017-02-15/to/2017-02-21
+      // http://localhost:8080/api/avatarService/v1/device/e4ec8e2b-96e0-4611-bf66-9df6031af8f5/data/history/byDate/from/2017-02-24T00:00:00.000Z/to/2017-02-28T00:00:00.000Z
       history_of_date_range: $resource(url + '/device/:deviceId/data/history/byDate/from/:from/to/:to',
         {deviceId: '@deviceId', from: '@from', to: '@to'}
       ),
@@ -168,13 +168,19 @@ angular.module('ubirchAdminCrudApp')
           });
       },
 
-      getHistoryOfDateRange: function(deviceId, from_date, to_date, callback, errorCallBack){
+      getHistoryOfDateRange: function(deviceId, from_date, to_date, ignoreTime, callback, errorCallBack){
         if (!from_date || !to_date){
           errorCallBack("No date range defined");
           return null;
         }
-        var from_iso = $filter('date')(from_date, "'yyyy-MM-dd");
-        var to_iso = $filter('date')(to_date, "'yyyy-MM-dd");
+
+        if (ignoreTime){
+          from_date = new Date(from_date.getFullYear(), from_date.getMonth(), from_date.getDate());
+          to_date = new Date(new Date(to_date.getFullYear(), to_date.getMonth(), to_date.getDate()).getTime() + constant.ONEDAY - 1);
+        }
+
+        var from_iso = from_date.toISOString(),
+        to_iso = to_date.toISOString();
 
         if (from_date < to_date){
           return this.history_of_date_range.query({deviceId: deviceId, from: from_iso, to: to_iso},

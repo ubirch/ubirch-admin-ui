@@ -27,10 +27,11 @@ angular.module('ubirchAdminCrudApp')
         filter: "filterbydate"
       };
       $scope.filterValues = {
+        startIndex: 0,
         numOfMessages: 10,
         startDate: constant.TODAY,
         endDate: constant.TODAY,
-        startIndex: 0
+        ignoreTime: true
       };
 
       $scope.leafletValues = {
