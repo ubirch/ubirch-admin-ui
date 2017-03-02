@@ -30,7 +30,7 @@ app.factory('AccessToken', ['$rootScope', '$location', '$sessionStorage', 'setti
     }
   }
 
-  var openIDConnectHashParams = ['code', 'state', 'provider', 'session_state', 'access_token', 'token_type', 'expires_in', 'scope', 'nonce', 'authuser', 'error', 'error_description'];
+  var openIDConnectHashParams = ['providerId', 'code', 'state', 'provider', 'session_state', 'access_token', 'token_type', 'expires_in', 'scope', 'nonce', 'authuser', 'error', 'error_description'];
   /**
    *
    * @param hash: query string from request
@@ -249,6 +249,7 @@ app.service('AuthService', ['$resource', 'constant', 'settings', '$rootScope', '
               // check agains authService
               this.verifyAuth.save(
                 {
+                  "context": settings.CONTEXT,
                   "providerId": providerId,
                   "code": query.code,
                   "state": query.state
