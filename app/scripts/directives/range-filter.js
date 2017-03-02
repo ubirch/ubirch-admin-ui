@@ -51,15 +51,22 @@ angular.module('ubirchAdminCrudApp')
             scope.values.endDate = scope.values.startDate;
           }
 
-          var range = (scope.values.endDate - scope.values.startDate + constant.ONEDAY) * direction;
+          var endDate = scope.values.ignoreTime ? new Date(getDateIgnoreTime(scope.values.endDate).getTime() + constant.ONEDAY) : scope.values.endDate;
+          var range = (endDate - scope.values.startDate) * direction;
 
           scope.values.startDate = new Date(scope.values.startDate.getTime() + range);
           scope.values.endDate = new Date(scope.values.endDate.getTime() + range);
 
-          loadHistory();
+          if (scope.values.autoreload){
+            loadHistory();
+          }
 
           scope.todayReached = scope.values.endDate >= constant.TODAY;
-        };
+        }
+
+        function getDateIgnoreTime(date){
+          return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        }
 
         scope.$watch('deviceId', function() {
           if (scope.deviceId){
@@ -70,6 +77,20 @@ angular.module('ubirchAdminCrudApp')
         scope.$watch('activeTab.filter', function() {
             loadHistory();
         });
+
+        scope.switchToDateTime = function(){
+          scope.values.ignoreTime = false;
+        };
+
+        scope.switchAutoreload = function(){
+          scope.values.autoreload = !scope.values.autoreload;
+        };
+
+        scope.autoreload_history = function() {
+          if (scope.values.autoreload){
+            loadHistory();
+          }
+        };
 
         scope.load_history = function() {
           loadHistory();
