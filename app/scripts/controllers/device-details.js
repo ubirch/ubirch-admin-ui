@@ -31,7 +31,8 @@ angular.module('ubirchAdminCrudApp')
         numOfMessages: 10,
         startDate: constant.TODAY,
         endDate: new Date(constant.TODAY.getTime() + constant.ONEDAY - 1),
-        ignoreTime: true
+        ignoreTime: true,
+        autoreload: false
       };
 
       $scope.leafletValues = {

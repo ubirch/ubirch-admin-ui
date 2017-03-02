@@ -57,7 +57,9 @@ angular.module('ubirchAdminCrudApp')
           scope.values.startDate = new Date(scope.values.startDate.getTime() + range);
           scope.values.endDate = new Date(scope.values.endDate.getTime() + range);
 
-          loadHistory();
+          if (scope.values.autoreload){
+            loadHistory();
+          }
 
           scope.todayReached = scope.values.endDate >= constant.TODAY;
         }
@@ -78,6 +80,16 @@ angular.module('ubirchAdminCrudApp')
 
         scope.switchToDateTime = function(){
           scope.values.ignoreTime = false;
+        };
+
+        scope.switchAutoreload = function(){
+          scope.values.autoreload = !scope.values.autoreload;
+        };
+
+        scope.autoreload_history = function() {
+          if (scope.values.autoreload){
+            loadHistory();
+          }
         };
 
         scope.load_history = function() {
