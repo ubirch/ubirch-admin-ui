@@ -30,7 +30,7 @@ angular.module('ubirchAdminCrudApp')
         startIndex: 0,
         numOfMessages: 10,
         startDate: constant.TODAY,
-        endDate: constant.TODAY,
+        endDate: new Date(constant.TODAY.getTime() + constant.ONEDAY - 1),
         ignoreTime: true
       };
 

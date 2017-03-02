@@ -47,5 +47,6 @@
   "PAGE_NEXT": "weiter",
   "NUM_OF_DATASETS": "Anzahl Datensätze",
   "RELOAD": "Neu laden",
-  "NO_HISTORY_DATA": "Für dieses Gerät sind im ausgewählten Bereich keine Verlaufsdaten verfügbar"
+  "NO_HISTORY_DATA": "Für dieses Gerät sind im ausgewählten Bereich keine Verlaufsdaten verfügbar",
+  "SWITCH_TO_DATE_TIME": "Uhrzeit eingrenzen"
 }
