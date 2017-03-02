@@ -173,7 +173,7 @@ app.service('AuthService', ['$resource', 'constant', 'settings', '$rootScope', '
 
   var service = {
     // http://localhost:8091/api/loginService/v1/providerInfo/list
-    providerInfo: $resource(url + '/providerInfo/list'),
+    providerInfo: $resource(url + '/providerInfo/list/' + settings.CONTEXT),
 
     verifyAuth: $resource(url + '/verify/code'),
 
