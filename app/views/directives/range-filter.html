@@ -1,4 +1,4 @@
-<div class="area-tabs filter-group">
+<div class="area-tabs filter-group" ng-cloak>
   <ul class="nav nav-tabs">
     <li ng-class="{active: activeTab.filter == 'filterbydate'}">
       <a ng-click="activeTab.filter = 'filterbydate'">{{ 'TABLABEL_FILTERBY_DATE' | translate }}</a>
@@ -9,8 +9,8 @@
   </ul>
 
   <div class="tab-content">
-    <!-- state -->
     <div ng-switch="activeTab.filter">
+      <!-- filter by date -->
       <div ng-switch-when="filterbydate">
         <div class="row vertical-align">
           <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
@@ -59,31 +59,31 @@
           </div>
         </div>
       </div>
+      <!-- filter by dataset range -->
       <div ng-switch-when="filterbyrange">
         <div class="row vertical-align">
-          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                <span class="pull-left" ng-hide="endOfDataReached" ng-click="page_prev()">
-                  <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
-                  <span>{{ 'PAGE_PREV' | translate }}</span>
-                </span>
+          <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+            <span class="pull-left" ng-hide="endOfDataReached" ng-click="page_prev()">
+              <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" title="{{ 'PAGE_PREV' | translate }}"></span>
+            </span>
           </div>
-          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+          <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
             <div class="input-group">
               <span class="input-group-addon" id="num_of_dataset">{{ 'NUM_OF_DATASETS' | translate }}:</span>
               <input type="number" class="form-control" ng-model="values.numOfMessages" aria-describedby="num_of_dataset"/>
             </div>
           </div>
-          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
             <button type="submit" class="btn btn-default"
                     title="{{ 'RELOAD' | translate }}" ng-click="numOfMessagesChanged()">
               <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
             </button>
           </div>
-          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                <span class="pull-right" ng-show="values.startIndex > 0" ng-click="page_next()">
-                  <span>{{ 'PAGE_NEXT' | translate }}</span>
-                  <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-                </span>
+          <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+              <span class="pull-right" ng-show="values.startIndex > 0" ng-click="page_next()">
+                <span class="glyphicon glyphicon-arrow-right" aria-hidden="true" title="{{ 'PAGE_NEXT' | translate }}"></span>
+              </span>
           </div>
         </div>
       </div>

@@ -49,23 +49,24 @@ angular.module('ubirchAdminCrudApp')
         };
 
         function set_new_range(direction) {
-          // TODO: set minDate and maxDate of timePicker
-
           var from = moment(scope.values.startDate, 'llll');
           var to = moment(scope.values.endDate, 'llll');
 
-          if (from.isBefore(to)){
+          if (from.isAfter(to)){
+            var temp = from;
+            from = to;
+            to = temp;
+          }
 
-            var range = (to.diff(from)) * direction;
-            from.add(range);
-            to.add(range);
+          var range = (to.diff(from)) * direction;
+          from.add(range);
+          to.add(range);
 
-            scope.values.startDate = from.format('llll');
-            scope.values.endDate = to.format('llll');
+          scope.values.startDate = from.format('llll');
+          scope.values.endDate = to.format('llll');
 
-            if (scope.values.autoreload){
-              loadHistory();
-            }
+          if (scope.values.autoreload){
+            loadHistory();
           }
         }
 
@@ -110,8 +111,16 @@ angular.module('ubirchAdminCrudApp')
                 function(data){
                   if (data.length > 0){
                     scope.messages = data;
-                    scope.values.startDate = moment(scope.messages[0].timestamp).format('llll');
-                    scope.values.endDate = moment().format('llll');
+                    var from = moment(scope.messages[0].timestamp);
+                    var to = moment(scope.messages[data.length-1].timestamp);
+                    if (from.isBefore(to)){
+                      scope.values.startDate = from.format('llll');
+                      scope.values.endDate = to.format('llll');
+                    }
+                    else {
+                      scope.values.startDate = to.format('llll');
+                      scope.values.endDate = from.format('llll');
+                    }
                     scope.todayReached = true;
                     scope.endOfDataReached = false;
                   }
@@ -124,11 +133,10 @@ angular.module('ubirchAdminCrudApp')
                 });
             }
             else {
-              Device.getHistoryOfDateRange(scope.deviceId, new Date(scope.values.startDate), new Date(scope.values.endDate), scope.values.ignoreTime,
+              Device.getHistoryOfDateRange(scope.deviceId, scope.values.startDate, scope.values.endDate, scope.values.ignoreTime,
                 function(data){
                   if (data.length > 0){
                     scope.messages = data;
-                    scope.endOfDataReached = false;
                   }
                   else {
                     scope.messages = [];

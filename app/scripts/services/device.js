@@ -173,33 +173,34 @@ angular.module('ubirchAdminCrudApp')
           return null;
         }
 
-        var from = moment(from_date);
-        var to = moment(to_date);
+        var from = moment(from_date, 'llll');
+        var to = moment(to_date, 'llll');
 
-        if (from.isBefore(to)){
+        if (from.isAfter(to)){
+          var temp = from;
+          from = to;
+          to = temp;
+          console.warn("From date is after to date; used in reverse order!");
 
-          if (ignoreTime){
-            from.startOf('day');
-            to.endOf('day');
+        }
+        if (ignoreTime){
+          from.startOf('day');
+          to.endOf('day');
+        }
+
+        return this.history_of_date_range.query({deviceId: deviceId, from: from.toISOString(), to: to.toISOString()},
+          function(data){
+            if (callback){
+              callback(data);
+            }
+          },
+          function(error){
+            $log.debug("Requested history from Device - ERROR OCCURRED: " + error);
+            if (errorCallBack){
+              errorCallBack(error);
+            }
           }
-
-          return this.history_of_date_range.query({deviceId: deviceId, from: from.toISOString(), to: to.toISOString()},
-            function(data){
-              if (callback){
-                callback(data);
-              }
-            },
-            function(error){
-              $log.debug("Requested history from Device - ERROR OCCURRED: " + error);
-              if (errorCallBack){
-                errorCallBack(error);
-              }
-            });
-        }
-        else {
-          errorCallBack("From date is after to date");
-          return null;
-        }
+        );
       },
 
       initDevice: function() {
