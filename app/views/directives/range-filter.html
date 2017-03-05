@@ -13,49 +13,50 @@
     <div ng-switch="activeTab.filter">
       <div ng-switch-when="filterbydate">
         <div class="row vertical-align">
-          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+          <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
             <span class="pull-left" ng-click="prev_date()">
-              <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
-              <span>{{ 'PAGE_PREV' | translate }}</span>
+              <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" title="{{ 'PAGE_PREV' | translate }}"></span>
             </span>
           </div>
-          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
             <div class="input-group">
               <span class="input-group-addon" id="from_date">{{ 'FROM' | translate }}</span>
-              <input type="date" class="form-control" ng-model="values.startDate" ng-change="autoreload_history()" aria-describedby="from_date"/>
+              <input type="text" class="form-control input-sm"
+
+                     datetimepicker
+                     datetimepicker-options="{format:'llll', icons:{next:'glyphicon glyphicon-arrow-right',previous:'glyphicon glyphicon-arrow-left',up:'glyphicon glyphicon-arrow-up',down:'glyphicon glyphicon-arrow-down'}}"
+                     name="from_time"
+                     ng-model="values.startDate"
+                     ng-change="autoreload_history()" aria-describedby="from_date"/>
             </div>
           </div>
           <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
-          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
             <div class="input-group">
               <span class="input-group-addon" id="to_date">{{ 'to' | translate }}</span>
-              <input type="date" class="form-control" ng-model="values.endDate" ng-change="autoreload_history()" aria-describedby="to_date"/>
+              <input type="text" class="form-control input-sm"
+
+                     datetimepicker
+                     datetimepicker-options="{format:'llll', icons:{next:'glyphicon glyphicon-arrow-right',previous:'glyphicon glyphicon-arrow-left',up:'glyphicon glyphicon-arrow-up',down:'glyphicon glyphicon-arrow-down'}}"
+                     name="to_time"
+                     ng-model="values.endDate"
+                     ng-change="autoreload_history()" aria-describedby="from_date"/>
             </div>
           </div>
           <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-            <button class="btn btn-default" type="button"  title="{{ 'RELOAD' | translate }}" ng-click="load_history()"> <span class="glyphicon glyphicon-repeat"></span></button>
+            <button class="btn btn-default" ng-class="values.autoreload ? 'auto_reload' : 'no_auto_reload'" type="button"  title="{{ 'RELOAD' | translate }}" ng-click="load_history()"> <span class="glyphicon glyphicon-repeat"></span></button>
           </div>
-          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+          <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
               <span class="pull-right" ng-hide="todayReached"  ng-click="next_date()">
-                <span>{{ 'PAGE_NEXT' | translate }}</span>
-                <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-arrow-right" aria-hidden="true" title="{{ 'PAGE_NEXT' | translate }}"></span>
               </span>
           </div>
         </div>
         <div class="row">
-          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
-          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-            <a ng-if="values.ignoreTime" ng-click="switchToDateTime()">{{ 'SWITCH_TO_DATE_TIME' | translate }}</a>
-            <div class="pull-right" ng-if="!values.ignoreTime" uib-timepicker ng-model="values.startDate" ng-change="autoreload_history()" hour-step="1" minute-step="1" show-meridian=false  show-seconds=true></div>
-          </div>
-          <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
-          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-            <div class="pull-right" ng-if="!values.ignoreTime" uib-timepicker ng-model="values.endDate" ng-change="autoreload_history()" hour-step="1" minute-step="1" show-meridian=false  show-seconds=true></div>
-          </div>
+          <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10"></div>
           <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
             <a ng-click="switchAutoreload()">{{ values.autoreload ? 'DEACTIVATE_AUTO_RELOAD' : 'ACTIVATE_AUTO_RELOAD' | translate }}</a>
           </div>
-          <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
         </div>
       </div>
       <div ng-switch-when="filterbyrange">

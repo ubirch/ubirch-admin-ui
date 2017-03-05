@@ -24,7 +24,6 @@ module.exports = function(config) {
       'bower_components/angular/angular.js',
       'bower_components/highcharts/highcharts.js',
       'bower_components/bootstrap/dist/js/bootstrap.js',
-      'bower_components/bootbox/bootbox.js',
       'bower_components/angular-animate/angular-animate.js',
       'bower_components/angular-cookies/angular-cookies.js',
       'bower_components/angular-resource/angular-resource.js',
@@ -41,6 +40,10 @@ module.exports = function(config) {
       'bower_components/leaflet/dist/leaflet-src.js',
       'bower_components/angular-simple-logger/dist/angular-simple-logger.js',
       'bower_components/ui-leaflet/dist/ui-leaflet.js',
+      'bower_components/moment/moment.js',
+      'bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
+      'bower_components/angular-bootstrap-datetimepicker-directive/angular-bootstrap-datetimepicker-directive.js',
+      'bower_components/angular-moment/angular-moment.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',
