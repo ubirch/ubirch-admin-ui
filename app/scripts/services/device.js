@@ -8,7 +8,7 @@
  * Service in the ubirchAdminCrudApp.
  */
 angular.module('ubirchAdminCrudApp')
-  .service('Device', ['$resource', 'constant', 'settings', '$log', 'uuid2', '$filter', function ($resource, constant, settings, $log, uuid2, $filter) {
+  .service('Device', ['$resource', 'constant', 'settings', '$log', 'uuid2', 'moment', function ($resource, constant, settings, $log, uuid2, moment) {
 
     var url = settings.UBIRCH_API_HOST + constant.AVATAR_SERVICE_REST_ENDPOINT;
 
@@ -155,7 +155,6 @@ angular.module('ubirchAdminCrudApp')
 
         return this.history_of_data_range.query({deviceId: deviceId, from: from, size: size},
           function(data){
-            $log.debug("Got history data from Device: " + data);
             if (callback){
               callback(data);
             }
@@ -174,44 +173,34 @@ angular.module('ubirchAdminCrudApp')
           return null;
         }
 
+        var from = moment(from_date, 'llll');
+        var to = moment(to_date, 'llll');
+
+        if (from.isAfter(to)){
+          var temp = from;
+          from = to;
+          to = temp;
+          console.warn("From date is after to date; used in reverse order!");
+
+        }
         if (ignoreTime){
-          from_date = new Date(from_date.getFullYear(), from_date.getMonth(), from_date.getDate());
-          to_date = new Date(new Date(to_date.getFullYear(), to_date.getMonth(), to_date.getDate()).getTime() + constant.ONEDAY - 1);
+          from.startOf('day');
+          to.endOf('day');
         }
 
-        var from_iso = from_date.toISOString(),
-        to_iso = to_date.toISOString();
-
-        if (from_date < to_date){
-          return this.history_of_date_range.query({deviceId: deviceId, from: from_iso, to: to_iso},
-            function(data){
-              $log.debug("Got history data from Device: " + data);
-              if (callback){
-                callback(data);
-              }
-            },
-            function(error){
-              $log.debug("Requested history from Device - ERROR OCCURRED: " + error);
-              if (errorCallBack){
-                errorCallBack(error);
-              }
-            });
-        }
-        else {
-          return this.history_of_day.query({deviceId: deviceId, date: from_iso},
-            function(data){
-              $log.debug("Got history data from Device: " + data);
-              if (callback){
-                callback(data);
-              }
-            },
-            function(error){
-              $log.debug("Requested history from Device - ERROR OCCURRED: " + error);
-              if (errorCallBack){
-                errorCallBack(error);
-              }
-            });
-        }
+        return this.history_of_date_range.query({deviceId: deviceId, from: from.toISOString(), to: to.toISOString()},
+          function(data){
+            if (callback){
+              callback(data);
+            }
+          },
+          function(error){
+            $log.debug("Requested history from Device - ERROR OCCURRED: " + error);
+            if (errorCallBack){
+              errorCallBack(error);
+            }
+          }
+        );
       },
 
       initDevice: function() {

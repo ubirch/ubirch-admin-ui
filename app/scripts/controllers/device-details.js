@@ -29,9 +29,9 @@ angular.module('ubirchAdminCrudApp')
       $scope.filterValues = {
         startIndex: 0,
         numOfMessages: 10,
-        startDate: constant.TODAY,
-        endDate: new Date(constant.TODAY.getTime() + constant.ONEDAY - 1),
-        ignoreTime: true,
+        startDate: undefined,
+        endDate: undefined,
+        ignoreTime: false,
         autoreload: false
       };
 
@@ -104,7 +104,7 @@ angular.module('ubirchAdminCrudApp')
       deviceStateSaved = angular.copy($scope.deviceState);
       $scope.stateDataChanged = false;
       // TODO: send data to server
-      $window.bootbox.alert("Sorry, to change the state of a device is not yet implemented!");
+      toaster.pop('error',"Sorry, to change the state of a device is not yet implemented!");
     };
 
       /**

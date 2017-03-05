@@ -20,7 +20,9 @@ angular
     'ui.router',
     'ui-leaflet',
     'ui.bootstrap',
+    'datetimepicker',
     'angularUUID2',
+    'angularMoment',
     'toaster'
   ])
   .config(function ($stateProvider, $urlRouterProvider, $translateProvider) {

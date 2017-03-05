@@ -7,7 +7,7 @@
  * # rangeFilter
  */
 angular.module('ubirchAdminCrudApp')
-  .directive('rangeFilter', [ 'Device', 'constant', function (Device, constant) {
+  .directive('rangeFilter', [ 'Device', 'constant', 'moment', function (Device, constant, moment) {
     return {
       templateUrl: 'views/directives/range-filter.html',
       restrict: 'E',
@@ -22,6 +22,7 @@ angular.module('ubirchAdminCrudApp')
         scope.todayReached = scope.values.endDate >= constant.TODAY;
         scope.endOfDataReached = false;
 
+        //*************** range filter ********************//
         scope.numOfMessagesChanged = function() {
           loadHistory();
         };
@@ -36,6 +37,9 @@ angular.module('ubirchAdminCrudApp')
           loadHistory();
         };
 
+        //*************** date filter ********************//
+        var direction_next = 1, direction_previous = -1;
+
         scope.next_date = function() {
           set_new_range(direction_next);
         };
@@ -44,28 +48,26 @@ angular.module('ubirchAdminCrudApp')
           set_new_range(direction_previous);
         };
 
-        var direction_next = 1, direction_previous = -1;
-
         function set_new_range(direction) {
-          if (scope.values.endDate < scope.values.startDate){
-            scope.values.endDate = scope.values.startDate;
+          var from = moment(scope.values.startDate, 'llll');
+          var to = moment(scope.values.endDate, 'llll');
+
+          if (from.isAfter(to)){
+            var temp = from;
+            from = to;
+            to = temp;
           }
 
-          var endDate = scope.values.ignoreTime ? new Date(getDateIgnoreTime(scope.values.endDate).getTime() + constant.ONEDAY) : scope.values.endDate;
-          var range = (endDate - scope.values.startDate) * direction;
+          var range = (to.diff(from)) * direction;
+          from.add(range);
+          to.add(range);
 
-          scope.values.startDate = new Date(scope.values.startDate.getTime() + range);
-          scope.values.endDate = new Date(scope.values.endDate.getTime() + range);
+          scope.values.startDate = from.format('llll');
+          scope.values.endDate = to.format('llll');
 
           if (scope.values.autoreload){
             loadHistory();
           }
-
-          scope.todayReached = scope.values.endDate >= constant.TODAY;
-        }
-
-        function getDateIgnoreTime(date){
-          return new Date(date.getFullYear(), date.getMonth(), date.getDate());
         }
 
         scope.$watch('deviceId', function() {
@@ -74,8 +76,14 @@ angular.module('ubirchAdminCrudApp')
           }
         });
 
-        scope.$watch('activeTab.filter', function() {
+        scope.$watch('activeTab.filter', function(newValue, oldValue) {
+          if (oldValue != undefined && newValue != oldValue){
             loadHistory();
+          }
+        });
+
+        scope.$watch('values.endDate', function(){
+          scope.todayReached = moment(scope.values.endDate, 'llll').isSameOrAfter(moment().subtract(1, 'm'));
         });
 
         scope.switchToDateTime = function(){
@@ -98,19 +106,47 @@ angular.module('ubirchAdminCrudApp')
 
         function loadHistory(){
           if (scope.activeTab.filter === "filterbydate"){
-            Device.getHistoryOfDateRange(scope.deviceId, scope.values.startDate, scope.values.endDate, scope.values.ignoreTime,
-              function(data){
-                if (data.length > 0){
-                  scope.messages = data;
-                  scope.endOfDataReached = false;
-                }
-                else {
+            if (scope.values.startDate === undefined && scope.values.endDate === undefined){
+              Device.getHistoryOfRange(scope.deviceId, scope.values.startIndex, scope.values.numOfMessages,
+                function(data){
+                  if (data.length > 0){
+                    scope.messages = data;
+                    var from = moment(scope.messages[0].timestamp);
+                    var to = moment(scope.messages[data.length-1].timestamp);
+                    if (from.isBefore(to)){
+                      scope.values.startDate = from.format('llll');
+                      scope.values.endDate = to.format('llll');
+                    }
+                    else {
+                      scope.values.startDate = to.format('llll');
+                      scope.values.endDate = from.format('llll');
+                    }
+                    scope.todayReached = true;
+                    scope.endOfDataReached = false;
+                  }
+                  else {
+                    scope.messages = [];
+                  }
+                },
+                function(){
                   scope.messages = [];
-                }
-              },
-              function(){
-                scope.messages = [];
-              });
+                });
+            }
+            else {
+              Device.getHistoryOfDateRange(scope.deviceId, scope.values.startDate, scope.values.endDate, scope.values.ignoreTime,
+                function(data){
+                  if (data.length > 0){
+                    scope.messages = data;
+                  }
+                  else {
+                    scope.messages = [];
+                  }
+                },
+                function(){
+                  scope.messages = [];
+                });
+            }
+
           }
           else {
             Device.getHistoryOfRange(scope.deviceId, scope.values.startIndex, scope.values.numOfMessages,
