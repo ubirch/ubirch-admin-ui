@@ -23,9 +23,9 @@ init () {
 
 
 }
+
 sync_npm () {
-
-
+	echo "sync npm"
 }
 
 build_software () {
