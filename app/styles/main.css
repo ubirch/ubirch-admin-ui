@@ -38,25 +38,6 @@ a {
   border-top: 1px solid #e5e5e5;
 }
 
-.area-tabs .nav.nav-tabs {
-  border-bottom: 0px;
-  margin-top: -10px;
-}
-
-.nav-tabs li.active {
-  border-bottom: 1px solid transparent;
-}
-
-.nav-tabs li.active a,  .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
-  border: 1px solid #ddd;
-  border-radius: 0 0 10px 10px;
-  border-top: 3px solid #9393EC;
-}
-
-.nav-tabs > li > a {
-  padding: 8px 7px;
-}
-
 .area-tabs.filter-group {
   border: 1px solid #ccc;
   border-radius: 10px 10px 0 0;
