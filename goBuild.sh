@@ -24,10 +24,6 @@ init () {
 
 }
 
-sync_npm () {
-	echo "sync npm"
-}
-
 build_software () {
 
 	docker run -e HOME=/build -e npm_config_cache=/build/.npm --user `id -u`:`id -g` --rm -v $PWD:/build ubirch/npm-build-container:$NPM_CONTAINER_VERSION /build/buildWeb.sh $1

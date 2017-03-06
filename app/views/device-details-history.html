@@ -19,7 +19,7 @@
           <!-- state -->
           <div ng-switch="activeTab.visual">
             <div ng-switch-when="chart">
-              <hc-chart messages="messages.content"></hc-chart>
+              <hc-chart messages="messages.content" shown-series="shownSeries"></hc-chart>
             </div>
             <div ng-switch-when="map">
               <leaflet lf-center="leafletValues.center" bounds="leafletValues.bounds" markers="leafletValues.markers" height="480px" width="100%"></leaflet>
