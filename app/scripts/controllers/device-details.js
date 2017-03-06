@@ -34,6 +34,7 @@ angular.module('ubirchAdminCrudApp')
         ignoreTime: false,
         autoreload: false
       };
+      $scope.shownSeries = {};
 
       $scope.leafletValues = {
         center: {},

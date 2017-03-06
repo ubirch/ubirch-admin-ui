@@ -13,7 +13,8 @@ angular.module('ubirchAdminCrudApp')
       restrict: 'E',
       replace: true,
       scope: {
-        messages: '='
+        messages: '=',
+        shownSeries: '='
       },
       link: function (scope, element) {
 
@@ -69,6 +70,18 @@ angular.module('ubirchAdminCrudApp')
               }
 
             },
+            plotOptions: {
+              series: {
+                events: {
+                  hide: function () {
+                    scope.shownSeries[this.name] = false;
+                  },
+                  show: function () {
+                    scope.shownSeries[this.name] = true;
+                  }
+                }
+              }
+            },
             series: series
           });
         });
@@ -95,13 +108,20 @@ angular.module('ubirchAdminCrudApp')
               if (deviceType && deviceType.displayKeys && deviceType.displayKeys.length > 0) {
                 if (deviceType.displayKeys.indexOf(key) !== -1) {
                   addValue(seriesData, key, message.deviceMessage[key], timestamp);
+                  // initially display every new series in chart
+                  if (scope.shownSeries[key] === undefined){
+                    scope.shownSeries[key] = true;
+                  }
                 }
               }
               // if no displayKeys are defined for this deviceType display all message properties that are numerical
               else if (typeof message.deviceMessage[key] === "number") {
                 addValue(seriesData, key, message.deviceMessage[key], timestamp);
+                // initially display every new series in chart
+                if (scope.shownSeries[key] === undefined){
+                  scope.shownSeries[key] = true;
+                }
               }
-
             });
           });
 
@@ -117,6 +137,9 @@ angular.module('ubirchAdminCrudApp')
             series[i] = {};
             series[i].data = seriesData[key];
             series[i].name = key;
+            if (scope.shownSeries[key] != undefined){
+              series[i].visible = scope.shownSeries[key];
+            }
             i++;
           });
 
