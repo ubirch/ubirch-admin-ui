@@ -191,8 +191,6 @@ angular.module('ubirchAdminCrudApp')
         }
       }
 
-      var j = 0, testpos = [[-3.5992439389,-2.5040852619],[13.0078125,-2.5040852619],[13.0078125,13.5509019006],[-3.5992439389,13.5509019006],[-3.5992439389,-2.5040852619]];
-
       function calculateMap() {
 
         var markers = {};
@@ -201,7 +199,7 @@ angular.module('ubirchAdminCrudApp')
 
           $scope.messages.content.forEach(function (message, i) {
 
-            if (message.deviceMessage.latitude && message.deviceMessage.longitude && j < testpos.length){
+            if (message.deviceMessage.latitude && message.deviceMessage.longitude ){
               var marker = {
                 focus: false,
                 draggable: true,
@@ -210,9 +208,7 @@ angular.module('ubirchAdminCrudApp')
                 message: filterMessageKeys(message),
                 opacity: 1 / $scope.messages.content.length * (i + 1)
               };
-              marker.lng = testpos[j][0];
-              marker.lat = testpos[j][1];
-              j++;
+
               markers["marker" + i] = angular.copy(marker);
             }
           });
