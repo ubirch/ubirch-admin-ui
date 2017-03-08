@@ -69,31 +69,9 @@ angular.module('ubirchAdminCrudApp')
                 format: '{value:%O %H:%M:%S}',
                 align: 'right',
                 rotation: -30
-              },
-            },
-            yAxis: [
-              {
-                id: "temperature",
-                title: {
-                  text: "temperature"
-                },
-                opposite: true
-              },
-              {
-                id: "presure",
-                title: {
-                  text: "presure"
-                },
-                opposite: true
-              },
-              {
-                id: "humidity",
-                title: {
-                  text: "humidity"
-                },
-                opposite: true
               }
-            ],
+            },
+            yAxis: scope.yaxis,
             plotOptions: {
               series: {
                 events: {
@@ -180,7 +158,7 @@ angular.module('ubirchAdminCrudApp')
             if (scope.shownSeries[key] != undefined){
               series[i].visible = scope.shownSeries[key];
             }
-           series[i].yAxis = 'temperature';
+            series[i].yAxis = key;
             i++;
           });
 
