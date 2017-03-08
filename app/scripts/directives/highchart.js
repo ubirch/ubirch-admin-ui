@@ -46,80 +46,95 @@ angular.module('ubirchAdminCrudApp')
         scope.seriesColor = {};
         scope.yaxis = [];
 
+        var options = {
+          chart: {
+            type: 'line'
+          },
+          title: {
+            text: 'Sensor data'
+          },
+          credits: {
+            enabled: false
+          },
+          xAxis: {
+            title: {
+              text: 'Date'
+            },
+            type: 'datetime',
+            startOnTick: true,
+            labels: {
+              format: '{value:%O %H:%M:%S}',
+              align: 'right',
+              rotation: -30
+            }
+          },
+          plotOptions: {
+            series: {
+              events: {
+                hide: function () {
+                  scope.shownSeries[this.name] = false;
+                },
+                show: function () {
+                  scope.shownSeries[this.name] = true;
+                }
+              }
+            }
+          }
+        };
+
         scope.$watch('messages', function(){
           var filteredData = filterMessageKeys();
 
-          var series = formatSeriesData(filteredData);
+          formatSeriesData(filteredData);
 
-          var options = {
-            chart: {
-              type: 'line'
-            },
-            title: {
-              text: 'Sensor data'
-            },
-            credits: {
-              enabled: false
-            },
-            xAxis: {
-              title: {
-                text: 'Date'
-              },
-              type: 'datetime',
-              startOnTick: true,
-              labels: {
-                format: '{value:%O %H:%M:%S}',
-                align: 'right',
-                rotation: -30
-              }
-            },
-            plotOptions: {
-              series: {
-                events: {
-                  hide: function () {
-                    scope.shownSeries[this.name] = false;
-                  },
-                  show: function () {
-                    scope.shownSeries[this.name] = true;
-                  }
-                }
-              }
-            },
-            series: series
-          };
-          if (scope.separate && scope.separate.yaxis === "all"){
-            options.yAxis = scope.yaxis;
-          }
+          formatYAxis();
 
           new Highcharts.chart(element[0], options);
         });
+
+        scope.$watch('separate', function(oldValue, newValue) {
+          if (oldValue != undefined && !(newValue === oldValue)) {
+            formatYAxis();
+            new Highcharts.chart(element[0], options);
+          }
+        });
+
+        function formatYAxis () {
+          if (scope.separate && scope.separate.yaxis === "all") {
+            // add axis array to option
+            options.yAxis = scope.yaxis;
+
+            // add refs to yaxis to series
+            options.series.forEach(function (serie){
+              addYAxisToSerie(serie);
+            });
+          }
+        }
 
         function formatSerie(seriesData, key, deviceMessage, timestamp) {
           addValue(seriesData, key, deviceMessage, timestamp);
           // initially display every new series in chart
           if (scope.shownSeries[key] === undefined){
             scope.shownSeries[key] = true;
-            if (scope.separate && scope.separate.yaxis === "all"){
-              // add new color for new key
-              scope.seriesColor[key] = Highcharts.getOptions().colors[scope.yaxis.length];
-              var axis = {
-                id: key,
-                title: {
-                  text: key,
-                  style: {
-                    color: scope.seriesColor[key]
-                  }
-                },
-                labels: {
-                  // format: '{value} mb',
-                  style: {
-                    color: scope.seriesColor[key]
-                  }
-                },
-                opposite: true
-              };
-              scope.yaxis.push(axis);
-            }
+            // add new color for new key
+            scope.seriesColor[key] = Highcharts.getOptions().colors[scope.yaxis.length];
+            var axis = {
+              id: key,
+              title: {
+                text: key,
+                style: {
+                  color: scope.seriesColor[key]
+                }
+              },
+              labels: {
+                // format: '{value} mb',
+                style: {
+                  color: scope.seriesColor[key]
+                }
+              },
+              opposite: true
+            };
+            scope.yaxis.push(axis);
           }
         }
 
@@ -158,7 +173,6 @@ angular.module('ubirchAdminCrudApp')
         }
 
         function formatSeriesData(seriesData){
-
           // format for highcharts
           var series = [], i = 0;
 
@@ -169,15 +183,19 @@ angular.module('ubirchAdminCrudApp')
             if (scope.shownSeries[key] != undefined){
               series[i].visible = scope.shownSeries[key];
             }
-            if (scope.separate && scope.separate.yaxis === "all"){
-              series[i].yAxis = key;
-              series[i].color = scope.seriesColor[key];
-            }
+            series[i].color = scope.seriesColor[key];
             i++;
           });
 
-          return series;
+          options.series = series;
+        }
 
+        /**
+         * use serie.name as key of the yaxis (as defined in formatSerie
+         * @param serie
+         */
+        function addYAxisToSerie(serie){
+          serie.yAxis = serie.name;
         }
 
         function addValue(seriesData, key, value, timestamp){
