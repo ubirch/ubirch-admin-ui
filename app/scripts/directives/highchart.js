@@ -14,7 +14,8 @@ angular.module('ubirchAdminCrudApp')
       replace: true,
       scope: {
         messages: '=',
-        shownSeries: '='
+        shownSeries: '=',
+        separate: "="
       },
       link: function (scope, element) {
 
@@ -50,7 +51,7 @@ angular.module('ubirchAdminCrudApp')
 
           var series = formatSeriesData(filteredData);
 
-          new Highcharts.chart(element[0], {
+          var options = {
             chart: {
               type: 'line'
             },
@@ -72,7 +73,6 @@ angular.module('ubirchAdminCrudApp')
                 rotation: -30
               }
             },
-            yAxis: scope.yaxis,
             plotOptions: {
               series: {
                 events: {
@@ -86,7 +86,12 @@ angular.module('ubirchAdminCrudApp')
               }
             },
             series: series
-          });
+          };
+          if (scope.separate && scope.separate.yaxis === "all"){
+            options.yAxis = scope.yaxis;
+          }
+
+          new Highcharts.chart(element[0], options);
         });
 
         function formatSerie(seriesData, key, deviceMessage, timestamp) {
@@ -94,25 +99,27 @@ angular.module('ubirchAdminCrudApp')
           // initially display every new series in chart
           if (scope.shownSeries[key] === undefined){
             scope.shownSeries[key] = true;
-            // add new color for new key
-            scope.seriesColor[key] = Highcharts.getOptions().colors[scope.yaxis.length];
-            var axis = {
-              id: key,
-              title: {
-                text: key,
-                style: {
-                  color: scope.seriesColor[key]
-                }
-              },
-              labels: {
-                // format: '{value} mb',
-                style: {
-                  color: scope.seriesColor[key]
-                }
-              },
-              opposite: true
-            };
-            scope.yaxis.push(axis);
+            if (scope.separate && scope.separate.yaxis === "all"){
+              // add new color for new key
+              scope.seriesColor[key] = Highcharts.getOptions().colors[scope.yaxis.length];
+              var axis = {
+                id: key,
+                title: {
+                  text: key,
+                  style: {
+                    color: scope.seriesColor[key]
+                  }
+                },
+                labels: {
+                  // format: '{value} mb',
+                  style: {
+                    color: scope.seriesColor[key]
+                  }
+                },
+                opposite: true
+              };
+              scope.yaxis.push(axis);
+            }
           }
         }
 
@@ -162,8 +169,10 @@ angular.module('ubirchAdminCrudApp')
             if (scope.shownSeries[key] != undefined){
               series[i].visible = scope.shownSeries[key];
             }
-            series[i].yAxis = key;
-            series[i].color = scope.seriesColor[key];
+            if (scope.separate && scope.separate.yaxis === "all"){
+              series[i].yAxis = key;
+              series[i].color = scope.seriesColor[key];
+            }
             i++;
           });
 
