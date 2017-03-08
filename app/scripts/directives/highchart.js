@@ -42,6 +42,7 @@ angular.module('ubirchAdminCrudApp')
           }
         };
 
+        scope.seriesColor = {};
         scope.yaxis = [];
 
         scope.$watch('messages', function(){
@@ -88,6 +89,33 @@ angular.module('ubirchAdminCrudApp')
           });
         });
 
+        function formatSerie(seriesData, key, deviceMessage, timestamp) {
+          addValue(seriesData, key, deviceMessage, timestamp);
+          // initially display every new series in chart
+          if (scope.shownSeries[key] === undefined){
+            scope.shownSeries[key] = true;
+            // add new color for new key
+            scope.seriesColor[key] = Highcharts.getOptions().colors[scope.yaxis.length];
+            var axis = {
+              id: key,
+              title: {
+                text: key,
+                style: {
+                  color: scope.seriesColor[key]
+                }
+              },
+              labels: {
+                // format: '{value} mb',
+                style: {
+                  color: scope.seriesColor[key]
+                }
+              },
+              opposite: true
+            };
+            scope.yaxis.push(axis);
+          }
+        }
+
         function filterMessageKeys() {
 
           var deviceTypes = DeviceTypes.getDeviceTypeList();
@@ -109,36 +137,12 @@ angular.module('ubirchAdminCrudApp')
               // if displayKeys are defined for this deviceType filter these keys from message properties
               if (deviceType && deviceType.displayKeys && deviceType.displayKeys.length > 0) {
                 if (deviceType.displayKeys.indexOf(key) !== -1) {
-                  addValue(seriesData, key, message.deviceMessage[key], timestamp);
-                  // initially display every new series in chart
-                  if (scope.shownSeries[key] === undefined){
-                    scope.shownSeries[key] = true;
-                    var axis = {
-                      id: key,
-                      title: {
-                        text: key
-                      },
-                      opposite: true
-                    };
-                    scope.yaxis.push(axis);
-                  }
+                  formatSerie(seriesData, key, message.deviceMessage[key], timestamp);
                 }
               }
               // if no displayKeys are defined for this deviceType display all message properties that are numerical
               else if (typeof message.deviceMessage[key] === "number") {
-                addValue(seriesData, key, message.deviceMessage[key], timestamp);
-                // initially display every new series in chart
-                if (scope.shownSeries[key] === undefined){
-                  scope.shownSeries[key] = true;
-                  var axis = {
-                    id: key,
-                    title: {
-                      text: key
-                    },
-                    opposite: true
-                  };
-                  scope.yaxis.push(axis);
-                }
+                formatSerie(seriesData, key, message.deviceMessage[key], timestamp);
               }
             });
           });
@@ -159,6 +163,7 @@ angular.module('ubirchAdminCrudApp')
               series[i].visible = scope.shownSeries[key];
             }
             series[i].yAxis = key;
+            series[i].color = scope.seriesColor[key];
             i++;
           });
 
