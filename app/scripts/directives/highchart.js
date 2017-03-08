@@ -42,6 +42,8 @@ angular.module('ubirchAdminCrudApp')
           }
         };
 
+        scope.yaxis = [];
+
         scope.$watch('messages', function(){
           var filteredData = filterMessageKeys();
 
@@ -67,9 +69,31 @@ angular.module('ubirchAdminCrudApp')
                 format: '{value:%O %H:%M:%S}',
                 align: 'right',
                 rotation: -30
-              }
-
+              },
             },
+            yAxis: [
+              {
+                id: "temperature",
+                title: {
+                  text: "temperature"
+                },
+                opposite: true
+              },
+              {
+                id: "presure",
+                title: {
+                  text: "presure"
+                },
+                opposite: true
+              },
+              {
+                id: "humidity",
+                title: {
+                  text: "humidity"
+                },
+                opposite: true
+              }
+            ],
             plotOptions: {
               series: {
                 events: {
@@ -111,6 +135,14 @@ angular.module('ubirchAdminCrudApp')
                   // initially display every new series in chart
                   if (scope.shownSeries[key] === undefined){
                     scope.shownSeries[key] = true;
+                    var axis = {
+                      id: key,
+                      title: {
+                        text: key
+                      },
+                      opposite: true
+                    };
+                    scope.yaxis.push(axis);
                   }
                 }
               }
@@ -120,6 +152,14 @@ angular.module('ubirchAdminCrudApp')
                 // initially display every new series in chart
                 if (scope.shownSeries[key] === undefined){
                   scope.shownSeries[key] = true;
+                  var axis = {
+                    id: key,
+                    title: {
+                      text: key
+                    },
+                    opposite: true
+                  };
+                  scope.yaxis.push(axis);
                 }
               }
             });
@@ -140,6 +180,7 @@ angular.module('ubirchAdminCrudApp')
             if (scope.shownSeries[key] != undefined){
               series[i].visible = scope.shownSeries[key];
             }
+           series[i].yAxis = 'temperature';
             i++;
           });
 

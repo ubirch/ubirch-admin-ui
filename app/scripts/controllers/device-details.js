@@ -159,7 +159,6 @@ angular.module('ubirchAdminCrudApp')
         calculateMap();
       });
 
-      // TODO: check negative GEO Cooredinates
       function calculateMapExtract(markers) {
         var markerKeys = Object.keys(markers);
         if (markerKeys.length) {
@@ -190,6 +189,7 @@ angular.module('ubirchAdminCrudApp')
           $scope.leafletValues.bounds = {};
         }
       }
+
       function calculateMap() {
 
         var markers = {};
