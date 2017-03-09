@@ -140,11 +140,10 @@ angular.module('ubirchAdminCrudApp')
 
         function formatSerie(seriesData, key, deviceMessage, timestamp) {
           addValue(seriesData, key, deviceMessage, timestamp);
-          // initially display every new series in chart
-          if (scope.shownSeries[key] === undefined){
-            scope.shownSeries[key] = true;
-            // add new color for new key
+
+          if (scope.seriesColor[key] === undefined){
             scope.seriesColor[key] = Highcharts.getOptions().colors[scope.yaxes.length];
+            // add new color for new key
             var axis = {
               id: key,
               title: {
@@ -162,6 +161,11 @@ angular.module('ubirchAdminCrudApp')
               opposite: true
             };
             scope.yaxes.push(axis);
+          }
+
+          // initially display every new series in chart
+          if (scope.shownSeries[key] === undefined){
+            scope.shownSeries[key] = true;
           }
         }
 
