@@ -1,5 +1,6 @@
 #!/bin/sh
 
+env 
 
 if [ -d /var/www/html/scripts ]; then
   echo "Replacing variables UBIRCH_API_HOST in /var/www/html/scripts/scripts.*.js"
