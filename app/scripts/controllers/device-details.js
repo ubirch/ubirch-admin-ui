@@ -35,6 +35,9 @@ angular.module('ubirchAdminCrudApp')
         autoreload: false
       };
       $scope.shownSeries = {};
+      $scope.seperationParams = {
+          yaxes: "single"
+      };
 
       $scope.leafletValues = {
         center: {},
@@ -159,7 +162,6 @@ angular.module('ubirchAdminCrudApp')
         calculateMap();
       });
 
-      // TODO: check negative GEO Cooredinates
       function calculateMapExtract(markers) {
         var markerKeys = Object.keys(markers);
         if (markerKeys.length) {

@@ -9,14 +9,28 @@
 angular.module('ubirchAdminCrudApp')
   .directive('hcChart', ['DeviceTypes', '$filter', function (DeviceTypes, $filter) {
     return {
-      template: '<div id="hc_container"></div>',
+      templateUrl: 'views/directives/chart.html',
       restrict: 'E',
       replace: true,
       scope: {
         messages: '=',
-        shownSeries: '='
+        shownSeries: '=',
+        separate: "="
       },
-      link: function (scope, element) {
+      link: function (scope) {
+
+        scope.toggleYAxes = function () {
+          if (scope.separate && scope.separate.yaxes) {
+            switch (scope.separate.yaxes){
+              case "all":
+                scope.separate.yaxes = "single";
+                break;
+              case "single":
+                scope.separate.yaxes = "all";
+                break;
+            }
+          }
+        };
 
         var lastDisplayedDay;
 
@@ -42,49 +56,118 @@ angular.module('ubirchAdminCrudApp')
           }
         };
 
+        scope.seriesColor = {};
+        scope.yaxes = [];
+
+        var options = {
+          chart: {
+            type: 'line'
+          },
+          title: {
+            text: 'Sensor data'
+          },
+          credits: {
+            enabled: false
+          },
+          xAxis: {
+            title: {
+              text: 'Date'
+            },
+            type: 'datetime',
+            startOnTick: true,
+            labels: {
+              format: '{value:%O %H:%M:%S}',
+              align: 'right',
+              rotation: -30
+            }
+          },
+          plotOptions: {
+            series: {
+              events: {
+                hide: function () {
+                  scope.shownSeries[this.name] = false;
+                },
+                show: function () {
+                  scope.shownSeries[this.name] = true;
+                }
+              }
+            }
+          }
+        };
+
         scope.$watch('messages', function(){
           var filteredData = filterMessageKeys();
 
-          var series = formatSeriesData(filteredData);
+          formatSeriesData(filteredData);
 
-          new Highcharts.chart(element[0], {
-            chart: {
-              type: 'line'
-            },
-            title: {
-              text: 'Sensor data'
-            },
-            credits: {
-              enabled: false
-            },
-            xAxis: {
-              title: {
-                text: 'Date'
-              },
-              type: 'datetime',
-              startOnTick: true,
-              labels: {
-                format: '{value:%O %H:%M:%S}',
-                align: 'right',
-                rotation: -30
-              }
+          formatYAxis();
 
-            },
-            plotOptions: {
-              series: {
-                events: {
-                  hide: function () {
-                    scope.shownSeries[this.name] = false;
-                  },
-                  show: function () {
-                    scope.shownSeries[this.name] = true;
-                  }
-                }
-              }
-            },
-            series: series
-          });
+          new Highcharts.chart('hc_container', options);
         });
+
+        scope.$watch('separate.yaxes', function(oldValue, newValue) {
+          if (oldValue != undefined && !(newValue === oldValue)) {
+            formatYAxis();
+            new Highcharts.chart('hc_container', options);
+          }
+        });
+
+        function formatYAxis () {
+          if (scope.separate && scope.separate.yaxes) {
+            switch (scope.separate.yaxes){
+              case "all":
+                // add axis array to option
+                options.yAxis = scope.yaxes;
+
+                // add refs to yaxis to series
+                options.series.forEach(function (serie){
+                  addYAxisToSerie(serie);
+                });
+                break;
+              case "single":
+                // remove axis array from option if exists
+                if (!(options.yAxis === undefined)){
+                  delete options.yAxis;
+                  // remove refs to yaxis from series
+                  options.series.forEach(function (serie){
+                    removeYAxisFromSerie(serie);
+                  });
+                }
+                break;
+            }
+          }
+        }
+
+        function formatSerie(seriesData, key, deviceMessage, timestamp) {
+          addValue(seriesData, key, deviceMessage, timestamp);
+
+          if (scope.seriesColor[key] === undefined){
+            scope.seriesColor[key] = Highcharts.getOptions().colors[scope.yaxes.length];
+            // add new color for new key
+            var axis = {
+              id: key,
+              title: {
+                text: key,
+                style: {
+                  color: scope.seriesColor[key]
+                }
+              },
+              labels: {
+                // format: '{value} mb',
+                style: {
+                  color: scope.seriesColor[key]
+                }
+              },
+              opposite: true
+            };
+            scope.yaxes.push(axis);
+          }
+
+          // initially display every new series in chart
+          if (scope.shownSeries[key] === undefined){
+            scope.shownSeries[key] = true;
+          }
+        }
 
         function filterMessageKeys() {
 
@@ -107,20 +190,12 @@ angular.module('ubirchAdminCrudApp')
               // if displayKeys are defined for this deviceType filter these keys from message properties
               if (deviceType && deviceType.displayKeys && deviceType.displayKeys.length > 0) {
                 if (deviceType.displayKeys.indexOf(key) !== -1) {
-                  addValue(seriesData, key, message.deviceMessage[key], timestamp);
-                  // initially display every new series in chart
-                  if (scope.shownSeries[key] === undefined){
-                    scope.shownSeries[key] = true;
-                  }
+                  formatSerie(seriesData, key, message.deviceMessage[key], timestamp);
                 }
               }
               // if no displayKeys are defined for this deviceType display all message properties that are numerical
               else if (typeof message.deviceMessage[key] === "number") {
-                addValue(seriesData, key, message.deviceMessage[key], timestamp);
-                // initially display every new series in chart
-                if (scope.shownSeries[key] === undefined){
-                  scope.shownSeries[key] = true;
-                }
+                formatSerie(seriesData, key, message.deviceMessage[key], timestamp);
               }
             });
           });
@@ -129,7 +204,6 @@ angular.module('ubirchAdminCrudApp')
         }
 
         function formatSeriesData(seriesData){
-
           // format for highcharts
           var series = [], i = 0;
 
@@ -140,11 +214,25 @@ angular.module('ubirchAdminCrudApp')
             if (scope.shownSeries[key] != undefined){
               series[i].visible = scope.shownSeries[key];
             }
+            series[i].color = scope.seriesColor[key];
             i++;
           });
 
-          return series;
+          options.series = series;
+        }
 
+        /**
+         * use serie.name as key of the yaxis (as defined in formatSerie
+         * @param serie
+         */
+        function addYAxisToSerie(serie){
+          serie.yAxis = serie.name;
+        }
+
+        function removeYAxisFromSerie(serie){
+          if (!(serie.yAxis === undefined)){
+            delete serie.yAxis;
+          }
         }
 
         function addValue(seriesData, key, value, timestamp){
