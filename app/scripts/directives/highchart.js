@@ -9,7 +9,7 @@
 angular.module('ubirchAdminCrudApp')
   .directive('hcChart', ['DeviceTypes', '$filter', function (DeviceTypes, $filter) {
     return {
-      template: '<div id="hc_container"></div>',
+      templateUrl: 'views/directives/chart.html',
       restrict: 'E',
       replace: true,
       scope: {
@@ -17,7 +17,20 @@ angular.module('ubirchAdminCrudApp')
         shownSeries: '=',
         separate: "="
       },
-      link: function (scope, element) {
+      link: function (scope) {
+
+        scope.toggleYAxes = function () {
+          if (scope.separate && scope.separate.yaxes) {
+            switch (scope.separate.yaxes){
+              case "all":
+                scope.separate.yaxes = "single";
+                break;
+              case "single":
+                scope.separate.yaxes = "all";
+                break;
+            }
+          }
+        };
 
         var lastDisplayedDay;
 
@@ -44,7 +57,7 @@ angular.module('ubirchAdminCrudApp')
         };
 
         scope.seriesColor = {};
-        scope.yaxis = [];
+        scope.yaxes = [];
 
         var options = {
           chart: {
@@ -89,25 +102,39 @@ angular.module('ubirchAdminCrudApp')
 
           formatYAxis();
 
-          new Highcharts.chart(element[0], options);
+          new Highcharts.chart('hc_container', options);
         });
 
-        scope.$watch('separate', function(oldValue, newValue) {
+        scope.$watch('separate.yaxes', function(oldValue, newValue) {
           if (oldValue != undefined && !(newValue === oldValue)) {
             formatYAxis();
-            new Highcharts.chart(element[0], options);
+            new Highcharts.chart('hc_container', options);
           }
         });
 
         function formatYAxis () {
-          if (scope.separate && scope.separate.yaxis === "all") {
-            // add axis array to option
-            options.yAxis = scope.yaxis;
+          if (scope.separate && scope.separate.yaxes) {
+            switch (scope.separate.yaxes){
+              case "all":
+                // add axis array to option
+                options.yAxis = scope.yaxes;
 
-            // add refs to yaxis to series
-            options.series.forEach(function (serie){
-              addYAxisToSerie(serie);
-            });
+                // add refs to yaxis to series
+                options.series.forEach(function (serie){
+                  addYAxisToSerie(serie);
+                });
+                break;
+              case "single":
+                // remove axis array from option if exists
+                if (!(options.yAxis === undefined)){
+                  delete options.yAxis;
+                  // remove refs to yaxis from series
+                  options.series.forEach(function (serie){
+                    removeYAxisFromSerie(serie);
+                  });
+                }
+                break;
+            }
           }
         }
 
@@ -117,7 +144,7 @@ angular.module('ubirchAdminCrudApp')
           if (scope.shownSeries[key] === undefined){
             scope.shownSeries[key] = true;
             // add new color for new key
-            scope.seriesColor[key] = Highcharts.getOptions().colors[scope.yaxis.length];
+            scope.seriesColor[key] = Highcharts.getOptions().colors[scope.yaxes.length];
             var axis = {
               id: key,
               title: {
@@ -134,7 +161,7 @@ angular.module('ubirchAdminCrudApp')
               },
               opposite: true
             };
-            scope.yaxis.push(axis);
+            scope.yaxes.push(axis);
           }
         }
 
@@ -196,6 +223,12 @@ angular.module('ubirchAdminCrudApp')
          */
         function addYAxisToSerie(serie){
           serie.yAxis = serie.name;
+        }
+
+        function removeYAxisFromSerie(serie){
+          if (!(serie.yAxis === undefined)){
+            delete serie.yAxis;
+          }
         }
 
         function addValue(seriesData, key, value, timestamp){

@@ -50,5 +50,7 @@
   "NO_HISTORY_DATA": "Für dieses Gerät sind im ausgewählten Bereich keine Verlaufsdaten verfügbar",
   "SWITCH_TO_DATE_TIME": "Uhrzeit eingrenzen",
   "ACTIVATE_AUTO_RELOAD": "Auto-Reload aktivieren",
-  "DEACTIVATE_AUTO_RELOAD": "Auto-Reload deaktivieren"
+  "DEACTIVATE_AUTO_RELOAD": "Auto-Reload deaktivieren",
+  "CHART_SINGLE_YAXIS": "gemeinsame yAchse",
+  "CHART_MULTI_YAXIS": "Separate yAchsen"
 }

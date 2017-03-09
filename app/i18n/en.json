@@ -50,5 +50,7 @@
   "NO_HISTORY_DATA": "No history data available for this device in selected range",
   "SWITCH_TO_DATE_TIME": "add time selection",
   "ACTIVATE_AUTO_RELOAD": "activate auto reload",
-  "DEACTIVATE_AUTO_RELOAD": "deactivate auto reload"
+  "DEACTIVATE_AUTO_RELOAD": "deactivate auto reload",
+  "CHART_SINGLE_YAXIS": "single y axis",
+  "CHART_MULTI_YAXIS": "separate y axes"
 }

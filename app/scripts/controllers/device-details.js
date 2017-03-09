@@ -36,7 +36,7 @@ angular.module('ubirchAdminCrudApp')
       };
       $scope.shownSeries = {};
       $scope.seperationParams = {
-          yaxis: "all"
+          yaxes: "single"
       };
 
       $scope.leafletValues = {
