@@ -43,6 +43,7 @@
   "TABLABEL_FILTERBY_RANGE": "filter by dataset range",
   "TABLABEL_CHART": "chart",
   "TABLABEL_MAP": "map",
+  "NO_MAP_AVAILABLE": "no position available",
   "PAGE_PREV": "previous",
   "PAGE_NEXT": "next",
   "NUM_OF_DATASETS": "number of data sets",
@@ -52,5 +53,6 @@
   "ACTIVATE_AUTO_RELOAD": "activate auto reload",
   "DEACTIVATE_AUTO_RELOAD": "deactivate auto reload",
   "CHART_SINGLE_YAXIS": "single y axis",
-  "CHART_MULTI_YAXIS": "separate y axes"
+  "CHART_MULTI_YAXIS": "separate y axes",
+  "NO_LOCATION_DATA": "No locations available for this sensor"
 }

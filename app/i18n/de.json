@@ -43,6 +43,7 @@
   "TABLABEL_FILTERBY_RANGE": "Datenbereichsfilter",
   "TABLABEL_CHART": "Diagramm",
   "TABLABEL_MAP": "Karte",
+  "NO_MAP_AVAILABLE": "keine Position verfügbar",
   "PAGE_PREV": "zurück",
   "PAGE_NEXT": "weiter",
   "NUM_OF_DATASETS": "Anzahl Datensätze",
@@ -52,5 +53,6 @@
   "ACTIVATE_AUTO_RELOAD": "Auto-Reload aktivieren",
   "DEACTIVATE_AUTO_RELOAD": "Auto-Reload deaktivieren",
   "CHART_SINGLE_YAXIS": "gemeinsame yAchse",
-  "CHART_MULTI_YAXIS": "Separate yAchsen"
+  "CHART_MULTI_YAXIS": "Separate yAchsen",
+  "NO_LOCATION_DATA": "Keine Ortsdaten für diesen Sensor"
 }

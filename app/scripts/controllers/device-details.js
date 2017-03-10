@@ -45,7 +45,7 @@ angular.module('ubirchAdminCrudApp')
         bounds: {},
         defaults: { scrollWheelZoom: false }
       };
-
+      $scope.markersDefined = false;
 
       if ($stateParams.deviceid) {
         $scope.device = Device.getDevice($stateParams.deviceid, function(deviceVal){
@@ -204,7 +204,7 @@ angular.module('ubirchAdminCrudApp')
             if (message.deviceMessage.latitude && message.deviceMessage.longitude ){
               var marker = {
                 focus: false,
-                draggable: true,
+                draggable: false,
                 lat: message.deviceMessage.latitude,
                 lng: message.deviceMessage.longitude,
                 message: filterMessageKeys(message),
@@ -218,7 +218,13 @@ angular.module('ubirchAdminCrudApp')
 
         $scope.leafletValues.markers = markers;
 
-        calculateMapExtract(markers);
+        if (Object.keys(markers).length > 0){
+          calculateMapExtract(markers);
+          $scope.markersDefined = true;
+        }
+        else {
+          $scope.markersDefined = false;
+        }
 
       }
 

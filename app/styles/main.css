@@ -126,6 +126,12 @@ a {
   align-items: center;
 }
 
+li.disabled a {
+  pointer-events: none !important;
+  cursor: default;
+  color: #c3c3c3;
+}
+
 .grey {
   color: #cccccc;
 }

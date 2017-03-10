@@ -10,8 +10,8 @@
           <li ng-class="{active: activeTab.visual == 'chart'}">
             <a ng-click="activeTab.visual = 'chart'">{{ 'TABLABEL_CHART' | translate }}</a>
           </li>
-          <li ng-class="{active: activeTab.visual == 'map'}">
-            <a ng-click="activeTab.visual = 'map'">{{ 'TABLABEL_MAP' | translate }}</a>
+          <li ng-class="{active: activeTab.visual == 'map', disabled: !markersDefined}">
+            <a ng-click="activeTab.visual = 'map'">{{markersDefined ? 'TABLABEL_MAP' : 'NO_MAP_AVAILABLE' | translate}}</a>
           </li>
         </ul>
 
