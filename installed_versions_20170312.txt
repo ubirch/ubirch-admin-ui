@@ -1,0 +1,51 @@
+bower check-new     Checking for new versions of the project dependencies...
+ubirch-admin-crud#0.0.0 /Users/ate/Documents/workspaces/TEMP/ubirch-admin-ui/ubirch-admin-ui
+├─┬ AngularJS-Toaster#2.1.0
+│ ├── angular#1.6.2 (1.6.4-build.5311+sha.1daa4f2 available)
+│ └── angular-animate#1.6.3 (1.6.4-build.5311+sha.1daa4f2 available)
+├── Ionicons#2.0.1
+├── angular#1.6.2 (latest is 1.6.4-build.5311+sha.1daa4f2)
+├─┬ angular-animate#1.6.3 (1.6.4-build.5311+sha.1daa4f2 available)
+│ └── angular#1.6.2 incompatible with 1.6.3 (1.6.3 available, latest is 1.6.4-build.5311+sha.1daa4f2)
+├─┬ angular-bootstrap#2.5.0
+│ └── angular#1.6.2 (1.6.4-build.5311+sha.1daa4f2 available)
+├─┬ angular-bootstrap-datetimepicker-directive#0.1.3
+│ ├── angular#1.6.2 (1.6.4-build.5311+sha.1daa4f2 available)
+│ ├─┬ eonasdan-bootstrap-datetimepicker#4.17.47
+│ │ ├── jquery#3.1.1
+│ │ └── moment#2.17.1
+│ └── jquery#3.1.1
+├─┬ angular-cookies#1.6.3 (1.6.4-build.5311+sha.1daa4f2 available)
+│ └── angular#1.6.2
+├─┬ angular-mocks#1.6.3 (1.6.4-build.5311+sha.1daa4f2 available)
+│ └── angular#1.6.2
+├─┬ angular-moment#1.0.1
+│ ├── angular#1.6.2 (1.6.4-build.5311+sha.1daa4f2 available)
+│ └── moment#2.17.1
+├─┬ angular-resource#1.6.3 (1.6.4-build.5311+sha.1daa4f2 available)
+│ └── angular#1.6.2
+├─┬ angular-route#1.6.3 (1.6.4-build.5311+sha.1daa4f2 available)
+│ └── angular#1.6.2
+├─┬ angular-sanitize#1.6.3 (1.6.4-build.5311+sha.1daa4f2 available)
+│ └── angular#1.6.2
+├─┬ angular-simple-logger#0.1.7
+│ └── angular#1.6.2 (1.6.4-build.5311+sha.1daa4f2 available)
+├─┬ angular-touch#1.6.3 (1.6.4-build.5311+sha.1daa4f2 available)
+│ └── angular#1.6.2
+├─┬ angular-translate#2.15.1
+│ └── angular#1.6.2 (1.6.4-build.5311+sha.1daa4f2 available)
+├─┬ angular-translate-loader-static-files#2.15.1
+│ └── angular-translate#2.15.1
+├─┬ angular-ui-router#0.3.2 (latest is 1.0.0-rc.1)
+│ └── angular#1.6.2 (1.6.4-build.5311+sha.1daa4f2 available)
+├─┬ angular-xeditable#0.1.12 (latest is 0.6.0)
+│ └── angular#1.6.2 (1.6.4-build.5311+sha.1daa4f2 available)
+├── angular.uuid2#a80a12e65f
+├─┬ bootstrap#3.3.7 (latest is 4.0.0-alpha.6)
+│ └── jquery#3.1.1
+├── highcharts#5.0.9
+├── leaflet#0.7.7 incompatible with ^1.0.3 (1.0.3 available)
+└─┬ ui-leaflet#2.0.0
+  ├── angular#1.6.2 (1.6.4-build.5311+sha.1daa4f2 available)
+  ├── angular-simple-logger#0.1.7
+  └── leaflet#0.7.7 (latest is 1.0.3)
