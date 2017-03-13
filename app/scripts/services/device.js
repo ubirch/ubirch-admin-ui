@@ -8,9 +8,9 @@
  * Service in the ubirchAdminCrudApp.
  */
 angular.module('ubirchAdminCrudApp')
-  .service('Device', ['$resource', 'constant', 'settings', '$log', 'uuid2', function ($resource, constant, settings, $log, uuid2) {
+  .service('Device', ['$resource', 'constants', 'settings', '$log', 'uuid2', function ($resource, constants, settings, $log, uuid2) {
 
-    var url = settings.UBIRCH_API_HOST + constant.AVATAR_SERVICE_REST_ENDPOINT;
+    var url = settings.UBIRCH_API_HOST + constants.AVATAR_SERVICE_REST_ENDPOINT;
 
     return {
       // http://localhost:8080/api/v1/avatarService/device

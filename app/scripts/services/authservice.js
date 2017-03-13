@@ -2,10 +2,10 @@
 
 /**
  * @ngdoc service
- * @name ubirchAdminCrudApp.authService
+ * @name ubirchAuth.authService
  * @description
  * # authService
- * Service in the ubirchAdminCrudApp.
+ * Service for ubirch authentication over openid connect
  */
 var app = angular.module('ubirchAuth', ['ngStorage']);
 
@@ -89,16 +89,6 @@ app.factory('AccessToken', ['$rootScope', '$location', '$sessionStorage', 'setti
   };
 
   /**
-   * check code and state of the sent data to be the same as stored token
-   * @param token to be checked
-   * @returns {boolean} true if code and state of the sent data are correct
-   */
-  service.check = function(token) {
-    // TODO: check code and state of the sent data to be the same as stored token
-    return true;
-  };
-
-  /**
    * stores token in sessionStorage
    * @param token to be stored
    */
@@ -167,12 +157,12 @@ app.factory('AccessToken', ['$rootScope', '$location', '$sessionStorage', 'setti
   return service;
 }]);
 
-app.service('AuthService', ['$resource', 'constant', 'settings', '$rootScope', '$location', 'AccessToken', function ($resource, constant, settings, $rootScope, $location, AccessToken) {
+app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', '$location', 'AccessToken', function ($resource, constants, settings, $rootScope, $location, AccessToken) {
 
-  var url = settings.UBIRCH_AUTH_SERVICE_API_HOST + constant.AUTH_SERVICE_REST_ENDPOINT;
+  var url = settings.UBIRCH_AUTH_SERVICE_API_HOST + constants.AUTH_SERVICE_REST_ENDPOINT;
 
   var service = {
-    // http://localhost:8091/api/loginService/v1/providerInfo/list
+    // http://localhost:8091/api/loginService/v1/providerInfo/list/trackle-dev
     providerInfo: $resource(url + '/providerInfo/list/' + settings.CONTEXT),
 
     verifyAuth: $resource(url + '/verify/code'),
@@ -255,8 +245,8 @@ app.service('AuthService', ['$resource', 'constant', 'settings', '$rootScope', '
                   "state": query.state
                 },
                 function (data) {
-                  if (AccessToken.check(data)) {
-                    var token = AccessToken.get();
+                  if (data.token) {
+                    var token = AccessToken.addTokenParam("token", data.token);
                     AccessToken.saveTokenInSession(token);
                     $rootScope.$broadcast('auth:verified', token);
                   }
@@ -320,8 +310,8 @@ app.factory('OAuth2Interceptor', ['$rootScope', '$q', '$sessionStorage', '$locat
     request: function(config) {
       var token = $sessionStorage.token;
       if (token && !AccessToken.expired(token)) {
-        // TODO: uncomment to send token to app
-        // config.headers.Authorization = 'Bearer ' + token.code;
+        // send auth service token to app
+         config.headers.Authorization = 'Bearer ' + token.token;
         return config;
       }
       return config;

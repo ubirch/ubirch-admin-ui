@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc service
- * @name ubirchAdminCrudApp.constant
+ * @name ubirchAdminCrudApp.constants
  * @description
- * # constant
- * Constant in the ubirchAdminCrudApp.
+ * # constants
+ * Constants in the ubirchAdminCrudApp.
  */
 angular.module('ubirchAdminCrudApp')
-  .constant('constant', {
+  .constant('constants', {
     // ChainService
     CHAIN_SERVICE_REST_ENDPOINT : "/api/v1/chainService/explorer",
     // AvatarService

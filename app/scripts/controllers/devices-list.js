@@ -13,8 +13,8 @@ app.run(function(editableOptions) {
   editableOptions.theme = 'bs3';
 });
 
-app.controller('DevicesListCtrl', [ '$scope', '$location', 'Device', '$translate', '$window', '$document', '$timeout', '$filter', '$log', 'toaster', 'DeviceTypes', 'constant', 'settings', 'deviceTypesList',
-  function ($scope, $location, Device, $translate, $window, $document, $timeout, $filter, $log, toaster, DeviceTypes, constant, settings, deviceTypesList) {
+app.controller('DevicesListCtrl', [ '$scope', '$location', 'Device', '$translate', '$window', '$document', '$timeout', '$filter', '$log', 'toaster', 'DeviceTypes', 'constants', 'settings', 'deviceTypesList',
+  function ($scope, $location, Device, $translate, $window, $document, $timeout, $filter, $log, toaster, DeviceTypes, constants, settings, deviceTypesList) {
 
     $scope.deviceTypes = deviceTypesList;
 
@@ -24,11 +24,11 @@ app.controller('DevicesListCtrl', [ '$scope', '$location', 'Device', '$translate
       // Assign to scope within callback to avoid data flickering on screen
       Device.getDevicesList(function (data) {
         $scope.devices = data;
-        listPromise = $timeout(refreshData, constant.POLLING_INTERVAL);
+        listPromise = $timeout(refreshData, constants.POLLING_INTERVAL);
       },
         function (error) {
           $log.warn("On loading device list an error uccurred: "+error);
-          listPromise = $timeout(refreshData, constant.POLLING_INTERVAL);
+          listPromise = $timeout(refreshData, constants.POLLING_INTERVAL);
         }
       );
     })();
@@ -57,7 +57,7 @@ app.controller('DevicesListCtrl', [ '$scope', '$location', 'Device', '$translate
 
     $scope.openNewDeviceDialog = function() {
       $scope.newDevice = {
-        deviceTypeKey: settings.DEFAULT_DEVICE_TYPE_KEY ? settings.DEFAULT_DEVICE_TYPE_KEY : constant.DEFAULT_DEVICE_TYPE_KEY
+        deviceTypeKey: settings.DEFAULT_DEVICE_TYPE_KEY ? settings.DEFAULT_DEVICE_TYPE_KEY : constants.DEFAULT_DEVICE_TYPE_KEY
       };
       $scope.addedProperties = Device.initDevice();
 

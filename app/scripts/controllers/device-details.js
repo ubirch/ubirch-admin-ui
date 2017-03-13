@@ -86,7 +86,7 @@ angular.module('ubirchAdminCrudApp')
       deviceStateSaved = angular.copy($scope.deviceState);
       $scope.stateDataChanged = false;
       // TODO: send data to server
-      $window.bootbox.alert("Sorry, to change the state of a device is not yet implemented!");
+      toaster.pop('info', "Sorry, to change the state of a device is not yet implemented!");
     };
 
       /**
