@@ -2,6 +2,7 @@
   "name": "ubirch-admin-crud",
   "version": "0.0.0",
   "dependencies": {
+    "jquery": "3.1.1",
     "angular": "1.6.2",
     "highcharts": "5.0.7",
     "bootstrap": "3.3.7",

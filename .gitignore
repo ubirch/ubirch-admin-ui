@@ -10,3 +10,8 @@
 .npm
 /.idea
 .DS_Store
+/installed_versions_20170312_working.txt
+/installed_versions_20170312.txt
+/npm_diffs.txt
+/installed_npm_Packages_working.txt
+/installed_npm_packages.txt
