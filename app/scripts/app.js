@@ -23,9 +23,12 @@ angular
     'datetimepicker',
     'angularUUID2',
     'angularMoment',
-    'toaster'
+    'toaster',
+    'ngStorage',
+    'angularSpinner',
+    'ubirchAuth'
   ])
-  .config(function ($stateProvider, $urlRouterProvider, $translateProvider) {
+  .config(['$stateProvider', '$urlRouterProvider', '$translateProvider', '$locationProvider', '$httpProvider', function ($stateProvider, $urlRouterProvider, $translateProvider, $locationProvider, $httpProvider) {
 
     $translateProvider.useStaticFilesLoader({
       files: [{
@@ -37,11 +40,24 @@ angular
     $translateProvider.preferredLanguage('en');
 
     $stateProvider
+      .state('auth', {
+        url: '/auth',
+        templateUrl: '../views/auth.html',
+        controller: 'AuthCtrl',
+        controllerAs: 'auth'
+      })
+      .state('login', {
+        url: '/login',
+        templateUrl: '../views/login.html',
+        controller: 'LoginCtrl',
+        controllerAs: 'login'
+      })
       .state('device-details', {
         url: '/device-details/:deviceid',
         templateUrl: '../views/device-details.html',
         controller: 'DeviceDetailsCtrl',
         controllerAs: 'deviceDetails',
+        tokenRequired: true,
         resolve:{
           deviceTypesList: function(DeviceTypes){
             return DeviceTypes.getDeviceTypeList();
@@ -53,6 +69,7 @@ angular
         templateUrl: '../views/devices-list.html',
         controller: 'DevicesListCtrl',
         controllerAs: 'devicesList',
+        tokenRequired: true,
         resolve:{
           deviceTypesList: function(DeviceTypes){
             return DeviceTypes.getDeviceTypeList();
@@ -64,6 +81,7 @@ angular
         templateUrl: '../views/devices-map.html',
         controller: 'DevicesMapCtrl',
         controllerAs: 'devicesMap',
+        tokenRequired: true,
         resolve:{
           deviceTypesList: function(DeviceTypes){
             return DeviceTypes.getDeviceTypeList();
@@ -78,9 +96,10 @@ angular
       });
 
     $urlRouterProvider.otherwise('devices-list');
-  })
-  .run(['constant', function (constant) {
 
+    $httpProvider.interceptors.push('OAuth2Interceptor');
+  }])
+  .run(['$rootScope', '$location', '$sessionStorage', 'AccessToken', 'constant',
     if (constant.TODAY === undefined){
       var now = new Date();
       constant.TODAY = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -88,4 +107,16 @@ angular
       constant.TOMORROW = constant.TODAY.getTime() + constant.ONEDAY;
       constant.TODAY_END = constant.TOMORROW - 1;
     }
+
+    function ($rootScope, $location, $sessionStorage, AccessToken, constant) {
+
+      $rootScope.$on('$stateChangeStart', function (event, next) {
+
+        if (next.tokenRequired && (!$sessionStorage.token || ($sessionStorage.token && AccessToken.expired($sessionStorage.token)))){
+            $location.path('/auth');
+        }
+      });
+    }])
+  .config(['$qProvider', function ($qProvider) {
+    $qProvider.errorOnUnhandledRejections(false);
   }]);

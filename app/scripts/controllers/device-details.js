@@ -13,11 +13,17 @@ angular.module('ubirchAdminCrudApp')
     var listUrl = "devices-list";
 
       $scope.deviceid = $stateParams.deviceid;
+      $scope.activeTab = "state";
       $scope.device = {};
       $scope.deviceState =  [];
       var deviceStateSaved =  [];
       $scope.stateDataChanged = false;
       $scope.stateKats = [];
+      $scope.values = {};
+      $scope.values.numOfMessages = 10;
+      $scope.startIndex = 0;
+      $scope.endOfDataReached = false;
+
       $scope.messages = {
         content: undefined
       };
@@ -36,7 +42,7 @@ angular.module('ubirchAdminCrudApp')
       };
       $scope.shownSeries = {};
       $scope.seperationParams = {
-          yaxes: "all"  // "all" or "single"
+        yaxes: "all"  // "all" or "single"
       };
 
       $scope.leafletValues = {
@@ -46,6 +52,7 @@ angular.module('ubirchAdminCrudApp')
         defaults: { scrollWheelZoom: false }
       };
       $scope.markersDefined = false;
+
 
       if ($stateParams.deviceid) {
         $scope.device = Device.getDevice($stateParams.deviceid, function(deviceVal){
@@ -108,7 +115,7 @@ angular.module('ubirchAdminCrudApp')
       deviceStateSaved = angular.copy($scope.deviceState);
       $scope.stateDataChanged = false;
       // TODO: send data to server
-      toaster.pop('error',"Sorry, to change the state of a device is not yet implemented!");
+      toaster.pop('info', "Sorry, to change the state of a device is not yet implemented!");
     };
 
       /**

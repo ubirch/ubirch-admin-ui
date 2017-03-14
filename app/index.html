@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/brand.css">
     <link rel="stylesheet" href="styles/chart.css">
+    <link rel="stylesheet" href="styles/socialmedia_buttons.css">
     <!-- endbuild -->
   </head>
   <body ng-app="ubirchAdminCrudApp">
@@ -69,6 +70,8 @@
     <script src="bower_components/ui-leaflet/dist/ui-leaflet.js"></script>
     <script src="bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
     <script src="bower_components/angular-bootstrap-datetimepicker-directive/angular-bootstrap-datetimepicker-directive.js"></script>
+    <script src="bower_components/ngstorage/ngStorage.js"></script>
+    <script src="bower_components/angular-spinner/dist/angular-spinner.min.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -79,7 +82,7 @@
         <script src="scripts/controllers/device-details.js"></script>
         <script src="scripts/controllers/devices-list.js"></script>
         <script src="scripts/services/device.js"></script>
-        <script src="scripts/services/constant.js"></script>
+        <script src="scripts/services/constants.js"></script>
         <script src="scripts/controllers/devices-map.js"></script>
         <script src="scripts/directives/truthworth.js"></script>
         <script src="scripts/directives/syncstate.js"></script>
@@ -93,6 +96,10 @@
         <script src="scripts/services/devicetypes.js"></script>
         <script src="scripts/directives/deviceeditablefields.js"></script>
         <script src="scripts/directives/highchart.js"></script>
+        <script src="scripts/controllers/login.js"></script>
+        <script src="scripts/services/authservice.js"></script>
+        <script src="scripts/services/buttonclassmappings.js"></script>
+        <script src="scripts/controllers/auth.js"></script>
         <script src="scripts/directives/range-filter.js"></script>
         <!-- endbuild -->
 </body>

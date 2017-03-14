@@ -48,6 +48,13 @@
   "PAGE_NEXT": "next",
   "NUM_OF_DATASETS": "number of data sets",
   "RELOAD": "reload",
+  "LOGIN": "login",
+  "LOGIN_PLEASE": "Please login by one of the following services:",
+  "SIGN_IN_WITH": "Sign in with",
+  "CHECK_AUTHENTICATION": "Check authentication",
+  "AUTHENTICATION_FAILED": "Authentication failed!",
+  "SORRY_AUTHENTICATION_FAILED": "Sorry, an authentication error occurred:"
+  "RELOAD": "reload",
   "NO_HISTORY_DATA": "No history data available for this device in selected range",
   "SWITCH_TO_DATE_TIME": "add time selection",
   "ACTIVATE_AUTO_RELOAD": "activate auto reload",

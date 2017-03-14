@@ -7,7 +7,7 @@
  * # timestamp
  */
 angular.module('ubirchAdminCrudApp')
-  .directive('timestamp', [ 'constant' , function (constant) {
+  .directive('timestamp', [ 'constants' , function (constants) {
     return {
       templateUrl: 'views/directives/timestamp.html',
       restrict: 'E',
@@ -19,7 +19,7 @@ angular.module('ubirchAdminCrudApp')
         scope.isToday = function(dateStr) {
           if (dateStr === undefined){ return false; }
           var date = new Date(dateStr);
-          return (date > constant.TODAY && date < constant.TOMORROW);
+          return (date > constants.TODAY && date < constants.TOMORROW);
         }
       }
     };

@@ -132,6 +132,10 @@ li.disabled a {
   color: #c3c3c3;
 }
 
+.login-button-group {
+  width: 50%;
+}
+
 .grey {
   color: #cccccc;
 }
