@@ -198,14 +198,14 @@
   background-color: #009cde;
 }
 
-.btn-default {
+.btn-social-default {
   color: #444;
   background-color: #fff;
   border: 1px solid #3b3b3b;
 }
 
-.btn-default:hover,
-.btn-default:focus {
+.btn-social-default:hover,
+.btn-social-default:focus {
   color: #444;
   background-color: #aaa;
 }

@@ -61,7 +61,7 @@ angular.module('ubirchAdminCrudApp')
       iconClass: "fa fa-bitbucket"
     },
     default: {
-      buttonClass: "btn btn-block btn-default",
+      buttonClass: "btn btn-block btn-social-default",
       iconClass: "ion-log-in"
     }
   });
