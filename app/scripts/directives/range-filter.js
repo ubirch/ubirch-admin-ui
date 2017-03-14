@@ -7,7 +7,7 @@
  * # rangeFilter
  */
 angular.module('ubirchAdminCrudApp')
-  .directive('rangeFilter', [ 'Device', 'constant', 'moment', function (Device, constant, moment) {
+  .directive('rangeFilter', [ 'Device', 'constants', 'moment', function (Device, constants, moment) {
     return {
       templateUrl: 'views/directives/range-filter.html',
       restrict: 'E',
@@ -19,7 +19,7 @@ angular.module('ubirchAdminCrudApp')
       },
       link: function postLink(scope) {
         scope.activeTab.filter = "filterbydate";
-        scope.todayReached = scope.values.endDate >= constant.TODAY;
+        scope.todayReached = scope.values.endDate >= constants.TODAY;
         scope.endOfDataReached = false;
 
         //*************** range filter ********************//

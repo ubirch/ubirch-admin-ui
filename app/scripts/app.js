@@ -99,16 +99,16 @@ angular
 
     $httpProvider.interceptors.push('OAuth2Interceptor');
   }])
-  .run(['$rootScope', '$location', '$sessionStorage', 'AccessToken', 'constant',
-    if (constant.TODAY === undefined){
-      var now = new Date();
-      constant.TODAY = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      constant.ONEDAY = 1000*60*60*24;
-      constant.TOMORROW = constant.TODAY.getTime() + constant.ONEDAY;
-      constant.TODAY_END = constant.TOMORROW - 1;
-    }
+  .run(['$rootScope', '$location', '$sessionStorage', 'AccessToken', 'constants',
+  function ($rootScope, $location, $sessionStorage, AccessToken, constants) {
 
-    function ($rootScope, $location, $sessionStorage, AccessToken, constant) {
+    if (constants.TODAY === undefined){
+      var now = new Date();
+      constants.TODAY = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      constants.ONEDAY = 1000*60*60*24;
+      constants.TOMORROW = constants.TODAY.getTime() + constants.ONEDAY;
+      constants.TODAY_END = constants.TOMORROW - 1;
+    }
 
       $rootScope.$on('$stateChangeStart', function (event, next) {
 
