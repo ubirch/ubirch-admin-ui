@@ -13,6 +13,9 @@ angular.module('ubirchAdminCrudApp')
       restrict: 'E',
       controllerAs: 'navCtrl',
       controller: ['$scope', '$rootScope', '$location', 'AuthService', function ($scope, $rootScope, $location, AuthService) {
+
+        $rootScope.signedIn = !AuthService.authenticationRequired();
+
         // highlighting
         $scope.navClass = function (page) {
 

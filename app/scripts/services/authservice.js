@@ -189,6 +189,11 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
         window.location.replace(this.authorizationUrl);
       }
     },
+    authenticationRequired: function() {
+      var token = AccessToken.getTokenFromSession();
+      var signedIn = token != null && !AccessToken.expired(token);
+      return !signedIn;
+    },
     signOut: function () {
       var token = AccessToken.getTokenFromSession();
       if (token && token.providerId) {
@@ -411,7 +416,9 @@ app.directive('authNavButton',
           AuthService.signOut();
         };
 
-        $rootScope.signedIn = false;
+        if ($rootScope.signedIn === undefined){
+          $rootScope.signedIn = false;
+        }
         scope.$on('auth:authError', function () { $rootScope.signedIn = false; });
         scope.$on('auth:authExpired', function () { $rootScope.signedIn = false; });
         scope.$on('auth:authRequired', function () { $rootScope.signedIn = false; });

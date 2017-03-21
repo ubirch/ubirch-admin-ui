@@ -99,8 +99,8 @@ angular
 
     $httpProvider.interceptors.push('OAuth2Interceptor');
   }])
-  .run(['$rootScope', '$location', '$sessionStorage', 'AccessToken', 'constants',
-  function ($rootScope, $location, $sessionStorage, AccessToken, constants) {
+  .run(['$rootScope', '$location', 'AuthService', 'constants',
+  function ($rootScope, $location, AuthService, constants) {
 
     if (constants.TODAY === undefined){
       var now = new Date();
@@ -112,7 +112,7 @@ angular
 
       $rootScope.$on('$stateChangeStart', function (event, next) {
 
-        if (next.tokenRequired && (!$sessionStorage.token || ($sessionStorage.token && AccessToken.expired($sessionStorage.token)))){
+        if (next.tokenRequired && AuthService.authenticationRequired()){
             $location.path('/auth');
         }
       });
