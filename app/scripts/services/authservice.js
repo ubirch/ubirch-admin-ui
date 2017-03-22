@@ -309,7 +309,7 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
 
 }]);
 
-app.factory('OAuth2Interceptor', ['$rootScope', '$q', '$sessionStorage', '$location', 'AccessToken', function ($rootScope, $q, $sessionStorage, $location, AccessToken) {
+app.factory('OAuth2Interceptor', ['$rootScope', '$q', '$sessionStorage', '$location', 'AccessToken', 'settings', function ($rootScope, $q, $sessionStorage, $location, AccessToken, settings) {
 
   var service = {
     request: function(config) {
@@ -317,8 +317,8 @@ app.factory('OAuth2Interceptor', ['$rootScope', '$q', '$sessionStorage', '$locat
       if (token && !AccessToken.expired(token)) {
         // send auth service token to app
          config.headers.Authorization = 'Bearer ' + token.token;
-        config.headers['X-UBIRCH-CONTEXT'] = 'ubirch-admin-ui-dev';
-        config.headers['X-UBIRCH-PROVIDER'] = 'google';
+        config.headers['X-UBIRCH-CONTEXT'] = settings.CONTEXT;
+        config.headers['X-UBIRCH-PROVIDER'] = token.providerId;
 
         return config;
       }
