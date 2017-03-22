@@ -317,8 +317,8 @@ app.factory('OAuth2Interceptor', ['$rootScope', '$q', '$sessionStorage', '$locat
       if (token && !AccessToken.expired(token)) {
         // send auth service token to app
          config.headers.Authorization = 'Bearer ' + token.token;
-        config.headers['X-UBIRCH-CONTEXT'] = settings.CONTEXT;
-        config.headers['X-UBIRCH-PROVIDER'] = token.providerId;
+        // config.headers['X-UBIRCH-CONTEXT'] = settings.CONTEXT;
+        // config.headers['X-UBIRCH-PROVIDER'] = token.providerId;
 
         return config;
       }
