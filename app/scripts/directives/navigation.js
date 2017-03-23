@@ -39,14 +39,6 @@ angular.module('ubirchAdminCrudApp')
         $scope.loadAbout = function () {
           $location.url('/about');
         };
-
-        $scope.login = function () {
-          $location.path('/login');
-        };
-
-        $scope.logout = function () {
-          AuthService.signOut();
-        };
       }]
     };
   });
