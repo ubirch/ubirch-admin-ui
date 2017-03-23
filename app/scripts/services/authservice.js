@@ -167,8 +167,10 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
 
     verifyAuth: $resource(url + '/verify/code'),
 
-    // http://localhost:8091/api/authService/v1/logout POST
-    logout: $resource(url + '/logout'),
+    // http://localhost:8091/api/authService/v1/logout/$TOKEN
+    logout: $resource(url + '/logout/:token',
+      {token: '@token'}
+    ),
 
     authorizationUrl: "",
     signOutRedirectUrl: "",
@@ -200,11 +202,7 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
 
         var self = this;
 
-        this.logout.save(
-          {
-            "providerId": token.providerId,
-            "token": token.code
-          },
+        this.logout.get({token: token.token},
           function () {
             AccessToken.destroy();
             $rootScope.$broadcast("auth:signedOut", "You have been logged out");
