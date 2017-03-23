@@ -194,6 +194,7 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
     authenticationRequired: function() {
       var token = AccessToken.getTokenFromSession();
       var signedIn = token != null && !AccessToken.expired(token);
+      $rootScope.signedIn = signedIn;
       return !signedIn;
     },
     signOut: function () {
