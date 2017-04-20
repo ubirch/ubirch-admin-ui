@@ -390,14 +390,19 @@ app.directive('authNavButton',
       templateUrl: 'views/templates/auth-nav-button.html',
       replace: true,
       scope: {
-        loginUrl: '@',           // path to the login page - mandatory
-        loginText: '@',          // text for the login button
-        logoutText: '@',         //  text for the logout button
-        signOutRedirectUrl: '@'  // redirect url after locally deleting token to logout user (leave user logged in against OP) - optional; otherwise loginUrl is used
+        loginUrl: '@',          // path to the login page - mandatory
+        registerUrl: '@',       // path to the registration page
+                                // - optional; if not specified no registration button will be displayed
+        loginText: '@',         // text for the login button
+        registerText: '@',      // text for the registration button
+        logoutText: '@',        // text for the logout button
+        signOutRedirectUrl: '@' // redirect url after locally deleting token to logout user (leave user logged in against OP)
+                                // - optional; otherwise loginUrl is used
       },
       link: function postLink(scope) {
 
         scope.loginText = scope.loginText || 'login';
+        scope.registerText = scope.registerText || 'register';
         scope.logoutText = scope.logoutText || 'logout';
 
         var authServiceParams = {
@@ -408,6 +413,10 @@ app.directive('authNavButton',
 
         scope.login = function() {
           $location.url(scope.loginUrl);
+        };
+
+        scope.register = function() {
+          $location.url(scope.registerUrl);
         };
 
         scope.logout = function() {

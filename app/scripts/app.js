@@ -52,6 +52,12 @@ angular
         controller: 'LoginCtrl',
         controllerAs: 'login'
       })
+      .state('register', {
+        url: '/register',
+        templateUrl: '../views/register.html',
+        controller: 'RegisterCtrl',
+        controllerAs: 'register'
+      })
       .state('device-details', {
         url: '/device-details/:deviceid',
         templateUrl: '../views/device-details.html',
