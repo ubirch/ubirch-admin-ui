@@ -8,9 +8,12 @@
  * Controller of the ubirchAdminCrudApp
  */
 angular.module('ubirchAdminCrudApp')
-  .controller('RegisterCtrl', [ '$scope', 'AuthService', 'buttonClassMappings', function ($scope, AuthService, mapping) {
+  .controller('RegisterCtrl', [ '$scope', 'AuthService', 'buttonClassMappings', 'constants',
+    function ($scope, AuthService, mapping, constants) {
 
     $scope.providersList = AuthService.providerInfo.query();
+    $scope.user = { displayname: ""};
+    $scope.initialGroup = { displayname: constants.INTIAL_GROUP_NAME};
 
     $scope.getButtonClass = function(providerId){
       if (mapping[providerId] && mapping[providerId].buttonClass){

@@ -151,6 +151,12 @@ li.disabled a {
 .green {
   color: #689F38;
 }
+ .info {
+   margin: 15px;
+ }
+i.ion-information-circled {
+  color: #58588e;
+}
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
