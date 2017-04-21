@@ -371,7 +371,6 @@ app.directive('authButton',
 
         scope.$watch('authorizationUrl', function() { init(); }); // on resolved
 
-
         scope.signIn = function() {
           AuthService.init(scope);
           AuthService.authorize();

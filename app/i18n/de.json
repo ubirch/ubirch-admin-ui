@@ -56,7 +56,11 @@
   "NO_LOCATION_DATA": "Keine Ortsdaten für diesen Sensor",
   "LOGIN": "Zum Login",
   "LOGIN_PLEASE": "Bitte loggen Sie sich über einen der folgenden Anbieter ein:",
+  "REGISTER_PLEASE": "Um sich als neuer Nutzer zu registrieren füllen Sie bitte folgendes Formular aus und loggen Sie sich anschließend über einen der folgenden Anbieter ein:",
   "SIGN_IN_WITH": "Anmelden mit",
+  "REGISTER_THROUGH": "Registrieren über",
+  "DISPLAY_NAME": "Anzeigename",
+  "PLACEHOLDER_DISPLAY_NAME": "Geben Sie hier einen Namen ein mit dem Sie in dieser App angesprochen werden wollen",
   "CHECK_AUTHENTICATION": "Authentifizierung wird überprüft",
   "AUTHENTICATION_FAILED": "Authentifikation missglückt!",
   "SORRY_AUTHENTICATION_FAILED": "Es tut uns leid aber bei der Authentifikation ist folgender Fehler aufgetreten:"
