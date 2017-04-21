@@ -152,8 +152,9 @@ li.disabled a {
   color: #689F38;
 }
  .info {
-   margin: 15px;
- }
+   margin: 5px 10px 25px 10px;
+}
+
 i.ion-information-circled {
   color: #58588e;
 }

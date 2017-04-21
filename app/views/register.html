@@ -6,22 +6,18 @@
     <div>
       <div class="form-group" ng-hide="creationView === 'true'">
         <span class="label label-default">{{ 'DISPLAY_NAME' | translate }}<sup>*</sup></span>
-        <div>
-          <p class="info">
-            <i class="ion-information-circled"></i>
-            {{ 'INFO_DISPLAY_NAME' | translate }}</p>
-          <input type="text" class="form-control" ng-model="user.displayname" placeholder="{{ 'PLACEHOLDER_DISPLAY_NAME' | translate }}" required>
-      </div>
+        <input type="text" class="form-control" ng-model="user.displayname" placeholder="{{ 'PLACEHOLDER_DISPLAY_NAME' | translate }}" required>
+        <p class="info">
+          <i class="ion-information-circled"></i>
+          {{ 'INFO_DISPLAY_NAME' | translate }}</p>
     </div>
     <div>
       <div class="form-group" ng-hide="creationView === 'true'">
         <span class="label label-default">{{ 'GROUP_NAME' | translate }}<sup>*</sup></span>
-        <div>
-          <p class="info">
-            <i class="ion-information-circled"></i>
-            {{ 'INFO_INITIAL_GROUP' | translate }}</p>
-          <input type="text" class="form-control" ng-model="initialGroup.displayname" required>
-        </div>
+        <input type="text" class="form-control" ng-model="initialGroup.displayname" required>
+        <p class="info">
+          <i class="ion-information-circled"></i>
+          {{ 'INFO_INITIAL_GROUP' | translate }}</p>
       </div>
     </div>
   <div style="height:200px" ng-show="!providersList.length">
