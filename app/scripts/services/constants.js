@@ -15,6 +15,8 @@ angular.module('ubirchAdminCrudApp')
     AVATAR_SERVICE_REST_ENDPOINT : "/api/avatarService/v1",
     // AuthService
     AUTH_SERVICE_REST_ENDPOINT : "/api/authService/v1",
+    // UserService
+    USER_SERVICE_REST_ENDPOINT : "/api/authService/v1",
 
     POLLING_INTERVAL : 3000,
     DEFAULT_DEVICE_TYPE_KEY: "unknownDeviceTypeKey",

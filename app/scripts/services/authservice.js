@@ -308,7 +308,7 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
 
 }]);
 
-app.factory('OAuth2Interceptor', ['$rootScope', '$q', '$sessionStorage', '$location', 'AccessToken', 'settings', function ($rootScope, $q, $sessionStorage, $location, AccessToken, settings) {
+app.factory('OAuth2Interceptor', ['$q', '$sessionStorage', '$location', 'AccessToken', function ($q, $sessionStorage, $location, AccessToken) {
 
   var service = {
     request: function(config) {
@@ -340,11 +340,65 @@ app.factory('OAuth2Interceptor', ['$rootScope', '$q', '$sessionStorage', '$locat
   return service;
 }]);
 
+app.service('UserService', ['$resource', 'constants', 'settings', '$sessionStorage', function ($resource, constants, settings, $sessionStorage ) {
+
+  var url = settings.UBIRCH_USER_SERVICE_API_HOST + constants.USER_SERVICE_REST_ENDPOINT;
+  var user = {};
+
+  function isUserDataSet() {
+    return Object.keys(this.user) > 0;
+  }
+
+  var service = {
+    // localhost:8091/api/authService/v1/register
+    // TODO: check if token is inserted into header by interceptor for this request
+    register: $resource(url + '/register'),
+    // localhost:8091/api/authService/v1/userInfo
+    // TODO: check if token is inserted into header by interceptor for this request
+    userInfo: $resource(url + '/userInfo'),
+
+    setUser: function(user){
+      this.user = user;
+      $sessionStorage.user = user;
+    },
+
+    getUserDataForToken: function(token){
+      if (isUserDataSet()) {
+        // register new user with data from registration form
+        // TODO: register
+        console.log("register " + user.displayName + " for token " + token.token);
+      }
+      else {
+        // login
+        // TODO: get userInfo
+        console.log("get userInfo for token " + token.token);
+      }
+    },
+    /**
+     * stores token in sessionStorage
+     * @param token to be stored
+     */
+    saveUserInSession: function(user) {
+      $sessionStorage.user = user;
+    },
+
+  /**
+   * stores token in sessionStorage
+   * @param token to be stored
+   */
+    getUserFromSession: function() {
+      return $sessionStorage.user ? $sessionStorage.user : null;
+    }
+
+  };
+
+  return service;
+  }]);
 
 // Open ID directive
 app.directive('authButton',
-  ['$rootScope', '$http', '$location', '$sessionStorage', 'AccessToken', 'AuthService',
-    function($rootScope, $http, $location, $sessionStorage, accessToken, AuthService) {
+  ['AuthService',
+    function(AuthService) {
       var definition = {
         templateUrl: 'views/templates/social-media-button.html',
         restrict: 'E',
@@ -354,9 +408,8 @@ app.directive('authButton',
           buttonClass: '@',				// the class to use for the sign in / out button - defaults to btn btn-primary
           buttonIconClass: '@',   // the ionicons, fontawesome or glyphicons class to add icon to button - dafaults to glyphicon glyphicon-log-in
           signInText: '@',				// text for the sign in button
-
           providerId: '@',        // id of openid connect provider
-          authorizationUrl: '@'  // authorization server url
+          authorizationUrl: '@',  // authorization server url
         }
       };
 
