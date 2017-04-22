@@ -14,7 +14,7 @@
     <div>
       <div class="form-group" ng-hide="creationView === 'true'">
         <span class="label label-default">{{ 'GROUP_NAME' | translate }}<sup>*</sup></span>
-        <input type="text" class="form-control" ng-model="initialGroup.displayname" required>
+        <input type="text" class="form-control" ng-model="user.groups[0].displayname" required>
         <p class="info">
           <i class="ion-information-circled"></i>
           {{ 'INFO_INITIAL_GROUP' | translate }}</p>

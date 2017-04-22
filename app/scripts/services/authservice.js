@@ -157,7 +157,8 @@ app.factory('AccessToken', ['$rootScope', '$location', '$sessionStorage', 'setti
   return service;
 }]);
 
-app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', '$location', 'AccessToken', function ($resource, constants, settings, $rootScope, $location, AccessToken) {
+app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', '$location', 'AccessToken', 'UserService',
+  function ($resource, constants, settings, $rootScope, $location, AccessToken, UserService) {
 
   var url = settings.UBIRCH_AUTH_SERVICE_API_HOST + constants.AUTH_SERVICE_REST_ENDPOINT;
 
@@ -252,7 +253,7 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
                   if (data.token) {
                     var token = AccessToken.addTokenParam("token", data.token);
                     AccessToken.saveTokenInSession(token);
-                    $rootScope.$broadcast('auth:verified', token);
+                    UserService.getUserDataForToken(token);
                   }
                   else {
                     handleError("InconsistentCodeStateError", "Something went wrong with your authentication (code and/or state not the same as sended - probably a manInTheMiddle");
@@ -340,16 +341,14 @@ app.factory('OAuth2Interceptor', ['$q', '$sessionStorage', '$location', 'AccessT
   return service;
 }]);
 
-app.service('UserService', ['$resource', 'constants', 'settings', '$sessionStorage', function ($resource, constants, settings, $sessionStorage ) {
+app.service('UserService', ['$resource', 'constants', 'settings', '$sessionStorage', '$rootScope',
+  function ($resource, constants, settings, $sessionStorage, $rootScope ) {
 
   var url = settings.UBIRCH_USER_SERVICE_API_HOST + constants.USER_SERVICE_REST_ENDPOINT;
-  var user = {};
-
-  function isUserDataSet() {
-    return Object.keys(this.user) > 0;
-  }
 
   var service = {
+    user: {},
+
     // localhost:8091/api/authService/v1/register
     // TODO: check if token is inserted into header by interceptor for this request
     register: $resource(url + '/register'),
@@ -357,39 +356,44 @@ app.service('UserService', ['$resource', 'constants', 'settings', '$sessionStora
     // TODO: check if token is inserted into header by interceptor for this request
     userInfo: $resource(url + '/userInfo'),
 
-    setUser: function(user){
-      this.user = user;
-      $sessionStorage.user = user;
-    },
-
-    getUserDataForToken: function(token){
-      if (isUserDataSet()) {
-        // register new user with data from registration form
-        // TODO: register
-        console.log("register " + user.displayName + " for token " + token.token);
-      }
-      else {
-        // login
-        // TODO: get userInfo
-        console.log("get userInfo for token " + token.token);
-      }
+    setUser: function(userData){
+      this.user = userData;
+      $sessionStorage.user = userData;
     },
     /**
      * stores token in sessionStorage
      * @param token to be stored
      */
-    saveUserInSession: function(user) {
+    saveUsern: function(user) {
       $sessionStorage.user = user;
     },
 
-  /**
-   * stores token in sessionStorage
-   * @param token to be stored
-   */
-    getUserFromSession: function() {
-      return $sessionStorage.user ? $sessionStorage.user : null;
-    }
+    isUserDataSet: function() {
+      return this.user && Object.keys(this.user).length > 0;
+    },
 
+    getUser: function(){
+      if (!this.isUserDataSet()){
+        this.user = $sessionStorage.user || {};
+      }
+      return this.user;
+    },
+
+    getUserDataForToken: function(token){
+      this.getUser();
+      if (this.isUserDataSet()) {
+        // register new user with data from registration form
+        // TODO: register
+        console.log("register " + this.user.displayname + " for token " + token.token);
+        $rootScope.$broadcast('auth:verified', token);
+      }
+      else {
+        // login
+        // TODO: get userInfo
+        console.log("get userInfo for token " + token.token);
+        $rootScope.$broadcast('auth:verified', token);
+      }
+    }
   };
 
   return service;
