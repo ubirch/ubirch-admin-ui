@@ -207,6 +207,7 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
         this.logout.get({token: token.token},
           function () {
             AccessToken.destroy();
+            UserService.destroy();
             $rootScope.$broadcast("auth:signedOut", "You have been logged out");
             $location.url(self.signOutRedirectUrl);
           },
@@ -300,6 +301,7 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
       default:
         // remove sessionToken
         AccessToken.destroy();
+        UserService.destroy();
         // broadcast error
         $rootScope.$broadcast('auth:authError', errorType + ": " + errorMessage);
     }
@@ -379,6 +381,13 @@ app.service('UserService', ['$resource', 'constants', 'settings', '$sessionStora
       return this.user;
     },
 
+    /**
+     * if in registration process, user data are stored in session without token;
+     * -> user is registered for auth token
+     * if in login process, no user data are stored in session;
+     * -> request for userInfo for auth token
+     * @param token auth token from user OP login
+     */
     getUserDataForToken: function(token){
       this.getUser();
       if (this.isUserDataSet()) {
@@ -393,7 +402,17 @@ app.service('UserService', ['$resource', 'constants', 'settings', '$sessionStora
         console.log("get userInfo for token " + token.token);
         $rootScope.$broadcast('auth:verified', token);
       }
+    },
+
+    /**
+     * removes user from sessionStorage
+     */
+    destroy: function() {
+      $sessionStorage.user = null;
+      delete $sessionStorage.user;
+      this.user = null;
     }
+
   };
 
   return service;
