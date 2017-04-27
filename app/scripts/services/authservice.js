@@ -187,6 +187,9 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
         AccessToken.storeInSession("providerId", params.providerId);
       }
     },
+    setRegistrationFlag: function(value) {
+      UserService.setRegistrationFlag(value);
+    },
     authorize: function () {
       if (this.authorizationUrl && this.authorizationUrl.length > 0) {
         window.location.replace(this.authorizationUrl);
@@ -254,7 +257,38 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
                   if (data.token) {
                     var token = AccessToken.addTokenParam("token", data.token);
                     AccessToken.saveTokenInSession(token);
-                    UserService.getUserDataForToken(token);
+                    UserService.userInfo.get(
+                      function(res){
+                        console.log("Got user-info" + res);
+                        if (UserService.getRegistrationFlag()) {
+                          console.log("You are already registered, " + res.displayName);
+                          // TODO: already registered alert
+                        }
+                        else {
+                          // login process
+                          console.log("Come in and enjoy, " + res.displayName);
+                          // TODO: enter app
+                        }
+                      },
+                      function(error) {
+                        if (UserService.getRegistrationFlag()) {
+                          console.log("You will get registered now");
+                          // TODO: register
+                          UserService.register.save(
+                            function (res) {
+                              console.log("You are registered, " + res.displayName);
+                            },
+                            function (error) {
+                              console.log("ERROR: " + error);
+                            }
+                          );
+                        }
+                        else {
+                          console.log("You are not yet registered, " + res.displayName);
+                          // TODO: register now? dialog
+                        }
+                      }
+                    );
                   }
                   else {
                     handleError("InconsistentCodeStateError", "Something went wrong with your authentication (code and/or state not the same as sended - probably a manInTheMiddle");
@@ -343,13 +377,12 @@ app.factory('OAuth2Interceptor', ['$q', '$sessionStorage', '$location', 'AccessT
   return service;
 }]);
 
-app.service('UserService', ['$resource', 'constants', 'settings', '$sessionStorage', '$rootScope',
-  function ($resource, constants, settings, $sessionStorage, $rootScope ) {
+app.service('UserService', ['$resource', 'constants', 'settings', '$sessionStorage',
+  function ($resource, constants, settings, $sessionStorage ) {
 
   var url = settings.UBIRCH_USER_SERVICE_API_HOST + constants.USER_SERVICE_REST_ENDPOINT;
 
   var service = {
-    user: {},
 
     // localhost:8091/api/authService/v1/register
     // TODO: check if token is inserted into header by interceptor for this request
@@ -358,49 +391,22 @@ app.service('UserService', ['$resource', 'constants', 'settings', '$sessionStora
     // TODO: check if token is inserted into header by interceptor for this request
     userInfo: $resource(url + '/userInfo'),
 
-    setUser: function(userData){
-      this.user = userData;
-      $sessionStorage.user = userData;
+    initRegistration: function () {
+      $sessionStorage.registration = {inProcess: false};
     },
-    /**
-     * stores token in sessionStorage
-     * @param token to be stored
-     */
-    saveUsern: function(user) {
-      $sessionStorage.user = user;
-    },
-
-    isUserDataSet: function() {
-      return this.user && Object.keys(this.user).length > 0;
-    },
-
-    getUser: function(){
-      if (!this.isUserDataSet()){
-        this.user = $sessionStorage.user || {};
+    setRegistrationFlag: function(value) {
+      if (this.getRegistrationFlag() === undefined){
+        this.initRegistration();
       }
-      return this.user;
+      $sessionStorage.registration.inProcess = value;
     },
-
-    /**
-     * if in registration process, user data are stored in session without token;
-     * -> user is registered for auth token
-     * if in login process, no user data are stored in session;
-     * -> request for userInfo for auth token
-     * @param token auth token from user OP login
-     */
-    getUserDataForToken: function(token){
-      this.getUser();
-      if (this.isUserDataSet()) {
-        // register new user with data from registration form
-        // TODO: register
-        console.log("register " + this.user.displayname + " for token " + token.token);
-        $rootScope.$broadcast('auth:verified', token);
-      }
-      else {
-        // login
-        // TODO: get userInfo
-        console.log("get userInfo for token " + token.token);
-        $rootScope.$broadcast('auth:verified', token);
+    getRegistrationFlag: function () {
+      return $sessionStorage.registration;
+    },
+    removeRegistrationFlag: function () {
+      if ($sessionStorage.registration !== undefined){
+        $sessionStorage.registration = null;
+        delete $sessionStorage.registration;
       }
     },
 
@@ -408,9 +414,7 @@ app.service('UserService', ['$resource', 'constants', 'settings', '$sessionStora
      * removes user from sessionStorage
      */
     destroy: function() {
-      $sessionStorage.user = null;
-      delete $sessionStorage.user;
-      this.user = null;
+      this.removeRegistrationFlag();
     }
 
   };
@@ -487,10 +491,12 @@ app.directive('authNavButton',
         AuthService.init(authServiceParams);
 
         scope.login = function() {
+          AuthService.setRegistrationFlag(false);
           $location.url(scope.loginUrl);
         };
 
         scope.register = function() {
+          AuthService.setRegistrationFlag(true);
           $location.url(scope.registerUrl);
         };
 

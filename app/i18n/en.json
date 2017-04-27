@@ -49,7 +49,7 @@
   "RELOAD": "reload",
   "LOGIN": "login",
   "LOGIN_PLEASE": "Please login by one of the following services:",
-  "REGISTER_PLEASE": "To register as a new user please fill in the registration form and login by one of the following services:",
+  "REGISTER_PLEASE": "To register as a new user please login by one of the following services:",
   "SIGN_IN_WITH": "Sign in with",
   "REGISTER_THROUGH": "Register through",
   "DISPLAY_NAME": "Display name",

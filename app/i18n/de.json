@@ -56,7 +56,7 @@
   "NO_LOCATION_DATA": "Keine Ortsdaten für diesen Sensor",
   "LOGIN": "Zum Login",
   "LOGIN_PLEASE": "Bitte loggen Sie sich über einen der folgenden Anbieter ein:",
-  "REGISTER_PLEASE": "Um sich als neuer Nutzer zu registrieren füllen Sie bitte folgendes Formular aus und loggen Sie sich anschließend über einen der folgenden Anbieter ein:",
+  "REGISTER_PLEASE": "Um sich als neuer Nutzer zu registrieren loggen Sie sich bitte über einen der folgenden Anbieter ein:",
   "SIGN_IN_WITH": "Anmelden mit",
   "REGISTER_THROUGH": "Registrieren über",
   "DISPLAY_NAME": "Anzeigename",

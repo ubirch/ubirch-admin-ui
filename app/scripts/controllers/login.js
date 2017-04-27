@@ -8,12 +8,10 @@
  * Controller of the ubirchAdminCrudApp
  */
 angular.module('ubirchAdminCrudApp')
-  .controller('LoginCtrl', [ '$scope', 'AuthService', 'UserService', 'buttonClassMappings',
-    function ($scope, AuthService, UserService, mapping) {
+  .controller('LoginCtrl', [ '$scope', 'AuthService', 'buttonClassMappings',
+    function ($scope, AuthService, mapping) {
 
     $scope.providersList = AuthService.providerInfo.query();
-    $scope.user = {};
-    UserService.setUser($scope.user);
 
     $scope.getButtonClass = function(providerId){
       if (mapping[providerId] && mapping[providerId].buttonClass){
