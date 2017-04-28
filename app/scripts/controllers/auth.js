@@ -14,12 +14,18 @@ angular.module('ubirchAdminCrudApp')
     $scope.error = undefined;
     $scope.authExpired = undefined;
     $scope.success = undefined;
+    $scope.warning = undefined;
 
 
     $scope.$on('auth:authError', function (event, error) {
       $scope.success = false;
       $scope.workinprogress = false;
       $scope.error = error;
+    });
+
+    $scope.$on('auth:alreadyRegisteredLogin', function (event, user) {
+      $scope.workinprogress = false;
+      angular.element('#registeredModal').modal('show');
     });
 
     $scope.$on('auth:authExpired', function (event, error) {
@@ -35,10 +41,15 @@ angular.module('ubirchAdminCrudApp')
       $location.url('/login');
     });
 
-    $scope.$on('auth:verified', function () {
+    $scope.$on('auth:loggedIn', function (event, user) {
       $scope.success = true;
       $scope.workinprogress = false;
       $location.url('/');
+    });
+
+    $scope.$on('auth:registrationRequired', function () {
+      $scope.workinprogress = false;
+      angular.element('#registrationModal').modal('show');
     });
 
     $scope.$on('auth:signedOut', function () {
@@ -48,6 +59,22 @@ angular.module('ubirchAdminCrudApp')
     });
 
     AuthService.verify();
+
+    $scope.register = function () {
+      angular.element('#registrationModal').modal('hide');
+      AuthService.register();
+    };
+
+    $scope.noRegistration = function () {
+      angular.element('#registrationModal').modal('hide');
+      $scope.workinprogress = false;
+      $location.url('/login');
+    };
+
+    $scope.closeRegisteredModal = function () {
+      angular.element('#registeredModal').modal('hide');
+      $scope.$broadcast('auth:loggedIn');
+    };
 
     $scope.openLogin = function(){
       $location.url('/login');

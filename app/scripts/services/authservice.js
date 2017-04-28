@@ -259,33 +259,26 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
                     AccessToken.saveTokenInSession(token);
                     UserService.userInfo.get(
                       function(res){
-                        console.log("Got user-info" + res);
-                        if (UserService.getRegistrationFlag()) {
-                          console.log("You are already registered, " + res.displayName);
-                          // TODO: already registered alert
+                        // found user registered for token
+
+                        if (UserService.isRegistrationFlagSet()) {
+                          // user tried to register again
+                          $rootScope.$broadcast('auth:alreadyRegisteredLogin', res);
                         }
                         else {
-                          // login process
-                          console.log("Come in and enjoy, " + res.displayName);
-                          // TODO: enter app
+                          // enter app
+                          $rootScope.$broadcast('auth:loggedIn', res);
                         }
                       },
                       function(error) {
-                        if (UserService.getRegistrationFlag()) {
-                          console.log("You will get registered now");
-                          // TODO: register
-                          UserService.register.save(
-                            function (res) {
-                              console.log("You are registered, " + res.displayName);
-                            },
-                            function (error) {
-                              console.log("ERROR: " + error);
-                            }
-                          );
+                        // TODO: check error if really userInfo cannot be found
+                        // no user registered for token
+
+                        if (UserService.isRegistrationFlagSet()) {
+                          this.register();
                         }
                         else {
-                          console.log("You are not yet registered, " + res.displayName);
-                          // TODO: register now? dialog
+                          $rootScope.$broadcast('auth:registrationRequired', data.token);
                         }
                       }
                     );
@@ -322,6 +315,18 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
           $rootScope.$broadcast('auth:authRequired', 'You need to login');
         }
       }
+    },
+    register: function () {
+      UserService.register.save(
+        function (res) {
+          // enter app
+          $rootScope.$broadcast('auth:loggedIn', res);
+        },
+        function (error) {
+          // something went wrong
+          handleError(error.errorId, error.errorMessage);
+        }
+      );
     }
   };
 
@@ -331,6 +336,9 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
       case "LogoutFailedError":
         // user is still logged in
         $rootScope.$broadcast('auth:verified', errorMessage);
+        break;
+      case "authWarning":
+        $rootScope.$broadcast('auth:authWarning', errorMessage);
         break;
       default:
         // remove sessionToken
@@ -362,12 +370,14 @@ app.factory('OAuth2Interceptor', ['$q', '$sessionStorage', '$location', 'AccessT
       console.log('Failed with', rejection.status, 'status');
       if (rejection.status === 401) {
         $location.url('/login');
-        return $q.reject(rejection);
       }
       else if (rejection.status === 403) {
         // TODO: separate page for forbidden requests
         $location.url('/login');
-        return $q.reject(rejection);
+      }
+      else if (rejection.status === -1) {
+        // TODO: separate page for forbidden requests
+        $location.url('/login');
       }
 
       return $q.reject(rejection);
@@ -402,6 +412,9 @@ app.service('UserService', ['$resource', 'constants', 'settings', '$sessionStora
     },
     getRegistrationFlag: function () {
       return $sessionStorage.registration;
+    },
+    isRegistrationFlagSet: function () {
+      return $sessionStorage.registration !== undefined && $sessionStorage.registration.inProcess;
     },
     removeRegistrationFlag: function () {
       if ($sessionStorage.registration !== undefined){
