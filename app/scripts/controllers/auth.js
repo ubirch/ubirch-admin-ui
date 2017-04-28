@@ -78,5 +78,9 @@ angular.module('ubirchAdminCrudApp')
 
     $scope.openLogin = function(){
       $location.url('/login');
-    }
+    };
+
+    $scope.openRegister = function () {
+      $location.url('/register');
+    };
   }]);

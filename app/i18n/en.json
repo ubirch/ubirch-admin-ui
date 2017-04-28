@@ -49,6 +49,7 @@
   "NUM_OF_DATASETS": "number of data sets",
   "RELOAD": "reload",
   "LOGIN": "login",
+  "REGISTER": "register",
   "LOGIN_PLEASE": "Please login by one of the following services:",
   "REGISTER_PLEASE": "To register as a new user please login by one of the following services:",
   "REGISTRATION_REQUIRED": "registration required",
