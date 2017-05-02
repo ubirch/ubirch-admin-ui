@@ -75,7 +75,7 @@ app.controller('DevicesListCtrl', [ '$scope', '$location', 'Device', '$translate
     };
 
     $scope.createDevice = function() {
-      angular.element('#myModal').modal('hide');
+      $rootScope.closeModal('#myModal');
 
       $scope.newDevice = Device.addProperties($scope.newDevice,  $scope.addedProperties);
       $scope.addedProperties = Device.initDevice();

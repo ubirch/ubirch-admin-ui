@@ -143,15 +143,16 @@ angular.module('ubirchAdminCrudApp')
 
 
       $scope.deleteDevice = function () {
-      angular.element('#myModal').modal('hide');
-      Device.deleteDevice($scope.device.deviceId,
-        function(){
-          $location.url( "devices-list");
-        },
-        function() {
-          toaster.pop('error', "Fehler", "Gerät konnte nicht gelöscht werden!!");
-        }
-      );
+        $rootScope.closeModal('#myModal');
+
+        Device.deleteDevice($scope.device.deviceId,
+          function(){
+            $location.url( "devices-list");
+          },
+          function() {
+            toaster.pop('error', "Fehler", "Gerät konnte nicht gelöscht werden!!");
+          }
+        );
     };
 
     $scope.backToList = function () {

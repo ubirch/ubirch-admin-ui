@@ -8,13 +8,12 @@
  * Controller of the ubirchAdminCrudApp
  */
 angular.module('ubirchAdminCrudApp')
-  .controller('AuthCtrl',['$scope', '$location', 'AuthService', function ($scope, $location, AuthService) {
+  .controller('AuthCtrl',['$scope', '$location', 'AuthService', '$rootScope', function ($scope, $location, AuthService, $rootScope) {
 
     $scope.workinprogress = true;
     $scope.error = undefined;
     $scope.authExpired = undefined;
     $scope.success = undefined;
-    $scope.warning = undefined;
 
 
     $scope.$on('auth:authError', function (event, error) {
@@ -61,18 +60,18 @@ angular.module('ubirchAdminCrudApp')
     AuthService.verify();
 
     $scope.register = function () {
-      angular.element('#registrationModal').modal('hide');
+      $rootScope.closeModal('#registrationModal');
       AuthService.register();
     };
 
     $scope.noRegistration = function () {
-      angular.element('#registrationModal').modal('hide');
+      $rootScope.closeModal('#registrationModal');
       $scope.workinprogress = false;
       $location.url('/login');
     };
 
     $scope.closeRegisteredModal = function () {
-      angular.element('#registeredModal').modal('hide');
+      $rootScope.closeModal('#registeredModal');
       $scope.$broadcast('auth:loggedIn');
     };
 

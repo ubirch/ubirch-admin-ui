@@ -116,13 +116,19 @@ angular
       constants.TODAY_END = constants.TOMORROW - 1;
     }
 
-      $rootScope.$on('$stateChangeStart', function (event, next) {
+    $rootScope.$on('$stateChangeStart', function (event, next) {
 
-        if (next.tokenRequired && AuthService.authenticationRequired()){
-            $location.path('/auth');
-        }
-      });
-    }])
+      if (next.tokenRequired && AuthService.authenticationRequired()){
+          $location.path('/auth');
+      }
+    });
+
+    $rootScope.closeModal = function (modalId) {
+      angular.element(modalId).modal('hide');
+      angular.element('body').removeClass("modal-open");
+      angular.element('.modal-backdrop').remove();
+    }
+  }])
   .config(['$qProvider', function ($qProvider) {
     $qProvider.errorOnUnhandledRejections(false);
   }]);
