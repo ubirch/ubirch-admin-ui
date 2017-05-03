@@ -216,7 +216,7 @@ angular.module('ubirchAdminCrudApp')
                 lat: message.deviceMessage.latitude,
                 lng: message.deviceMessage.longitude,
                 message: filterMessageKeys(message),
-                opacity: 1 / $scope.messages.content.length * (i + 1)
+                opacity: 1 - (1 / $scope.messages.content.length * (i))
               };
 
               markers["marker" + i] = angular.copy(marker);
