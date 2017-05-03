@@ -3,7 +3,7 @@
  */
 angular.module('ubirchAdminCrudApp')
   .constant('settings', {
-    CONTEXT: "ubirch-admin-ui",
+    CONTEXT: "ubirch-admin-ui-dev",
     UBIRCH_API_HOST : "@@UBIRCH_API_HOST@@",
     UBIRCH_AUTH_SERVICE_API_HOST: "@@UBIRCH_AUTH_SERVICE_API_HOST@@",
     UBIRCH_USER_SERVICE_API_HOST: "@@UBIRCH_USER_SERVICE_API_HOST@@",
