@@ -6,4 +6,4 @@ echo install missing npm components
 npm install
 echo install missing bower components
 bower install --allow-root
-grunt serve:dist --staging=dev
+grunt serve:dist --staging=local

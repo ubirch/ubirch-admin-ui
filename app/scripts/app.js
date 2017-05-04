@@ -35,9 +35,13 @@ angular
         prefix: 'i18n/',
         suffix: '.json'
       }]
-    });
-
-    $translateProvider.preferredLanguage('en');
+    })
+    .registerAvailableLanguageKeys(['en', 'de'], {
+      'en_*': 'en',
+      'de_*': 'de',
+      '*': 'en'
+    })
+    .determinePreferredLanguage();
 
     $stateProvider
       .state('auth', {

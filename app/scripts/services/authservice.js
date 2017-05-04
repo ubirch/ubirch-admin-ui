@@ -327,6 +327,11 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
           handleError(error.errorId, error.errorMessage);
         }
       );
+    },
+    getUserInfo: function(callback) {
+      return UserService.userInfo.get(function (res) {
+        callback(res);
+      });
     }
   };
 
