@@ -25,7 +25,7 @@ module.exports = function (grunt) {
     dist: 'dist'
   };
 
-  var staging = grunt.option('staging') || 'dev';
+  var staging = grunt.option('staging') || 'local';
 
   // Define the configuration for all the tasks
   grunt.initConfig({
@@ -442,7 +442,7 @@ module.exports = function (grunt) {
 
     grunt.log.writeln("using settings_" + staging + ".js");
     grunt.log.writeln("you can add settings file  settings_XY.js in settings directory and call : grunt --staging=XY");
-    grunt.log.writeln("(default: dev)");
+    grunt.log.writeln("(default: local)");
     grunt.task.run(['copy:settings']);
 
   });

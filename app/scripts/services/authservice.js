@@ -395,7 +395,7 @@ app.factory('OAuth2Interceptor', ['$q', '$sessionStorage', '$location', 'AccessT
 app.service('UserService', ['$resource', 'constants', 'settings', '$sessionStorage',
   function ($resource, constants, settings, $sessionStorage ) {
 
-  var url = settings.UBIRCH_USER_SERVICE_API_HOST + constants.USER_SERVICE_REST_ENDPOINT;
+    var url = settings.UBIRCH_AUTH_SERVICE_API_HOST + constants.USER_SERVICE_REST_ENDPOINT;
 
   var service = {
 
