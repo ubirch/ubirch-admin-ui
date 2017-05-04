@@ -13,8 +13,8 @@ app.run(function(editableOptions) {
   editableOptions.theme = 'bs3';
 });
 
-app.controller('DevicesListCtrl', [ '$scope', '$location', 'Device', '$translate', '$window', '$document', '$timeout', '$filter', '$log', 'toaster', 'DeviceTypes', 'constants', 'settings', 'deviceTypesList',
-  function ($scope, $location, Device, $translate, $window, $document, $timeout, $filter, $log, toaster, DeviceTypes, constants, settings, deviceTypesList) {
+app.controller('DevicesListCtrl', [ '$scope', '$rootScope', '$location', 'Device', '$translate', '$window', '$document', '$timeout', '$filter', '$log', 'toaster', 'DeviceTypes', 'constants', 'settings', 'deviceTypesList',
+  function ($scope, $rootScope, $location, Device, $translate, $window, $document, $timeout, $filter, $log, toaster, DeviceTypes, constants, settings, deviceTypesList) {
 
     $scope.deviceTypes = deviceTypesList;
 

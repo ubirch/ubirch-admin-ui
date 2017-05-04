@@ -8,8 +8,8 @@
  * Controller of the ubirchAdminCrudApp
  */
 angular.module('ubirchAdminCrudApp')
-  .controller('DeviceDetailsCtrl',[ '$scope', '$window', '$location', '$stateParams', '$filter', 'Device', 'toaster', 'deviceTypesList', 'DeviceTypes', 'leafletBoundsHelpers',
-    function ($scope, $window, $location, $stateParams, $filter, Device, toaster, deviceTypesList, DeviceTypes, leafletBoundsHelpers) {
+  .controller('DeviceDetailsCtrl',[ '$scope', '$rootScope', '$window', '$location', '$stateParams', '$filter', 'Device', 'toaster', 'deviceTypesList', 'DeviceTypes', 'leafletBoundsHelpers',
+    function ($scope, $rootScope, $window, $location, $stateParams, $filter, Device, toaster, deviceTypesList, DeviceTypes, leafletBoundsHelpers) {
     var listUrl = "devices-list";
 
       $scope.deviceid = $stateParams.deviceid;
