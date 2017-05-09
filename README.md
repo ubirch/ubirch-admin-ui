@@ -92,24 +92,26 @@ If you want to deploy the latest version on a server, follow these instructions:
 
   change the settings, especially in one of the following files:
    
+  *  settings/settings_local.js
+  *  settings/settings_docker.js
+  *  settings/settings_demo.js
   *  settings/settings_dev.js
-  *  settings/settings_int.js
-  *  settings/settings_prod.js
   
   especially change 
   
-  * the url of the backend server in UBIRCH_API_HOST
+  * the url of the backend api server in UBIRCH_API_HOST
+  * the url of the ubirch auth service in UBIRCH_AUTH_SERVICE_API_HOST
   * specify DEFAULT_DEVICE_TYPE_KEY if it doesn't equal to 'unknownDeviceTypeKey'
   
 3. Run deployment script
 
-For prod deployment execute
+For prod (currently demo) deployment execute
 
         ./deployWeb.sh
 
-For int deployment execute
+For dev deployment execute
 
-        ./deployWeb.sh int
+        ./deployWeb.sh dev
 
 4. optional: define special settings
   
@@ -118,6 +120,21 @@ For int deployment execute
   * call
 
         ./deployWeb.sh xy
+        
+5. run on localhost
+
+Start the following services on localhost:
+
+  * avatar service
+  * auth service (containing user service endpoints)
+  
+Then you can start the admin ui with
+
+        ./testWebLocalhost.sh
+                
+When you want to use the services on dev you can start the admin ui with
+
+        ./testWebLocalhostWithDevServices.sh
 
 ### Docker Deployment
 
