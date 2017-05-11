@@ -455,6 +455,7 @@ app.directive('authButton',
           signInText: '@',				// text for the sign in button
           providerId: '@',        // id of openid connect provider
           authorizationUrl: '@',  // authorization server url
+          registration: '@'       // if set to true this is handled as an explicit registration button - default to false = login button
         }
       };
 
@@ -465,6 +466,12 @@ app.directive('authButton',
           scope.signInText = scope.signInText || 'Sign In';
           scope.providerId = scope.providerId || '';
           scope.authorizationUrl = scope.authorizationUrl || '';
+          if (scope.registration !== undefined && scope.registration){
+            AuthService.setRegistrationFlag(true);
+          }
+          else {
+            AuthService.setRegistrationFlag(false);
+          }
         }
 
         scope.$watch('authorizationUrl', function() { init(); }); // on resolved
@@ -509,12 +516,10 @@ app.directive('authNavButton',
         AuthService.init(authServiceParams);
 
         scope.login = function() {
-          AuthService.setRegistrationFlag(false);
           $location.url(scope.loginUrl);
         };
 
         scope.register = function() {
-          AuthService.setRegistrationFlag(true);
           $location.url(scope.registerUrl);
         };
 
