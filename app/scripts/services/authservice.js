@@ -275,7 +275,7 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
                         // no user registered for token
 
                         if (UserService.isRegistrationFlagSet()) {
-                          this.register();
+                          service.register();
                         }
                         else {
                           $rootScope.$broadcast('auth:registrationRequired', data.token);
