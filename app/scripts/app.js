@@ -121,9 +121,16 @@ angular
     }
 
     $rootScope.$on('$stateChangeStart', function (event, next) {
-
-      if (next.tokenRequired && AuthService.authenticationRequired()){
+      if (next.tokenRequired) {
+        if (AuthService.authenticationRequired()) {
           $location.path('/auth');
+        } else {
+          AuthService.getUserInfo(
+            function (res) {
+              $rootScope.account = res;
+            }
+          );
+        }
       }
     });
 
