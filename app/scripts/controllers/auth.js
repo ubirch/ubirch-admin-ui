@@ -22,7 +22,7 @@ angular.module('ubirchAdminCrudApp')
       $scope.error = error;
     });
 
-    $scope.$on('auth:alreadyRegisteredLogin', function (event, user) {
+    $scope.$on('auth:alreadyRegisteredLogin', function () {
       $scope.workinprogress = false;
       angular.element('#registeredModal').modal('show');
     });
@@ -40,7 +40,7 @@ angular.module('ubirchAdminCrudApp')
       $location.url('/login');
     });
 
-    $scope.$on('auth:loggedIn', function (event, user) {
+    $scope.$on('auth:loggedIn', function () {
       $scope.success = true;
       $scope.workinprogress = false;
       $location.url('/');

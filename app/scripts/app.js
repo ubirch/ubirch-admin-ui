@@ -62,6 +62,13 @@ angular
         controller: 'RegisterCtrl',
         controllerAs: 'register'
       })
+      .state('not-activated', {
+        url: '/not-activated',
+        templateUrl: '../views/not-activated.html',
+        controller: 'notActivatedCtrl',
+        controllerAs: 'notActivated',
+        tokenRequired: true
+      })
       .state('device-details', {
         url: '/device-details/:deviceid',
         templateUrl: '../views/device-details.html',
