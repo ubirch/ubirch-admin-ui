@@ -104,20 +104,14 @@ angular
             return DeviceTypes.getDeviceTypeList();
           }
         }
-      })
-      .state('about', {
-        url: '/about',
-        templateUrl: '../views/about.html',
-        controller: 'AboutCtrl',
-        controllerAs: 'about'
       });
 
     $urlRouterProvider.otherwise('devices-list');
 
     $httpProvider.interceptors.push('OAuth2Interceptor');
   }])
-  .run(['$rootScope', '$location', 'AuthService', 'constants',
-  function ($rootScope, $location, AuthService, constants) {
+  .run(['$rootScope', '$location', 'AuthService', 'UserService', 'constants',
+  function ($rootScope, $location, AuthService, UserService, constants) {
 
     if (constants.TODAY === undefined){
       var now = new Date();
@@ -132,11 +126,9 @@ angular
         if (AuthService.authenticationRequired()) {
           $location.path('/auth');
         } else {
-          AuthService.getUserInfo(
-            function (res) {
-              $rootScope.account = res;
-            }
-          );
+          if (!UserService.isUserActivated()) {
+            $location.path('/not-activated');
+          }
         }
       }
     });

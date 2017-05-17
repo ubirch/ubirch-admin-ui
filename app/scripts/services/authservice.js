@@ -327,11 +327,6 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
           handleError(error.errorId, error.errorMessage);
         }
       );
-    },
-    getUserInfo: function(callback) {
-      return UserService.userInfo.get(function (res) {
-        callback(res);
-      });
     }
   };
 
@@ -391,54 +386,6 @@ app.factory('OAuth2Interceptor', ['$q', '$sessionStorage', '$location', 'AccessT
   };
   return service;
 }]);
-
-app.service('UserService', ['$resource', 'constants', 'settings', '$sessionStorage',
-  function ($resource, constants, settings, $sessionStorage ) {
-
-    var url = settings.UBIRCH_AUTH_SERVICE_API_HOST + constants.USER_SERVICE_REST_ENDPOINT;
-
-  var service = {
-
-    // localhost:8091/api/authService/v1/register
-    // TODO: check if token is inserted into header by interceptor for this request
-    register: $resource(url + '/register'),
-    // localhost:8091/api/authService/v1/userInfo
-    // TODO: check if token is inserted into header by interceptor for this request
-    userInfo: $resource(url + '/userInfo'),
-
-    initRegistration: function () {
-      $sessionStorage.registration = {inProcess: false};
-    },
-    setRegistrationFlag: function(value) {
-      if (this.getRegistrationFlag() === undefined){
-        this.initRegistration();
-      }
-      $sessionStorage.registration.inProcess = value;
-    },
-    getRegistrationFlag: function () {
-      return $sessionStorage.registration;
-    },
-    isRegistrationFlagSet: function () {
-      return $sessionStorage.registration !== undefined && $sessionStorage.registration.inProcess;
-    },
-    removeRegistrationFlag: function () {
-      if ($sessionStorage.registration !== undefined){
-        $sessionStorage.registration = null;
-        delete $sessionStorage.registration;
-      }
-    },
-
-    /**
-     * removes user from sessionStorage
-     */
-    destroy: function() {
-      this.removeRegistrationFlag();
-    }
-
-  };
-
-  return service;
-  }]);
 
 // Open ID directive
 app.directive('authButton',

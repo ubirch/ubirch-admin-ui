@@ -20,6 +20,7 @@ angular.module('ubirchAdminCrudApp')
 
     POLLING_INTERVAL : 3000,
     DEFAULT_DEVICE_TYPE_KEY: "unknownDeviceTypeKey",
+    ADMIN_GROUP_ID: "000000000",
     INTIAL_GROUP_NAME: "my-ubirch-group",
     TODAY: undefined
   });
