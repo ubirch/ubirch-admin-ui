@@ -12,9 +12,17 @@ angular.module('ubirchAdminCrudApp')
       templateUrl: 'views/directives/navigation.html',
       restrict: 'E',
       controllerAs: 'navCtrl',
-      controller: ['$scope', '$rootScope', '$location', 'AuthService', function ($scope, $rootScope, $location, AuthService) {
+      controller: ['$scope', '$rootScope', '$location', 'AuthService', 'UserService',
+        function ($scope, $rootScope, $location, AuthService, UserService) {
 
         $rootScope.signedIn = !AuthService.authenticationRequired();
+
+        $scope.account = UserService.getAccount();
+
+        $scope.$watch("account", function(value){
+          console.log("Neuen Wert bekommen" + value);
+        })
+
 
         // highlighting
         $scope.navClass = function (page) {

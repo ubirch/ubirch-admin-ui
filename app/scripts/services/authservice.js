@@ -257,31 +257,36 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
                   if (data.token) {
                     var token = AccessToken.addTokenParam("token", data.token);
                     AccessToken.saveTokenInSession(token);
-                    UserService.userInfo.get(
-                      function(res){
-                        // found user registered for token
+                    UserService.getAccount()
+                      .then(
+                        function(account){
+                          if (account.value !== undefined){
+                            // found user registered for token
 
-                        if (UserService.isRegistrationFlagSet()) {
-                          // user tried to register again
-                          $rootScope.$broadcast('auth:alreadyRegisteredLogin', res);
-                        }
-                        else {
-                          // enter app
-                          $rootScope.$broadcast('auth:loggedIn', res);
-                        }
-                      },
-                      function(error) {
-                        // TODO: check error if really userInfo cannot be found
-                        // no user registered for token
+                            if (UserService.isRegistrationFlagSet()) {
+                              // user tried to register again
+                              $rootScope.$broadcast('auth:alreadyRegisteredLogin', account);
+                            }
+                            else {
+                              // enter app
+                              $rootScope.$broadcast('auth:loggedIn', account);
+                            }
+                          }
+                          else {
+                            // no user registered for token
 
-                        if (UserService.isRegistrationFlagSet()) {
-                          service.register();
+                            if (UserService.isRegistrationFlagSet()) {
+                              service.register();
+                            }
+                            else {
+                              $rootScope.$broadcast('auth:registrationRequired', data.token);
+                            }
+                          }
                         }
-                        else {
-                          $rootScope.$broadcast('auth:registrationRequired', data.token);
-                        }
-                      }
-                    );
+                      ).catch(
+                        function(error) {
+                          handleError("accountNotAccessibleError", "Something went wrong while accessing account");
+                        });
                   }
                   else {
                     handleError("InconsistentCodeStateError", "Something went wrong with your authentication (code and/or state not the same as sended - probably a manInTheMiddle");
@@ -340,6 +345,10 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
       case "authWarning":
         $rootScope.$broadcast('auth:authWarning', errorMessage);
         break;
+      case "accountNotAccessibleError":
+        // broadcast error
+        $rootScope.$broadcast('auth:authError', errorType + ": " + errorMessage);
+        break;
       default:
         // remove sessionToken
         AccessToken.destroy();
@@ -368,18 +377,14 @@ app.factory('OAuth2Interceptor', ['$q', '$sessionStorage', '$location', 'AccessT
 
     responseError: function (rejection) {//error
       console.log('Failed with', rejection.status, 'status');
-      if (rejection.status === 401) {
-        $location.url('/login');
+      switch (rejection.status) {
+        case 401:
+        case 403:
+          $location.url('/login');
+          break;
+        case 405:
+          break;
       }
-      else if (rejection.status === 403) {
-        // TODO: separate page for forbidden requests
-        $location.url('/login');
-      }
-      else if (rejection.status === -1) {
-        // TODO: separate page for forbidden requests
-        $location.url('/login');
-      }
-
       return $q.reject(rejection);
     }
 

@@ -8,14 +8,16 @@
  * Service in the ubirchAdminCrudApp.
  */
 angular.module('ubirchAdminCrudApp')
-.service('UserService', ['$resource', 'constants', 'settings', '$sessionStorage',
-  function ($resource, constants, settings, $sessionStorage ) {
+.service('UserService', ['$resource', 'constants', 'settings', '$sessionStorage', '$q',
+  function ($resource, constants, settings, $sessionStorage, $q ) {
 
     var url = settings.UBIRCH_AUTH_SERVICE_API_HOST + constants.USER_SERVICE_REST_ENDPOINT;
 
     var service = {
 
-      account: undefined,
+      account: {
+        value: undefined
+      },
 
     // localhost:8091/api/authService/v1/register
       // TODO: check if token is inserted into header by interceptor for this request
@@ -46,17 +48,23 @@ angular.module('ubirchAdminCrudApp')
         }
       },
       getAccount: function() {
-        if (account === undefined){
-          this.userInfo.get(
-              function(res){
-                this.account = res;
-                return (this.account);
-              }
-            );
-        }
-        else {
-          return (this.account);
-        }
+        var self = this;
+        return $q(function(resolve) {
+          if (self.account.value === undefined){
+            self.userInfo.get(
+                function(res){
+                  self.account.value = res;
+                  resolve(self.account);
+                },
+              function () {
+                self.account.value = undefined;
+                resolve(self.account);
+              });
+          }
+          else {
+            resolve(self.account);
+          }
+        });
       },
 
       isUserActivated: function() {
@@ -72,17 +80,17 @@ angular.module('ubirchAdminCrudApp')
           return false;
         };
 
-        if (this.account === undefined){
+        if (this.account.value === undefined){
           var self = this;
           this.userInfo.get(
               function(res){
-                self.account = res;
+                self.account.value = res;
                 return foundGroup(res.allowedGroups, constants.ADMIN_GROUP_ID);
               }
             );
         }
         else {
-          return foundGroup(this.account.allowedGroups, constants.ADMIN_GROUP_ID);
+          return foundGroup(this.account.value.allowedGroups, constants.ADMIN_GROUP_ID);
         }
       },
       /**
