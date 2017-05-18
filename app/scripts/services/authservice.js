@@ -385,7 +385,7 @@ app.factory('OAuth2Interceptor', ['$q', '$sessionStorage', '$location', 'AccessT
         case 405:
           break;
       }
-      return $q.reject(rejection);
+      // return $q.reject(rejection);
     }
 
   };

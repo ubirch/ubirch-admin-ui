@@ -17,12 +17,10 @@ angular.module('ubirchAdminCrudApp')
 
         $rootScope.signedIn = !AuthService.authenticationRequired();
 
-        $scope.account = UserService.getAccount();
-
-        $scope.$watch("account", function(value){
-          console.log("Neuen Wert bekommen" + value);
-        })
-
+        UserService.getAccount().then(function (acc) {
+          $scope.account = acc;
+          $scope.activated = UserService.isUserActivated();
+        });
 
         // highlighting
         $scope.navClass = function (page) {
