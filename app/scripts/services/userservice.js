@@ -68,30 +68,31 @@ angular.module('ubirchAdminCrudApp')
       },
 
       isUserActivated: function() {
-        var foundGroup = function(groupList, groupId){
-          if (groupList === undefined){
-            return false;
-          }
-          for (var i = 0; i < groupList.length; i++){
-            if (groupList[i].id === groupId) {
-              return true;
-            }
-          }
-          return false;
-        };
-
-        if (this.account.value === undefined){
-          var self = this;
-          this.userInfo.get(
-              function(res){
-                self.account.value = res;
-                return foundGroup(res.allowedGroups, constants.ADMIN_GROUP_ID);
-              }
-            );
-        }
-        else {
-          return foundGroup(this.account.value.allowedGroups, constants.ADMIN_GROUP_ID);
-        }
+        return true;
+        // var foundGroup = function(groupList, groupId){
+        //   if (groupList === undefined){
+        //     return false;
+        //   }
+        //   for (var i = 0; i < groupList.length; i++){
+        //     if (groupList[i].id === groupId) {
+        //       return true;
+        //     }
+        //   }
+        //   return false;
+        // };
+        //
+        // if (this.account.value === undefined){
+        //   var self = this;
+        //   this.userInfo.get(
+        //       function(res){
+        //         self.account.value = res;
+        //         return foundGroup(res.allowedGroups, constants.ADMIN_GROUP_ID);
+        //       }
+        //     );
+        // }
+        // else {
+        //   return foundGroup(this.account.value.allowedGroups, constants.ADMIN_GROUP_ID);
+        // }
       },
       /**
        * removes user from sessionStorage
