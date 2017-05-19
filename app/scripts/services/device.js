@@ -213,22 +213,33 @@ angular.module('ubirchAdminCrudApp')
 
       addProperties: function(device, addedProperties){
 
-        addedProperties.properties.forEach( function(property) {
-          if (property.key.length > 0 && property.value.length > 0){
-            if (device.deviceProperties === undefined){
-              device.deviceProperties = {};
+        var addKeyValueTo = function(listName, addToList) {
+          listName.forEach( function(item) {
+            if (device[addToList] === undefined){
+              device[addToList] = {};
             }
-            device.deviceProperties[property.key] = property.value;
-          }
-        });
-        addedProperties.config.forEach( function(config) {
-          if (device.deviceConfig === undefined){
-            device.deviceConfig = {};
-          }
-          if (config.key.length > 0 && config.value.length > 0){
-            device.deviceConfig[config.key] = config.value;
-          }
-        });
+            if (item.key.length > 0 && item.value.length > 0){
+              // check type of new value
+              var val = item.value;
+              if (!isNaN(item.value) && angular.isNumber(+item.value)){
+                val = parseFloat(item.value);
+              }
+              else if (item.value.toUpperCase() === "TRUE"){
+                val = true;
+              }
+              else if (item.value.toUpperCase() === "FALSE"){
+                val = false;
+              }
+
+              device[addToList][item.key] = val;
+            }
+          });
+        };
+
+        addKeyValueTo(addedProperties.properties, "deviceProperties");
+        addKeyValueTo(addedProperties.config, "deviceConfig");
+
+
         addedProperties.tags.forEach( function(tag) {
           if (device.tags === undefined){
             device.tags = [];
