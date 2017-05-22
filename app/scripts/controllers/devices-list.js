@@ -18,10 +18,6 @@ app.controller('DevicesListCtrl', [ '$scope', '$rootScope', '$location', 'Device
 
     $scope.deviceTypes = deviceTypesList;
 
-    if ($rootScope.search === undefined){
-      $rootScope.search = {};
-    }
-
     var listPromise;
 
     (function refreshData() {
@@ -45,14 +41,8 @@ app.controller('DevicesListCtrl', [ '$scope', '$rootScope', '$location', 'Device
       $timeout.cancel(listPromise);
     });
 
-    var d = new Date();
-    d.setHours(0);
-    d.setMinutes(0);
-    d.setSeconds(0);
-    $scope.today = d;
-
     $scope.fromToday = function(date){
-      return new Date(date) >= $scope.today;
+      return new Date(date) >= constants.TODAY;
     };
 
     $scope.openDeviceDetails = function (deviceId) {

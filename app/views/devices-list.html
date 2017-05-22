@@ -6,22 +6,7 @@
         {{ 'DEVICES_LIST_HEADLINE' | translate }}
       </div>
       <div class="col-lg-8 col-md-8 col-sm-7 col-xs-7">
-        <form>
-          <div class="input-group">
-            <span class="input-group-btn">
-              <button type="button" class="btn btn-default" title="remove filter"
-                      ng-click="$root.search.deviceName = undefined" ng-hide="$root.search.deviceName == undefined">
-                <span class="glyphicon glyphicon-remove-sign"></span>
-              </button>
-            </span>
-            <input id="nameInput" ng-model="$root.search.deviceName" type="text" class="form-control" placeholder="filter list..">
-            <span class="input-group-btn">
-              <button class="btn btn-default" type="button">
-                <span class="glyphicon glyphicon-search"></span>
-              </button>
-            </span>
-          </div>
-        </form>
+        <list-filter search="search"></list-filter>
       </div>
     </div>
   <!-- DeviceList -->
