@@ -18,6 +18,8 @@ app.controller('DevicesListCtrl', [ '$scope', '$rootScope', '$location', 'Device
 
     $scope.deviceTypes = deviceTypesList;
 
+    $scope.search = {};
+
     var listPromise;
 
     (function refreshData() {
