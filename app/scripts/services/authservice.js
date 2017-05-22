@@ -380,7 +380,9 @@ app.factory('OAuth2Interceptor', ['$q', '$sessionStorage', '$location', 'AccessT
       switch (rejection.status) {
         case 401:
         case 403:
-          $location.url('/login');
+          if (rejection.config.url.includes("avatarService")){
+            $location.url('/login');
+          }
           break;
         case 405:
           break;
