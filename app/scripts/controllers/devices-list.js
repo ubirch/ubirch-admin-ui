@@ -18,7 +18,9 @@ app.controller('DevicesListCtrl', [ '$scope', '$rootScope', '$location', 'Device
 
     $scope.deviceTypes = deviceTypesList;
 
-    $scope.search = {};
+    if ($rootScope.search === undefined){
+      $rootScope.search = {};
+    }
 
     var listPromise;
 
