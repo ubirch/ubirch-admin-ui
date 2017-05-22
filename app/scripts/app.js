@@ -41,7 +41,8 @@ angular
       'de_*': 'de',
       '*': 'en'
     })
-    .determinePreferredLanguage();
+    .determinePreferredLanguage()
+    .useSanitizeValueStrategy('escape');
 
     $stateProvider
       .state('auth', {
