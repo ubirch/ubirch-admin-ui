@@ -6,13 +6,16 @@ describe('Service: Device', function () {
   beforeEach(module('ubirchAdminCrudApp'));
 
   // instantiate service
-  var Device;
-  beforeEach(inject(function (_Device_) {
-    Device = _Device_;
+  var deviceService;
+
+  beforeEach(inject(function ($injector) {
+    deviceService = $injector.get('Device');
   }));
 
-  it('should do something', function () {
-    expect(!!Device).toBe(true);
+  it('service should exist', function () {
+    expect(!!deviceService).toBe(true);
   });
+
+
 
 });
