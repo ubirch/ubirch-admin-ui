@@ -67,32 +67,46 @@ angular.module('ubirchAdminCrudApp')
         });
       },
 
+      isUserAdmin: function() {
+        var foundAdminGroup = function(groupList){
+          if (groupList === undefined){
+            return false;
+          }
+          for (var i = 0; i < groupList.length; i++){
+            if (groupList[i].adminGroup) {
+              return true;
+            }
+          }
+          return false;
+        };
+
+        if (this.account.value === undefined){
+          var self = this;
+          this.userInfo.get(
+            function(res){
+              self.account.value = res;
+              return foundAdminGroup(res.allowedGroups);
+            }
+          );
+        }
+        else {
+          return foundAdminGroup(this.account.value.allowedGroups);
+        }
+      },
+
       isUserActivated: function() {
-        return true;
-        // var foundGroup = function(groupList, groupId){
-        //   if (groupList === undefined){
-        //     return false;
-        //   }
-        //   for (var i = 0; i < groupList.length; i++){
-        //     if (groupList[i].id === groupId) {
-        //       return true;
-        //     }
-        //   }
-        //   return false;
-        // };
-        //
-        // if (this.account.value === undefined){
-        //   var self = this;
-        //   this.userInfo.get(
-        //       function(res){
-        //         self.account.value = res;
-        //         return foundGroup(res.allowedGroups, constants.ADMIN_GROUP_ID);
-        //       }
-        //     );
-        // }
-        // else {
-        //   return foundGroup(this.account.value.allowedGroups, constants.ADMIN_GROUP_ID);
-        // }
+        if (this.account.value === undefined){
+          var self = this;
+          this.userInfo.get(
+              function(res){
+                self.account.value = res;
+                return res.activeUser === true ? true : false;
+              }
+            );
+        }
+        else {
+          return this.account.value.activeUser === true ? true : false;
+        }
       },
       /**
        * removes user from sessionStorage
