@@ -2,7 +2,7 @@
 
 ## General Information
 
-ubrich user interface to manage and monitor IOT devices
+ubirch user interface to manage and monitor IOT devices
 
 ## Quick Start
 
