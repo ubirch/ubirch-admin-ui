@@ -20,7 +20,7 @@ The documentation of the underlying API can be found [here](http://developer.ubi
 
 We expect the following tools been installed on the machine:
 
-* Node.js and
+* [Node.js - Install node.js for npm](https://docs.npmjs.com/getting-started/installing-node) and
 * [npm, package manager for JavaScript](https://www.npmjs.com) (used for nodejs components)
 
 npm is bundled with node
