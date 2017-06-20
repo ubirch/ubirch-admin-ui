@@ -67,17 +67,10 @@ angular.module('ubirchAdminCrudApp')
             angular.forEach( data, function(katObj, kat){
               // don't add $promise, $resolved aso
               if (!kat.startsWith("$")){
-                switch(kat) {
-                  case "avatarLastUpdated":
-                    $scope.avatarLastUpdated = katObj;
-                    break;
-                  case "deviceLastUpdated":
-                    $scope.deviceLastUpdated = katObj;
-                    break;
-                  case "inSync":
-                    $scope.inSync = katObj;
-                    break;
-                  default:
+                if (typeof katObj !== "object"){
+                  $scope[kat] = katObj;
+                }
+                else {
                     var kategory = kat;
                     // save the parameter name for row identification
                     $scope.stateKats.push(kategory);
