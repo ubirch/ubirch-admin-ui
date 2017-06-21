@@ -127,9 +127,13 @@ angular
         if (AuthService.authenticationRequired()) {
           $location.path('/auth');
         } else {
-          if (!UserService.isUserActivated()) {
-            $location.path('/not-activated');
-          }
+          UserService.isUserActivated().then(
+            function(isActivated){
+              if (!isActivated) {
+                $location.path('/not-activated');
+              }
+            }
+          );
         }
       }
     });

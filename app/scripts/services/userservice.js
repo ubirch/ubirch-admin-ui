@@ -48,23 +48,10 @@ angular.module('ubirchAdminCrudApp')
         }
       },
       getAccount: function() {
-        var self = this;
-        return $q(function(resolve) {
-          if (self.account.value === undefined){
-            self.userInfo.get(
-                function(res){
-                  self.account.value = res;
-                  resolve(self.account);
-                },
-              function () {
-                self.account.value = undefined;
-                resolve(self.account);
-              });
-          }
-          else {
-            resolve(self.account);
-          }
-        });
+        if (this.account.value === undefined){
+          this.account.value = this.userInfo.get();
+        }
+        return this.account.value;
       },
 
       isUserAdmin: function() {
@@ -95,18 +82,11 @@ angular.module('ubirchAdminCrudApp')
       },
 
       isUserActivated: function() {
-        if (this.account.value === undefined){
-          var self = this;
-          this.userInfo.get(
-              function(res){
-                self.account.value = res;
-                return res.activeUser === true ? true : false;
-              }
-            );
-        }
-        else {
-          return this.account.value.activeUser === true ? true : false;
-        }
+        return this.getAccount().$promise.then(
+          function(res){
+            return res.activeUser === true ? true : false;
+          }
+        );
       },
       /**
        * removes user from sessionStorage

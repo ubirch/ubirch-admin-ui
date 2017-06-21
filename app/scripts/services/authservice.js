@@ -257,7 +257,7 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
                   if (data.token) {
                     var token = AccessToken.addTokenParam("token", data.token);
                     AccessToken.saveTokenInSession(token);
-                    UserService.getAccount()
+                    UserService.getAccount().$promise
                       .then(
                         function(account){
                           if (account.value !== undefined){

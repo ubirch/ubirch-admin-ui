@@ -16,11 +16,23 @@ angular.module('ubirchAdminCrudApp')
         function ($scope, $rootScope, $location, AuthService, UserService) {
 
         $rootScope.signedIn = !AuthService.authenticationRequired();
+          $scope.account = {
+            value: undefined
+          };
 
-        UserService.getAccount().then(function (acc) {
-          $scope.account = acc;
-          $scope.activated = UserService.isUserActivated();
-        });
+          $rootScope.$watch("signedIn", function(signedIn){
+            if (signedIn){
+              UserService.getAccount().$promise.then(function (acc) {
+                $scope.account.value = acc;
+                $scope.account.activated = UserService.isUserActivated();
+              });
+            }
+            else {
+              $scope.account.value = undefined;
+              $scope.account.activated = undefined;
+            }
+          });
+
 
         // highlighting
         $scope.navClass = function (page) {
