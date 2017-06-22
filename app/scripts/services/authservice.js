@@ -260,7 +260,7 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
                     UserService.getAccount().$promise
                       .then(
                         function(account){
-                          if (account.value !== undefined){
+                          if (account !== undefined){
                             // found user registered for token
 
                             if (UserService.isRegistrationFlagSet()) {
@@ -269,6 +269,7 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
                             }
                             else {
                               // enter app
+                              $rootScope.signedIn = true;
                               $rootScope.$broadcast('auth:loggedIn', account);
                             }
                           }
@@ -278,6 +279,7 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
                         },
                         function(error) {
                           // no user registered for token
+                          // TODO: check error type
 
                           if (UserService.isRegistrationFlagSet()) {
                             service.register();
@@ -325,6 +327,7 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
       UserService.register.save(
         function (res) {
           // enter app
+          $rootScope.signedIn = true;
           $rootScope.$broadcast('auth:loggedIn', res);
         },
         function (error) {
