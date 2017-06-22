@@ -58,7 +58,7 @@ angular.module('ubirchAdminCrudApp')
             }
           );
         }
-        return this.account.value;
+        return this.account;
       },
 
       isUserAdmin: function() {
@@ -91,7 +91,7 @@ angular.module('ubirchAdminCrudApp')
       isUserActivated: function() {
         return this.getAccount().$promise.then(
           function(res){
-            return res.activeUser === true ? true : false;
+            return res.value.activeUser === true ? true : false;
           }
         );
       },
