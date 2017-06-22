@@ -273,20 +273,20 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
                             }
                           }
                           else {
-                            // no user registered for token
+                            handleError("accountNotAccessibleError", "Something went wrong while accessing account");
+                          }
+                        },
+                        function(error) {
+                          // no user registered for token
 
-                            if (UserService.isRegistrationFlagSet()) {
-                              service.register();
-                            }
-                            else {
-                              $rootScope.$broadcast('auth:registrationRequired', data.token);
-                            }
+                          if (UserService.isRegistrationFlagSet()) {
+                            service.register();
+                          }
+                          else {
+                            $rootScope.$broadcast('auth:registrationRequired', data.token);
                           }
                         }
-                      ).catch(
-                        function(error) {
-                          handleError("accountNotAccessibleError", "Something went wrong while accessing account");
-                        });
+                      );
                   }
                   else {
                     handleError("InconsistentCodeStateError", "Something went wrong with your authentication (code and/or state not the same as sended - probably a manInTheMiddle");
