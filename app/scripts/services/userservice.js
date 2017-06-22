@@ -49,7 +49,14 @@ angular.module('ubirchAdminCrudApp')
       },
       getAccount: function() {
         if (this.account.value === undefined){
-          this.account.value = this.userInfo.get();
+          this.account.value = this.userInfo.get(
+            function (account) {
+              return account;
+            },
+            function () {
+              return undefined;
+            }
+          );
         }
         return this.account.value;
       },
