@@ -67,6 +67,8 @@
   "CHECK_AUTHENTICATION": "Check authentication",
   "AUTHENTICATION_FAILED": "Authentication failed!",
   "SORRY_AUTHENTICATION_FAILED": "Sorry, an authentication error occurred:",
+  "NOT_ACTIVATED_HEADER": "You are not activated yet!",
+  "NOT_ACTIVATED": "You have already registered yourself for the ubirch IOT service but you have to wait for been activated by our support team.",
   "NO_HISTORY_DATA": "No history data available for this device in selected range",
   "SWITCH_TO_DATE_TIME": "add time selection",
   "ACTIVATE_AUTO_RELOAD": "activate auto reload",

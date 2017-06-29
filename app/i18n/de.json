@@ -73,5 +73,7 @@
   "INFO_INITIAL_GROUP": "Geben Sie einen Namen für Ihre persönliche Gruppe ein. Devices die Sie aktivieren werden automatisch dieser Gruppe zugeordnet. Nur Sie haben Zugriff auf alle Devices Ihrer persönlichen Gruppe.",
   "CHECK_AUTHENTICATION": "Authentifizierung wird überprüft",
   "AUTHENTICATION_FAILED": "Authentifikation missglückt!",
-  "SORRY_AUTHENTICATION_FAILED": "Es tut uns leid aber bei der Authentifikation ist folgender Fehler aufgetreten:"
+  "SORRY_AUTHENTICATION_FAILED": "Es tut uns leid aber bei der Authentifikation ist folgender Fehler aufgetreten:",
+  "NOT_ACTIVATED_HEADER": "Sie wurden noch nicht aktiviert!",
+  "NOT_ACTIVATED": "Sie haben sich für den ubirch IOT Service registriert, wurden aber noch nicht von unserem Supportteam aktiviert. Bitte versuchen Sie es später noch einmal."
 }

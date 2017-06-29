@@ -51,6 +51,12 @@ angular
         controller: 'AuthCtrl',
         controllerAs: 'auth'
       })
+      .state('check-activation', {
+        url: '/check-activation',
+        templateUrl: '../views/check-activation.html',
+        controller: 'CheckActivationCtrl',
+        controllerAs: 'checkActivation'
+      })
       .state('login', {
         url: '/login',
         templateUrl: '../views/login.html',
@@ -127,13 +133,14 @@ angular
         if (AuthService.authenticationRequired()) {
           $location.path('/auth');
         } else {
-          UserService.isUserActivated().then(
-            function(isActivated){
-              if (!isActivated) {
-                $location.path('/not-activated');
-              }
+          if (UserService.activationCheckRequired()) {
+            $location.path('/check-activation');
+          }
+          else {
+            if (UserService.getActivationFlag() === false){
+              $location.path('/not-activated');
             }
-          );
+          }
         }
       }
     });

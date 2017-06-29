@@ -24,7 +24,7 @@ angular.module('ubirchAdminCrudApp')
             if (signedIn){
               UserService.getAccount().$promise.then(function (acc) {
                 $scope.account.value = acc;
-                $scope.account.activated = UserService.isUserActivated();
+                $scope.account.activated = acc.activeUser === true ? true : false;
               });
             }
             else {
