@@ -325,10 +325,16 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
     },
     register: function () {
       UserService.register.save(
-        function (res) {
-          // enter app
-          $rootScope.signedIn = true;
-          $rootScope.$broadcast('auth:loggedIn', res);
+        function (account) {
+          if (account !== undefined){
+            UserService.setAccount(account);
+            // enter app
+            $rootScope.signedIn = true;
+            $rootScope.$broadcast('auth:loggedIn');
+          }
+          else {
+            handleError("accountNotAccessibleError", "Something went wrong while accessing account");
+          }
         },
         function (error) {
           // something went wrong

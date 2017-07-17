@@ -59,6 +59,10 @@ angular.module('ubirchAdminCrudApp')
         return this.account.value;
       },
 
+      setAccount: function (account) {
+        this.account.value = account;
+      },
+
       // isUserAdmin: function() {
       //   var foundAdminGroup = function(groupList){
       //     if (groupList === undefined){
