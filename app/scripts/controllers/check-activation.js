@@ -8,8 +8,8 @@
  * Controller of the ubirchAdminCrudApp
  */
 angular.module('ubirchAdminCrudApp')
-  .controller('CheckActivationCtrl', ['$scope', '$location', '$log', 'UserService', 'constants', '$timeout',
-    function ($scope, $location, $log, UserService, constants, $timeout) {
+  .controller('CheckActivationCtrl', ['$scope', '$location', '$log', 'UserService',
+    function ($scope, $location, $log, UserService) {
 
     $scope.workinprogress = true;
     $scope.notactivated = undefined;
@@ -29,17 +29,13 @@ angular.module('ubirchAdminCrudApp')
       }
     };
 
-    (function reloadUserData() {
-      UserService.getAccount().$promise.then(
-        gotAccountData,
-        function (error) {
-          if (error.data.errorType === "NoUserInfoFound"){
-                $timeout(reloadUserData, constants.POLLING_INTERVAL);
-                $log.warn("No NoUserInfoFound: "+error);
-          }
-          console.log(error);
+    UserService.getAccount().$promise.then(
+      gotAccountData,
+      function (error) {
+        if (error.data.errorType === "NoUserInfoFound"){
+              $log.warn("No userInfo found: "+error);
         }
-      );
+      }
+    );
 
-    })();
   }]);
