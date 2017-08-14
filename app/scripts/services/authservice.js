@@ -164,7 +164,7 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
 
   var service = {
     // http://localhost:8091/api/loginService/v1/providerInfo/list/trackle-dev
-    providerInfo: $resource(url + '/providerInfo/list/' + settings.CONTEXT),
+    providerInfo: $resource(url + '/providerInfo/list/' + settings.CONTEXT + "/" + settings.APP_ID),
 
     verifyAuth: $resource(url + '/verify/code'),
 
@@ -249,6 +249,7 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
               this.verifyAuth.save(
                 {
                   "context": settings.CONTEXT,
+                  "appId": settings.APP_ID,
                   "providerId": providerId,
                   "code": query.code,
                   "state": query.state

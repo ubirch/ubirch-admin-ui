@@ -3,7 +3,8 @@
  */
 angular.module('ubirchAdminCrudApp')
   .constant('settings', {
-    CONTEXT: "ubirch-admin-ui-demo",
+    CONTEXT: "ubirch-demo",
+    APP_ID: "admin-ui",
     UBIRCH_API_HOST : "http://ubirch.demo.ubirch.com:80",
     DEFAULT_DEVICE_TYPE_KEY: "unknownDeviceType",
     UBIRCH_AUTH_SERVICE_API_HOST : "http://auth.demo.ubirch.com:8091",
