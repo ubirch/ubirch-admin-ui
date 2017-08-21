@@ -40,6 +40,7 @@
   "TABLABEL_HISTORY": "history",
   "TABLABEL_MAP": "map",
   "TABLABEL_SETTINGS": "additional settings",
+  "TABLABEL_DEVINFO": "dev info",
   "TABLABEL_FILTERBY_DATE": "filter by date",
   "TABLABEL_FILTERBY_RANGE": "filter by dataset range",
   "TABLABEL_CHART": "chart",
@@ -75,5 +76,10 @@
   "DEACTIVATE_AUTO_RELOAD": "deactivate auto reload",
   "CHART_SINGLE_YAXIS": "single y axis",
   "CHART_MULTI_YAXIS": "separate y axes",
-  "NO_LOCATION_DATA": "No locations available for this sensor"
+  "NO_LOCATION_DATA": "No locations available for this sensor",
+  "MQTT_SERVER_URL": "MQTT Server URL",
+  "MQTT_TOPIC": "MQTT Topic",
+  "QUERY_API_OPEN_DOCU": "Open Query API Documentation..",
+  "SHELL_SCRIPT_EXAMPLE": "Shell Script Example",
+  "MQTT_CREDENTIALS": "MQTT credentials"
 }

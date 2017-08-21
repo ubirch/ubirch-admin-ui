@@ -53,6 +53,23 @@ angular.module('ubirchAdminCrudApp')
       };
       $scope.markersDefined = false;
 
+      $scope.devInfo = {
+        mqtt: {
+          serverUrl: "tcp://mq.demo.ubirch.com:1883",
+          pwd: "SmartPublicLife2017",
+          topic: "ubirch-demo/ubirch/devices/a425081d-0737-4e0c-84ba-7137d57b4b10/processed"
+        },
+        query: {
+          docuUrl: "http://developer.ubirch.com/docs/api/swagger-ui.html?url=https://raw.githubusercontent.com/ubirch/ubirchApiDocs/master/swaggerDocs//ubirch/avatar_service/1.0/ubirch_avatar_service_api.yaml",
+          example: {
+            deviceId: "a425081d-0737-4e0c-84ba-7137d57b4b10",
+            token: "ya29.Gl2rBENjhKGgEtXltMLAV__LikgXIAznpI6pDlzz5-5crbZoCuc1MTqMKzAeBl9tihRg7FkCMmY4BtyXlFcfVaAG-7fq7VxkA8hCRbmy5TTRLBt9LJmePURrwBBfsQ4",
+            host: "api.ubirch.demo.ubirch.com:8080",
+            curl: "curl -XGET -H 'Authorization: Bearer $TOKEN' $HOST/api/avatarService/v1/device/$DEVICEID/data/history/0/10"
+          }
+        }
+      };
+
 
       if ($stateParams.deviceid) {
         $scope.device = Device.getDevice($stateParams.deviceid, function(deviceVal){
