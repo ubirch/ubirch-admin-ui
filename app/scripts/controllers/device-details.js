@@ -8,8 +8,8 @@
  * Controller of the ubirchAdminCrudApp
  */
 angular.module('ubirchAdminCrudApp')
-  .controller('DeviceDetailsCtrl',[ '$scope', '$rootScope', '$window', '$location', '$stateParams', '$filter', 'Device', 'toaster', 'deviceTypesList', 'DeviceTypes', 'leafletBoundsHelpers',
-    function ($scope, $rootScope, $window, $location, $stateParams, $filter, Device, toaster, deviceTypesList, DeviceTypes, leafletBoundsHelpers) {
+  .controller('DeviceDetailsCtrl',[ '$scope', '$rootScope', '$window', '$location', "$sessionStorage", "constants", "settings", '$stateParams', '$filter', 'Device', 'toaster', 'deviceTypesList', 'DeviceTypes', 'leafletBoundsHelpers',
+    function ($scope, $rootScope, $window, $location, $sessionStorage, constants, settings, $stateParams, $filter, Device, toaster, deviceTypesList, DeviceTypes, leafletBoundsHelpers) {
     var listUrl = "devices-list";
 
       $scope.deviceid = $stateParams.deviceid;
@@ -54,26 +54,26 @@ angular.module('ubirchAdminCrudApp')
       $scope.markersDefined = false;
 
       $scope.devInfo = {
-        mqtt: {
-          serverUrl: "tcp://mq.demo.ubirch.com:1883",
-          pwd: "SmartPublicLife2017",
-          topic: "ubirch-demo/ubirch/devices/a425081d-0737-4e0c-84ba-7137d57b4b10/processed"
-        },
-        query: {
-          docuUrl: "http://developer.ubirch.com/docs/api/swagger-ui.html?url=https://raw.githubusercontent.com/ubirch/ubirchApiDocs/master/swaggerDocs//ubirch/avatar_service/1.0/ubirch_avatar_service_api.yaml",
-          example: {
-            deviceId: "a425081d-0737-4e0c-84ba-7137d57b4b10",
-            token: "ya29.Gl2rBENjhKGgEtXltMLAV__LikgXIAznpI6pDlzz5-5crbZoCuc1MTqMKzAeBl9tihRg7FkCMmY4BtyXlFcfVaAG-7fq7VxkA8hCRbmy5TTRLBt9LJmePURrwBBfsQ4",
-            host: "api.ubirch.demo.ubirch.com:8080",
-            curl: "curl -XGET -H 'Authorization: Bearer $TOKEN' $HOST/api/avatarService/v1/device/$DEVICEID/data/history/0/10"
-          }
-        }
-      };
-
+        mqtt: {},
+        query: {}
+      }
 
       if ($stateParams.deviceid) {
         $scope.device = Device.getDevice($stateParams.deviceid, function(deviceVal){
           $scope.deviceType = $filter('getDeviceType')(deviceTypesList, deviceVal.deviceTypeKey);
+          $scope.devInfo.query = {
+            docuUrl: constants.AVATAR_SERVICE_DOCUMENTATION,
+            example: {
+              deviceId: $scope.device.deviceId,
+              token: $sessionStorage.token.token,
+              host: settings.UBIRCH_API_HOST,
+              curl: "curl -XGET -H 'Authorization: Bearer $TOKEN' $HOST/api/avatarService/v1/device/$DEVICEID/data/history/0/10"
+            }
+          };
+          if ($scope.device.mqtt !== undefined && $scope.device.mqtt.serverUrl !== undefined){
+            $scope.devInfo.mqtt = $scope.device.mqtt;
+          }
+
         });
 
         Device.getDeviceState($stateParams.deviceid,

@@ -81,5 +81,7 @@
   "MQTT_TOPIC": "MQTT Topic",
   "QUERY_API_OPEN_DOCU": "Open Query API Documentation..",
   "SHELL_SCRIPT_EXAMPLE": "Shell Script Example",
-  "MQTT_CREDENTIALS": "MQTT credentials"
+  "MQTT_CREDENTIALS": "MQTT credentials",
+  "INFO_NO_MQTT_SERVER": "No MQTT server specified",
+  "WAITING_FOR_RESPONSE": "waiting for response"
 }

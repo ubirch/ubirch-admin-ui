@@ -3,19 +3,25 @@
 
     <h2>Streaming API</h2>
 
-    <div class="form-group">
-      <span class="label label-default">{{ 'MQTT_SERVER_URL' | translate }}:</span>
-      <input type="text" class="form-control" ng-model="devInfo.mqtt.serverUrl" readonly>
+    <div ng-show="devInfo.mqtt.serverUrl === undefined">
+      <div class="alert alert-warning" role="alert">{{ 'INFO_NO_MQTT_SERVER' | translate }}<span ng-show="devInfo.deviceId !== undefined">.. {{ 'WAITING_FOR_RESPONSE' | translate }}</span></div>
     </div>
 
-    <div class="form-group">
-      <span class="label label-default">{{ 'MQTT_CREDENTIALS' | translate }}:</span>
-      <input type="text" class="form-control" ng-model="devInfo.mqtt.pwd" readonly>
-    </div>
+    <div ng-hide="devInfo.mqtt.serverUrl === undefined">
+      <div class="form-group">
+        <span class="label label-default">{{ 'MQTT_SERVER_URL' | translate }}:</span>
+        <input type="text" class="form-control" ng-model="devInfo.mqtt.serverUrl" readonly>
+      </div>
 
-    <div class="form-group">
-      <span class="label label-default">{{ 'MQTT_TOPIC' | translate }}:</span>
-      <input type="text" class="form-control" ng-model="devInfo.mqtt.topic" readonly>
+      <div class="form-group">
+        <span class="label label-default">{{ 'MQTT_CREDENTIALS' | translate }}:</span>
+        <input type="text" class="form-control" ng-model="devInfo.mqtt.pwd" readonly>
+      </div>
+
+      <div class="form-group">
+        <span class="label label-default">{{ 'MQTT_TOPIC' | translate }}:</span>
+        <input type="text" class="form-control" ng-model="devInfo.mqtt.topic" readonly>
+      </div>
     </div>
 
     <h2>Query API</h2>

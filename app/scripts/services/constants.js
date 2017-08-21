@@ -13,6 +13,7 @@ angular.module('ubirchAdminCrudApp')
     CHAIN_SERVICE_REST_ENDPOINT : "/api/v1/chainService/explorer",
     // AvatarService
     AVATAR_SERVICE_REST_ENDPOINT : "/api/avatarService/v1",
+    AVATAR_SERVICE_DOCUMENTATION : "http://developer.ubirch.com/docs/api/swagger-ui.html?url=https://raw.githubusercontent.com/ubirch/ubirchApiDocs/master/swaggerDocs//ubirch/avatar_service/1.0/ubirch_avatar_service_api.yaml",
     // AuthService
     AUTH_SERVICE_REST_ENDPOINT : "/api/authService/v1",
     // UserService
