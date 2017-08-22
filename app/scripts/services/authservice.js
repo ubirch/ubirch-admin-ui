@@ -209,8 +209,7 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
 
         this.logout.get({token: token.token},
           function () {
-            AccessToken.destroy();
-            UserService.destroy();
+            cleanSessionStorage();
             $rootScope.$broadcast("auth:signedOut", "You have been logged out");
             $location.url(self.signOutRedirectUrl);
           },
@@ -281,7 +280,7 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
                         function(error) {
                           // check error type
                           switch (error.status) {
-                            case "400":
+                            case 400:
                               if (error.data.errorType === "NoUserInfoFound"){
                                 // no user registered for token
 
@@ -293,7 +292,7 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
                                 }
                               }
                               break;
-                            case "403":
+                            case 403:
                               $rootScope.$broadcast('auth:authRequired', 'You need to login');
                               break;
                             default:
@@ -353,10 +352,18 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
           handleError(error.errorId, error.errorMessage);
         }
       );
+    },
+    abort: function() {
+      cleanSessionStorage();
     }
   };
 
-  var handleError = function(errorType, errorMessage) {
+    var cleanSessionStorage = function() {
+      AccessToken.destroy();
+      UserService.destroy();
+    };
+
+    var handleError = function(errorType, errorMessage) {
 
     switch (errorType){
       case "LogoutFailedError":
@@ -372,8 +379,7 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
         break;
       default:
         // remove sessionToken
-        AccessToken.destroy();
-        UserService.destroy();
+        cleanSessionStorage();
         // broadcast error
         $rootScope.$broadcast('auth:authError', errorType + ": " + errorMessage);
     }

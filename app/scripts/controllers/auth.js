@@ -66,6 +66,7 @@ angular.module('ubirchAdminCrudApp')
 
     $scope.noRegistration = function () {
       $rootScope.closeModal('#registrationModal');
+      AuthService.abort();
       $scope.workinprogress = false;
       $location.url('/login');
     };
