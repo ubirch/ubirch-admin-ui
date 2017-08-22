@@ -82,6 +82,6 @@
   "QUERY_API_OPEN_DOCU": "Query API Dokumentation öffnen..",
   "SHELL_SCRIPT_EXAMPLE": "Shell Script Beispiel",
   "MQTT_CREDENTIALS": "MQTT Credentials",
-  "INFO_NO_MQTT_SERVER": "Es wurde kein MQTT server angegeben",
+  "INFO_NO_MQTT_SERVER": "Es wurde kein MQTT Server angegeben",
   "WAITING_FOR_RESPONSE": "Warten auf Antwort vom Server"
 }

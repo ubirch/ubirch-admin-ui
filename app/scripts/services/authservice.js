@@ -279,14 +279,25 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
                           }
                         },
                         function(error) {
-                          // no user registered for token
                           // TODO: check error type
+                          switch (error.status) {
+                            case "400":
+                              if (error.data.errorType === "NoUserInfoFound"){
+                                // no user registered for token
 
-                          if (UserService.isRegistrationFlagSet()) {
-                            service.register();
-                          }
-                          else {
-                            $rootScope.$broadcast('auth:registrationRequired', data.token);
+                                if (UserService.isRegistrationFlagSet()) {
+                                  service.register();
+                                }
+                                else {
+                                  $rootScope.$broadcast('auth:registrationRequired', data.token);
+                                }
+                              }
+                              break;
+                            case "403":
+                              $rootScope.$broadcast('auth:authRequired', 'You need to login');
+                              break;
+                            default:
+                              handleError("accountNotAccessibleError", "Something went wrong while accessing account");
                           }
                         }
                       );
