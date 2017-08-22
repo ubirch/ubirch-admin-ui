@@ -106,7 +106,7 @@ angular.module('ubirchAdminCrudApp')
         {deviceId: '@deviceId'}
       ),
 
-      getDeviceState: function(deviceId, callback){
+      getDeviceState: function(deviceId, callback, error_callback){
         return this.deviceState.get({deviceId: deviceId},
           function(data){
             $log.debug("Got device state: " + data);
@@ -115,7 +115,12 @@ angular.module('ubirchAdminCrudApp')
             }
           },
           function(error){
-            $log.debug("Requested device state - ERROR OCCURRED: " + error);
+            if (error_callback !== undefined){
+              error_callback(error);
+            }
+            else {
+              $log.debug("Requested device state - ERROR OCCURRED: " + error);
+            }
           });
 
       },

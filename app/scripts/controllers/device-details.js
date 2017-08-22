@@ -8,13 +8,14 @@
  * Controller of the ubirchAdminCrudApp
  */
 angular.module('ubirchAdminCrudApp')
-  .controller('DeviceDetailsCtrl',[ '$scope', '$rootScope', '$window', '$location', "$sessionStorage", "constants", "settings", '$stateParams', '$filter', 'Device', 'toaster', 'deviceTypesList', 'DeviceTypes', 'leafletBoundsHelpers',
-    function ($scope, $rootScope, $window, $location, $sessionStorage, constants, settings, $stateParams, $filter, Device, toaster, deviceTypesList, DeviceTypes, leafletBoundsHelpers) {
+  .controller('DeviceDetailsCtrl',[ '$scope', '$rootScope', '$window', '$location', "$sessionStorage", "constants", "settings", '$stateParams', '$filter', '$timeout', 'Device', 'toaster', 'deviceTypesList', 'DeviceTypes', 'leafletBoundsHelpers',
+    function ($scope, $rootScope, $window, $location, $sessionStorage, constants, settings, $stateParams, $filter, $timeout, Device, toaster, deviceTypesList, DeviceTypes, leafletBoundsHelpers) {
     var listUrl = "devices-list";
 
       $scope.deviceid = $stateParams.deviceid;
       $scope.activeTab = "state";
       $scope.device = {};
+      $scope.loadDeviceState = true,
       $scope.deviceState =  [];
       var deviceStateSaved =  [];
       $scope.stateDataChanged = false;
@@ -59,53 +60,85 @@ angular.module('ubirchAdminCrudApp')
       }
 
       if ($stateParams.deviceid) {
-        $scope.device = Device.getDevice($stateParams.deviceid, function(deviceVal){
-          $scope.deviceType = $filter('getDeviceType')(deviceTypesList, deviceVal.deviceTypeKey);
-          $scope.devInfo.query = {
-            docuUrl: constants.AVATAR_SERVICE_DOCUMENTATION,
-            example: {
-              deviceId: $scope.device.deviceId,
-              token: $sessionStorage.token.token,
-              host: settings.UBIRCH_API_HOST,
-              curl: "curl -XGET -H 'Authorization: Bearer $TOKEN' $HOST/api/avatarService/v1/device/$DEVICEID/data/history/0/10"
+
+        Device.getDevice($stateParams.deviceid, function(deviceVal){
+            $scope.device = deviceVal;
+            $scope.deviceType = $filter('getDeviceType')(deviceTypesList, deviceVal.deviceTypeKey);
+            $scope.devInfo.query = {
+              docuUrl: constants.AVATAR_SERVICE_DOCUMENTATION,
+              example: {
+                deviceId: $scope.device.deviceId,
+                token: $sessionStorage.token.token,
+                host: settings.UBIRCH_API_HOST,
+                curl: "curl -XGET -H 'Authorization: Bearer $TOKEN' $HOST/api/avatarService/v1/device/$DEVICEID/data/history/0/10"
+              }
+            };
+            if ($scope.device.mqtt !== undefined && $scope.device.mqtt.serverUrl !== undefined){
+              $scope.devInfo.mqtt = $scope.device.mqtt;
             }
-          };
-          if ($scope.device.mqtt !== undefined && $scope.device.mqtt.serverUrl !== undefined){
-            $scope.devInfo.mqtt = $scope.device.mqtt;
+          },
+          function (error) {
+            $log.warn("On loading device details an error uccurred: "+error);
           }
 
+        );
+
+        var deviceDetailsPromise;
+
+        (function refreshData() {
+          // Assign to scope within callback to avoid data flickering on screen
+
+          if ($scope.loadDeviceState){
+            Device.getDeviceState($stateParams.deviceid,
+              function(data){
+
+                var collector = {}, stateKatsCollector = [];
+
+                angular.forEach( data, function(katObj, kat){
+                  // don't add $promise, $resolved aso
+                  if (!kat.startsWith("$")){
+                    if (typeof katObj !== "object"){
+                      $scope[kat] = katObj;
+                    }
+                    else {
+                      var kategory = kat;
+                      // save the parameter name for row identification
+                      stateKatsCollector.push(kategory);
+
+                      angular.forEach(katObj, function(value, key){
+                        if (!collector[key]){
+                          collector[key] = {"stateKey": key};
+                        }
+                        collector[key][kategory] = value;
+                      });
+                    }
+                  }
+                });
+                $scope.deviceState = collector;
+                $scope.stateKats = stateKatsCollector;
+
+                deviceStateSaved = angular.copy($scope.deviceState);
+
+                deviceDetailsPromise = $timeout(refreshData, constants.POLLING_INTERVAL);
+              },
+              function(error){
+                $scope.loadDeviceState = false;
+                $log.warn("No device state available; error uccurred: "+error);
+              });
+          }
+
+        })();
+        $scope.$on('$destroy', function(){
+          if (deviceDetailsPromise !== undefined){
+            $timeout.cancel(deviceDetailsPromise);
+          }
         });
 
-        Device.getDeviceState($stateParams.deviceid,
-          function(data){
-
-            var collector = {};
-
-            angular.forEach( data, function(katObj, kat){
-              // don't add $promise, $resolved aso
-              if (!kat.startsWith("$")){
-                if (typeof katObj !== "object"){
-                  $scope[kat] = katObj;
-                }
-                else {
-                    var kategory = kat;
-                    // save the parameter name for row identification
-                    $scope.stateKats.push(kategory);
-
-                    angular.forEach(katObj, function(value, key){
-                      if (!collector[key]){
-                        collector[key] = {"stateKey": key};
-                      }
-                      collector[key][kategory] = value;
-                    });
-                }
-              }
-            });
-            $scope.deviceState = collector;
-
-            deviceStateSaved = angular.copy($scope.deviceState);
+        $scope.$on('auth:signedOut', function () {
+          if (deviceDetailsPromise !== undefined){
+            $timeout.cancel(deviceDetailsPromise);
           }
-        );
+        });
       }
 
       /**
@@ -125,7 +158,7 @@ angular.module('ubirchAdminCrudApp')
       deviceStateSaved = angular.copy($scope.deviceState);
       $scope.stateDataChanged = false;
       // TODO: send data to server
-      toaster.pop('info', "Sorry, to change the state of a device is not yet implemented!");
+      toaster.pop('info', "Sorry, changing the state of a device is not yet implemented!");
     };
 
       /**

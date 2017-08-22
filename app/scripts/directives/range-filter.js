@@ -7,7 +7,7 @@
  * # rangeFilter
  */
 angular.module('ubirchAdminCrudApp')
-  .directive('rangeFilter', [ 'Device', 'constants', 'moment', function (Device, constants, moment) {
+  .directive('rangeFilter', [ 'Device', 'constants', 'moment', '$timeout', function (Device, constants, moment, $timeout) {
     return {
       templateUrl: 'views/directives/range-filter.html',
       restrict: 'E',
@@ -73,6 +73,26 @@ angular.module('ubirchAdminCrudApp')
         scope.$watch('deviceId', function() {
           if (scope.deviceId){
             loadHistory();
+          }
+        });
+
+        var messagesPromise;
+
+        scope.$watch('messages', function() {
+          // polling data
+          if(messagesPromise !== undefined){
+            $timeout.cancel(messagesPromise);
+          }
+          messagesPromise = $timeout(loadHistory, constants.POLLING_INTERVAL*2);
+        });
+        scope.$on('$destroy', function(){
+          if (messagesPromise !== undefined){
+            $timeout.cancel(messagesPromise);
+          }
+        });
+        scope.$on('auth:signedOut', function () {
+          if (messagesPromise !== undefined){
+            $timeout.cancel(messagesPromise);
           }
         });
 

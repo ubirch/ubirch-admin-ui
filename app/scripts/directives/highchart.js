@@ -95,14 +95,29 @@ angular.module('ubirchAdminCrudApp')
           }
         };
 
+        function notEquals(oldData, newData) {
+          if (messagesLastVersion === undefined){
+            return true;
+          }
+          return !angular.equals(oldData, newData);
+        }
+
+        var messagesLastVersion;
+
         scope.$watch('messages', function(){
-          var filteredData = filterMessageKeys();
 
-          formatSeriesData(filteredData);
+          // graph is only updated if data have changed
+          if (notEquals(messagesLastVersion, scope.messages)){
+            var filteredData = filterMessageKeys();
 
-          formatYAxis();
+            formatSeriesData(filteredData);
 
-          new Highcharts.chart('hc_container', options);
+            formatYAxis();
+
+            new Highcharts.chart('hc_container', options);
+
+            messagesLastVersion = scope.messages;
+          }
         });
 
         scope.$watch('separate.yaxes', function(oldValue, newValue) {

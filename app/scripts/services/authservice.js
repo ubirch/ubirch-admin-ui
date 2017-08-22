@@ -279,7 +279,7 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
                           }
                         },
                         function(error) {
-                          // TODO: check error type
+                          // check error type
                           switch (error.status) {
                             case "400":
                               if (error.data.errorType === "NoUserInfoFound"){
