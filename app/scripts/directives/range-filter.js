@@ -83,7 +83,7 @@ angular.module('ubirchAdminCrudApp')
           if(messagesPromise !== undefined){
             $timeout.cancel(messagesPromise);
           }
-          messagesPromise = $timeout(loadHistory, constants.POLLING_INTERVAL*2);
+          messagesPromise = $timeout(loadHistory, constants.POLLING_INTERVAL);
         });
         scope.$on('$destroy', function(){
           if (messagesPromise !== undefined){

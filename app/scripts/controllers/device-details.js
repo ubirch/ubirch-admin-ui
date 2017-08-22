@@ -119,6 +119,9 @@ angular.module('ubirchAdminCrudApp')
 
                 deviceStateSaved = angular.copy($scope.deviceState);
 
+                if (deviceDetailsPromise !== undefined){
+                  $timeout.cancel(deviceDetailsPromise);
+                }
                 deviceDetailsPromise = $timeout(refreshData, constants.POLLING_INTERVAL);
               },
               function(error){
