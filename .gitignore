@@ -8,7 +8,7 @@
 .cache
 .config
 .npm
-/.idea
+.idea
 .DS_Store
 /installed_versions_20170312_working.txt
 /installed_versions_20170312.txt
