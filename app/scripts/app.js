@@ -127,6 +127,10 @@ angular
       constants.TOMORROW = constants.TODAY.getTime() + constants.ONEDAY;
       constants.TODAY_END = constants.TOMORROW - 1;
     }
+    angular.extend($rootScope, {
+      center: {},
+      markers: {}
+    });
 
     $rootScope.$on('$stateChangeStart', function (event, next) {
       if (next.tokenRequired) {

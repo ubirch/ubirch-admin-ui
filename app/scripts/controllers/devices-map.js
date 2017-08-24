@@ -38,4 +38,12 @@ angular.module('ubirchAdminCrudApp')
       return function(collection) { return collection.key.match(key); };
     };
 
+    $scope.leafletValues = {
+      center:
+        { lat: 45, lng: 90, zoom: 10 },
+      markers: {},
+      bounds: {},
+      defaults: { scrollWheelZoom: false }
+    };
+
   }]);
