@@ -307,6 +307,7 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
                 },
                 function (error) {
                   // handle authentication error
+
                   handleError(error.data.errorType, error.data.errorMessage);
                 }
               )
@@ -364,25 +365,26 @@ app.service('AuthService', ['$resource', 'constants', 'settings', '$rootScope', 
     };
 
     var handleError = function(errorType, errorMessage) {
-
-    switch (errorType){
-      case "LogoutFailedError":
+      if (errorType === "LogoutFailedError"){
         // user is still logged in
         $rootScope.$broadcast('auth:verified', errorMessage);
-        break;
-      case "authWarning":
-        $rootScope.$broadcast('auth:authWarning', errorMessage);
-        break;
-      case "accountNotAccessibleError":
-        // broadcast error
-        $rootScope.$broadcast('auth:authError', errorType + ": " + errorMessage);
-        break;
-      default:
-        // remove sessionToken
+      }
+      else {
+        // user is not logged in -> clear sessionStorage
         cleanSessionStorage();
-        // broadcast error
-        $rootScope.$broadcast('auth:authError', errorType + ": " + errorMessage);
-    }
+        switch (errorType){
+          case "authWarning":
+            $rootScope.$broadcast('auth:authWarning', errorMessage);
+            break;
+          case "accountNotAccessibleError":
+            // broadcast error
+            $rootScope.$broadcast('auth:authError', errorType + ": " + errorMessage);
+            break;
+          default:
+            // broadcast error
+            $rootScope.$broadcast('auth:authError', errorType + ": " + errorMessage);
+        }
+      }
   };
 
   return service;
