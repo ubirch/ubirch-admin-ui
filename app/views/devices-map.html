@@ -1,14 +1,43 @@
-<div class="container" ng-cloak>
-
-  <!-- DeviceList -->
-  <div class="area-static">
-    <div class="area-header">
-      {{ 'DEVICES_MAP_HEADLINE' | translate }}
+<div class="container-fluid" ng-cloak>
+  <toaster-container toaster-options="{'close-button': true}"></toaster-container>
+  <!-- Filter for DeviceList -->
+  <div class="area-header row">
+    <div class="col-lg-4 col-md-4 col-sm-5 col-xs-5">
+      {{ 'DEVICES_LIST_HEADLINE' | translate }}
+    </div>
+    <div class="col-lg-8 col-md-8 col-sm-7 col-xs-7">
+      <list-filter search="search"></list-filter>
     </div>
   </div>
-  <form>
-    Latitude : <input type="number" step="any" ng-model="center.lat">
-    Longitude : <input type="number" step="any" ng-model="center.lng">
-    Zoom : <input type="number" step="any" ng-model="center.zoom">
-  </form>
+  <!-- DeviceList -->
+  <div class="row">
+    <table class="table table-hover">
+      <tbody>
+      <tr ng-repeat="device in devices | filter:search"
+          ng-click="switchDeviceSelection(device.deviceId)" title="{{selected(device.deviceId)?'hide':'show'}} position of device"
+          ng-class="{'device_selected': selected(device.deviceId)}">
+        <td>
+          <i ng-repeat="deviceType in deviceTypes | filter:match(device.deviceTypeKey)" class="sensor-type-icon {{deviceType.icon}}"></i>
+        </td>
+        <th scope="row">
+          {{device.deviceName}}<br/>
+          <small>{{device.deviceId}}</small>
+        </th>
+        <!--
+                <td>
+                  <truthworth device="{{device}}"></truthworth>
+                </td>
+        -->
+        <td>
+          <syncstate in-sync="{{device.inSync}}"></syncstate>
+        </td>
+        <td>
+          <timestamp date="{{device.deviceLastUpdated}}"></timestamp>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
 </div>
+
