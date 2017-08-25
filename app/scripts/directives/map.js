@@ -14,6 +14,19 @@ angular.module('ubirchAdminCrudApp')
       replace: true,
       link: function (scope) {
 
+        var colors = ['black', 'red','darkred', 'lightred', 'orange',
+          'beige', 'green', 'darkgreen', 'lightgreen', 'blue',
+          'darkblue', 'lightblue', 'purple', 'darkpurple', 'pink',
+          'cadetblue', 'gray', 'lightgray'];
+
+        /**
+         * TODO: check for next free color
+         * @returns {number}
+         */
+        function selectFreeColor() {
+          return colors[0];
+        }
+
         (function init() {
           var centerLatInit = parseFloat(50.91);
           var centerLngInit = parseFloat(13.75);
@@ -36,7 +49,7 @@ angular.module('ubirchAdminCrudApp')
                 function (data) {
                   if (data.length > 0) {
 
-                    calculateMap(data);
+                    calculateMap(device);
 
                   }
                 }
@@ -77,7 +90,9 @@ angular.module('ubirchAdminCrudApp')
           }
         }
 
-        function calculateMap(messages) {
+        function calculateMap(device) {
+
+          var messages = device.messages;
 
           var markers = {};
 
@@ -91,12 +106,22 @@ angular.module('ubirchAdminCrudApp')
               var markerLng = m.lo?parseFloat(m.lo) : m.longitude?parseFloat(m.longitude) : undefined;
 
               if (markerLat && markerLng){
+
+                if (device.markerColor === undefined){
+                  device.markerColor = selectFreeColor();
+                }
                 var marker = {
                   focus: false,
                   draggable: false,
                   lat: markerLat,
                   lng: markerLng,
                   message: filterMessageKeys(message),
+                  icon: {
+                    type: 'awesomeMarker',
+                    prefix: 'ion',
+                    icon: 'ios-lightbulb',
+                    markerColor: device.markerColor
+                  },
                   opacity: 1 - (1 / messages.length * (i))
                 };
 
