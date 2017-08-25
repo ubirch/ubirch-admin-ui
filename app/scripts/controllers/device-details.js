@@ -85,6 +85,11 @@ angular.module('ubirchAdminCrudApp')
 
         var deviceDetailsPromise;
 
+        //********************* device state ********************//
+        // polling the state of device
+        // (polling history happens in range-filter directive!)
+        //*******************************************************//
+
         (function refreshData() {
           // Assign to scope within callback to avoid data flickering on screen
 

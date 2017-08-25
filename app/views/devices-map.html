@@ -14,8 +14,8 @@
     <table class="table table-hover">
       <tbody>
       <tr ng-repeat="device in devices | filter:search"
-          ng-click="switchDeviceSelection(device.deviceId)" title="{{selected(device.deviceId)?'hide':'show'}} position of device"
-          ng-class="{'device_selected': selected(device.deviceId)}">
+          ng-click="switchDeviceSelection(device)" title="{{isSelected(device.deviceId)?'hide':'show'}} position of device"
+          ng-class="{'device_selected': isSelected(device.deviceId)}">
         <td>
           <i ng-repeat="deviceType in deviceTypes | filter:match(device.deviceTypeKey)" class="sensor-type-icon {{deviceType.icon}}"></i>
         </td>
@@ -39,7 +39,7 @@
     </table>
   </div>
 
-  <map leafletValues="{{leafletValues}}"></map>
+  <map devices="{{selectedDevices}}"></map>
 
 </div>
 

@@ -156,6 +156,14 @@ angular.module('ubirchAdminCrudApp')
           });
       },
 
+      /**
+       *
+       * @param deviceId id of device to get history from
+       * @param from
+       * @param size
+       * @param callback
+       * @param errorCallBack
+       */
       getHistoryOfRange: function(deviceId, from, size, callback, errorCallBack){
 
         return this.history_of_data_range.query({deviceId: deviceId, from: from, size: size},
