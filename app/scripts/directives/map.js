@@ -38,24 +38,17 @@ angular.module('ubirchAdminCrudApp')
           };
         })();
 
-        scope.$watch("selected.size", function(newSize){
-          if (newSize>0){
-            var ids = Object.keys(scope.selected.devices);
-            var device = scope.selected.devices[ids[0]];
+        scope.$watch("lastAddedDevice", function(device){
+          if (device !== undefined && device.messages !== undefined){
+            device.messages.$promise.then(
+              function (data) {
+                if (data.length > 0) {
 
-            if (device.messages !== undefined){
+                  addMarkers(device);
 
-              device.messages.$promise.then(
-                function (data) {
-                  if (data.length > 0) {
-
-                    calculateMap(device);
-
-                  }
                 }
-              )
-            }
-
+              }
+            )
           }
         });
 
@@ -90,7 +83,7 @@ angular.module('ubirchAdminCrudApp')
           }
         }
 
-        function calculateMap(device) {
+        function addMarkers(device) {
 
           var messages = device.messages;
 
@@ -125,21 +118,30 @@ angular.module('ubirchAdminCrudApp')
                   opacity: 1 - (1 / messages.length * (i))
                 };
 
-                markers["marker" + i] = angular.copy(marker);
+                scope.markers[createMarkerName(device.deviceId, i)] = angular.copy(marker);
               }
             });
           }
 
-          scope.markers = markers;
-
-          if (Object.keys(markers).length > 0){
-            calculateMapExtract(markers);
+          if (Object.keys(scope.markers).length > 0){
+            calculateMapExtract(scope.markers);
             scope.markersDefined = true;
           }
           else {
             scope.markersDefined = false;
           }
 
+        }
+
+        var devicePraefixes = [];
+
+        function createMarkerName (deviceId, index) {
+          var praefix = devicePraefixes.indexOf(deviceId);
+          if (praefix === -1) {
+            // new deviceId
+            praefix = devicePraefixes.push(deviceId);
+          }
+          return praefix + "_" + index;
         }
 
         function addParamToMessage (message, label, key) {

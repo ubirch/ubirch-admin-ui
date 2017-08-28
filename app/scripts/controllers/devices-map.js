@@ -23,20 +23,18 @@ angular.module('ubirchAdminCrudApp')
     })();
 
     $scope.selected = {
-      devices: {},
-      size: 0
+      devices: {}
     };
 
     $scope.switchDeviceSelection = function(device){
       if ($scope.selected.devices[device.deviceId] === undefined){
         device.messages = loadHistory4Device(device.deviceId);
         $scope.selected.devices[device.deviceId] = device;
-
-        $scope.selected.size += 1;
+        $scope.lastAddedDevice = device;
       }
       else {
         delete $scope.selected.devices[device.deviceId];
-        $scope.selected.size -= 1;
+        $scope.lastRemovedDevice = device;
       }
       return $scope.selected.devices[device.deviceId] !== undefined;
     };
@@ -48,21 +46,6 @@ angular.module('ubirchAdminCrudApp')
     $scope.match = function(key) {
       return function(collection) { return collection.key.match(key); };
     };
-
-    // polling device history
-
-    var messagesPromise;
-
-   $scope.$on('$destroy', function(){
-      if (messagesPromise !== undefined){
-        $timeout.cancel(messagesPromise);
-      }
-    });
-      $scope.$on('auth:signedOut', function () {
-      if (messagesPromise !== undefined){
-        $timeout.cancel(messagesPromise);
-      }
-    });
 
       /**
        * return promise with history messages
@@ -84,7 +67,22 @@ angular.module('ubirchAdminCrudApp')
         });
     }
 
-    function reloadAllHistories() {
+      // polling device history
+
+      var messagesPollingTimer;
+
+      $scope.$on('$destroy', function(){
+        if (messagesPollingTimer !== undefined){
+          $timeout.cancel(messagesPollingTimer);
+        }
+      });
+      $scope.$on('auth:signedOut', function () {
+        if (messagesPollingTimer !== undefined){
+          $timeout.cancel(messagesPollingTimer);
+        }
+      });
+
+      function reloadAllHistories() {
       var ids = Object.keys($scope.selected.devices);
       if ( ids.length > 0){
         // at least one device added
