@@ -14,17 +14,44 @@ angular.module('ubirchAdminCrudApp')
       replace: true,
       link: function (scope) {
 
-        var colors = ['black', 'red','darkred', 'lightred', 'orange',
-          'beige', 'green', 'darkgreen', 'lightgreen', 'blue',
-          'darkblue', 'lightblue', 'purple', 'darkpurple', 'pink',
-          'cadetblue', 'gray', 'lightgray'];
+        var colors = ['red', 'darkgreen', 'blue', 'orange', 'black',
+            'gray', 'purple', 'green', 'beige', 'darkblue',
+            'pink', 'cadetblue', 'lightgray', 'lightgreen', 'darkred',
+           'lightblue', 'darkpurple', 'lightred'
+          ],
+        num_of_colors = colors.length,
+        color_used_by = [],
+        color_in_use = [];
+
+        for (var i=0;i<num_of_colors;i++){
+          color_in_use[i] = "0";
+        }
 
         /**
-         * TODO: check for next free color
-         * @returns {number}
+         * check for next free color for device history markers:
+         * tries to keep color that has been used for device before;
+         * if all colors have been assigned once, tries to reuse not longer used colors from the beginning of the color array;
+         * if no more colors are available, black is returned as a default
+         * @returns {string} color
          */
-        function selectFreeColor() {
-          return colors[0];
+        function selectFreeColor(deviceId) {
+          var color_num = color_used_by.indexOf(deviceId);
+          if (color_num === -1) {
+            // new deviceId: add at the end of array
+            color_num = color_used_by.push(deviceId)-1; // position = length-1
+
+            if (color_num >= num_of_colors){
+              // end of color array is reached -> try to use the first unused color
+              color_num = color_in_use.indexOf("0");
+              if (color_num === -1){
+                // no more free colors -> return black
+                return colors[0];
+              }
+              color_used_by[color_num] = deviceId;  //color in use by device with given id
+              color_in_use[color_num] = "1";  //mark color to be in use
+            }
+          }
+          return colors[color_num];
         }
 
         /**
@@ -139,7 +166,7 @@ angular.module('ubirchAdminCrudApp')
               if (markerLat && markerLng){
 
                 if (device.markerColor === undefined){
-                  device.markerColor = selectFreeColor();
+                  device.markerColor = selectFreeColor(device.deviceId);
                 }
                 var marker = {
                   focus: false,
@@ -150,7 +177,7 @@ angular.module('ubirchAdminCrudApp')
                   icon: {
                     type: 'awesomeMarker',
                     prefix: 'ion',
-                    icon: 'ios-lightbulb',
+                    icon: 'ios-lightbulb',  // TODO: get icon from device data
                     markerColor: device.markerColor
                   },
                   opacity: 1 - (1 / messages.length * (i))
