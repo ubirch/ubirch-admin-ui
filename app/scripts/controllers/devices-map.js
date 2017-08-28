@@ -31,10 +31,12 @@ angular.module('ubirchAdminCrudApp')
         device.messages = loadHistory4Device(device.deviceId);
         $scope.selected.devices[device.deviceId] = device;
         $scope.lastAddedDevice = device;
+        $scope.lastRemovedDevice = undefined;
       }
       else {
         delete $scope.selected.devices[device.deviceId];
         $scope.lastRemovedDevice = device;
+        $scope.lastAddedDevice = undefined;
       }
       return $scope.selected.devices[device.deviceId] !== undefined;
     };

@@ -27,6 +27,14 @@ angular.module('ubirchAdminCrudApp')
           return colors[0];
         }
 
+        /**
+         * TODO: mark color as unused when device is unselected
+         * @param color
+         */
+        function markColorAsUnused(color) {
+
+        }
+
         (function init() {
           var centerLatInit = parseFloat(50.91);
           var centerLngInit = parseFloat(13.75);
@@ -52,35 +60,65 @@ angular.module('ubirchAdminCrudApp')
           }
         });
 
+        scope.$watch("lastRemovedDevice", function(device){
+          if (device !== undefined){
+              removeMarkers(device);
+          }
+        });
+
         function calculateMapExtract(markers) {
-          var markerKeys = Object.keys(markers);
-          if (markerKeys.length) {
+          if (Object.keys(scope.markers).length > 0) {
+            var markerKeys = Object.keys(markers);
+            if (markerKeys.length) {
 
-            var marker = markers[markerKeys[0]];
-            // initialize with first marker
-            var coordArray = [[marker.lat,marker.lng],[marker.lat,marker.lng]];
+              var marker = markers[markerKeys[0]];
+              // initialize with first marker
+              var coordArray = [[marker.lat,marker.lng],[marker.lat,marker.lng]];
 
-            markerKeys.forEach(function(key) {
-              marker = markers[key];
-              if (marker.lat < coordArray[0][0]){
-                coordArray[0][0] = marker.lat;
-              }
-              if (marker.lng < coordArray[0][1]){
-                coordArray[0][1] = marker.lng;
-              }
-              if (marker.lat > coordArray[1][0]){
-                coordArray[1][0] = marker.lat;
-              }
-              if (marker.lng > coordArray[1][1]){
-                coordArray[1][1] = marker.lng;
-              }
-            });
+              markerKeys.forEach(function(key) {
+                marker = markers[key];
+                if (marker.lat < coordArray[0][0]){
+                  coordArray[0][0] = marker.lat;
+                }
+                if (marker.lng < coordArray[0][1]){
+                  coordArray[0][1] = marker.lng;
+                }
+                if (marker.lat > coordArray[1][0]){
+                  coordArray[1][0] = marker.lat;
+                }
+                if (marker.lng > coordArray[1][1]){
+                  coordArray[1][1] = marker.lng;
+                }
+              });
 
-            scope.bounds = leafletBoundsHelpers.createBoundsFromArray(coordArray);
+              scope.bounds = leafletBoundsHelpers.createBoundsFromArray(coordArray);
+            }
+            else {
+              scope.bounds = {};
+            }
+            return true;
           }
           else {
-            scope.bounds = {};
+            return false;
           }
+
+        }
+
+        function removeMarkers(device) {
+
+          markColorAsUnused(device.markerColor);
+          delete device.markerColor;
+
+          var praefix = createMarkerName(device.deviceId, "");
+
+          Object.keys(scope.markers).forEach( function(markerName){
+            if (markerName.indexOf(praefix) === 0){
+              delete scope.markers[markerName];
+            }
+          });
+
+          scope.markersDefined = calculateMapExtract(scope.markers);
+
         }
 
         function addMarkers(device) {
@@ -123,13 +161,7 @@ angular.module('ubirchAdminCrudApp')
             });
           }
 
-          if (Object.keys(scope.markers).length > 0){
-            calculateMapExtract(scope.markers);
-            scope.markersDefined = true;
-          }
-          else {
-            scope.markersDefined = false;
-          }
+          scope.markersDefined = calculateMapExtract(scope.markers);
 
         }
 
@@ -140,6 +172,7 @@ angular.module('ubirchAdminCrudApp')
           if (praefix === -1) {
             // new deviceId
             praefix = devicePraefixes.push(deviceId);
+            praefix = devicePraefixes.indexOf(deviceId);
           }
           return praefix + "_" + index;
         }
