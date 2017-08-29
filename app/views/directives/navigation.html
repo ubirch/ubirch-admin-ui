@@ -9,7 +9,6 @@
         <span class="icon-bar"></span>
       </button>
       <a class="navbar-brand" title="ubirch" href="//ubirch.com/"></a>
-      <span ng-if="account.value !== undefined" class="nav-username">{{account.value.displayName}}</span>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -22,6 +21,9 @@
         -->
       </ul>
       <auth-nav-button login-url="/login" register-url="/register" login-text="{{ 'LOGIN' | translate }}" register-text="{{ 'REGISTER' | translate }}"></auth-nav-button>
+      <ul  class="nav navbar-nav pull-right ng-scope">
+        <li><span ng-if="account.value !== undefined" class="nav-username">{{account.value.displayName}}</span></li>
+      </ul>
     </div>
   </div>
 </div>
