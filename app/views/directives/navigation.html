@@ -15,15 +15,13 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li ng-class="navClass('devices-list')" ng-if="$root.signedIn && account.activated === true"><a href="" ng-click="loadDeviceslist()" data-toggle="tab" role="tab">devices</a></li>
-        <li ng-class="navClass('devices-map')"><a href="" ng-click="loadDevicesMap()" data-toggle="tab" role="tab">map</a></li>
+        <li ng-class="navClass('devices-map')"  ng-if="$root.signedIn && account.activated === true"><a href="" ng-click="loadDevicesMap()" data-toggle="tab" role="tab">map</a></li>
       <!--
                 <li ng-class="navClass('about')"><a href="" ng-click="loadAbout()" role="tab" data-toggle="tab">about</a></li>
         -->
       </ul>
       <auth-nav-button login-url="/login" register-url="/register" login-text="{{ 'LOGIN' | translate }}" register-text="{{ 'REGISTER' | translate }}"></auth-nav-button>
-      <ul  class="nav navbar-nav pull-right ng-scope">
-        <li><span ng-if="account.value !== undefined" class="nav-username">{{account.value.displayName}}</span></li>
-      </ul>
     </div>
+    <span  ng-if="account.value !== undefined" class="nav-username pull-right collapsed">{{account.value.displayName}}</span>
   </div>
 </div>
