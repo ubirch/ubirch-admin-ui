@@ -66,22 +66,15 @@ angular.module('ubirchAdminCrudApp')
           }
         }
 
-        (function init() {
-          if (Object.keys(scope.markers).length > 0) {
-            calculateMapExtract(scope.markers);
-          }
-          else {
-            var centerLatInit = parseFloat(50.91);
-            var centerLngInit = parseFloat(13.75);
-
-            scope.center = {
-              lat: centerLatInit,
-              lng: centerLngInit,
-              zoom: 5
-            };
-          }
-
-        })();
+        // init map with europe bounds and cleanup markers
+        var centerLatInit = parseFloat(50.91);
+        var centerLngInit = parseFloat(13.75);
+        scope.center = {
+          lat: centerLatInit,
+          lng: centerLngInit,
+          zoom: 5
+        };
+        scope.markers = {};
 
         scope.$watch("lastAddedDevice", function(device){
           if (device !== undefined && device.messages !== undefined){
