@@ -182,7 +182,7 @@ angular.module('ubirchAdminCrudApp')
                   icon: {
                     type: 'awesomeMarker',
                     prefix: 'ion',
-                    icon: 'ios-lightbulb',  // TODO: get icon from device data
+                    icon: 'ion-radio-waves',  // TODO: get icon from device data
                     markerColor: device.markerColor
                   },
                   opacity: 1 - (1 / messages.length * (i))
