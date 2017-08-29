@@ -32,6 +32,7 @@ angular.module('ubirchAdminCrudApp')
          * tries to keep color that has been used for device before;
          * if all colors have been assigned once, tries to reuse not longer used colors from the beginning of the color array;
          * if no more colors are available, black is returned as a default
+         * @param deviceId: id of the selected device (history markers shall be displayed)
          * @returns {string} color
          */
         function selectFreeColor(deviceId) {
@@ -55,22 +56,31 @@ angular.module('ubirchAdminCrudApp')
         }
 
         /**
-         * TODO: mark color as unused when device is unselected
-         * @param color
+         * mark color as unused when device is unselected
+         * @param deviceId: id of the device that has been deselected (history markers no longer displayed)
          */
-        function markColorAsUnused(color) {
-
+        function markColorAsUnused(deviceId) {
+          var color_num = color_used_by.indexOf(deviceId);
+          if (color_num > -1) {
+            color_in_use[color_num] = "0";
+          }
         }
 
         (function init() {
-          var centerLatInit = parseFloat(50.91);
-          var centerLngInit = parseFloat(13.75);
+          if (Object.keys(scope.markers).length > 0) {
+            calculateMapExtract(scope.markers);
+          }
+          else {
+            var centerLatInit = parseFloat(50.91);
+            var centerLngInit = parseFloat(13.75);
 
-          scope.center = {
-            lat: centerLatInit,
-            lng: centerLngInit,
-            zoom: 5
-          };
+            scope.center = {
+              lat: centerLatInit,
+              lng: centerLngInit,
+              zoom: 5
+            };
+          }
+
         })();
 
         scope.$watch("lastAddedDevice", function(device){
@@ -118,6 +128,8 @@ angular.module('ubirchAdminCrudApp')
                 }
               });
 
+              // TODO: add boundary
+
               scope.bounds = leafletBoundsHelpers.createBoundsFromArray(coordArray);
             }
             else {
@@ -133,7 +145,7 @@ angular.module('ubirchAdminCrudApp')
 
         function removeMarkers(device) {
 
-          markColorAsUnused(device.markerColor);
+          markColorAsUnused(device.deviceId);
           delete device.markerColor;
 
           var praefix = createMarkerName(device.deviceId, "");
