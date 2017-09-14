@@ -9,5 +9,7 @@ angular.module('ubirchAdminCrudApp')
     UBIRCH_AUTH_SERVICE_API_HOST: "@@UBIRCH_AUTH_SERVICE_API_HOST@@",
     UBIRCH_USER_SERVICE_API_HOST: "@@UBIRCH_AUTH_SERVICE_API_HOST@@",
     DEFAULT_AUTH_EXPIRED_SECS: -1,
-    DEFAULT_DEVICE_TYPE_KEY: "unknownDeviceType"
+    DEFAULT_DEVICE_TYPE_KEY: "unknownDeviceType",
+    MQTT_HOST: "@@MQTT_HOST@@",
+    ENV_ID: "local-dev"
   });
