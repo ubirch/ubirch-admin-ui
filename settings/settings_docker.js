@@ -14,5 +14,5 @@ angular.module('ubirchAdminCrudApp')
       HOST: "@@MQTT_HOST@@",
       PORT: "@@MQTT_PORT@@"
     },
-    ENV_ID: "local-dev"
+    ENV_ID: "@@ENVID@@"
   });
