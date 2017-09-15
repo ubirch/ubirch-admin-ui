@@ -83,7 +83,7 @@
   "SHELL_SCRIPT_EXAMPLE": "Shell Script Beispiel",
   "MQTT_SCRIPT_EXAMPLE": "Mosquitto Script Beispiel",
   "MQTT_CREDENTIALS": "MQTT Zugangsdaten",
-  "MQTT_INSERT_CREDENTIALS": "Bitte geben Sie oben ins Nutzername- und Passwort-Eingabefeld Ihre Zugansdaten ein",
+  "MQTT_INSERT_CREDENTIALS": "Bitte geben Sie oben ins Nutzername- und Passwort-Eingabefeld Ihre Zugangsdaten ein",
   "MQTT_CREDENTIALS_USERNAME": "MQTT Nutzername",
   "MQTT_CREDENTIALS_PWD": "MQTT Passwort",
   "INFO_NO_MQTT_SERVER": "Es wurde kein MQTT Server angegeben",

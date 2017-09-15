@@ -57,7 +57,7 @@ angular.module('ubirchAdminCrudApp')
       $scope.devInfo = {
         mqtt: {},
         query: {}
-      }
+      };
 
       if ($stateParams.deviceid) {
 
@@ -79,7 +79,7 @@ angular.module('ubirchAdminCrudApp')
                 $scope.devInfo.mqtt.port = settings.MQTT_SERVER.PORT;
               }
               $scope.devInfo.mqtt.serverUrl = settings.MQTT_SERVER.HOST + (settings.MQTT_SERVER.PORT !== undefined ? ":" + settings.MQTT_SERVER.PORT : "");
-              $scope.devInfo.mqtt.curl = "mosquitto_sub -h " + $scope.devInfo.mqtt.host + (($scope.devInfo.mqtt.port !== undefined) ? " -p " + $scope.devInfo.mqtt.port : "") + " -t '"+ settings.ENV_ID +"/ubirch/devices/$DEVICE_ID/processed' -u $USER -P $PWD";
+              $scope.devInfo.mqtt.curl = 'mosquitto_sub -h ' + $scope.devInfo.mqtt.host + (($scope.devInfo.mqtt.port !== undefined) ? ' -p ' + $scope.devInfo.mqtt.port : '') + ' -t "' + settings.ENV_ID + '/ubirch/devices/$DEVICEID/processed" -u $USER -P $PWD';
               $scope.devInfo.mqtt.topic = settings.ENV_ID + "/ubirch/devices/$DEVICE_ID/processed";
             }
           },
