@@ -1,0 +1,37 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>ECC Key Generation</title>
+
+  <!--[if lt IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+  <![endif]-->
+  <script
+          src="https://code.jquery.com/jquery-3.2.1.min.js"
+          integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+          crossorigin="anonymous"></script>
+  <script src="moment.min.js"></script>
+  <script src="nacl-fast.min.js"></script>
+  <script src="nacl-util.min.js"></script>
+  <script src="nacl-generate.js"></script>
+</head>
+<body>
+<form id="ecc-form">
+  <label for="id">Calliope mini ID:</label> <input name="id" id="id" type="text"/>
+  <input type="submit" name="submit" value="generate keys">
+</form>
+
+<h3>Public Key</h3>
+<p>(submitted to backend)</p>
+<div id="pubkey">...</div>
+<h3>Signing Key</h3>
+<p>(insert into PXT)</p>
+<div id="prikey">...</div>
+<h3>C++</h3>
+<p>(insert into code)</p>
+<pre id="cpp" style="">...</pre>
+</body>
+</html>
