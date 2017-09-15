@@ -37,7 +37,7 @@ angular.module('ubirchAdminCrudApp')
           });
       },
 
-      createDevice: function(device, callback){
+      createDevice: function(device, callback, errorCallback){
         var deviceId = uuid2.newuuid();
         device.deviceId = deviceId;
         return this.device.save({}, device,
@@ -49,6 +49,9 @@ angular.module('ubirchAdminCrudApp')
           },
           function(error){
             $log.debug("Requested device data and config - ERROR OCCURRED: " + error);
+            if (errorCallback !== undefined){
+              errorCallback(error);
+            }
           });
 
       },

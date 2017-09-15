@@ -79,8 +79,11 @@ app.controller('DevicesListCtrl', [ '$scope', '$rootScope', '$location', 'Device
         function(data){
           $location.url( "device-details/" + data.deviceId);
         },
-        function() {
-          toaster.pop('error', "Fehler", "Es konnte kein neues Gerät angelegt werden!!");
+        function(error) {
+          if (error.data && error.data.errorMessage)
+          toaster.pop('error',
+            error.data && error.data.errorType ? error.data.errorType : "Fehler",
+            error.data && error.data.errorMessage ? error.data.errorMessage : "Es konnte kein neues Gerät angelegt werden!!");
         }
       );
     };
