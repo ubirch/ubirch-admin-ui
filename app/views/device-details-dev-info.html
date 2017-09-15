@@ -3,19 +3,38 @@
 
     <h2>Streaming API</h2>
 
-    <div ng-show="devInfo.mqtt.serverUrl === undefined">
+    <div ng-show="devInfo.mqtt.host === undefined">
       <div class="alert alert-warning" role="alert">{{ 'INFO_NO_MQTT_SERVER' | translate }}<span ng-show="devInfo.deviceId !== undefined">.. {{ 'WAITING_FOR_RESPONSE' | translate }}</span></div>
     </div>
 
-    <div ng-hide="devInfo.mqtt.serverUrl === undefined">
+    <div ng-hide="devInfo.mqtt.host === undefined">
+      <div class="form-group row">
+        <div class="col-lg-6 col-xs-12 col-md-6 col-sm-6">
+          <span class="label label-default">{{ 'MQTT_CREDENTIALS_USERNAME' | translate }}:</span>
+          <input type="text" class="form-control" ng-model="devInfo.mqtt.username">
+        </div>
+        <div class="col-lg-6 col-xs-12 col-md-6 col-sm-6">
+          <span class="label label-default">{{ 'MQTT_CREDENTIALS_PWD' | translate }}:</span>
+          <input type="text" class="form-control" ng-model="devInfo.mqtt.pwd">
+        </div>
+      </div>
       <div class="form-group">
         <span class="label label-default">{{ 'MQTT_SERVER_URL' | translate }}:</span>
         <input type="text" class="form-control" ng-model="devInfo.mqtt.serverUrl" readonly>
       </div>
 
       <div class="form-group">
-        <span class="label label-default">{{ 'MQTT_CREDENTIALS' | translate }}:</span>
-        <input type="text" class="form-control" ng-model="devInfo.mqtt.pwd" readonly>
+        <span class="label label-default">{{ 'MQTT_SCRIPT_EXAMPLE' | translate }}:</span>
+        <textarea class="form-control" rows="10" cols="80" readonly>
+
+DEVICEID={{devInfo.query.example.deviceId}}
+#{{ 'MQTT_INSERT_CREDENTIALS' | translate }}
+USER={{devInfo.mqtt.username}}
+PWD={{devInfo.mqtt.pwd}}
+
+#mqtt access
+{{devInfo.mqtt.curl}}
+      </textarea>
       </div>
 
       <div class="form-group">

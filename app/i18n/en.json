@@ -81,7 +81,11 @@
   "MQTT_TOPIC": "MQTT Topic",
   "QUERY_API_OPEN_DOCU": "Open Query API Documentation..",
   "SHELL_SCRIPT_EXAMPLE": "Shell Script Example",
+  "MQTT_SCRIPT_EXAMPLE": "Mosquitto Script Example",
   "MQTT_CREDENTIALS": "MQTT credentials",
+  "MQTT_INSERT_CREDENTIALS": "please insert your credentials in username and password input fields above",
+  "MQTT_CREDENTIALS_USERNAME": "MQTT username",
+  "MQTT_CREDENTIALS_PWD": "MQTT password",
   "INFO_NO_MQTT_SERVER": "No MQTT server specified",
   "WAITING_FOR_RESPONSE": "waiting for response"
 }

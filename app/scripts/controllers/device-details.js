@@ -73,8 +73,14 @@ angular.module('ubirchAdminCrudApp')
                 curl: "curl -XGET -H 'Authorization: Bearer $TOKEN' $HOST/api/avatarService/v1/device/$DEVICEID/data/history/0/10"
               }
             };
-            if ($scope.device.mqtt !== undefined && $scope.device.mqtt.serverUrl !== undefined){
-              $scope.devInfo.mqtt = $scope.device.mqtt;
+            if (settings.MQTT_SERVER !== undefined){
+              $scope.devInfo.mqtt.host = settings.MQTT_SERVER.HOST;
+              if (settings.MQTT_SERVER.PORT !== undefined) {
+                $scope.devInfo.mqtt.port = settings.MQTT_SERVER.PORT;
+              }
+              $scope.devInfo.mqtt.serverUrl = settings.MQTT_SERVER.HOST + (settings.MQTT_SERVER.PORT !== undefined ? ":" + settings.MQTT_SERVER.PORT : "");
+              $scope.devInfo.mqtt.curl = "mosquitto_sub -h " + $scope.devInfo.mqtt.host + (($scope.devInfo.mqtt.port !== undefined) ? " -p " + $scope.devInfo.mqtt.port : "") + " -t '"+ settings.ENV_ID +"/ubirch/devices/$DEVICE_ID/processed' -u $USER -P $PWD";
+              $scope.devInfo.mqtt.topic = settings.ENV_ID + "/ubirch/devices/$DEVICE_ID/processed";
             }
           },
           function (error) {
