@@ -1,6 +1,25 @@
 <div class="tab-content" ng-cloak>
   <div class="form-group">
 
+    <h2>Device</h2>
+
+    <div class="form-group">
+      <span class="label label-default">{{ 'DEVICE_NAME' | translate }}</span>
+      <input type="text" class="form-control" ng-model="device.deviceName" ng-readonly="true">
+    </div>
+    <div class="form-group">
+      <span class="label label-default">{{ 'DEVICE_ID' | translate }}</span>
+      <input type="text" class="form-control" ng-model="device.deviceId" ng-readonly="true">
+    </div>
+    <div class="form-group">
+      <span class="label label-default">{{ 'HW_DEVICE_ID' | translate }}</span>
+      <input type="text" class="form-control" ng-model="device.hwDeviceId" ng-readonly="true">
+    </div>
+    <div class="form-group">
+      <span class="label label-default">{{ 'HASHED_HW_DEVICE_ID' | translate }}</span>
+      <input type="text" class="form-control" ng-model="device.hashedHwDeviceId" ng-readonly="true">
+    </div>
+
     <h2>Streaming API</h2>
 
     <div ng-show="devInfo.mqtt.host === undefined">
@@ -11,11 +30,11 @@
       <div class="form-group row">
         <div class="col-lg-6 col-xs-12 col-md-6 col-sm-6">
           <span class="label label-default">{{ 'MQTT_CREDENTIALS_USERNAME' | translate }}:</span>
-          <input type="text" class="form-control" ng-model="devInfo.mqtt.username">
+          <input type="text" class="form-control" ng-model="$root.devInfo.mqtt.username">
         </div>
         <div class="col-lg-6 col-xs-12 col-md-6 col-sm-6">
           <span class="label label-default">{{ 'MQTT_CREDENTIALS_PWD' | translate }}:</span>
-          <input type="text" class="form-control" ng-model="devInfo.mqtt.pwd">
+          <input type="text" class="form-control" ng-model="$root.devInfo.mqtt.pwd">
         </div>
       </div>
       <div class="form-group">
@@ -29,8 +48,8 @@
 
 DEVICEID={{devInfo.query.example.deviceId}}
 #{{ 'MQTT_INSERT_CREDENTIALS' | translate }}
-USER={{devInfo.mqtt.username}}
-PWD={{devInfo.mqtt.pwd}}
+USER={{$root.devInfo.mqtt.username}}
+PWD={{$root.devInfo.mqtt.pwd}}
 
 #mqtt access
 {{devInfo.mqtt.curl}}
