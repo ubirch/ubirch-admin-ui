@@ -15,5 +15,5 @@ angular.module('ubirchAdminCrudApp')
       PORT: "1883"
     },
     ENV_ID: "local-dev",
-    KEY_GENERATION_FOR_DEVICE_TYPES: ["envSensor"]
+    KEY_GENERATION_FOR_DEVICE_TYPES: ["calliopeMini"]
   });

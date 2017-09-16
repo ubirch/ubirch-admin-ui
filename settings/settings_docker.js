@@ -14,5 +14,6 @@ angular.module('ubirchAdminCrudApp')
       HOST: "@@MQTT_HOST@@",
       PORT: "@@MQTT_PORT@@"
     },
-    ENV_ID: "@@ENVID@@"
+    ENV_ID: "@@ENVID@@",
+    KEY_GENERATION_FOR_DEVICE_TYPES: ["calliopeMini"]
   });

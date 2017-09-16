@@ -54,8 +54,10 @@ $(function () {
 
     $('#ecc-form').on('submit', function (e) {
         e.preventDefault();
+        // get deviceId
         var data = $("#ecc-form").find("#id").serializeArray();
         var deviceId = data[0].value;
+
         if (deviceId !== "" && parseInt(deviceId, 16) !== 0) {
             keys = nacl.sign.keyPair();
 
