@@ -26,6 +26,9 @@
         <li ng-class="{active: activeTab.main == 'devinfo'}">
           <a ng-click="activeTab.main = 'devinfo'">{{ 'TABLABEL_DEVINFO' | translate }}</a>
         </li>
+        <li ng-class="{active: activeTab.main == 'keys'}" ng-show="showKeyTab">
+          <a ng-click="activeTab.main = 'keys'">{{ 'TABLABEL_KEYS' | translate }}</a>
+        </li>
       </ul>
 
       <div class="tab-content">
@@ -43,6 +46,9 @@
           </div>
           <div ng-switch-when="devinfo">
             <ng-include src="'views/device-details-dev-info.html'"></ng-include>
+          </div>
+          <div ng-switch-when="keys" ng-show="showKeyTab">
+            <ng-include src="'views/device-details-keys.html'"></ng-include>
           </div>
         </div>
       </div>

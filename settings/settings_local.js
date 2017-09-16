@@ -14,5 +14,6 @@ angular.module('ubirchAdminCrudApp')
       HOST: "localhost",
       PORT: "1883"
     },
-    ENV_ID: "local-dev"
+    ENV_ID: "local-dev",
+    KEY_GENERATION_FOR_DEVICE_TYPES: ["envSensor"]
   });

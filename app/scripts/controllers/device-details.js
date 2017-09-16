@@ -14,8 +14,9 @@ angular.module('ubirchAdminCrudApp')
 
       $scope.deviceid = $stateParams.deviceid;
       $scope.activeTab = "state";
+      $scope.showKeyTab = false;
       $scope.device = {};
-      $scope.loadDeviceState = true,
+      $scope.loadDeviceState = true;
       $scope.deviceState =  [];
       var deviceStateSaved =  [];
       $scope.stateDataChanged = false;
@@ -64,6 +65,7 @@ angular.module('ubirchAdminCrudApp')
         Device.getDevice($stateParams.deviceid, function(deviceVal){
             $scope.device = deviceVal;
             $scope.deviceType = $filter('getDeviceType')(deviceTypesList, deviceVal.deviceTypeKey);
+            $scope.showKeyTab = settings.KEY_GENERATION_FOR_DEVICE_TYPES !== undefined && settings.KEY_GENERATION_FOR_DEVICE_TYPES.indexOf($scope.deviceType.key) >= 0
             $scope.devInfo.query = {
               docuUrl: constants.AVATAR_SERVICE_DOCUMENTATION,
               example: {
