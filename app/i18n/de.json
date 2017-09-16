@@ -88,5 +88,6 @@
   "MQTT_CREDENTIALS_USERNAME": "MQTT Nutzername",
   "MQTT_CREDENTIALS_PWD": "MQTT Passwort",
   "INFO_NO_MQTT_SERVER": "Es wurde kein MQTT Server angegeben",
-  "WAITING_FOR_RESPONSE": "Warten auf Antwort vom Server"
+  "WAITING_FOR_RESPONSE": "Warten auf Antwort vom Server",
+  "GENERATE_KEY_PAIR": "Schlüsselpaar generieren"
 }

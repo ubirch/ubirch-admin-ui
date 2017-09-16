@@ -22,5 +22,6 @@ angular.module('ubirchAdminCrudApp')
     POLLING_INTERVAL : 3000,
     DEFAULT_DEVICE_TYPE_KEY: "unknownDeviceTypeKey",
     INTIAL_GROUP_NAME: "my-ubirch-group",
-    TODAY: undefined
+    TODAY: undefined,
+    KEY_TIME_FORMAT: "YYYY-MM-DDTHH:mm:ss.SSS[Z]"
   });

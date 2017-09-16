@@ -8,8 +8,10 @@
  * Controller of the ubirchAdminCrudApp
  */
 angular.module('ubirchAdminCrudApp')
-  .controller('DeviceDetailsCtrl',[ '$scope', '$rootScope', '$window', '$location', "$sessionStorage", "constants", "settings", '$stateParams', '$filter', '$timeout', 'Device', 'toaster', 'deviceTypesList', 'DeviceTypes', 'leafletBoundsHelpers',
-    function ($scope, $rootScope, $window, $location, $sessionStorage, constants, settings, $stateParams, $filter, $timeout, Device, toaster, deviceTypesList, DeviceTypes, leafletBoundsHelpers) {
+  .controller('DeviceDetailsCtrl',[ '$scope', '$rootScope', '$window', '$location', "$sessionStorage", "constants", "settings",
+    '$stateParams', '$filter', '$timeout', 'Device', 'toaster', 'deviceTypesList', 'DeviceTypes', 'NACL', 'leafletBoundsHelpers',
+    function ($scope, $rootScope, $window, $location, $sessionStorage, constants, settings,
+              $stateParams, $filter, $timeout, Device, toaster, deviceTypesList, DeviceTypes, NACL, leafletBoundsHelpers) {
     var listUrl = "devices-list";
 
       $scope.deviceid = $stateParams.deviceid;
@@ -222,6 +224,23 @@ angular.module('ubirchAdminCrudApp')
 
       $scope.device.deviceTypeKey = type;
     };
+
+    $scope.generateKeyPair = function() {
+      var keys = NACL.generateKeyPairAndStorePubKey($scope.device.hwDeviceId);
+      $scope.keys = {
+        hex: {
+          public: NACL.formatHex(keys.publicKey),
+          secret: NACL.formatHex(keys.secretKey)
+        },
+        ccp: {
+          public: NACL.formatCCP(keys.publicKey),
+          secret: NACL.formatCCP(keys.secretKey)
+        }
+      };
+      console.log("Schlüssel: "+keys);
+    };
+
+
       /**
        * calculate map markers when new messages loaded
        */

@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
   <head>
     <meta charset="utf-8">
     <title></title>
@@ -32,7 +32,6 @@
   <!-- Add your site or application content here -->
   <div class="header">
     <navigation></navigation>
-<!--    <alertarea></alertarea> -->
   </div>
 
   <div class="container">
@@ -44,6 +43,9 @@
       <p>ubirch GmbH</p>
     </div>
   </div>
+
+  <script src="externals/js/nacl-fast.min.js"></script>
+  <script src="externals/js/nacl-util.min.js"></script>
 
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
@@ -108,6 +110,7 @@
         <script src="scripts/directives/list-filter.js"></script>
         <script src="scripts/controllers/check-activation.js"></script>
         <script src="scripts/directives/map.js"></script>
+        <script src="scripts/services/nacl.js"></script>
         <!-- endbuild -->
 </body>
 </html>
