@@ -79,7 +79,7 @@ angular.module('ubirchAdminCrudApp')
             $scope.deviceType = $filter('getDeviceType')(deviceTypesList, deviceVal.deviceTypeKey);
             $scope.showKeyTab = settings.KEY_GENERATION_FOR_DEVICE_TYPES !== undefined && settings.KEY_GENERATION_FOR_DEVICE_TYPES.indexOf($scope.deviceType.key) >= 0;
             if ($scope.showKeyTab){
-//              $scope.getKeysList($scope.device.hwDeviceId);
+              $scope.getKeysList($scope.device.hwDeviceId);
             }
             $scope.devInfo.query = {
               docuUrl: constants.AVATAR_SERVICE_DOCUMENTATION,
