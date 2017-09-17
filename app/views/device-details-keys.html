@@ -1,0 +1,25 @@
+<div class="tab-content" ng-cloak>
+
+  <div>
+    <button type="submit" class="btn btn-default" ng-click="generateKeyPair()">{{ 'GENERATE_KEY_PAIR' | translate }}</button>
+  </div>
+  <div ng-show="keys">
+    <h3>Public Key</h3>
+    <p>(submitted to backend)</p>
+    <input type="text" class="form-control" ng-model="keys.hex.public" ng-readonly="true">
+    <h3>Signing Key</h3>
+    <p>(insert into PXT)</p>
+    <input type="text" class="form-control" ng-model="keys.hex.secret" ng-readonly="true">
+    <h3>C++</h3>
+    <p>(insert into code)</p>
+    <pre id="cpp" style="">
+* ==== ECC KEYS ================= */
+static unsigned char vrfyKey[crypto_sign_PUBLICKEYBYTES] = {
+{{keys.ccp.public}}
+};
+static unsigned char signKey[crypto_sign_SECRETKEYBYTES] = {
+{{keys.ccp.secret}}
+};
+    </pre>
+  </div>
+</div>

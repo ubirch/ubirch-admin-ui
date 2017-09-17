@@ -8,14 +8,17 @@
  * Controller of the ubirchAdminCrudApp
  */
 angular.module('ubirchAdminCrudApp')
-  .controller('DeviceDetailsCtrl',[ '$scope', '$rootScope', '$window', '$location', "$sessionStorage", "constants", "settings", '$stateParams', '$filter', '$timeout', 'Device', 'toaster', 'deviceTypesList', 'DeviceTypes', 'leafletBoundsHelpers',
-    function ($scope, $rootScope, $window, $location, $sessionStorage, constants, settings, $stateParams, $filter, $timeout, Device, toaster, deviceTypesList, DeviceTypes, leafletBoundsHelpers) {
+  .controller('DeviceDetailsCtrl',[ '$scope', '$rootScope', '$window', '$location', "$sessionStorage", "constants", "settings",
+    '$stateParams', '$filter', '$timeout', 'Device', 'toaster', 'deviceTypesList', 'DeviceTypes', 'NACL', 'leafletBoundsHelpers',
+    function ($scope, $rootScope, $window, $location, $sessionStorage, constants, settings,
+              $stateParams, $filter, $timeout, Device, toaster, deviceTypesList, DeviceTypes, NACL, leafletBoundsHelpers) {
     var listUrl = "devices-list";
 
       $scope.deviceid = $stateParams.deviceid;
       $scope.activeTab = "state";
+      $scope.showKeyTab = false;
       $scope.device = {};
-      $scope.loadDeviceState = true,
+      $scope.loadDeviceState = true;
       $scope.deviceState =  [];
       var deviceStateSaved =  [];
       $scope.stateDataChanged = false;
@@ -59,8 +62,14 @@ angular.module('ubirchAdminCrudApp')
         query: {}
       };
 
-      $scope.credentialsChanged = function () {
-        $sessionStorage.mqtt_credentials = $scope.devInfo.mqtt.credentials;
+      $scope.getKeysList = function (hwDeviceId) {
+        NACL.getCurrentKeysOf(
+          hwDeviceId,
+          function (data) {
+            $scope.publicKeys = data;
+          },
+          $rootScope.showError
+        );
       };
 
       if ($stateParams.deviceid) {
@@ -68,6 +77,10 @@ angular.module('ubirchAdminCrudApp')
         Device.getDevice($stateParams.deviceid, function(deviceVal){
             $scope.device = deviceVal;
             $scope.deviceType = $filter('getDeviceType')(deviceTypesList, deviceVal.deviceTypeKey);
+            $scope.showKeyTab = settings.KEY_GENERATION_FOR_DEVICE_TYPES !== undefined && settings.KEY_GENERATION_FOR_DEVICE_TYPES.indexOf($scope.deviceType.key) >= 0;
+            if ($scope.showKeyTab){
+//              $scope.getKeysList($scope.device.hwDeviceId);
+            }
             $scope.devInfo.query = {
               docuUrl: constants.AVATAR_SERVICE_DOCUMENTATION,
               example: {
@@ -85,10 +98,6 @@ angular.module('ubirchAdminCrudApp')
               $scope.devInfo.mqtt.serverUrl = settings.MQTT_SERVER.HOST + (settings.MQTT_SERVER.PORT !== undefined ? ":" + settings.MQTT_SERVER.PORT : "");
               $scope.devInfo.mqtt.curl = 'mosquitto_sub -h ' + $scope.devInfo.mqtt.host + (($scope.devInfo.mqtt.port !== undefined) ? ' -p ' + $scope.devInfo.mqtt.port : '') + ' -t "' + settings.ENV_ID + '/ubirch/devices/$DEVICEID/processed" -u $USER -P $PWD';
               $scope.devInfo.mqtt.topic = settings.ENV_ID + "/ubirch/devices/$DEVICE_ID/processed";
-              if ($sessionStorage.mqtt_credentials === undefined){
-                $sessionStorage.mqtt_credentials = {};
-              }
-              $scope.devInfo.mqtt.credentials = $sessionStorage.mqtt_credentials;
             }
           },
           function (error) {
@@ -228,6 +237,27 @@ angular.module('ubirchAdminCrudApp')
 
       $scope.device.deviceTypeKey = type;
     };
+
+    $scope.generateKeyPair = function() {
+      var keys = NACL.generateKeyPairAndStorePubKey(
+        $scope.device.hwDeviceId,
+        function (data) {
+          $scope.keys = {
+            hex: {
+              public: NACL.formatHex(keys.publicKey),
+              secret: NACL.formatHex(keys.secretKey)
+            },
+            ccp: {
+              public: NACL.formatCCP(keys.publicKey),
+              secret: NACL.formatCCP(keys.secretKey)
+            }
+          }
+        },
+        $rootScope.showError
+      );
+    };
+
+
       /**
        * calculate map markers when new messages loaded
        */

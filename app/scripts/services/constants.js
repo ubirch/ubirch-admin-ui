@@ -18,9 +18,11 @@ angular.module('ubirchAdminCrudApp')
     AUTH_SERVICE_REST_ENDPOINT : "/api/authService/v1",
     // UserService
     USER_SERVICE_REST_ENDPOINT : "/api/authService/v1",
+    KEY_SERVICE_REST_ENDPOINT: "/api/keyService/v1",
 
     POLLING_INTERVAL : 3000,
     DEFAULT_DEVICE_TYPE_KEY: "unknownDeviceTypeKey",
     INTIAL_GROUP_NAME: "my-ubirch-group",
-    TODAY: undefined
+    TODAY: undefined,
+    KEY_TIME_FORMAT: "YYYY-MM-DDTHH:mm:ss.SSS[Z]"
   });

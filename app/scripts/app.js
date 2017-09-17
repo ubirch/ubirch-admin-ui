@@ -117,8 +117,8 @@ angular
 
     $httpProvider.interceptors.push('OAuth2Interceptor');
   }])
-  .run(['$rootScope', '$location', 'AuthService', 'UserService', 'constants',
-  function ($rootScope, $location, AuthService, UserService, constants) {
+  .run(['$rootScope', '$location', 'AuthService', 'UserService', 'constants', 'toaster',
+  function ($rootScope, $location, AuthService, UserService, constants, toaster) {
 
     if (constants.TODAY === undefined){
       var now = new Date();
@@ -153,7 +153,14 @@ angular
       angular.element(modalId).modal('hide');
       angular.element('body').removeClass("modal-open");
       angular.element('.modal-backdrop').remove();
-    }
+    };
+    $rootScope.showError = function(error) {
+      if (error.data && error.data.errorMessage)
+        toaster.pop('error',
+          error.data && error.data.errorType ? error.data.errorType : "Fehler",
+          error.data && error.data.errorMessage ? error.data.errorMessage : "Es konnte kein neues Gerät angelegt werden!!");
+    };
+
   }])
   .config(['$qProvider', function ($qProvider) {
     $qProvider.errorOnUnhandledRejections(false);
