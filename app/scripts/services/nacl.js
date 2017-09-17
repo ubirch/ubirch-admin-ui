@@ -48,6 +48,41 @@ angular.module('ubirchAdminCrudApp')
       return r;
     }
 
+    function storePubKeyOnServer(keys, callback, errorCallback) {
+      var created = moment().utc().format(constants.KEY_TIME_FORMAT);
+      var validNotAfter = moment().add(1, 'y').utc().format(constants.KEY_TIME_FORMAT);
+      var pubKeyInfo = {
+        hwDeviceId: hwDeviceId,
+        pubKey: nacl.util.encodeBase64(keys.publicKey),
+        pubKeyId: uuid2.newuuid(),
+        algorithm: "ed25519",
+        created: created,
+        validNotBefore: created,
+        validNotAfter: validNotAfter
+      };
+
+      var pubKeyInfoStr = JSON.stringify(pubKeyInfo);
+      var signature = nacl.sign.detached(nacl.util.decodeUTF8(pubKeyInfoStr), keys.secretKey);
+
+      var payload = {
+        pubKeyInfo: pubKeyInfo,
+        signature: nacl.util.encodeBase64(signature)
+      };
+      this.keyservice.save(
+        payload,
+        function(data){
+          if (callback){
+            callback(data);
+          }
+        },
+        function (error) {
+          if (errorCallback){
+            errorCallback(error);
+          }
+        }
+      );
+    }
+
     var url = settings.UBIRCH_KEY_SERVICE_API_HOST + constants.KEY_SERVICE_REST_ENDPOINT;
 
     var service = {
@@ -60,39 +95,7 @@ angular.module('ubirchAdminCrudApp')
         var keys = $window.nacl.sign.keyPair();
 
         if (keys !== undefined){
-          var created = moment().utc().format(constants.KEY_TIME_FORMAT);
-          var validNotAfter = moment().add(1, 'y').utc().format(constants.KEY_TIME_FORMAT);
-          var pubKeyInfo = {
-            hwDeviceId: hwDeviceId,
-            pubKey: nacl.util.encodeBase64(keys.publicKey),
-            pubKeyId: uuid2.newuuid(),
-            algorithm: "ed25519",
-            created: created,
-            validNotBefore: created,
-            validNotAfter: validNotAfter
-          };
-
-          var pubKeyInfoStr = JSON.stringify(pubKeyInfo, Object.keys(pubKeyInfo).sort());
-          console.log(pubKeyInfoStr);
-          var signature = nacl.sign.detached(nacl.util.decodeUTF8(pubKeyInfoStr), keys.secretKey);
-
-          var payload = {
-            pubKeyInfo: pubKeyInfo,
-            signature: nacl.util.encodeBase64(signature)
-          };
-          this.keyservice.save(
-            payload,
-            function(data){
-              if (callback){
-                callback(data);
-              }
-            },
-            function (error) {
-              if (errorCallback){
-                errorCallback(error);
-              }
-            }
-          );
+          storePubKeyOnServer(keys, callback, errorCallback);
         }
 
         return keys;
