@@ -62,12 +62,25 @@ angular.module('ubirchAdminCrudApp')
         query: {}
       };
 
+      $scope.getKeysList = function (hwDeviceId) {
+        NACL.getCurrentKeysOf(
+          hwDeviceId,
+          function (data) {
+            $scope.publicKeys = data;
+          },
+          $rootScope.showError
+        );
+      };
+
       if ($stateParams.deviceid) {
 
         Device.getDevice($stateParams.deviceid, function(deviceVal){
             $scope.device = deviceVal;
             $scope.deviceType = $filter('getDeviceType')(deviceTypesList, deviceVal.deviceTypeKey);
-            $scope.showKeyTab = settings.KEY_GENERATION_FOR_DEVICE_TYPES !== undefined && settings.KEY_GENERATION_FOR_DEVICE_TYPES.indexOf($scope.deviceType.key) >= 0
+            $scope.showKeyTab = settings.KEY_GENERATION_FOR_DEVICE_TYPES !== undefined && settings.KEY_GENERATION_FOR_DEVICE_TYPES.indexOf($scope.deviceType.key) >= 0;
+            if ($scope.showKeyTab){
+//              $scope.getKeysList($scope.device.hwDeviceId);
+            }
             $scope.devInfo.query = {
               docuUrl: constants.AVATAR_SERVICE_DOCUMENTATION,
               example: {
@@ -240,9 +253,7 @@ angular.module('ubirchAdminCrudApp')
             }
           }
         },
-        function (error) {
-          $rootScope.showError(error);
-        }
+        $rootScope.showError
       );
     };
 
