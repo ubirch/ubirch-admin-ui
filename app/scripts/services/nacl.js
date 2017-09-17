@@ -8,7 +8,8 @@
  * Service in the ubirchAdminCrudApp.
  */
 angular.module('ubirchAdminCrudApp')
-  .factory('NACL', [ 'constants', '$window', 'uuid2', 'moment', function (constants, $window, uuid2, moment) {
+  .factory('NACL', [ 'constants', '$window', 'uuid2', 'moment', 'settings', '$resource',
+    function (constants, $window, uuid2, moment, settings, $resource) {
     if(!$window.nacl){
       // TODO: If nacl is not available the user should be redirected to a dedicated error page
       return undefined;
@@ -47,9 +48,14 @@ angular.module('ubirchAdminCrudApp')
       return r;
     }
 
+    var url = settings.UBIRCH_KEY_SERVICE_API_HOST + constants.KEY_SERVICE_REST_ENDPOINT;
+
     var service = {
 
-      generateKeyPairAndStorePubKey: function (hwDeviceId) {
+    // https://key.dev.ubirch.com/api/keyService/v1/pubkey
+      keyservice: $resource(url + '/pubkey'),
+
+      generateKeyPairAndStorePubKey: function (hwDeviceId, callback, errorCallback) {
 
         var keys = $window.nacl.sign.keyPair();
 
@@ -65,6 +71,28 @@ angular.module('ubirchAdminCrudApp')
             validNotBefore: created,
             validNotAfter: validNotAfter
           };
+
+          var pubKeyInfoStr = JSON.stringify(pubKeyInfo, Object.keys(pubKeyInfo).sort());
+          console.log(pubKeyInfoStr);
+          var signature = nacl.sign.detached(nacl.util.decodeUTF8(pubKeyInfoStr), keys.secretKey);
+
+          var payload = {
+            pubKeyInfo: pubKeyInfo,
+            signature: nacl.util.encodeBase64(signature)
+          };
+          this.keyservice.save(
+            payload,
+            function(data){
+              if (callback){
+                callback(data);
+              }
+            },
+            function (error) {
+              if (errorCallback){
+                errorCallback(error);
+              }
+            }
+          );
         }
 
         return keys;

@@ -226,18 +226,24 @@ angular.module('ubirchAdminCrudApp')
     };
 
     $scope.generateKeyPair = function() {
-      var keys = NACL.generateKeyPairAndStorePubKey($scope.device.hwDeviceId);
-      $scope.keys = {
-        hex: {
-          public: NACL.formatHex(keys.publicKey),
-          secret: NACL.formatHex(keys.secretKey)
+      var keys = NACL.generateKeyPairAndStorePubKey(
+        $scope.device.hwDeviceId,
+        function (data) {
+          $scope.keys = {
+            hex: {
+              public: NACL.formatHex(keys.publicKey),
+              secret: NACL.formatHex(keys.secretKey)
+            },
+            ccp: {
+              public: NACL.formatCCP(keys.publicKey),
+              secret: NACL.formatCCP(keys.secretKey)
+            }
+          }
         },
-        ccp: {
-          public: NACL.formatCCP(keys.publicKey),
-          secret: NACL.formatCCP(keys.secretKey)
+        function (error) {
+          $rootScope.showError(error);
         }
-      };
-      console.log("Schlüssel: "+keys);
+      );
     };
 
 
