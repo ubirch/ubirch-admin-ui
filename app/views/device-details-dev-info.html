@@ -30,11 +30,11 @@
       <div class="form-group row">
         <div class="col-lg-6 col-xs-12 col-md-6 col-sm-6">
           <span class="label label-default">{{ 'MQTT_CREDENTIALS_USERNAME' | translate }}:</span>
-          <input type="text" class="form-control" ng-model="$root.devInfo.mqtt.username">
+          <input type="text" class="form-control" ng-model="devInfo.mqtt.credentials.username" ng-change="credentialsChanged()">
         </div>
         <div class="col-lg-6 col-xs-12 col-md-6 col-sm-6">
           <span class="label label-default">{{ 'MQTT_CREDENTIALS_PWD' | translate }}:</span>
-          <input type="text" class="form-control" ng-model="$root.devInfo.mqtt.pwd">
+          <input type="text" class="form-control" ng-model="devInfo.mqtt.credentials.pwd" ng-change="credentialsChanged()">
         </div>
       </div>
       <div class="form-group">
@@ -48,8 +48,8 @@
 
 DEVICEID={{devInfo.query.example.deviceId}}
 #{{ 'MQTT_INSERT_CREDENTIALS' | translate }}
-USER={{$root.devInfo.mqtt.username}}
-PWD={{$root.devInfo.mqtt.pwd}}
+USER={{devInfo.mqtt.credentials.username}}
+PWD={{devInfo.mqtt.credentials.pwd}}
 
 #mqtt access
 {{devInfo.mqtt.curl}}

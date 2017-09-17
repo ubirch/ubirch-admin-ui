@@ -22,6 +22,8 @@ if [ -d /var/www/html/scripts ]; then
   echo "Replacing variables ENVID in /var/www/html/scripts/scripts.*.js"
   sed -i.bak "s%@@ENVID@@%${ENVID}%" /var/www/html/scripts/scripts.*.js
 
+  echo "Replacing variables ENVID in /var/www/html/scripts/scripts.*.js"
+  sed -i.bak "s%@@UBIRCH_KEY_SERVICE_API_HOST@@%${UBIRCH_KEY_SERVICE_API_HOST}%" /var/www/html/scripts/scripts.*.js
 fi
 
 /usr/sbin/apache2ctl -D FOREGROUND
