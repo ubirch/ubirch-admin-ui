@@ -243,6 +243,9 @@ angular.module('ubirchAdminCrudApp')
         $scope.device.hwDeviceId,
         function (data) {
           $scope.keys = {
+            base64: {
+              public: data.pubKeyInfo.pubKey
+            },
             hex: {
               public: NACL.formatHex(keys.publicKey),
               secret: NACL.formatHex(keys.secretKey)
@@ -251,7 +254,9 @@ angular.module('ubirchAdminCrudApp')
               public: NACL.formatCCP(keys.publicKey),
               secret: NACL.formatCCP(keys.secretKey)
             }
-          }
+          };
+          // update key list
+          $scope.getKeysList($scope.device.hwDeviceId);
         },
         $rootScope.showError
       );

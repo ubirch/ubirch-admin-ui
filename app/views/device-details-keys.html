@@ -46,16 +46,34 @@
       </tr>
       </tbody>
     </table>
-  </div>  <div ng-show="keys">
-    <h3>Public Key</h3>
-    <p>(submitted to backend)</p>
-    <input type="text" class="form-control" ng-model="keys.hex.public" ng-readonly="true">
-    <h3>Signing Key</h3>
-    <p>(insert into PXT)</p>
-    <input type="text" class="form-control" ng-model="keys.hex.secret" ng-readonly="true">
-    <h3>C++</h3>
-    <p>(insert into code)</p>
-    <pre id="cpp" style="">
+  </div>
+  <div ng-show="keys">
+    <div>
+      <h3>Public Key</h3>
+      <p>(submitted to backend)</p>
+    </div>
+    <div>
+      <span class="label label-default">{{ 'KEY_HEX' | translate }}</span>
+      <input type="text" class="form-control" ng-model="keys.hex.public" ng-readonly="true">
+    </div>
+    <div>
+      <span class="label label-default">{{ 'KEY_BASE64' | translate }}</span>
+      <input type="text" class="form-control" ng-model="keys.base64.public" ng-readonly="true">
+    </div>
+    <div>
+      <div>
+        <h3>Signing Key</h3>
+        <p>(insert into PXT)</p>
+      </div>
+      <div>
+        <span class="label label-default">{{ 'KEY_HEX' | translate }}</span>
+        <input type="text" class="form-control" ng-model="keys.hex.secret" ng-readonly="true">
+      </div>
+    </div>
+    <div>
+      <h3>C++</h3>
+      <p>(insert into code)</p>
+      <pre id="cpp" style="">
 * ==== ECC KEYS ================= */
 static unsigned char vrfyKey[crypto_sign_PUBLICKEYBYTES] = {
 {{keys.ccp.public}}
@@ -63,6 +81,7 @@ static unsigned char vrfyKey[crypto_sign_PUBLICKEYBYTES] = {
 static unsigned char signKey[crypto_sign_SECRETKEYBYTES] = {
 {{keys.ccp.secret}}
 };
-    </pre>
+      </pre>
+    </div>
   </div>
 </div>

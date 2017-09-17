@@ -96,6 +96,7 @@
   "CREATED": "create",
   "VALID_NOT_BEFORE": "valid not before",
   "VALID_NOT_AFTER": "valid not after",
-  "SIGNATURE": "signed"
-
+  "SIGNATURE": "signed",
+  "KEY_HEX": "hex",
+  "KEY_BASE64": "base64"
 }
