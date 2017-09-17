@@ -56,11 +56,10 @@ angular.module('ubirchAdminCrudApp')
         {hardwareId: '@hardwareId'}
       ),
 
-      getCurrentKeysOf: function (hwDeviceId, callback, errorCallback) {
+      getCurrentKeysOf: function (hardwareId, callback, errorCallback) {
 
-        this.keysList.get(
-          hwDeviceId,
-          function (data) {
+        this.keysList.query({hardwareId: hardwareId},
+          function(data){
             if (callback){
               callback(data);
             }

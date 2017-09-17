@@ -44,7 +44,7 @@
   "TABLABEL_FILTERBY_DATE": "filter by date",
   "TABLABEL_FILTERBY_RANGE": "filter by dataset range",
   "TABLABEL_CHART": "chart",
-  "TABLABEL_KEYS": "keys",
+  "TABLABEL_KEYS": "ubrich IDs",
   "NO_MAP_AVAILABLE": "no position available",
   "PAGE_PREV": "previous",
   "PAGE_NEXT": "next",
@@ -89,5 +89,14 @@
   "MQTT_CREDENTIALS_PWD": "MQTT password",
   "INFO_NO_MQTT_SERVER": "No MQTT server specified",
   "WAITING_FOR_RESPONSE": "waiting for response",
-  "GENERATE_KEY_PAIR": "generate key pair"
+  "GENERATE_KEY_PAIR": "generate new key pair",
+  "PUBKEY": "public key",
+  "PUBKEYID": "public key id",
+  "ALGORITHM": "algorithm",
+  "CREATED": "create",
+  "VALID_NOT_BEFORE": "valid not before",
+  "VALID_NOT_AFTER": "valid not after",
+  "SIGNATURE": "signed",
+  "KEY_HEX": "hex",
+  "KEY_BASE64": "base64"
 }

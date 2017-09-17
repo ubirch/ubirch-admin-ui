@@ -79,7 +79,7 @@ angular.module('ubirchAdminCrudApp')
             $scope.deviceType = $filter('getDeviceType')(deviceTypesList, deviceVal.deviceTypeKey);
             $scope.showKeyTab = settings.KEY_GENERATION_FOR_DEVICE_TYPES !== undefined && settings.KEY_GENERATION_FOR_DEVICE_TYPES.indexOf($scope.deviceType.key) >= 0;
             if ($scope.showKeyTab){
-//              $scope.getKeysList($scope.device.hwDeviceId);
+              $scope.getKeysList($scope.device.hwDeviceId);
             }
             $scope.devInfo.query = {
               docuUrl: constants.AVATAR_SERVICE_DOCUMENTATION,
@@ -243,6 +243,9 @@ angular.module('ubirchAdminCrudApp')
         $scope.device.hwDeviceId,
         function (data) {
           $scope.keys = {
+            base64: {
+              public: data.pubKeyInfo.pubKey
+            },
             hex: {
               public: NACL.formatHex(keys.publicKey),
               secret: NACL.formatHex(keys.secretKey)
@@ -251,7 +254,9 @@ angular.module('ubirchAdminCrudApp')
               public: NACL.formatCCP(keys.publicKey),
               secret: NACL.formatCCP(keys.secretKey)
             }
-          }
+          };
+          // update key list
+          $scope.getKeysList($scope.device.hwDeviceId);
         },
         $rootScope.showError
       );
