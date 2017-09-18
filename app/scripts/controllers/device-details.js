@@ -16,7 +16,7 @@ angular.module('ubirchAdminCrudApp')
 
       $scope.deviceid = $stateParams.deviceid;
       $scope.activeTab = "state";
-      $scope.showKeyTab = false;
+      $scope.keyCreateAllowedTypes = settings.KEY_GENERATION_FOR_DEVICE_TYPES;
       $scope.device = {};
       $scope.loadDeviceState = true;
       $scope.deviceState =  [];
@@ -72,15 +72,17 @@ angular.module('ubirchAdminCrudApp')
         );
       };
 
-      if ($stateParams.deviceid) {
+      $scope.checkKeyPairCreationAllowed = function() {
+        var val = $scope.keyCreateAllowedTypes !== undefined && $scope.keyCreateAllowedTypes.indexOf($scope.deviceType.key) >= 0;
+        return val;
+      };
 
-        Device.getDevice($stateParams.deviceid, function(deviceVal){
+      function loadDevice(deviceid) {
+        Device.getDevice(deviceid, function(deviceVal){
             $scope.device = deviceVal;
             $scope.deviceType = $filter('getDeviceType')(deviceTypesList, deviceVal.deviceTypeKey);
-            $scope.showKeyTab = settings.KEY_GENERATION_FOR_DEVICE_TYPES !== undefined && settings.KEY_GENERATION_FOR_DEVICE_TYPES.indexOf($scope.deviceType.key) >= 0;
-            if ($scope.showKeyTab){
-              $scope.getKeysList($scope.device.hwDeviceId);
-            }
+            $scope.getKeysList($scope.device.hwDeviceId);
+
             $scope.devInfo.query = {
               docuUrl: constants.AVATAR_SERVICE_DOCUMENTATION,
               example: {
@@ -105,6 +107,12 @@ angular.module('ubirchAdminCrudApp')
           }
 
         );
+
+      }
+
+      if ($stateParams.deviceid) {
+
+        loadDevice($stateParams.deviceid);
 
         var deviceDetailsPromise;
 
@@ -205,12 +213,14 @@ angular.module('ubirchAdminCrudApp')
 
         Device.updateDevice(
           $scope.device,
-          function(){
+          function(data){
+            // TODO: if endpoint PUT /device has changed and returns updated device the device hsa no longer to be loaded again
+            // TODO: change loadDevice to handle device changes from data
+            loadDevice($scope.device.deviceId);
             toaster.pop('success', "Änderungen gespeichert", "Änderungen am Gerät wurden gespeichert");
-            $location.url( "device-details/"+$scope.device.deviceId);
           },
           function() {
-            toaster.pop('error', "Fehler", "Gerät konnte nicht gelöscht werden!!");
+            toaster.pop('error', "Fehler", "Gerät konnte nicht geändert werden!!");
           }
         );
       };
