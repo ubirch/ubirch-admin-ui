@@ -18,7 +18,9 @@ angular.module('ubirchAdminCrudApp')
         activeTab: '='
       },
       link: function postLink(scope) {
-        scope.activeTab.filter = "filterbydate";
+        if (scope.activeTab.filter === undefined){
+          scope.activeTab.filter = "filterbydate";
+        }
         scope.todayReached = scope.values.endDate >= constants.TODAY;
         scope.endOfDataReached = false;
 

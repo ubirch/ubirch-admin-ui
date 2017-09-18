@@ -34,7 +34,7 @@ angular.module('ubirchAdminCrudApp')
       $scope.activeTab = {
         main: "history",
         visual: "chart",
-        filter: "filterbydate"
+        filter: "filterbyrange" //or filterbydate
       };
       $scope.filterValues = {
         startIndex: 0,
