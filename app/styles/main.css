@@ -103,6 +103,11 @@ a {
   margin-bottom: 1px;
 }
 
+.btn-wrap {
+  width: 100%;
+  white-space: normal;
+}
+
 /* Supporting marketing content */
 .marketing {
   margin: 40px 0;

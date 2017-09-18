@@ -2,14 +2,20 @@
   <toaster-container toaster-options="{'close-button': true}"></toaster-container>
 
 <!-- device details -->
-  <div class="area-header row">
+  <div class="area-header row vertical-align">
     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
       {{ 'DEVICE_OVERVIEW_HEADLINE' | translate }}
     </div>
-    <div class="col-lg-9 col-md-9 col-sm-8 col-xs-8 h4">
+    <div class="col-lg-7 col-md-7 col-sm-6 col-xs-6 h4">
       {{device.deviceName}}&nbsp;
       <i class="sensor-type-icon {{deviceType.icon}}"></i>
       <small>{{deviceType.name.en}}</small>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+      <button type="submit" class="btn btn-default btn-danger btn-wrap" data-toggle="modal" data-target="#myModal" title="{{ 'DELETE_DEVICE' | translate }}">
+        <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+        {{ 'DELETE_DEVICE' | translate }}
+      </button>
     </div>
   </div>
   <div class="area-tabs">
@@ -58,14 +64,6 @@
             title="{{ 'SAVE' | translate }}" ng-click="updateDevice()">
       <span class="glyphicon glyphicon-save" aria-hidden="true"></span>
       {{ 'SAVE' | translate }}
-    </button>
-  </div>
-
-  <div class="row">
-    <button type="button" class="btn btn-primary btn-lg btn-block"
-            data-toggle="modal" data-target="#myModal" title="{{ 'DELETE_DEVICE' | translate }}">
-      <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
-      {{ 'DELETE_DEVICE' | translate }}
     </button>
   </div>
 
