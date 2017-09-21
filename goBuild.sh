@@ -57,6 +57,12 @@ build_container () {
 
 }
 
+function container_tag_stable () {
+    docker pull tracklecontainerregistry-on.azurecr.io/ubirch-chain-service:v$GO_PIPELINE_LABEL
+    docker tag tracklecontainerregistry-on.azurecr.io/ubirch-chain-service:v$GO_PIPELINE_LABEL tracklecontainerregistry-on.azurecr.io/ubirch-chain-service:stable
+    docker push tracklecontainerregistry-on.azurecr.io/ubirch-chain-service:stable
+
+}
 
 case "$1" in
     build)
@@ -66,7 +72,10 @@ case "$1" in
     containerbuild)
         build_container
         ;;
+	containertagstable)
+		container_tag_stable
+		;;
     *)
-        echo "Usage: $0 {build|containerbuild}"
+        echo "Usage: $0 {build|containerbuild|containertagstable}"
         exit 1
 esac
