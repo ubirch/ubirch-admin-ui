@@ -58,10 +58,9 @@ build_container () {
 }
 
 function container_tag_stable () {
-    docker pull tracklecontainerregistry-on.azurecr.io/ubirch-chain-service:v$GO_PIPELINE_LABEL
-    docker tag tracklecontainerregistry-on.azurecr.io/ubirch-chain-service:v$GO_PIPELINE_LABEL tracklecontainerregistry-on.azurecr.io/ubirch-chain-service:stable
-    docker push tracklecontainerregistry-on.azurecr.io/ubirch-chain-service:stable
-
+    docker pull ubirch/admin-ui-container:v$GO_PIPELINE_LABEL
+    docker tag ubirch/admin-ui-container:v$GO_PIPELINE_LABEL ubirch/admin-ui-container:stable
+    docker push ubirch/admin-ui-container:stable
 }
 
 case "$1" in
