@@ -57,6 +57,11 @@ build_container () {
 
 }
 
+function container_tag_stable () {
+    docker pull ubirch/admin-ui-container:v$GO_PIPELINE_LABEL
+    docker tag ubirch/admin-ui-container:v$GO_PIPELINE_LABEL ubirch/admin-ui-container:stable
+    docker push ubirch/admin-ui-container:stable
+}
 
 case "$1" in
     build)
@@ -66,7 +71,10 @@ case "$1" in
     containerbuild)
         build_container
         ;;
+	containertagstable)
+		container_tag_stable
+		;;
     *)
-        echo "Usage: $0 {build|containerbuild}"
+        echo "Usage: $0 {build|containerbuild|containertagstable}"
         exit 1
 esac
