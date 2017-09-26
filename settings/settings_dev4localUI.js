@@ -12,7 +12,7 @@ angular.module('ubirchAdminCrudApp')
     DEFAULT_DEVICE_TYPE_KEY: "unknownDeviceType",
     DEFAULT_AUTH_EXPIRED_SECS: -1,   // if OP didn't deliver expires_in parameter this is the default number of seconds after which authentication expires; set to -1 if token never expires in this case
     MQTT_SERVER: {
-      HOST: "tcp://localhost",
+      HOST: "localhost",
       PORT: "1883"
     },
     ENV_ID: "local-dev",
