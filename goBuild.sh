@@ -70,7 +70,7 @@ function container_tag () {
 case "$1" in
     build)
         init
-        build_software "clean compile test"
+        build_software "docker"
         ;;
     containerbuild)
         build_container
