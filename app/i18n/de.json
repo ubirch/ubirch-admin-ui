@@ -98,5 +98,6 @@
   "VALID_NOT_AFTER": "ungültig ab",
   "SIGNATURE": "signiert",
   "KEY_HEX": "hex",
-  "KEY_BASE64": "base64"
+  "KEY_BASE64": "base64",
+  "INFO_MESSAGELIST_NOT_VISIBLE": "Liste der Message-Details wird nur angezeigt, wenn über Datenbereiche gefiltert wird."
 }

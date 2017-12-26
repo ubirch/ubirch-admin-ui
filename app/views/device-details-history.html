@@ -28,7 +28,10 @@
         </div>
       </div>
 
-      <div class="form-group">
+      <div class="form-group" ng-hide="activeTab.filter == 'filterbyrange'">
+        {{ 'INFO_MESSAGELIST_NOT_VISIBLE' | translate }}
+      </div>
+      <div class="form-group" ng-show="activeTab.filter == 'filterbyrange'">
         <div class="message-list">
 
           <uib-accordion>

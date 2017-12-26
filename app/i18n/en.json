@@ -98,5 +98,6 @@
   "VALID_NOT_AFTER": "valid not after",
   "SIGNATURE": "signed",
   "KEY_HEX": "hex",
-  "KEY_BASE64": "base64"
+  "KEY_BASE64": "base64",
+  "INFO_MESSAGELIST_NOT_VISIBLE": "Message Details List only visible for range filter"
 }
