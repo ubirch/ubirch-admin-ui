@@ -165,8 +165,8 @@ angular.module('ubirchAdminCrudApp')
 
               var m = message.deviceMessage;
 
-              var markerLat = m.la?parseFloat(m.la) : m.latitude?parseFloat(m.latitude) : undefined;
-              var markerLng = m.lo?parseFloat(m.lo) : m.longitude?parseFloat(m.longitude) : undefined;
+              var markerLat = m.la ? parseFloat(m.la) : m.location.lat ? parseFloat(m.location.lat) : undefined;
+              var markerLng = m.lo ? parseFloat(m.lo) : m.location.lon ? parseFloat(m.location.lon) : undefined;
 
               if (markerLat && markerLng){
 
@@ -240,7 +240,7 @@ angular.module('ubirchAdminCrudApp')
               }
             }
             // if no displayKeys are defined for this deviceType display all message properties
-            else if (key != "latitude" && key != "longitude" ){
+            else if (key != "location.lat" && key != "location.lon") {
               paramStr = addParamToMessage(message, paramStr, key);
             }
 

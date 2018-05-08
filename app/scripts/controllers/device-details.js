@@ -319,12 +319,12 @@ angular.module('ubirchAdminCrudApp')
 
           $scope.messages.content.forEach(function (message, i) {
 
-            if (message.deviceMessage.latitude && message.deviceMessage.longitude ){
+            if (message.deviceMessage.location.lat && message.deviceMessage.location.lon) {
               var marker = {
                 focus: false,
                 draggable: false,
-                lat: message.deviceMessage.latitude,
-                lng: message.deviceMessage.longitude,
+                lat: message.deviceMessage.location.lat,
+                lng: message.deviceMessage.location.lon,
                 message: filterMessageKeys(message),
                 opacity: 1 - (1 / $scope.messages.content.length * (i))
               };
@@ -377,7 +377,7 @@ angular.module('ubirchAdminCrudApp')
             }
           }
           // if no displayKeys are defined for this deviceType display all message properties
-          else if (key != "latitude" && key != "longitude" ){
+          else if (key != "loction.lat" && key != "location.lon") {
             paramStr = addParamToMessage(message, paramStr, key);
           }
 
