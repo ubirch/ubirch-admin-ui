@@ -2,6 +2,7 @@
   "DEVICES_LIST_HEADLINE" : "devices overview",
   "DEVICE_OVERVIEW_HEADLINE" : "device details",
   "DEVICES_MAP_HEADLINE" : "devices overview map",
+  "GLOBAL_DEV_INFO_HEADLINE": "global developer information",
   "OK": "ok",
   "CANCEL": "cancel",
   "ABORT": "abort",
@@ -83,7 +84,8 @@
   "NO_LOCATION_DATA": "No locations available for this sensor",
   "MQTT_SERVER_URL": "MQTT Server URL",
   "MQTT_TOPIC": "MQTT Topic",
-  "QUERY_API_OPEN_DOCU": "Open Query API Documentation..",
+  "QUERY_API_OPEN_DOCU": "Open Query API documentation..",
+  "UBIRCH_PROTOCOL_OPEN_DOCU": "Open uBirch Protocol documentation..",
   "SHELL_SCRIPT_EXAMPLE": "Shell Script Example",
   "MQTT_SCRIPT_EXAMPLE": "Mosquitto Script Example",
   "MQTT_CREDENTIALS": "MQTT credentials",
@@ -102,5 +104,7 @@
   "SIGNATURE": "signed",
   "KEY_HEX": "hex",
   "KEY_BASE64": "base64",
-  "INFO_MESSAGELIST_NOT_VISIBLE": "Message Details List only visible for range filter"
+  "INFO_MESSAGELIST_NOT_VISIBLE": "Message Details List only visible for range filter",
+  "TOKEN": "authentication token for use with devices",
+  "UBIRCH_PROTOCOL_PYTHON_EXAMPLE": "example python script"
 }

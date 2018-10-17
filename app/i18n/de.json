@@ -2,6 +2,7 @@
   "DEVICES_LIST_HEADLINE" : "Geräteübersicht",
   "DEVICE_OVERVIEW_HEADLINE" : "Gerätedetails",
   "DEVICES_MAP_HEADLINE" : "Geräteübersichtskarte",
+  "GLOBAL_DEV_INFO_HEADLINE": "Globale Entwickler-Informationen",
   "OK": "Ok",
   "CANCEL": "Abbrechen",
   "ABORT": "Abbruch",
@@ -84,6 +85,7 @@
   "MQTT_SERVER_URL": "MQTT Server URL",
   "MQTT_TOPIC": "MQTT Topic",
   "QUERY_API_OPEN_DOCU": "Query API Dokumentation öffnen..",
+  "UBIRCH_PROTOCOL_OPEN_DOCU": "uBirch Protocol Dokumentation öffnen..",
   "SHELL_SCRIPT_EXAMPLE": "Shell Script Beispiel",
   "MQTT_SCRIPT_EXAMPLE": "Mosquitto Script Beispiel",
   "MQTT_CREDENTIALS": "MQTT Zugangsdaten",
@@ -102,5 +104,7 @@
   "SIGNATURE": "signiert",
   "KEY_HEX": "hex",
   "KEY_BASE64": "base64",
-  "INFO_MESSAGELIST_NOT_VISIBLE": "Liste der Message-Details wird nur angezeigt, wenn über Datenbereiche gefiltert wird."
+  "INFO_MESSAGELIST_NOT_VISIBLE": "Liste der Message-Details wird nur angezeigt, wenn über Datenbereiche gefiltert wird.",
+  "TOKEN": "Authentifizierungs-Token für die Verwendung mit eigenen Geräten",
+  "UBIRCH_PROTOCOL_PYTHON_EXAMPLE": "Beispiel Python Script"
 }
