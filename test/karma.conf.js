@@ -37,7 +37,6 @@ module.exports = function(config) {
       'bower_components/moment/moment.js',
       'bower_components/angular-moment/angular-moment.js',
       'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
-      'bower_components/angular.uuid2/dist/angular-uuid2.js',
       'bower_components/AngularJS-Toaster/toaster.js',
       'bower_components/leaflet/dist/leaflet-src.js',
       'bower_components/angular-simple-logger/dist/angular-simple-logger.js',
@@ -47,6 +46,7 @@ module.exports = function(config) {
       'bower_components/ngstorage/ngStorage.js',
       'bower_components/angular-spinner/dist/angular-spinner.min.js',
       'bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.js',
+      'bower_components/angular.uuid2/dist/angular-uuid2.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',

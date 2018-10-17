@@ -111,7 +111,15 @@ angular
             return DeviceTypes.getDeviceTypeList();
           }
         }
-      });
+      })
+      .state('global-developer-settings', {
+        url: '/global-developer-settings',
+        templateUrl: '../views/global-developer-settings.html',
+        controller: 'GlobalDeveloperSettingsCtrl',
+        controllerAs: 'globalDeveloperSettings',
+        tokenRequired: true
+      })
+    ;
 
     $urlRouterProvider.otherwise('devices-list');
 
