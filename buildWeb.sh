@@ -5,5 +5,5 @@ echo "create dist version for stage >>$1<<"
 echo install missing npm components
 npm install
 echo install missing bower components
-bower install --allow-root
-grunt build --staging=$1
+bower install --allow-root  --force
+grunt build --staging=$1  --force
