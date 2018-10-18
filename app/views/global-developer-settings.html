@@ -30,10 +30,13 @@
 auth = {{devInfo.tokenPraefix}}::{{devInfo.token}}::{{devInfo.tokenSuffix}}
 env = demo
 debug = False
-groups = [group-list]
+groups = [{{devInfo.groupList}}]
       </textarea>
     </div>
 
+    <p>
+      <a href="{{devInfo.avatarServiceDocuUrl}}" target="_blank">{{ 'QUERY_API_OPEN_DOCU' | translate }}</a>
+    </p>
 
   </div>
 </div>

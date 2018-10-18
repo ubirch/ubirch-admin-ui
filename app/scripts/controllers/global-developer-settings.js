@@ -8,8 +8,8 @@
  * Controller of the ubirchAdminCrudApp
  */
 angular.module('ubirchAdminCrudApp')
-  .controller('GlobalDeveloperSettingsCtrl',['$scope', '$sessionStorage', 'constants', 'KeyService',
-    function ($scope, $sessionStorage, constants, KeyService) {
+  .controller('GlobalDeveloperSettingsCtrl',['$scope', '$sessionStorage', 'constants', 'KeyService', 'UserService',
+    function ($scope, $sessionStorage, constants, KeyService, UserService) {
 
     $scope.devInfo = {};
 
@@ -21,7 +21,22 @@ angular.module('ubirchAdminCrudApp')
         tokenPraefix: constants.TOKEN_PRAEFIX,
         tokenSuffix: constants.TOKEN_SUFFIX,
         bePubKey: KeyService.getBEPubKey()
-    };
+      };
+      UserService.getAccount().$promise.then(
+        function (acc) {
+          var groups = [];
+          if (acc.myGroups) {
+            angular.forEach(acc.myGroups, function (value, key) {
+              groups.push(value.displayName);
+            });
+          }
+          if (acc.allowedGroups) {
+            angular.forEach(acc.allowedGroups, function (value, key) {
+              groups.push(value.displayName);
+            });
+          }
+          $scope.devInfo.groupList = groups.toString();
+        })
     }
 
     initInfos();

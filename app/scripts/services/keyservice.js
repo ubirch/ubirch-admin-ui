@@ -8,11 +8,11 @@
  * Service in the ubirchAdminCrudApp.
  */
 angular.module('ubirchAdminCrudApp')
-  .service('KeyService', ['$resource', 'constants', 'settings', '$log', function ($resource, constants, settings, $log) {
+  .service('KeyService', ['$resource', function ($resource) {
 
-    var url = settings.UBIRCH_API_HOST + constants.AVATAR_SERVICE_REST_ENDPOINT;
+    var url = "https://api.ubirch.dev.ubirch.com/api/avatarService/v1/backendinfo/pubkey";
 
-    var keyServiceResource = $resource(url + '/backendinfo/pubkey');
+    var keyServiceResource = $resource(url);
 
     var bePubkey;
 
