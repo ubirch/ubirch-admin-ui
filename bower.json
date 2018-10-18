@@ -42,5 +42,9 @@
         "dist/js/bootstrap.js"
       ]
     }
+  },
+  "resolutions": {
+    "angular": "^1.7.5",
+    "angular-translate": "~2.18.1"
   }
 }
