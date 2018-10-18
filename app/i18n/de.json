@@ -106,5 +106,6 @@
   "KEY_BASE64": "base64",
   "INFO_MESSAGELIST_NOT_VISIBLE": "Liste der Message-Details wird nur angezeigt, wenn über Datenbereiche gefiltert wird.",
   "TOKEN": "Authentifizierungs-Token für die Verwendung mit eigenen Geräten",
-  "UBIRCH_PROTOCOL_PYTHON_EXAMPLE": "Beispiel Python Script"
+  "UBIRCH_PROTOCOL_PYTHON_EXAMPLE": "Beispiel Python Script",
+  "BE_PUB_KEY": "backend pubkey (for use with devices that want to verify responses)"
 }

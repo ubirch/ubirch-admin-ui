@@ -14,12 +14,17 @@
       <textarea class="form-control" rows="2" cols="80" readonly>{{devInfo.token}}</textarea>
     </div>
 
+    <div class="form-group">
+      <span class="label label-default">{{ 'BE_PUB_KEY' | translate }}:</span>
+      <textarea class="form-control" rows="10" cols="80" readonly>{{devInfo.bePubKey}}</textarea>
+    </div>
+
     <p>
       <a href="{{devInfo.ubirchProtocolDocuUrl}}" target="_blank">{{ 'UBIRCH_PROTOCOL_OPEN_DOCU' | translate }}</a>
     </p>
 
     <div class="form-group">
-      <span class="label label-default">{{ 'SHELL_SCRIPT_EXAMPLE' | translate }}:</span>
+      <span class="label label-default">{{ 'UBIRCH_PROTOCOL_PYTHON_EXAMPLE' | translate }}:</span>
       <textarea class="form-control" rows="10" cols="80" readonly>
 [device]
 auth = {{devInfo.tokenPraefix}}::{{devInfo.token}}::{{devInfo.tokenSuffix}}

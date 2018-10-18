@@ -8,8 +8,8 @@
  * Controller of the ubirchAdminCrudApp
  */
 angular.module('ubirchAdminCrudApp')
-  .controller('GlobalDeveloperSettingsCtrl',['$scope', '$sessionStorage', 'constants',
-    function ($scope, $sessionStorage, constants) {
+  .controller('GlobalDeveloperSettingsCtrl',['$scope', '$sessionStorage', 'constants', 'KeyService',
+    function ($scope, $sessionStorage, constants, KeyService) {
 
     $scope.devInfo = {};
 
@@ -19,8 +19,9 @@ angular.module('ubirchAdminCrudApp')
         ubirchProtocolDocuUrl: constants.UBIRCH_PROTOCOL_DOCUMENTATION,
         token: $sessionStorage.token.token,
         tokenPraefix: constants.TOKEN_PRAEFIX,
-        tokenSuffix: constants.TOKEN_SUFFIX
-      };
+        tokenSuffix: constants.TOKEN_SUFFIX,
+        bePubKey: KeyService.getBEPubKey()
+    };
     }
 
     initInfos();
