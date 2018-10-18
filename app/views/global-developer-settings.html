@@ -16,7 +16,7 @@
 
     <div class="form-group">
       <span class="label label-default">{{ 'BE_PUB_KEY' | translate }}:</span>
-      <textarea class="form-control" rows="10" cols="80" readonly>{{devInfo.bePubKey}}</textarea>
+      <textarea class="form-control" rows="10" cols="80" readonly>{{devInfo.bePubKey | json}}</textarea>
     </div>
 
     <p>
