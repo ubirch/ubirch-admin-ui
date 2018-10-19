@@ -85,7 +85,7 @@
   "MQTT_SERVER_URL": "MQTT Server URL",
   "MQTT_TOPIC": "MQTT Topic",
   "QUERY_API_OPEN_DOCU": "Open Query API documentation..",
-  "UBIRCH_PROTOCOL_OPEN_DOCU": "Open uBirch Protocol documentation..",
+  "UBIRCH_PROTOCOL_OPEN_DOCU": "Open ubirch Protocol documentation..",
   "SHELL_SCRIPT_EXAMPLE": "Shell Script Example",
   "MQTT_SCRIPT_EXAMPLE": "Mosquitto Script Example",
   "MQTT_CREDENTIALS": "MQTT credentials",
@@ -105,7 +105,7 @@
   "KEY_HEX": "hex",
   "KEY_BASE64": "base64",
   "INFO_MESSAGELIST_NOT_VISIBLE": "Message Details List only visible for range filter",
-  "TOKEN": "authentication token for use with devices",
-  "UBIRCH_PROTOCOL_PYTHON_EXAMPLE": "example python script",
-  "BE_PUB_KEY": "Backend PubKey (zur Verwendung auf Geräten die den Response verifizieren wollen)"
+  "TOKEN": "authentication token for use with ubirch API",
+  "UBIRCH_PROTOCOL_PYTHON_EXAMPLE": "Python SDK config",
+  "BE_PUB_KEY": "backend pubkey (to verify backend repsonse)"
 }

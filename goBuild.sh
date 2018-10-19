@@ -1,6 +1,6 @@
 #!/bin/bash -x
 
-NPM_CONTAINER_VERSION="latest"
+NPM_CONTAINER_VERSION="v9"
 CURRENT_SERVICE_NAME="admin-ui-container"
 #DOCKER_REPO=tracklecontainerregistry-on.azurecr.io
 DOCKER_REPO=ubirch
