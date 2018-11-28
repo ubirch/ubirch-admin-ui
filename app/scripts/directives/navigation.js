@@ -50,9 +50,13 @@ angular.module('ubirchAdminCrudApp')
           $location.url('/devices-list');
         };
 
-        $scope.loadDevicesMap = function () {
-          $location.url('/devices-map');
-        };
+          $scope.loadDevicesMap = function () {
+            $location.url('/devices-map');
+          };
+
+          $scope.loadGlobalDeveloperInfos = function () {
+            $location.url('/global-developer-settings');
+          };
 
         $scope.loadAbout = function () {
           $location.url('/about');

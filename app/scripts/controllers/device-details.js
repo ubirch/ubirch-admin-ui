@@ -103,7 +103,7 @@ angular.module('ubirchAdminCrudApp')
             }
           },
           function (error) {
-            $log.warn("On loading device details an error uccurred: "+error);
+            $log.warn("On loading device details an error occurred: "+error);
           }
 
         );

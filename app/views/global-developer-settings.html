@@ -1,0 +1,42 @@
+<div class="tab-content" ng-cloak>
+  <toaster-container toaster-options="{'close-button': true}"></toaster-container>
+  <!-- Filter for DeviceList -->
+  <div class="area-header row">
+    <div class="col-lg-4 col-md-4 col-sm-5 col-xs-5">
+      {{ 'GLOBAL_DEV_INFO_HEADLINE' | translate }}
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="form-group">
+      <span class="label label-default">{{ 'TOKEN' | translate }}:</span>
+      <textarea class="form-control" rows="2" cols="80" readonly>{{devInfo.token}}</textarea>
+    </div>
+
+    <div class="form-group">
+      <span class="label label-default">{{ 'BE_PUB_KEY' | translate }}:</span>
+      <textarea class="form-control" rows="10" cols="80" readonly>{{devInfo.bePubKey | json}}</textarea>
+    </div>
+
+    <p>
+      <a href="{{devInfo.ubirchProtocolDocuUrl}}" target="_blank">{{ 'UBIRCH_PROTOCOL_OPEN_DOCU' | translate }}</a>
+    </p>
+
+    <div class="form-group">
+      <span class="label label-default">{{ 'UBIRCH_PROTOCOL_PYTHON_EXAMPLE' | translate }}:</span>
+      <textarea class="form-control" rows="10" cols="80" readonly>
+[device]
+auth = {{devInfo.tokenPraefix}}::{{devInfo.token}}::{{devInfo.tokenSuffix}}
+env = demo
+debug = False
+groups = [{{devInfo.groupList}}]
+      </textarea>
+    </div>
+
+    <p>
+      <a href="{{devInfo.avatarServiceDocuUrl}}" target="_blank">{{ 'QUERY_API_OPEN_DOCU' | translate }}</a>
+    </p>
+
+  </div>
+</div>

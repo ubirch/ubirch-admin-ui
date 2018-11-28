@@ -2,6 +2,7 @@
   "DEVICES_LIST_HEADLINE" : "Geräteübersicht",
   "DEVICE_OVERVIEW_HEADLINE" : "Gerätedetails",
   "DEVICES_MAP_HEADLINE" : "Geräteübersichtskarte",
+  "GLOBAL_DEV_INFO_HEADLINE": "Globale Entwickler-Informationen",
   "OK": "Ok",
   "CANCEL": "Abbrechen",
   "ABORT": "Abbruch",
@@ -59,6 +60,9 @@
   "NO_LOCATION_DATA": "Keine Ortsdaten für diesen Sensor",
   "LOGIN": "Anmelden",
   "REGISTER": "Registrieren",
+  "MENU_ITEM_GLOBAL_DEV_INFOS": "Globale Entwicklerinfos",
+  "MENU_ITEM_DEVICES": "Geräteliste",
+  "MENU_ITEM_MAP": "Karte",
   "LOGIN_PLEASE": "Bitte loggen Sie sich über einen der folgenden Anbieter ein:",
   "REGISTER_PLEASE": "Um sich als neuer Nutzer zu registrieren loggen Sie sich bitte über einen der folgenden Anbieter ein:",
   "REGISTRATION_REQUIRED": "Registrierung notwendig",
@@ -81,6 +85,7 @@
   "MQTT_SERVER_URL": "MQTT Server URL",
   "MQTT_TOPIC": "MQTT Topic",
   "QUERY_API_OPEN_DOCU": "Query API Dokumentation öffnen..",
+  "UBIRCH_PROTOCOL_OPEN_DOCU": "ubirch Protocol Dokumentation öffnen..",
   "SHELL_SCRIPT_EXAMPLE": "Shell Script Beispiel",
   "MQTT_SCRIPT_EXAMPLE": "Mosquitto Script Beispiel",
   "MQTT_CREDENTIALS": "MQTT Zugangsdaten",
@@ -99,5 +104,8 @@
   "SIGNATURE": "signiert",
   "KEY_HEX": "hex",
   "KEY_BASE64": "base64",
-  "INFO_MESSAGELIST_NOT_VISIBLE": "Liste der Message-Details wird nur angezeigt, wenn über Datenbereiche gefiltert wird."
+  "INFO_MESSAGELIST_NOT_VISIBLE": "Liste der Message-Details wird nur angezeigt, wenn über Datenbereiche gefiltert wird.",
+  "TOKEN": "Authentifizierungs-Token für die Verwendung der ubirch API",
+  "UBIRCH_PROTOCOL_PYTHON_EXAMPLE": "Python SDK Konfiguration",
+  "BE_PUB_KEY": "Backend PubKey (zum Überprüfen der Response des Backend)"
 }

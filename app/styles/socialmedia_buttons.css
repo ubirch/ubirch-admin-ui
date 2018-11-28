@@ -1,7 +1,16 @@
+.center-btn-group {
+  padding: 70px 0;
+  text-align: center;
+}
+
 .btn {
   font-weight: bold;
   border-radius: 2px;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .26);
+}
+
+.btn-block {
+  display: unset;
 }
 
 .btn-primary {
@@ -30,18 +39,6 @@
 
 .btn-group-vertical .btn {
   margin-bottom: 10px;
-}
-
-.btn-group-vertical > .btn:first-child:not(:last-child) {
-  border-radius: 2px;
-}
-
-.btn-group-vertical > .btn:not(:first-child):not(:last-child) {
-  border-radius: 2px;
-}
-
-.btn-group-vertical > .btn:last-child:not(:first-child) {
-  border-radius: 2px;
 }
 
 .btn-lg {
@@ -202,6 +199,8 @@
   color: #444;
   background-color: #fff;
   border: 1px solid #3b3b3b;
+  margin: 20px;
+  width: 250px;
 }
 
 .btn-social-default:hover,

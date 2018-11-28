@@ -14,8 +14,9 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li ng-class="navClass('devices-list')" ng-if="$root.signedIn && account.activated === true"><a href="" ng-click="loadDeviceslist()" data-toggle="tab" role="tab">devices</a></li>
-        <li ng-class="navClass('devices-map')"  ng-if="$root.signedIn && account.activated === true"><a href="" ng-click="loadDevicesMap()" data-toggle="tab" role="tab">map</a></li>
+        <li ng-class="navClass('devices-list')" ng-if="$root.signedIn && account.activated === true"><a href="" ng-click="loadDeviceslist()" data-toggle="tab" role="tab">{{ 'MENU_ITEM_DEVICES' | translate }}</a></li>
+        <li ng-class="navClass('devices-map')"  ng-if="$root.signedIn && account.activated === true"><a href="" ng-click="loadDevicesMap()" data-toggle="tab" role="tab">{{ 'MENU_ITEM_MAP' | translate }}</a></li>
+        <li ng-class="navClass('global-dev-infos')" ng-if="$root.signedIn && account.activated === true"><a href="" ng-click="loadGlobalDeveloperInfos()" data-toggle="tab" role="tab">{{ 'MENU_ITEM_GLOBAL_DEV_INFOS' | translate }}</a></li>
       <!--
                 <li ng-class="navClass('about')"><a href="" ng-click="loadAbout()" role="tab" data-toggle="tab">about</a></li>
         -->

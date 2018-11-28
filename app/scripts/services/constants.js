@@ -19,6 +19,10 @@ angular.module('ubirchAdminCrudApp')
     // UserService
     USER_SERVICE_REST_ENDPOINT : "/api/authService/v1",
     KEY_SERVICE_REST_ENDPOINT: "/api/keyService/v1",
+    // UbirchProtocol
+    UBIRCH_PROTOCOL_DOCUMENTATION: "https://github.com/ubirch/ubirch-protocol-python",
+    TOKEN_PRAEFIX: "ubirch-demo",
+    TOKEN_SUFFIX: "abc",
 
     POLLING_INTERVAL : 3000,
     DEFAULT_DEVICE_TYPE_KEY: "unknownDeviceTypeKey",

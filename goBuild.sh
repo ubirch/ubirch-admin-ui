@@ -1,6 +1,6 @@
 #!/bin/bash -x
 
-NPM_CONTAINER_VERSION="latest"
+NPM_CONTAINER_VERSION="v9"
 CURRENT_SERVICE_NAME="admin-ui-container"
 #DOCKER_REPO=tracklecontainerregistry-on.azurecr.io
 DOCKER_REPO=ubirch
@@ -26,7 +26,7 @@ function init() {
 
 function build_software() {
 
-    docker run -e HOME=/build -e npm_config_cache=/build/.npm --user `id -u`:`id -g` --rm -v $PWD:/build ubirch/npm-build-container:$NPM_CONTAINER_VERSION /build/buildWeb.sh $1
+    docker run -e HOME=/build -e npm_config_cache=/build/.npm --user `id -u`:`id -g` --rm -v $PWD:/build ubirch/npm-build:$NPM_CONTAINER_VERSION /build/buildWeb.sh $1
 
 }
 
